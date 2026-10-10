@@ -14,7 +14,7 @@
     "backend": "حالة الخادم",
     "backendOk": "متصل",
     "backendError": "تعذّر الاتصال",
-    "backendNotConfigured": "لم يتم الإعداد بعد — أضف مفاتيح Supabase في ملف ‎.env‎",
+    "backendNotConfigured": "لم يتم الإعداد بعد — أضف مفاتيح Supabase في ملف ⁦.env⁩",
     "backendChecking": "جارٍ الفحص…",
     "serverTime": "وقت الخادم",
     "queues": "قوائم العمل",

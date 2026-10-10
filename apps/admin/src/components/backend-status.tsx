@@ -10,7 +10,11 @@ export async function BackendStatus({ labels, locale }: { labels: Labels; locale
   await connection(); // always check live, never bake the result into the static shell
   const supabase = getAnonClient();
   if (!supabase) {
-    return <Badge variant="outline">{labels.backendNotConfigured}</Badge>;
+    return (
+      <Badge variant="outline" className="h-auto py-1 text-start whitespace-normal">
+        {labels.backendNotConfigured}
+      </Badge>
+    );
   }
 
   const { data, error } = await supabase.rpc('ping');
