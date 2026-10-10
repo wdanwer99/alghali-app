@@ -1,0 +1,14 @@
+{
+  "@@locale": "en",
+  "backendStatus": "Backend status",
+  "backendOk": "Connected",
+  "backendError": "Can't connect",
+  "backendNotConfigured": "Not set up yet",
+  "backendChecking": "Checking…",
+  "languageArabic": "العربية",
+  "languageEnglish": "English",
+  "chooseLanguage": "Choose your language",
+  "chooseLanguageHint": "You can change it later in settings.",
+  "continueAction": "Continue",
+  "switchLanguage": "Change language"
+}

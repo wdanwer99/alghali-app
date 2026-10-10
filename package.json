@@ -1,0 +1,38 @@
+{
+  "name": "alghali",
+  "private": true,
+  "packageManager": "pnpm@10.34.6",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "env:sync": "node infra/scripts/sync-env.mjs",
+    "dev": "pnpm env:sync && pnpm --filter @alghali/admin dev",
+    "buyer": "pnpm env:sync && node infra/scripts/flutter-run.mjs buyer",
+    "partner": "pnpm env:sync && node infra/scripts/flutter-run.mjs partner",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint && eslint infra eslint.config.mjs && prettier --check .",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "format": "prettier --write .",
+    "flutter:get": "flutter pub get",
+    "flutter:analyze": "flutter analyze",
+    "flutter:test": "node infra/scripts/flutter-each.mjs test",
+    "check": "pnpm lint && pnpm typecheck && pnpm test && node infra/scripts/dart-format.mjs --check && pnpm flutter:analyze && pnpm flutter:test",
+    "db:push:dev": "node infra/scripts/db.mjs push dev",
+    "db:push:test": "node infra/scripts/db.mjs push test",
+    "db:types": "node infra/scripts/db.mjs types dev",
+    "flutter:format": "node infra/scripts/dart-format.mjs"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^22.20.5",
+    "eslint": "^9.39.5",
+    "globals": "^17.13.0",
+    "postgres": "^3.4.9",
+    "prettier": "^3.9.10",
+    "supabase": "^2.120.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.71.1"
+  }
+}

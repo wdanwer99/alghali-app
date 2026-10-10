@@ -1,0 +1,14 @@
+# Dart pub workspace root: one shared lockfile and package resolution for all Flutter packages.
+name: alghali_workspace
+publish_to: none
+
+environment:
+  sdk: ^3.13.5
+
+workspace:
+  - apps/buyer
+  - apps/partner
+  - packages/core
+
+dev_dependencies:
+  flutter_lints: ^6.0.0

@@ -1,0 +1,38 @@
+{
+  "app": {
+    "title": "Alghali Street Admin",
+    "shortTitle": "Alghali Street",
+    "description": "Manage shops, technicians, payments and bookings"
+  },
+  "nav": {
+    "switchLanguage": "العربية",
+    "login": "Sign in",
+    "home": "Home"
+  },
+  "home": {
+    "subtitle": "Platform overview",
+    "backend": "Backend status",
+    "backendOk": "Connected",
+    "backendError": "Can't reach the backend",
+    "backendNotConfigured": "Not set up yet — add the Supabase keys to .env",
+    "backendChecking": "Checking…",
+    "serverTime": "Server time",
+    "queues": "Work queues",
+    "comingSoon": "Coming soon",
+    "queue": {
+      "approvals": "Shop and technician applications",
+      "payments": "Bankak transfer confirmations",
+      "cash": "Cash reconciliation",
+      "catalogue": "Catalogue and fitment",
+      "disputes": "Disputes",
+      "payouts": "Partner payouts"
+    }
+  },
+  "login": {
+    "title": "Admin sign in",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Sign in",
+    "notReady": "Sign-in is enabled in milestone M1"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "app": {
+    "title": "لوحة إدارة شارع الغالي",
+    "shortTitle": "شارع الغالي",
+    "description": "إدارة المتاجر والفنيين والمدفوعات والحجوزات"
+  },
+  "nav": {
+    "switchLanguage": "English",
+    "login": "تسجيل الدخول",
+    "home": "الرئيسية"
+  },
+  "home": {
+    "subtitle": "نظرة عامة على المنصة",
+    "backend": "حالة الخادم",
+    "backendOk": "متصل",
+    "backendError": "تعذّر الاتصال",
+    "backendNotConfigured": "لم يتم الإعداد بعد — أضف مفاتيح Supabase في ملف ‎.env‎",
+    "backendChecking": "جارٍ الفحص…",
+    "serverTime": "وقت الخادم",
+    "queues": "قوائم العمل",
+    "comingSoon": "قريبًا",
+    "queue": {
+      "approvals": "طلبات انضمام المتاجر والفنيين",
+      "payments": "تأكيد تحويلات بنكك",
+      "cash": "مطابقة النقد",
+      "catalogue": "الكتالوج والتوافق",
+      "disputes": "النزاعات",
+      "payouts": "المدفوعات للشركاء"
+    }
+  },
+  "login": {
+    "title": "تسجيل دخول الإدارة",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "submit": "دخول",
+    "notReady": "تسجيل الدخول سيُفعَّل في المرحلة M1"
+  }
+}

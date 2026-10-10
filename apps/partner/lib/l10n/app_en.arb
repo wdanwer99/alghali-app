@@ -1,0 +1,10 @@
+{
+  "@@locale": "en",
+  "appTitle": "Alghali Partners",
+  "welcomeHeadline": "The app for shops and technicians",
+  "roleShop": "Shop owner",
+  "roleShopHint": "Add your parts, update prices and receive orders.",
+  "roleTechnician": "Installation technician",
+  "roleTechnicianHint": "Set your hours, receive bookings and do the fitting.",
+  "comingSoon": "Coming soon"
+}

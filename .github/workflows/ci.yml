@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  web:
+    name: Admin + TypeScript
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm --filter @alghali/admin test
+      - run: pnpm --filter @alghali/admin build
+
+  flutter:
+    name: Flutter apps
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.47.7
+          cache: true
+      - run: flutter pub get
+      - name: Generated code is up to date
+        run: |
+          (cd packages/core && flutter gen-l10n && dart run build_runner build --delete-conflicting-outputs)
+          (cd apps/buyer && flutter gen-l10n)
+          (cd apps/partner && flutter gen-l10n)
+          git diff --exit-code -- '*.dart'
+      - run: node infra/scripts/dart-format.mjs --check
+      - run: flutter analyze
+      - run: node infra/scripts/flutter-each.mjs test
+
+  database:
+    name: Database (local Supabase)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Start Supabase (database only)
+        run: pnpm exec supabase start -x studio,imgproxy,mailpit,logflare,vector,edge-runtime,supavisor,realtime,storage-api,postgres-meta
+      - name: Apply migrations + seed
+        run: pnpm exec supabase db reset
+      - name: DB tests
+        env:
+          DB_URL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+        run: pnpm --filter @alghali/tests test

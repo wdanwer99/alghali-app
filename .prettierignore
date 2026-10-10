@@ -1,0 +1,18 @@
+# Dart/Flutter is formatted by `dart format`
+apps/buyer/
+apps/partner/
+packages/core/
+pubspec.yaml
+pubspec.lock
+
+# generated / vendored
+pnpm-lock.yaml
+packages/db-types/src/database.ts
+apps/admin/src/components/ui/
+supabase/.temp/
+**/.next/
+**/coverage/
+
+# docs and brief are hand-written prose
+docs/
+claude-code-prompt-alghali.md

@@ -1,0 +1,17 @@
+{
+  "@@locale": "ar",
+  "appTitle": "شركاء الغالي",
+  "@appTitle": { "description": "Partner app name in the title bar and launcher" },
+  "welcomeHeadline": "تطبيق المحلات والفنيين",
+  "@welcomeHeadline": { "description": "Headline on the language picker and home screen" },
+  "roleShop": "صاحب محل",
+  "@roleShop": { "description": "Role card for shop owners and staff" },
+  "roleShopHint": "أضف قطعك، حدّث الأسعار، واستلم الطلبات.",
+  "@roleShopHint": { "description": "What a shop owner can do" },
+  "roleTechnician": "فني تركيب",
+  "@roleTechnician": { "description": "Role card for installation technicians" },
+  "roleTechnicianHint": "حدّد أوقاتك، استقبل الحجوزات، ونفّذ أعمال التركيب.",
+  "@roleTechnicianHint": { "description": "What a technician can do" },
+  "comingSoon": "قريبًا",
+  "@comingSoon": { "description": "Badge on features that are not built yet" }
+}

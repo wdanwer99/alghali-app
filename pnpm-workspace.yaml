@@ -1,0 +1,15 @@
+packages:
+  - apps/admin
+  - packages/db-types
+  - tests
+
+# pnpm 10 blocks dependency build scripts by default; allow only the ones we need.
+onlyBuiltDependencies:
+  - supabase
+  - esbuild
+  - '@tailwindcss/oxide'
+
+# Ship prebuilt binaries; their install scripts aren't needed.
+ignoredBuiltDependencies:
+  - sharp
+  - unrs-resolver

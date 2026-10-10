@@ -1,0 +1,11 @@
+{
+  "@@locale": "ar",
+  "appTitle": "شارع الغالي",
+  "@appTitle": { "description": "App name in the title bar and launcher" },
+  "welcomeHeadline": "قطع الغيار والتركيب في مكان واحد",
+  "@welcomeHeadline": { "description": "Headline on the language picker and home screen" },
+  "welcomeBody": "تصفّح محلات شارع الغالي، اطلب القطعة المناسبة لسيارتك، واحجز فنيًا لتركيبها.",
+  "@welcomeBody": { "description": "Short explanation of what the app does" },
+  "homeComingSoon": "البحث والسلة وحجز الفنيين قادمة قريبًا.",
+  "@homeComingSoon": { "description": "Placeholder on the M0 home screen" }
+}
