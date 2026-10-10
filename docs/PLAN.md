@@ -82,6 +82,13 @@ Everything else in the brief stands: Arabic-first RTL, offline outbox, Bankak co
 
 Every milestone ends with: lint + tests green, docs updated, a commit, and a short summary to the owner. **I wait for the go-ahead before starting the next one.**
 
+**Progress**
+- **M0 — done 2026-10-10** (`4781714`), except two items that need the owner:
+  - running the DB tests against `alghali-test`, which confirms the extensions are available (needs the Supabase projects and `.env`)
+  - the first CI run (needs a GitHub remote)
+
+  The custom-access-token hook and Edge Function deploy checks move to M1 and M3, where they're first used.
+
 | # | Scope | Exit criteria |
 |---|---|---|
 | **M0 Scaffold** | `git init`. pnpm workspace (admin, tests, db-types). Dart pub workspace (buyer, partner, core). Supabase CLI as a dev dependency, linked to dev. First migration (extensions + `app_settings`). Empty buyer/partner apps with Arabic default, RTL, language switch, theme, go_router, Riverpod, Drift, plus a "ping" against Supabase. Empty admin with ar/en, RTL and a login shell. ESLint/Prettier, `flutter analyze` (strict lints), vitest. GitHub Actions CI. **Spike** to confirm free-plan support for: custom-access-token hook, pg_cron, pgmq, PostGIS, btree_gist, and Edge Function deploy without Docker. | All three apps build and open in Arabic RTL; CI green; spike results written to DECISIONS |

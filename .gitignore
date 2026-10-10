@@ -27,6 +27,7 @@ build/
 *.g.dart.tmp
 **/android/local.properties
 **/android/.gradle/
+**/android/.kotlin/
 **/android/key.properties
 **/android/app/*.jks
 **/ios/Pods/
@@ -49,3 +50,6 @@ supabase/.env
 .DS_Store
 Thumbs.db
 *.log
+
+# --- claude code (local) ---
+.claude/settings.local.json
