@@ -8,7 +8,7 @@ import '../globals.css';
 const plexArabic = IBM_Plex_Sans_Arabic({
   variable: '--font-sans',
   subsets: ['arabic', 'latin'],
-  weight: ['400', '500', '700'],
+  weight: ['400', '500', '600', '700'],
   display: 'swap',
 });
 

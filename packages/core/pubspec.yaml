@@ -30,3 +30,16 @@ dev_dependencies:
 
 flutter:
   generate: true
+  assets:
+    - assets/fonts/OFL.txt
+  # Bundled so Arabic text looks the same on every phone (D-047); ~0.4 MB in the APK.
+  fonts:
+    - family: IBMPlexSansArabic
+      fonts:
+        - asset: assets/fonts/IBMPlexSansArabic-Regular.ttf
+        - asset: assets/fonts/IBMPlexSansArabic-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/IBMPlexSansArabic-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/IBMPlexSansArabic-Bold.ttf
+          weight: 700

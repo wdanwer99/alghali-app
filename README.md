@@ -50,6 +50,39 @@ In each Supabase project, turn **Authentication → Sign In / Providers → Emai
 
 Apps built without Supabase keys still run and show "not set up" for backend status.
 
+**Sample data.** For now all three apps run on built-in sample data (PLAN §2, D-051), so every screen works without a backend. Nothing real happens: the Bankak account shown is a dummy, and calls and messages are switched off.
+
+## Screenshots
+
+Flutter screens are rendered by golden tests with the real font. The PNGs go to `apps/<app>/build/screenshots/` (git-ignored):
+
+```bash
+cd apps/buyer   && flutter test test/screenshots --dart-define=SCREENSHOTS=true --update-goldens
+cd apps/partner && flutter test test/screenshots --dart-define=SCREENSHOTS=true --update-goldens
+```
+
+These tests are skipped in a normal `flutter test` run.
+
+## Logo, icons and splash
+
+The logo is a placeholder drawn in code (D-049): `MarkPainter` in `packages/core/lib/src/widgets/brand.dart`, and the `Mark` SVG in `apps/admin/src/components/admin/ui.tsx`. After changing it:
+
+1. Export the PNGs into `apps/*/assets/icon/`:
+   ```bash
+   cd packages/core && flutter test test/export_icons_test.dart --dart-define=EXPORT_ICONS=true --update-goldens
+   ```
+2. In `apps/buyer` and then `apps/partner`, run:
+   ```bash
+   dart run flutter_launcher_icons
+   dart run flutter_native_splash:create
+   ```
+3. Undo two unrelated edits these tools make to the iOS project:
+   ```bash
+   git checkout -- apps/buyer/ios/Runner.xcodeproj/project.pbxproj apps/buyer/ios/Runner/Info.plist
+   git checkout -- apps/partner/ios/Runner.xcodeproj/project.pbxproj apps/partner/ios/Runner/Info.plist
+   ```
+4. Update the admin `Mark` if the glyph or dot moved.
+
 ## Conventions
 
 - Every user-facing string lives in ARB files (Flutter) or `apps/admin/src/i18n/dictionaries` (admin), Arabic and English both complete — tests enforce it.

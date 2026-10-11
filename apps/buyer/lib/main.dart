@@ -7,6 +7,7 @@ import 'app.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  registerFontLicenses();
   final env = AppEnv.fromEnvironment();
   await initBackend(env);
   final prefs = await SharedPreferences.getInstance();

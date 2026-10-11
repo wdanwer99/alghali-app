@@ -3,8 +3,7 @@
 part of 'app_database.dart';
 
 // ignore_for_file: type=lint
-class $OutboxEntriesTable extends OutboxEntries
-    with TableInfo<$OutboxEntriesTable, OutboxEntry> {
+class $OutboxEntriesTable extends OutboxEntries with TableInfo<$OutboxEntriesTable, OutboxEntry> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
@@ -18,13 +17,9 @@ class $OutboxEntriesTable extends OutboxEntries
     hasAutoIncrement: true,
     type: DriftSqlType.int,
     requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
+    defaultConstraints: GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'),
   );
-  static const VerificationMeta _idempotencyKeyMeta = const VerificationMeta(
-    'idempotencyKey',
-  );
+  static const VerificationMeta _idempotencyKeyMeta = const VerificationMeta('idempotencyKey');
   @override
   late final GeneratedColumn<String> idempotencyKey = GeneratedColumn<String>(
     'idempotency_key',
@@ -34,9 +29,7 @@ class $OutboxEntriesTable extends OutboxEntries
     requiredDuringInsert: true,
     defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
   );
-  static const VerificationMeta _operationMeta = const VerificationMeta(
-    'operation',
-  );
+  static const VerificationMeta _operationMeta = const VerificationMeta('operation');
   @override
   late final GeneratedColumn<String> operation = GeneratedColumn<String>(
     'operation',
@@ -45,9 +38,7 @@ class $OutboxEntriesTable extends OutboxEntries
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _payloadMeta = const VerificationMeta(
-    'payload',
-  );
+  static const VerificationMeta _payloadMeta = const VerificationMeta('payload');
   @override
   late final GeneratedColumn<String> payload = GeneratedColumn<String>(
     'payload',
@@ -56,9 +47,7 @@ class $OutboxEntriesTable extends OutboxEntries
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _attemptsMeta = const VerificationMeta(
-    'attempts',
-  );
+  static const VerificationMeta _attemptsMeta = const VerificationMeta('attempts');
   @override
   late final GeneratedColumn<int> attempts = GeneratedColumn<int>(
     'attempts',
@@ -68,9 +57,7 @@ class $OutboxEntriesTable extends OutboxEntries
     requiredDuringInsert: false,
     defaultValue: const Constant(0),
   );
-  static const VerificationMeta _lastErrorMeta = const VerificationMeta(
-    'lastError',
-  );
+  static const VerificationMeta _lastErrorMeta = const VerificationMeta('lastError');
   @override
   late final GeneratedColumn<String> lastError = GeneratedColumn<String>(
     'last_error',
@@ -79,9 +66,7 @@ class $OutboxEntriesTable extends OutboxEntries
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
-  static const VerificationMeta _createdAtMeta = const VerificationMeta(
-    'createdAt',
-  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
   @override
   late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
     'created_at',
@@ -91,18 +76,15 @@ class $OutboxEntriesTable extends OutboxEntries
     requiredDuringInsert: false,
     defaultValue: currentDateAndTime,
   );
-  static const VerificationMeta _nextAttemptAtMeta = const VerificationMeta(
-    'nextAttemptAt',
-  );
+  static const VerificationMeta _nextAttemptAtMeta = const VerificationMeta('nextAttemptAt');
   @override
-  late final GeneratedColumn<DateTime> nextAttemptAt =
-      GeneratedColumn<DateTime>(
-        'next_attempt_at',
-        aliasedName,
-        true,
-        type: DriftSqlType.dateTime,
-        requiredDuringInsert: false,
-      );
+  late final GeneratedColumn<DateTime> nextAttemptAt = GeneratedColumn<DateTime>(
+    'next_attempt_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -132,10 +114,7 @@ class $OutboxEntriesTable extends OutboxEntries
     if (data.containsKey('idempotency_key')) {
       context.handle(
         _idempotencyKeyMeta,
-        idempotencyKey.isAcceptableOrUnknown(
-          data['idempotency_key']!,
-          _idempotencyKeyMeta,
-        ),
+        idempotencyKey.isAcceptableOrUnknown(data['idempotency_key']!, _idempotencyKeyMeta),
       );
     } else if (isInserting) {
       context.missing(_idempotencyKeyMeta);
@@ -149,10 +128,7 @@ class $OutboxEntriesTable extends OutboxEntries
       context.missing(_operationMeta);
     }
     if (data.containsKey('payload')) {
-      context.handle(
-        _payloadMeta,
-        payload.isAcceptableOrUnknown(data['payload']!, _payloadMeta),
-      );
+      context.handle(_payloadMeta, payload.isAcceptableOrUnknown(data['payload']!, _payloadMeta));
     } else if (isInserting) {
       context.missing(_payloadMeta);
     }
@@ -177,10 +153,7 @@ class $OutboxEntriesTable extends OutboxEntries
     if (data.containsKey('next_attempt_at')) {
       context.handle(
         _nextAttemptAtMeta,
-        nextAttemptAt.isAcceptableOrUnknown(
-          data['next_attempt_at']!,
-          _nextAttemptAtMeta,
-        ),
+        nextAttemptAt.isAcceptableOrUnknown(data['next_attempt_at']!, _nextAttemptAtMeta),
       );
     }
     return context;
@@ -192,10 +165,7 @@ class $OutboxEntriesTable extends OutboxEntries
   OutboxEntry map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return OutboxEntry(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}id'],
-      )!,
+      id: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       idempotencyKey: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}idempotency_key'],
@@ -281,9 +251,7 @@ class OutboxEntry extends DataClass implements Insertable<OutboxEntry> {
       operation: Value(operation),
       payload: Value(payload),
       attempts: Value(attempts),
-      lastError: lastError == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastError),
+      lastError: lastError == null && nullToAbsent ? const Value.absent() : Value(lastError),
       createdAt: Value(createdAt),
       nextAttemptAt: nextAttemptAt == null && nullToAbsent
           ? const Value.absent()
@@ -291,10 +259,7 @@ class OutboxEntry extends DataClass implements Insertable<OutboxEntry> {
     );
   }
 
-  factory OutboxEntry.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
+  factory OutboxEntry.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return OutboxEntry(
       id: serializer.fromJson<int>(json['id']),
@@ -339,24 +304,18 @@ class OutboxEntry extends DataClass implements Insertable<OutboxEntry> {
     attempts: attempts ?? this.attempts,
     lastError: lastError.present ? lastError.value : this.lastError,
     createdAt: createdAt ?? this.createdAt,
-    nextAttemptAt: nextAttemptAt.present
-        ? nextAttemptAt.value
-        : this.nextAttemptAt,
+    nextAttemptAt: nextAttemptAt.present ? nextAttemptAt.value : this.nextAttemptAt,
   );
   OutboxEntry copyWithCompanion(OutboxEntriesCompanion data) {
     return OutboxEntry(
       id: data.id.present ? data.id.value : this.id,
-      idempotencyKey: data.idempotencyKey.present
-          ? data.idempotencyKey.value
-          : this.idempotencyKey,
+      idempotencyKey: data.idempotencyKey.present ? data.idempotencyKey.value : this.idempotencyKey,
       operation: data.operation.present ? data.operation.value : this.operation,
       payload: data.payload.present ? data.payload.value : this.payload,
       attempts: data.attempts.present ? data.attempts.value : this.attempts,
       lastError: data.lastError.present ? data.lastError.value : this.lastError,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
-      nextAttemptAt: data.nextAttemptAt.present
-          ? data.nextAttemptAt.value
-          : this.nextAttemptAt,
+      nextAttemptAt: data.nextAttemptAt.present ? data.nextAttemptAt.value : this.nextAttemptAt,
     );
   }
 
@@ -521,8 +480,7 @@ class OutboxEntriesCompanion extends UpdateCompanion<OutboxEntry> {
   }
 }
 
-class $CacheEntriesTable extends CacheEntries
-    with TableInfo<$CacheEntriesTable, CacheEntry> {
+class $CacheEntriesTable extends CacheEntries with TableInfo<$CacheEntriesTable, CacheEntry> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
@@ -545,9 +503,7 @@ class $CacheEntriesTable extends CacheEntries
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
-    'updatedAt',
-  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta('updatedAt');
   @override
   late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
     'updated_at',
@@ -571,18 +527,12 @@ class $CacheEntriesTable extends CacheEntries
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('key')) {
-      context.handle(
-        _keyMeta,
-        key.isAcceptableOrUnknown(data['key']!, _keyMeta),
-      );
+      context.handle(_keyMeta, key.isAcceptableOrUnknown(data['key']!, _keyMeta));
     } else if (isInserting) {
       context.missing(_keyMeta);
     }
     if (data.containsKey('json')) {
-      context.handle(
-        _jsonMeta,
-        json.isAcceptableOrUnknown(data['json']!, _jsonMeta),
-      );
+      context.handle(_jsonMeta, json.isAcceptableOrUnknown(data['json']!, _jsonMeta));
     } else if (isInserting) {
       context.missing(_jsonMeta);
     }
@@ -603,14 +553,8 @@ class $CacheEntriesTable extends CacheEntries
   CacheEntry map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return CacheEntry(
-      key: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}key'],
-      )!,
-      json: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}json'],
-      )!,
+      key: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}key'])!,
+      json: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}json'])!,
       updatedAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}updated_at'],
@@ -628,11 +572,7 @@ class CacheEntry extends DataClass implements Insertable<CacheEntry> {
   final String key;
   final String json;
   final DateTime updatedAt;
-  const CacheEntry({
-    required this.key,
-    required this.json,
-    required this.updatedAt,
-  });
+  const CacheEntry({required this.key, required this.json, required this.updatedAt});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -643,17 +583,10 @@ class CacheEntry extends DataClass implements Insertable<CacheEntry> {
   }
 
   CacheEntriesCompanion toCompanion(bool nullToAbsent) {
-    return CacheEntriesCompanion(
-      key: Value(key),
-      json: Value(json),
-      updatedAt: Value(updatedAt),
-    );
+    return CacheEntriesCompanion(key: Value(key), json: Value(json), updatedAt: Value(updatedAt));
   }
 
-  factory CacheEntry.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
+  factory CacheEntry.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return CacheEntry(
       key: serializer.fromJson<String>(json['key']),
@@ -671,12 +604,11 @@ class CacheEntry extends DataClass implements Insertable<CacheEntry> {
     };
   }
 
-  CacheEntry copyWith({String? key, String? json, DateTime? updatedAt}) =>
-      CacheEntry(
-        key: key ?? this.key,
-        json: json ?? this.json,
-        updatedAt: updatedAt ?? this.updatedAt,
-      );
+  CacheEntry copyWith({String? key, String? json, DateTime? updatedAt}) => CacheEntry(
+    key: key ?? this.key,
+    json: json ?? this.json,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
   CacheEntry copyWithCompanion(CacheEntriesCompanion data) {
     return CacheEntry(
       key: data.key.present ? data.key.value : this.key,
@@ -792,37 +724,31 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [
-    outboxEntries,
-    cacheEntries,
-  ];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [outboxEntries, cacheEntries];
 }
 
-typedef $$OutboxEntriesTableCreateCompanionBuilder =
-    OutboxEntriesCompanion Function({
-      Value<int> id,
-      required String idempotencyKey,
-      required String operation,
-      required String payload,
-      Value<int> attempts,
-      Value<String?> lastError,
-      Value<DateTime> createdAt,
-      Value<DateTime?> nextAttemptAt,
-    });
-typedef $$OutboxEntriesTableUpdateCompanionBuilder =
-    OutboxEntriesCompanion Function({
-      Value<int> id,
-      Value<String> idempotencyKey,
-      Value<String> operation,
-      Value<String> payload,
-      Value<int> attempts,
-      Value<String?> lastError,
-      Value<DateTime> createdAt,
-      Value<DateTime?> nextAttemptAt,
-    });
+typedef $$OutboxEntriesTableCreateCompanionBuilder = OutboxEntriesCompanion Function({
+  Value<int> id,
+  required String idempotencyKey,
+  required String operation,
+  required String payload,
+  Value<int> attempts,
+  Value<String?> lastError,
+  Value<DateTime> createdAt,
+  Value<DateTime?> nextAttemptAt,
+});
+typedef $$OutboxEntriesTableUpdateCompanionBuilder = OutboxEntriesCompanion Function({
+  Value<int> id,
+  Value<String> idempotencyKey,
+  Value<String> operation,
+  Value<String> payload,
+  Value<int> attempts,
+  Value<String?> lastError,
+  Value<DateTime> createdAt,
+  Value<DateTime?> nextAttemptAt,
+});
 
-class $$OutboxEntriesTableFilterComposer
-    extends Composer<_$AppDatabase, $OutboxEntriesTable> {
+class $$OutboxEntriesTableFilterComposer extends Composer<_$AppDatabase, $OutboxEntriesTable> {
   $$OutboxEntriesTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -830,49 +756,32 @@ class $$OutboxEntriesTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
+  ColumnFilters<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get idempotencyKey => $composableBuilder(
-    column: $table.idempotencyKey,
-    builder: (column) => ColumnFilters(column),
-  );
+  ColumnFilters<String> get idempotencyKey =>
+      $composableBuilder(column: $table.idempotencyKey, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get operation => $composableBuilder(
-    column: $table.operation,
-    builder: (column) => ColumnFilters(column),
-  );
+  ColumnFilters<String> get operation =>
+      $composableBuilder(column: $table.operation, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get payload => $composableBuilder(
-    column: $table.payload,
-    builder: (column) => ColumnFilters(column),
-  );
+  ColumnFilters<String> get payload =>
+      $composableBuilder(column: $table.payload, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get attempts => $composableBuilder(
-    column: $table.attempts,
-    builder: (column) => ColumnFilters(column),
-  );
+  ColumnFilters<int> get attempts =>
+      $composableBuilder(column: $table.attempts, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get lastError => $composableBuilder(
-    column: $table.lastError,
-    builder: (column) => ColumnFilters(column),
-  );
+  ColumnFilters<String> get lastError =>
+      $composableBuilder(column: $table.lastError, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<DateTime> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnFilters(column),
-  );
+  ColumnFilters<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<DateTime> get nextAttemptAt => $composableBuilder(
-    column: $table.nextAttemptAt,
-    builder: (column) => ColumnFilters(column),
-  );
+  ColumnFilters<DateTime> get nextAttemptAt =>
+      $composableBuilder(column: $table.nextAttemptAt, builder: (column) => ColumnFilters(column));
 }
 
-class $$OutboxEntriesTableOrderingComposer
-    extends Composer<_$AppDatabase, $OutboxEntriesTable> {
+class $$OutboxEntriesTableOrderingComposer extends Composer<_$AppDatabase, $OutboxEntriesTable> {
   $$OutboxEntriesTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -880,40 +789,28 @@ class $$OutboxEntriesTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
+  ColumnOrderings<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get idempotencyKey => $composableBuilder(
     column: $table.idempotencyKey,
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get operation => $composableBuilder(
-    column: $table.operation,
-    builder: (column) => ColumnOrderings(column),
-  );
+  ColumnOrderings<String> get operation =>
+      $composableBuilder(column: $table.operation, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get payload => $composableBuilder(
-    column: $table.payload,
-    builder: (column) => ColumnOrderings(column),
-  );
+  ColumnOrderings<String> get payload =>
+      $composableBuilder(column: $table.payload, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<int> get attempts => $composableBuilder(
-    column: $table.attempts,
-    builder: (column) => ColumnOrderings(column),
-  );
+  ColumnOrderings<int> get attempts =>
+      $composableBuilder(column: $table.attempts, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get lastError => $composableBuilder(
-    column: $table.lastError,
-    builder: (column) => ColumnOrderings(column),
-  );
+  ColumnOrderings<String> get lastError =>
+      $composableBuilder(column: $table.lastError, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnOrderings(column),
-  );
+  ColumnOrderings<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<DateTime> get nextAttemptAt => $composableBuilder(
     column: $table.nextAttemptAt,
@@ -921,8 +818,7 @@ class $$OutboxEntriesTableOrderingComposer
   );
 }
 
-class $$OutboxEntriesTableAnnotationComposer
-    extends Composer<_$AppDatabase, $OutboxEntriesTable> {
+class $$OutboxEntriesTableAnnotationComposer extends Composer<_$AppDatabase, $OutboxEntriesTable> {
   $$OutboxEntriesTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -930,13 +826,10 @@ class $$OutboxEntriesTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
+  GeneratedColumn<int> get id => $composableBuilder(column: $table.id, builder: (column) => column);
 
-  GeneratedColumn<String> get idempotencyKey => $composableBuilder(
-    column: $table.idempotencyKey,
-    builder: (column) => column,
-  );
+  GeneratedColumn<String> get idempotencyKey =>
+      $composableBuilder(column: $table.idempotencyKey, builder: (column) => column);
 
   GeneratedColumn<String> get operation =>
       $composableBuilder(column: $table.operation, builder: (column) => column);
@@ -953,10 +846,8 @@ class $$OutboxEntriesTableAnnotationComposer
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
-  GeneratedColumn<DateTime> get nextAttemptAt => $composableBuilder(
-    column: $table.nextAttemptAt,
-    builder: (column) => column,
-  );
+  GeneratedColumn<DateTime> get nextAttemptAt =>
+      $composableBuilder(column: $table.nextAttemptAt, builder: (column) => column);
 }
 
 class $$OutboxEntriesTableTableManager
@@ -970,10 +861,7 @@ class $$OutboxEntriesTableTableManager
           $$OutboxEntriesTableAnnotationComposer,
           $$OutboxEntriesTableCreateCompanionBuilder,
           $$OutboxEntriesTableUpdateCompanionBuilder,
-          (
-            OutboxEntry,
-            BaseReferences<_$AppDatabase, $OutboxEntriesTable, OutboxEntry>,
-          ),
+          (OutboxEntry, BaseReferences<_$AppDatabase, $OutboxEntriesTable, OutboxEntry>),
           OutboxEntry,
           PrefetchHooks Function()
         > {
@@ -982,8 +870,7 @@ class $$OutboxEntriesTableTableManager
         TableManagerState(
           db: db,
           table: table,
-          createFilteringComposer: () =>
-              $$OutboxEntriesTableFilterComposer($db: db, $table: table),
+          createFilteringComposer: () => $$OutboxEntriesTableFilterComposer($db: db, $table: table),
           createOrderingComposer: () =>
               $$OutboxEntriesTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
@@ -1032,11 +919,7 @@ class $$OutboxEntriesTableTableManager
               .map(
                 (e) => (
                   e.readTable<$OutboxEntriesTable, OutboxEntry>(table),
-                  BaseReferences<
-                    _$AppDatabase,
-                    $OutboxEntriesTable,
-                    OutboxEntry
-                  >(db, table, e),
+                  BaseReferences<_$AppDatabase, $OutboxEntriesTable, OutboxEntry>(db, table, e),
                 ),
               )
               .toList(),
@@ -1055,30 +938,24 @@ typedef $$OutboxEntriesTableProcessedTableManager =
       $$OutboxEntriesTableAnnotationComposer,
       $$OutboxEntriesTableCreateCompanionBuilder,
       $$OutboxEntriesTableUpdateCompanionBuilder,
-      (
-        OutboxEntry,
-        BaseReferences<_$AppDatabase, $OutboxEntriesTable, OutboxEntry>,
-      ),
+      (OutboxEntry, BaseReferences<_$AppDatabase, $OutboxEntriesTable, OutboxEntry>),
       OutboxEntry,
       PrefetchHooks Function()
     >;
-typedef $$CacheEntriesTableCreateCompanionBuilder =
-    CacheEntriesCompanion Function({
-      required String key,
-      required String json,
-      required DateTime updatedAt,
-      Value<int> rowid,
-    });
-typedef $$CacheEntriesTableUpdateCompanionBuilder =
-    CacheEntriesCompanion Function({
-      Value<String> key,
-      Value<String> json,
-      Value<DateTime> updatedAt,
-      Value<int> rowid,
-    });
+typedef $$CacheEntriesTableCreateCompanionBuilder = CacheEntriesCompanion Function({
+  required String key,
+  required String json,
+  required DateTime updatedAt,
+  Value<int> rowid,
+});
+typedef $$CacheEntriesTableUpdateCompanionBuilder = CacheEntriesCompanion Function({
+  Value<String> key,
+  Value<String> json,
+  Value<DateTime> updatedAt,
+  Value<int> rowid,
+});
 
-class $$CacheEntriesTableFilterComposer
-    extends Composer<_$AppDatabase, $CacheEntriesTable> {
+class $$CacheEntriesTableFilterComposer extends Composer<_$AppDatabase, $CacheEntriesTable> {
   $$CacheEntriesTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -1086,24 +963,17 @@ class $$CacheEntriesTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<String> get key => $composableBuilder(
-    column: $table.key,
-    builder: (column) => ColumnFilters(column),
-  );
+  ColumnFilters<String> get key =>
+      $composableBuilder(column: $table.key, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get json => $composableBuilder(
-    column: $table.json,
-    builder: (column) => ColumnFilters(column),
-  );
+  ColumnFilters<String> get json =>
+      $composableBuilder(column: $table.json, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
-    column: $table.updatedAt,
-    builder: (column) => ColumnFilters(column),
-  );
+  ColumnFilters<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => ColumnFilters(column));
 }
 
-class $$CacheEntriesTableOrderingComposer
-    extends Composer<_$AppDatabase, $CacheEntriesTable> {
+class $$CacheEntriesTableOrderingComposer extends Composer<_$AppDatabase, $CacheEntriesTable> {
   $$CacheEntriesTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -1111,24 +981,17 @@ class $$CacheEntriesTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<String> get key => $composableBuilder(
-    column: $table.key,
-    builder: (column) => ColumnOrderings(column),
-  );
+  ColumnOrderings<String> get key =>
+      $composableBuilder(column: $table.key, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get json => $composableBuilder(
-    column: $table.json,
-    builder: (column) => ColumnOrderings(column),
-  );
+  ColumnOrderings<String> get json =>
+      $composableBuilder(column: $table.json, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
-    column: $table.updatedAt,
-    builder: (column) => ColumnOrderings(column),
-  );
+  ColumnOrderings<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
 }
 
-class $$CacheEntriesTableAnnotationComposer
-    extends Composer<_$AppDatabase, $CacheEntriesTable> {
+class $$CacheEntriesTableAnnotationComposer extends Composer<_$AppDatabase, $CacheEntriesTable> {
   $$CacheEntriesTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -1157,10 +1020,7 @@ class $$CacheEntriesTableTableManager
           $$CacheEntriesTableAnnotationComposer,
           $$CacheEntriesTableCreateCompanionBuilder,
           $$CacheEntriesTableUpdateCompanionBuilder,
-          (
-            CacheEntry,
-            BaseReferences<_$AppDatabase, $CacheEntriesTable, CacheEntry>,
-          ),
+          (CacheEntry, BaseReferences<_$AppDatabase, $CacheEntriesTable, CacheEntry>),
           CacheEntry,
           PrefetchHooks Function()
         > {
@@ -1169,24 +1029,16 @@ class $$CacheEntriesTableTableManager
         TableManagerState(
           db: db,
           table: table,
-          createFilteringComposer: () =>
-              $$CacheEntriesTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$CacheEntriesTableOrderingComposer($db: db, $table: table),
+          createFilteringComposer: () => $$CacheEntriesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () => $$CacheEntriesTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$CacheEntriesTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<String> key = const Value.absent(),
-                Value<String> json = const Value.absent(),
-                Value<DateTime> updatedAt = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
-              }) => CacheEntriesCompanion(
-                key: key,
-                json: json,
-                updatedAt: updatedAt,
-                rowid: rowid,
-              ),
+          updateCompanionCallback: ({
+            Value<String> key = const Value.absent(),
+            Value<String> json = const Value.absent(),
+            Value<DateTime> updatedAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) => CacheEntriesCompanion(key: key, json: json, updatedAt: updatedAt, rowid: rowid),
           createCompanionCallback:
               ({
                 required String key,
@@ -1203,11 +1055,7 @@ class $$CacheEntriesTableTableManager
               .map(
                 (e) => (
                   e.readTable<$CacheEntriesTable, CacheEntry>(table),
-                  BaseReferences<_$AppDatabase, $CacheEntriesTable, CacheEntry>(
-                    db,
-                    table,
-                    e,
-                  ),
+                  BaseReferences<_$AppDatabase, $CacheEntriesTable, CacheEntry>(db, table, e),
                 ),
               )
               .toList(),
@@ -1226,10 +1074,7 @@ typedef $$CacheEntriesTableProcessedTableManager =
       $$CacheEntriesTableAnnotationComposer,
       $$CacheEntriesTableCreateCompanionBuilder,
       $$CacheEntriesTableUpdateCompanionBuilder,
-      (
-        CacheEntry,
-        BaseReferences<_$AppDatabase, $CacheEntriesTable, CacheEntry>,
-      ),
+      (CacheEntry, BaseReferences<_$AppDatabase, $CacheEntriesTable, CacheEntry>),
       CacheEntry,
       PrefetchHooks Function()
     >;

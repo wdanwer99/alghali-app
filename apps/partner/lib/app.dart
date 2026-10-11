@@ -20,8 +20,14 @@ class PartnerApp extends ConsumerWidget {
         ...GlobalMaterialLocalizations.delegates,
       ],
       theme: AppTheme.light(),
+      darkTheme: AppTheme.dark(),
+      themeMode: ref.watch(themeModeProvider),
       routerConfig: ref.watch(routerProvider),
       debugShowCheckedModeBanner: false,
     );
   }
+}
+
+extension AppL10n on BuildContext {
+  AppLocalizations get t => AppLocalizations.of(this);
 }

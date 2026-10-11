@@ -98,3 +98,29 @@ Format: **D-nnn · date · status** — decision. *Why.* `Owner` = decided by th
 - **D-044 · Default** — **Single source for config:** the root `.env` is the only file you edit. `pnpm env:sync` writes `apps/admin/.env.local` and `apps/*/env/dev.json` with client-safe values only (URL, publishable key, public DSN); a test enforces that secret keys and DB URLs never leave it.
 - **D-045 · Default** — **The supabase-js publishable key** (`sb_publishable_…`) is used in clients, and the secret key only in scripts/tests. The legacy anon/service_role keys work too if that's what the dashboard shows.
 - **D-046 · Default** — **Auth config (`supabase/config.toml`, used by CI's local stack):** email sign-up on, confirmations off, minimum password 8 characters with letters + digits. The hosted projects must be set the same way in the dashboard (README).
+
+### UI pass on sample data (2026-10-11)
+- **D-047 · Owner** — **The apps bundle IBM Plex Sans Arabic** (Regular, Medium, SemiBold, Bold; about 0.4 MB, SIL OFL) in `packages/core`, the same family the admin loads through `next/font`. **Supersedes D-041.** *Android's system Arabic font differs by phone maker; the owner chose one consistent look over a smaller APK.* The font licence is registered with Flutter's licence page.
+- **D-048 · Default** — **Western digits (0–9) in both languages**, including the Arabic UI, for prices, times, order numbers and phone numbers. *Bankak receipts, phone numbers and order references are written with Western digits, so matching them avoids copying mistakes.*
+- **D-049 · Owner (placeholder)** — **Placeholder logo:** a "غ" mark (ع + dot) in white on brand colour, drawn in code (`MarkPainter` in `packages/core`, `Mark` SVG in the admin, positions matched to the app icon). The buyer icon is on charcoal and the partner icon on red, so the two apps are easy to tell apart. To change it, see the README's "Logo, icons and splash" section. Replace it when a real logo exists.
+- **D-050 · Owner** — **Brand colours: charcoal `#1F2937` is the brand, red `#B91C1C` is only for the main action on a screen.**
+  - Focus rings, checkboxes, switches and selected chips are charcoal, so they never read as errors.
+  - Status colours (success, warning, info) never use the brand red. A failed or cancelled state uses the separate error red, always with a label or icon.
+  - Charts use one validated blue (`#2a78d6` light / `#3987e5` dark), plus orange for a second series. Charcoal failed the colour-blind check.
+- **D-051 · Owner** — **UI first, on sample data, before M1.** The owner asked for a professional look across all three apps before backend work. Every main screen of the buyer app, the partner app (shop and technician) and the admin console runs on sample data:
+  - Flutter: `packages/core/lib/src/demo`.
+  - Admin: `apps/admin/src/lib/demo`.
+
+  The sample data uses the same models and shapes the backend will fill. Screens are marked "Sample data", and demo-only controls are labelled. M4–M6 swap sample data for Supabase without redesigning the screens, so these screens are the reference for those milestones. Sample working hours are Saturday–Thursday 09:00–13:00 and 16:00–21:00, Friday off, on a 30-minute grid.
+- **D-052 · Default** — **Guests can browse and search the buyer app.** Sign-in is asked for only at checkout, when booking a fitting on its own, and when sending a part request; the Orders tab asks guests to sign in. After signing in, the buyer continues where they were. *Making people register before they've seen any parts loses them.*
+- **D-053 · Default** — **The demo can't move money or contact anyone:**
+  - The platform Bankak account shown is `0000000000`, labelled "Sample account — don't transfer".
+  - Call and WhatsApp buttons say they're off in the demo.
+  - All emails use `example.com`.
+  - Admin actions change only the page you're on and send nothing.
+- **D-054 · Default** — **Bankak review rules in the admin queue (to build for real in M2/M6):**
+  - A wrong amount or a reused transaction number blocks "Confirm payment".
+  - A missing order number in the transfer note is only a warning, because the transfer can still be matched by amount and transaction number.
+  - The admin must tick "Transfer appears on the Bankak statement" before confirming.
+  - The reject dialog pre-selects the reason from the failed check.
+- **D-055 · Default** — **The admin demo uses a fixed "now"** (`DEMO_NOW`, Wednesday 14 Oct 2026, 09:30 Khartoum). Dates are formatted on the server and passed to client components. *Next 16's Cache Components refuses `new Date()` in prerendered pages, and server-formatted text avoids server/browser differences.*

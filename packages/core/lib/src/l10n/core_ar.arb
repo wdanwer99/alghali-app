@@ -1,25 +1,549 @@
 {
   "@@locale": "ar",
   "backendStatus": "حالة الخادم",
-  "@backendStatus": { "description": "Label for the backend connection indicator" },
+  "@backendStatus": {
+    "description": "Label for the backend connection indicator"
+  },
   "backendOk": "متصل",
-  "@backendOk": { "description": "Backend reachable" },
+  "@backendOk": {
+    "description": "Backend reachable"
+  },
   "backendError": "تعذّر الاتصال",
-  "@backendError": { "description": "Backend not reachable" },
+  "@backendError": {
+    "description": "Backend not reachable"
+  },
   "backendNotConfigured": "لم يتم الإعداد بعد",
-  "@backendNotConfigured": { "description": "App was built without Supabase URL/key" },
+  "@backendNotConfigured": {
+    "description": "App was built without Supabase URL/key"
+  },
   "backendChecking": "جارٍ الفحص…",
-  "@backendChecking": { "description": "Backend check in progress" },
+  "@backendChecking": {
+    "description": "Backend check in progress"
+  },
   "languageArabic": "العربية",
-  "@languageArabic": { "description": "Name of the Arabic language, always written in Arabic" },
+  "@languageArabic": {
+    "description": "Name of the Arabic language, always written in Arabic"
+  },
   "languageEnglish": "English",
-  "@languageEnglish": { "description": "Name of the English language, always written in English" },
+  "@languageEnglish": {
+    "description": "Name of the English language, always written in English"
+  },
   "chooseLanguage": "اختر اللغة",
-  "@chooseLanguage": { "description": "Title of the language picker" },
+  "@chooseLanguage": {
+    "description": "Title of the language picker"
+  },
   "chooseLanguageHint": "يمكنك تغيير اللغة لاحقًا من الإعدادات.",
-  "@chooseLanguageHint": { "description": "Hint under the language picker" },
+  "@chooseLanguageHint": {
+    "description": "Hint under the language picker"
+  },
   "continueAction": "متابعة",
-  "@continueAction": { "description": "Primary button to move to the next step" },
+  "@continueAction": {
+    "description": "Primary button to move to the next step"
+  },
   "switchLanguage": "تغيير اللغة",
-  "@switchLanguage": { "description": "Tooltip for the language toggle button" }
+  "@switchLanguage": {
+    "description": "Tooltip for the language toggle button"
+  },
+  "money": "{amount} ج.س",
+  "@money": {
+    "description": "An amount in Sudanese pounds. amount is already grouped, e.g. 12,000",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "moneyFrom": "من {amount}",
+  "@moneyFrom": {
+    "description": "Lowest price among several shops, e.g. 'from 12,000 SDG'",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "km": "{value} كم",
+  "@km": {
+    "description": "Distance in kilometres",
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "minutes": "{count, plural, =1{دقيقة} =2{دقيقتان} few{{count} دقائق} other{{count} دقيقة}}",
+  "@minutes": {
+    "description": "A duration in minutes",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "warrantyDays": "{days, plural, =0{بدون ضمان} =1{ضمان يوم} =2{ضمان يومين} few{ضمان {days} أيام} other{ضمان {days} يومًا}}",
+  "@warrantyDays": {
+    "description": "Warranty length on a part",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "warrantyMonths": "{months, plural, =1{ضمان شهر} =2{ضمان شهرين} few{ضمان {months} أشهر} other{ضمان {months} شهرًا}}",
+  "@warrantyMonths": {
+    "description": "Warranty length in months (used for 30+ days)",
+    "placeholders": {
+      "months": {
+        "type": "int"
+      }
+    }
+  },
+  "warrantyYear": "ضمان سنة",
+  "@warrantyYear": {
+    "description": "Warranty of one year"
+  },
+  "inStock": "{count, plural, =1{قطعة واحدة متبقية} =2{قطعتان متبقيتان} few{{count} قطع متوفرة} other{{count} قطعة متوفرة}}",
+  "@inStock": {
+    "description": "How many units a shop has",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "outOfStock": "نفدت الكمية",
+  "@outOfStock": {
+    "description": "Listing has no stock"
+  },
+  "ratingCount": "{count, plural, =0{لا تقييمات} =1{تقييم واحد} =2{تقييمان} few{{count} تقييمات} other{{count} تقييمًا}}",
+  "@ratingCount": {
+    "description": "Number of reviews",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "jobsDone": "{count, plural, =0{لا أعمال بعد} =1{عمل واحد} =2{عملان} few{{count} أعمال} other{{count} عملًا}}",
+  "@jobsDone": {
+    "description": "Completed installation jobs",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "agoMinutes": "{count, plural, =0{الآن} =1{قبل دقيقة} =2{قبل دقيقتين} few{قبل {count} دقائق} other{قبل {count} دقيقة}}",
+  "@agoMinutes": {
+    "description": "Relative time",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "agoHours": "{count, plural, =1{قبل ساعة} =2{قبل ساعتين} few{قبل {count} ساعات} other{قبل {count} ساعة}}",
+  "@agoHours": {
+    "description": "Relative time",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "agoDays": "{count, plural, =1{أمس} =2{قبل يومين} few{قبل {count} أيام} other{قبل {count} يومًا}}",
+  "@agoDays": {
+    "description": "Relative time",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "today": "اليوم",
+  "@today": {
+    "description": "Today, in date pickers"
+  },
+  "tomorrow": "غدًا",
+  "@tomorrow": {
+    "description": "Tomorrow, in date pickers"
+  },
+  "conditionNewOem": "جديد أصلي",
+  "@conditionNewOem": {
+    "description": "Listing condition: new genuine (OEM) part"
+  },
+  "conditionNewAftermarket": "جديد تجاري",
+  "@conditionNewAftermarket": {
+    "description": "Listing condition: new aftermarket part"
+  },
+  "conditionUsed": "مستعمل",
+  "@conditionUsed": {
+    "description": "Listing condition: used part"
+  },
+  "fitFits": "يناسب سيارتك",
+  "@fitFits": {
+    "description": "Badge: the part is known to fit the selected car"
+  },
+  "fitCheck": "تأكّد من المناسبة",
+  "@fitCheck": {
+    "description": "Badge: no fitment data, ask the shop"
+  },
+  "fitNoFit": "لا يناسب سيارتك",
+  "@fitNoFit": {
+    "description": "The part does not fit the selected car"
+  },
+  "verifiedShop": "محل موثّق",
+  "@verifiedShop": {
+    "description": "Badge for a shop the platform has verified"
+  },
+  "verifiedTechnician": "فني موثّق",
+  "@verifiedTechnician": {
+    "description": "Badge for a vetted technician"
+  },
+  "payBankak": "بنكك",
+  "@payBankak": {
+    "description": "Payment method: Bankak transfer (mBOK)"
+  },
+  "payCash": "نقدًا",
+  "@payCash": {
+    "description": "Payment method: cash"
+  },
+  "fulfilPickup": "استلام من المحل",
+  "@fulfilPickup": {
+    "description": "Fulfilment: buyer picks up at the shop"
+  },
+  "fulfilDelivery": "توصيل",
+  "@fulfilDelivery": {
+    "description": "Fulfilment: shop delivers"
+  },
+  "fulfilToTechnician": "يسلّمها المحل للفني",
+  "@fulfilToTechnician": {
+    "description": "Fulfilment: the shop hands the part to the technician"
+  },
+  "subPendingPayment": "بانتظار الدفع",
+  "@subPendingPayment": {
+    "description": "Sub-order status"
+  },
+  "subPaymentReview": "جارٍ التحقق من الدفع",
+  "@subPaymentReview": {
+    "description": "Sub-order status: admin is checking the Bankak receipt"
+  },
+  "subConfirmed": "مؤكَّد",
+  "@subConfirmed": {
+    "description": "Sub-order status"
+  },
+  "subReady": "جاهز",
+  "@subReady": {
+    "description": "Sub-order status: ready at the shop"
+  },
+  "subPickedUp": "تم الاستلام",
+  "@subPickedUp": {
+    "description": "Sub-order status"
+  },
+  "subOutForDelivery": "في الطريق إليك",
+  "@subOutForDelivery": {
+    "description": "Sub-order status"
+  },
+  "subDelivered": "تم التوصيل",
+  "@subDelivered": {
+    "description": "Sub-order status"
+  },
+  "subHandedToTechnician": "سُلّم للفني",
+  "@subHandedToTechnician": {
+    "description": "Sub-order status"
+  },
+  "subCompleted": "مكتمل",
+  "@subCompleted": {
+    "description": "Sub-order status"
+  },
+  "subCancelled": "ملغى",
+  "@subCancelled": {
+    "description": "Sub-order status"
+  },
+  "subRejectedByShop": "رفضه المحل",
+  "@subRejectedByShop": {
+    "description": "Sub-order status"
+  },
+  "subReturnRequested": "طلب إرجاع",
+  "@subReturnRequested": {
+    "description": "Sub-order status"
+  },
+  "subReturned": "مُرجَع",
+  "@subReturned": {
+    "description": "Sub-order status"
+  },
+  "payAwaitingTransfer": "بانتظار التحويل",
+  "@payAwaitingTransfer": {
+    "description": "Payment status"
+  },
+  "payReceiptSubmitted": "جارٍ التحقق من الدفع",
+  "@payReceiptSubmitted": {
+    "description": "Payment status: receipt uploaded, admin checking"
+  },
+  "payConfirmed": "تم الدفع",
+  "@payConfirmed": {
+    "description": "Payment status"
+  },
+  "payRejected": "رُفض الإيصال",
+  "@payRejected": {
+    "description": "Payment status"
+  },
+  "payDue": "يُدفع نقدًا",
+  "@payDue": {
+    "description": "Payment status: cash to be paid on pickup/at the job"
+  },
+  "payCollected": "تم التحصيل",
+  "@payCollected": {
+    "description": "Payment status: cash collected"
+  },
+  "payExpired": "انتهت مهلة الدفع",
+  "@payExpired": {
+    "description": "Payment status"
+  },
+  "bkHeld": "الموعد محجوز مؤقتًا",
+  "@bkHeld": {
+    "description": "Booking status: slot held during checkout"
+  },
+  "bkAwaitingPayment": "بانتظار تأكيد الدفع",
+  "@bkAwaitingPayment": {
+    "description": "Booking status"
+  },
+  "bkPendingTechAccept": "بانتظار موافقة الفني",
+  "@bkPendingTechAccept": {
+    "description": "Booking status"
+  },
+  "bkAccepted": "مؤكَّد",
+  "@bkAccepted": {
+    "description": "Booking status: technician accepted"
+  },
+  "bkEnRoute": "الفني في الطريق",
+  "@bkEnRoute": {
+    "description": "Booking status"
+  },
+  "bkInProgress": "جارٍ العمل",
+  "@bkInProgress": {
+    "description": "Booking status"
+  },
+  "bkCompleted": "مكتمل",
+  "@bkCompleted": {
+    "description": "Booking status"
+  },
+  "bkNeedsReschedule": "يحتاج موعدًا جديدًا",
+  "@bkNeedsReschedule": {
+    "description": "Booking status: nobody free, buyer must reschedule"
+  },
+  "bkExpired": "انتهى الحجز المؤقت",
+  "@bkExpired": {
+    "description": "Booking status"
+  },
+  "bkCancelledByBuyer": "ألغيته",
+  "@bkCancelledByBuyer": {
+    "description": "Booking status"
+  },
+  "bkCancelledByTech": "ألغاه الفني",
+  "@bkCancelledByTech": {
+    "description": "Booking status"
+  },
+  "bkCancelledByAdmin": "ألغته الإدارة",
+  "@bkCancelledByAdmin": {
+    "description": "Booking status"
+  },
+  "bkPartDoesNotFit": "القطعة لم تناسب",
+  "@bkPartDoesNotFit": {
+    "description": "Booking status"
+  },
+  "jobLighting": "إضاءة",
+  "@jobLighting": {
+    "description": "Job type"
+  },
+  "jobBrakes": "فرامل",
+  "@jobBrakes": {
+    "description": "Job type"
+  },
+  "jobService": "صيانة دورية",
+  "@jobService": {
+    "description": "Job type: oil change, filters, plugs"
+  },
+  "jobBattery": "بطاريات",
+  "@jobBattery": {
+    "description": "Job type"
+  },
+  "jobElectrical": "كهرباء",
+  "@jobElectrical": {
+    "description": "Job type"
+  },
+  "jobAc": "تكييف",
+  "@jobAc": {
+    "description": "Job type"
+  },
+  "jobSuspension": "عفشة",
+  "@jobSuspension": {
+    "description": "Job type: suspension"
+  },
+  "jobTyres": "إطارات",
+  "@jobTyres": {
+    "description": "Job type"
+  },
+  "modeBay": "في الورشة",
+  "@modeBay": {
+    "description": "Technician works at a bay on the street"
+  },
+  "modeMobile": "يأتي إليك",
+  "@modeMobile": {
+    "description": "Technician comes to the buyer"
+  },
+  "modeBoth": "في الورشة أو يأتي إليك",
+  "@modeBoth": {
+    "description": "Technician does both"
+  },
+  "sideA": "الجهة أ",
+  "@sideA": {
+    "description": "Side A of the street"
+  },
+  "sideB": "الجهة ب",
+  "@sideB": {
+    "description": "Side B of the street"
+  },
+  "plot": "قطعة {number}",
+  "@plot": {
+    "description": "Shop plot number",
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "actionCancel": "إلغاء",
+  "@actionCancel": {
+    "description": "Generic cancel"
+  },
+  "actionSave": "حفظ",
+  "@actionSave": {
+    "description": "Generic save"
+  },
+  "actionDone": "تم",
+  "@actionDone": {
+    "description": "Generic done"
+  },
+  "actionNext": "التالي",
+  "@actionNext": {
+    "description": "Generic next step"
+  },
+  "actionBack": "رجوع",
+  "@actionBack": {
+    "description": "Generic back"
+  },
+  "actionClose": "إغلاق",
+  "@actionClose": {
+    "description": "Generic close"
+  },
+  "actionRetry": "إعادة المحاولة",
+  "@actionRetry": {
+    "description": "Retry after an error"
+  },
+  "actionSeeAll": "عرض الكل",
+  "@actionSeeAll": {
+    "description": "Link to a full list"
+  },
+  "actionCall": "اتصال",
+  "@actionCall": {
+    "description": "Call a shop/technician/buyer"
+  },
+  "actionWhatsApp": "واتساب",
+  "@actionWhatsApp": {
+    "description": "Open WhatsApp chat"
+  },
+  "actionChat": "محادثة",
+  "@actionChat": {
+    "description": "Open in-app chat"
+  },
+  "actionCopy": "نسخ",
+  "@actionCopy": {
+    "description": "Copy to clipboard"
+  },
+  "copied": "تم النسخ",
+  "@copied": {
+    "description": "Shown after copying"
+  },
+  "actionDirections": "الاتجاهات",
+  "@actionDirections": {
+    "description": "Open directions in maps"
+  },
+  "actionEdit": "تعديل",
+  "@actionEdit": {
+    "description": "Generic edit"
+  },
+  "actionRemove": "حذف",
+  "@actionRemove": {
+    "description": "Generic remove"
+  },
+  "actionConfirm": "تأكيد",
+  "@actionConfirm": {
+    "description": "Generic confirm"
+  },
+  "optional": "اختياري",
+  "@optional": {
+    "description": "Marks an optional form field"
+  },
+  "errorGeneric": "حدث خطأ ما",
+  "@errorGeneric": {
+    "description": "Generic error title"
+  },
+  "errorGenericBody": "لم نتمكن من إكمال الطلب. تحقّق من الاتصال وحاول مرة أخرى.",
+  "@errorGenericBody": {
+    "description": "Generic error message"
+  },
+  "offlineBanner": "لا يوجد اتصال — نعرض آخر بيانات محفوظة",
+  "@offlineBanner": {
+    "description": "Shown while offline"
+  },
+  "demoBadge": "نسخة تجريبية",
+  "@demoBadge": {
+    "description": "Marks the app as using sample data"
+  },
+  "demoNote": "هذه نسخة تجريبية ببيانات نموذجية. لا تتم أي عمليات دفع أو اتصال حقيقية.",
+  "@demoNote": {
+    "description": "Explains that the demo uses sample data"
+  },
+  "demoActionDisabled": "هذا الإجراء معطّل في النسخة التجريبية.",
+  "@demoActionDisabled": {
+    "description": "Shown when a real-world action (call, WhatsApp) is tapped in the demo"
+  },
+  "brandName": "شارع الغالي",
+  "@brandName": {
+    "description": "Platform name, used in the logo"
+  },
+  "brandTagline": "قطع الغيار والتركيب",
+  "@brandTagline": {
+    "description": "Short tagline under the logo"
+  },
+  "fieldRequired": "هذا الحقل مطلوب",
+  "@fieldRequired": {
+    "description": "Form validation: empty required field"
+  },
+  "fieldEmailInvalid": "اكتب بريدًا إلكترونيًا صحيحًا، مثل name@example.com",
+  "@fieldEmailInvalid": {
+    "description": "Form validation: bad email"
+  },
+  "fieldPasswordWeak": "8 أحرف على الأقل، وفيها حروف وأرقام",
+  "@fieldPasswordWeak": {
+    "description": "Form validation: password rule (D-046)"
+  },
+  "fieldPhoneInvalid": "اكتب رقمًا سودانيًا من 10 أرقام يبدأ بـ 0",
+  "@fieldPhoneInvalid": {
+    "description": "Form validation: phone number"
+  },
+  "fieldNumberInvalid": "اكتب رقمًا صحيحًا",
+  "@fieldNumberInvalid": {
+    "description": "Form validation: not a number"
+  },
+  "thousands": "{value} ألف",
+  "@thousands": {
+    "description": "Compact thousands on chart axes, e.g. '50 ألف'",
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  }
 }

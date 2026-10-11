@@ -1,11 +1,1575 @@
 {
   "@@locale": "ar",
   "appTitle": "شارع الغالي",
-  "@appTitle": { "description": "App name in the title bar and launcher" },
-  "welcomeHeadline": "قطع الغيار والتركيب في مكان واحد",
-  "@welcomeHeadline": { "description": "Headline on the language picker and home screen" },
-  "welcomeBody": "تصفّح محلات شارع الغالي، اطلب القطعة المناسبة لسيارتك، واحجز فنيًا لتركيبها.",
-  "@welcomeBody": { "description": "Short explanation of what the app does" },
-  "homeComingSoon": "البحث والسلة وحجز الفنيين قادمة قريبًا.",
-  "@homeComingSoon": { "description": "Placeholder on the M0 home screen" }
+  "@appTitle": {
+    "description": "App name in the title bar and launcher"
+  },
+  "navHome": "الرئيسية",
+  "@navHome": {
+    "description": "Bottom navigation tab"
+  },
+  "navStreet": "الشارع",
+  "@navStreet": {
+    "description": "Bottom navigation tab: the street map of shops"
+  },
+  "navCart": "السلة",
+  "@navCart": {
+    "description": "Bottom navigation tab"
+  },
+  "navOrders": "طلباتي",
+  "@navOrders": {
+    "description": "Bottom navigation tab: orders, bookings and photo requests"
+  },
+  "navAccount": "حسابي",
+  "@navAccount": {
+    "description": "Bottom navigation tab"
+  },
+  "welcomeTitle": "قطع الغيار والتركيب في مكان واحد",
+  "@welcomeTitle": {
+    "description": "Headline on the first-launch screen"
+  },
+  "welcomePointFit": "قطع تناسب سيارتك من محلات شارع الغالي",
+  "@welcomePointFit": {
+    "description": "Benefit line on the first-launch screen"
+  },
+  "welcomePointCompare": "قارن الأسعار بين المحلات قبل الشراء",
+  "@welcomePointCompare": {
+    "description": "Benefit line on the first-launch screen"
+  },
+  "welcomePointInstall": "احجز فنيًا يركّبها في الورشة أو عندك",
+  "@welcomePointInstall": {
+    "description": "Benefit line on the first-launch screen"
+  },
+  "homeSearchHint": "ابحث عن قطعة، مثل: لمبات، فحمات",
+  "@homeSearchHint": {
+    "description": "Placeholder of the search box on home"
+  },
+  "homeAddCar": "أضف سيارتك لترى القطع المناسبة",
+  "@homeAddCar": {
+    "description": "Button on home when the garage is empty"
+  },
+  "homeChangeCar": "تغيير",
+  "@homeChangeCar": {
+    "description": "Link to change the selected car"
+  },
+  "homeQuickPhotoTitle": "أرسل صورة القطعة",
+  "@homeQuickPhotoTitle": {
+    "description": "Quick action: photo request"
+  },
+  "homeQuickPhotoBody": "لم تجدها؟ المحلات ترسل لك عروضًا",
+  "@homeQuickPhotoBody": {
+    "description": "Quick action subtitle"
+  },
+  "homeQuickBookTitle": "احجز فني تركيب",
+  "@homeQuickBookTitle": {
+    "description": "Quick action: book a technician for a part you already have"
+  },
+  "homeQuickBookBody": "في الورشة أو في مكانك",
+  "@homeQuickBookBody": {
+    "description": "Quick action subtitle"
+  },
+  "homeCategories": "تسوّق حسب القسم",
+  "@homeCategories": {
+    "description": "Section title"
+  },
+  "homeDealsFor": "عروض لسيارتك {model}",
+  "@homeDealsFor": {
+    "description": "Section title with the selected car model",
+    "placeholders": {
+      "model": {
+        "type": "String"
+      }
+    }
+  },
+  "homeDeals": "عروض اليوم",
+  "@homeDeals": {
+    "description": "Section title when no car is selected"
+  },
+  "homeStreetTitle": "محلات الشارع",
+  "@homeStreetTitle": {
+    "description": "Section title"
+  },
+  "homeStreetBody": "{count, plural, =1{محل واحد على طول شارع الغالي} =2{محلان على طول شارع الغالي} few{{count} محلات على طول شارع الغالي} other{{count} محلًا على طول شارع الغالي}}",
+  "@homeStreetBody": {
+    "description": "Shop count on the street",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "homeStreetOpen": "افتح خريطة الشارع",
+  "@homeStreetOpen": {
+    "description": "Button to the street tab"
+  },
+  "homeTrustPay": "ادفع ببنكك أو نقدًا",
+  "@homeTrustPay": {
+    "description": "Trust line"
+  },
+  "homeTrustTech": "فنيون موثّقون ومقيّمون",
+  "@homeTrustTech": {
+    "description": "Trust line"
+  },
+  "homeTrustReturns": "إرجاع خلال {days} أيام",
+  "@homeTrustReturns": {
+    "description": "Trust line",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "homeNextFitting": "موعد التركيب القادم",
+  "@homeNextFitting": {
+    "description": "Card title for the next booking"
+  },
+  "homeCurrentOrder": "طلبك الحالي",
+  "@homeCurrentOrder": {
+    "description": "Card title for an order in progress"
+  },
+  "notificationsTitle": "الإشعارات",
+  "@notificationsTitle": {
+    "description": "Screen title"
+  },
+  "notificationsMarkRead": "تعيين الكل كمقروء",
+  "@notificationsMarkRead": {
+    "description": "Action"
+  },
+  "notificationsEmpty": "لا توجد إشعارات",
+  "@notificationsEmpty": {
+    "description": "Empty state"
+  },
+  "notificationsEmptyBody": "سنخبرك هنا بتأكيد الدفع وعروض المحلات ومواعيدك.",
+  "@notificationsEmptyBody": {
+    "description": "Empty state"
+  },
+  "searchHint": "ابحث عن قطعة أو رقم قطعة",
+  "@searchHint": {
+    "description": "Search field placeholder"
+  },
+  "searchFilters": "الفلاتر",
+  "@searchFilters": {
+    "description": "Open the filters sheet"
+  },
+  "searchFitsOnly": "يناسب سيارتي فقط",
+  "@searchFitsOnly": {
+    "description": "Filter chip"
+  },
+  "sortRelevance": "الأنسب",
+  "@sortRelevance": {
+    "description": "Sort option"
+  },
+  "sortPriceLow": "الأقل سعرًا",
+  "@sortPriceLow": {
+    "description": "Sort option"
+  },
+  "sortPriceHigh": "الأعلى سعرًا",
+  "@sortPriceHigh": {
+    "description": "Sort option"
+  },
+  "sortRating": "الأعلى تقييمًا",
+  "@sortRating": {
+    "description": "Sort option"
+  },
+  "searchShowingFor": "نعرض القطع المناسبة لـ {car}",
+  "@searchShowingFor": {
+    "description": "Line above results",
+    "placeholders": {
+      "car": {
+        "type": "String"
+      }
+    }
+  },
+  "searchNoCar": "أضف سيارتك لنعرض القطع المناسبة فقط",
+  "@searchNoCar": {
+    "description": "Line above results without a car"
+  },
+  "searchRecent": "عمليات بحث سابقة",
+  "@searchRecent": {
+    "description": "Section title"
+  },
+  "searchPopular": "الأكثر طلبًا",
+  "@searchPopular": {
+    "description": "Section title"
+  },
+  "searchResults": "{count, plural, =0{لا نتائج} =1{نتيجة واحدة} =2{نتيجتان} few{{count} نتائج} other{{count} نتيجة}}",
+  "@searchResults": {
+    "description": "Result count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shopsCount": "{count, plural, =1{محل واحد} =2{محلان} few{{count} محلات} other{{count} محلًا}}",
+  "@shopsCount": {
+    "description": "Number of shops",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "searchNoResults": "لم نجد قطعًا مطابقة",
+  "@searchNoResults": {
+    "description": "Empty state"
+  },
+  "searchNoResultsBody": "جرّب كلمة أخرى، أو أرسل صورة القطعة وستصلك عروض من المحلات.",
+  "@searchNoResultsBody": {
+    "description": "Empty state"
+  },
+  "searchSendPhoto": "أرسل صورة القطعة",
+  "@searchSendPhoto": {
+    "description": "Empty-state action"
+  },
+  "filtersTitle": "الفلاتر",
+  "@filtersTitle": {
+    "description": "Sheet title"
+  },
+  "filtersCondition": "الحالة",
+  "@filtersCondition": {
+    "description": "Filter group"
+  },
+  "filtersMaxPrice": "أقصى سعر",
+  "@filtersMaxPrice": {
+    "description": "Filter group"
+  },
+  "filtersAnyPrice": "أي سعر",
+  "@filtersAnyPrice": {
+    "description": "Price option"
+  },
+  "filtersUpTo": "حتى {amount}",
+  "@filtersUpTo": {
+    "description": "Price option",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "filtersSort": "الترتيب",
+  "@filtersSort": {
+    "description": "Filter group"
+  },
+  "filtersReset": "مسح الكل",
+  "@filtersReset": {
+    "description": "Reset filters"
+  },
+  "filtersApply": "عرض النتائج",
+  "@filtersApply": {
+    "description": "Apply filters"
+  },
+  "partFits": "يناسب {car}",
+  "@partFits": {
+    "description": "Banner on part screen",
+    "placeholders": {
+      "car": {
+        "type": "String"
+      }
+    }
+  },
+  "partCheck": "لا تتوفر لدينا بيانات المطابقة لهذه القطعة. اسأل المحل قبل الشراء.",
+  "@partCheck": {
+    "description": "Banner when fitment is unknown"
+  },
+  "partNoFit": "هذه القطعة لا تناسب {car}.",
+  "@partNoFit": {
+    "description": "Banner when the part does not fit",
+    "placeholders": {
+      "car": {
+        "type": "String"
+      }
+    }
+  },
+  "partNoCar": "أضف سيارتك لنتأكد أن القطعة تناسبها.",
+  "@partNoCar": {
+    "description": "Banner without a car"
+  },
+  "partOem": "رقم القطعة الأصلي",
+  "@partOem": {
+    "description": "OEM number label"
+  },
+  "partCompare": "{count, plural, =1{محل واحد يبيعها} =2{قارن بين محلين} few{قارن بين {count} محلات} other{قارن بين {count} محلًا}}",
+  "@partCompare": {
+    "description": "Section title above shop offers",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "partBestPrice": "أفضل سعر",
+  "@partBestPrice": {
+    "description": "Pill on the cheapest offer"
+  },
+  "partAddToCart": "أضف للسلة",
+  "@partAddToCart": {
+    "description": "Button"
+  },
+  "partAdded": "أُضيفت إلى السلة",
+  "@partAdded": {
+    "description": "Snackbar"
+  },
+  "partViewCart": "عرض السلة",
+  "@partViewCart": {
+    "description": "Snackbar action"
+  },
+  "partFittingTitle": "تحتاج تركيبًا؟",
+  "@partFittingTitle": {
+    "description": "Card title"
+  },
+  "partFittingBody": "أضف التركيب من السلة: في ورشة على الشارع أو في مكانك. أجرة التركيب من {amount}.",
+  "@partFittingBody": {
+    "description": "Card body",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "partAbout": "عن القطعة",
+  "@partAbout": {
+    "description": "Section title"
+  },
+  "shopOpen": "مفتوح الآن",
+  "@shopOpen": {
+    "description": "Pill"
+  },
+  "shopClosed": "مغلق الآن",
+  "@shopClosed": {
+    "description": "Pill"
+  },
+  "shopOnStreet": "اعرضه على الشارع",
+  "@shopOnStreet": {
+    "description": "Button"
+  },
+  "shopParts": "القطع",
+  "@shopParts": {
+    "description": "Tab"
+  },
+  "shopReviews": "التقييمات",
+  "@shopReviews": {
+    "description": "Tab"
+  },
+  "shopAbout": "عن المحل",
+  "@shopAbout": {
+    "description": "Section title"
+  },
+  "shopSince": "على المنصة منذ {year}",
+  "@shopSince": {
+    "description": "Membership line",
+    "placeholders": {
+      "year": {
+        "type": "String"
+      }
+    }
+  },
+  "shopNoReviews": "لا توجد تقييمات بعد",
+  "@shopNoReviews": {
+    "description": "Empty state"
+  },
+  "viewShop": "عرض المحل",
+  "@viewShop": {
+    "description": "Button"
+  },
+  "streetHint": "اضغط على أي محل لعرض تفاصيله",
+  "@streetHint": {
+    "description": "Hint above the street strip"
+  },
+  "streetAll": "الكل",
+  "@streetAll": {
+    "description": "Filter chip: all categories"
+  },
+  "streetNorth": "شمال",
+  "@streetNorth": {
+    "description": "Compass label at one end of the street"
+  },
+  "streetSouth": "جنوب",
+  "@streetSouth": {
+    "description": "Compass label at the other end"
+  },
+  "cartEmpty": "سلتك فارغة",
+  "@cartEmpty": {
+    "description": "Empty state"
+  },
+  "cartEmptyBody": "ابحث عن القطعة التي تحتاجها وأضفها هنا.",
+  "@cartEmptyBody": {
+    "description": "Empty state"
+  },
+  "cartBrowse": "تصفّح القطع",
+  "@cartBrowse": {
+    "description": "Empty-state action"
+  },
+  "cartAddFitting": "أضف التركيب",
+  "@cartAddFitting": {
+    "description": "Button under an installable item"
+  },
+  "cartFittingFrom": "أجرة التركيب من {amount}",
+  "@cartFittingFrom": {
+    "description": "Hint next to the add-fitting button",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "cartFitting": "التركيب",
+  "@cartFitting": {
+    "description": "Label of the fitting block"
+  },
+  "cartAnyTech": "أول فني متاح",
+  "@cartAnyTech": {
+    "description": "Technician name when the buyer chose any"
+  },
+  "placeBay": "في الورشة",
+  "@placeBay": {
+    "description": "Fitting place"
+  },
+  "placeHome": "في مكانك",
+  "@placeHome": {
+    "description": "Fitting place"
+  },
+  "cartHeldFor": "محجوز لك {time}",
+  "@cartHeldFor": {
+    "description": "Countdown on a held slot, e.g. 'held for 9:32'",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "cartHoldExpired": "انتهى الحجز المؤقت. اختر موعدًا جديدًا.",
+  "@cartHoldExpired": {
+    "description": "Shown when the slot hold lapsed"
+  },
+  "cartChange": "تغيير",
+  "@cartChange": {
+    "description": "Change the fitting"
+  },
+  "cartRemoveFitting": "إزالة التركيب",
+  "@cartRemoveFitting": {
+    "description": "Remove the fitting"
+  },
+  "cartRemoveItem": "إزالة من السلة",
+  "@cartRemoveItem": {
+    "description": "Remove an item"
+  },
+  "cartSummary": "ملخص الطلب",
+  "@cartSummary": {
+    "description": "Section title"
+  },
+  "costParts": "القطع",
+  "@costParts": {
+    "description": "Cost line"
+  },
+  "costLabour": "أجرة التركيب",
+  "@costLabour": {
+    "description": "Cost line"
+  },
+  "costTravel": "رسوم المشوار",
+  "@costTravel": {
+    "description": "Cost line: technician travel fee"
+  },
+  "costBookingFee": "رسوم الحجز",
+  "@costBookingFee": {
+    "description": "Cost line"
+  },
+  "costDelivery": "التوصيل",
+  "@costDelivery": {
+    "description": "Cost line"
+  },
+  "costTotal": "الإجمالي",
+  "@costTotal": {
+    "description": "Cost line"
+  },
+  "costFree": "مجانًا",
+  "@costFree": {
+    "description": "Free"
+  },
+  "cartDeliveryLater": "تختار الاستلام أو التوصيل في الخطوة التالية.",
+  "@cartDeliveryLater": {
+    "description": "Note in the cart summary"
+  },
+  "cartCheckout": "متابعة الدفع",
+  "@cartCheckout": {
+    "description": "Main cart button"
+  },
+  "itemsCount": "{count, plural, =1{قطعة واحدة} =2{قطعتان} few{{count} قطع} other{{count} قطعة}}",
+  "@itemsCount": {
+    "description": "Number of items",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "bookTitle": "حجز التركيب",
+  "@bookTitle": {
+    "description": "Booking flow title"
+  },
+  "bookStepWhat": "القطعة",
+  "@bookStepWhat": {
+    "description": "Step label"
+  },
+  "bookStepPlace": "المكان",
+  "@bookStepPlace": {
+    "description": "Step label"
+  },
+  "bookStepTech": "الفني",
+  "@bookStepTech": {
+    "description": "Step label"
+  },
+  "bookStepTime": "الموعد",
+  "@bookStepTime": {
+    "description": "Step label"
+  },
+  "bookWhatTitle": "ماذا تريد أن تركّب؟",
+  "@bookWhatTitle": {
+    "description": "Step title for a part bought elsewhere"
+  },
+  "bookWhatHint": "صف القطعة، مثل: لمبة أمامية يمين",
+  "@bookWhatHint": {
+    "description": "Field hint"
+  },
+  "bookWhatJob": "نوع العمل",
+  "@bookWhatJob": {
+    "description": "Field label"
+  },
+  "bookWhatNote": "اشتريت القطعة من مكان آخر؟ لا مشكلة، أحضرها معك أو جهّزها للفني.",
+  "@bookWhatNote": {
+    "description": "Hint for parts bought elsewhere"
+  },
+  "bookPlaceTitle": "أين تريد التركيب؟",
+  "@bookPlaceTitle": {
+    "description": "Step title"
+  },
+  "bookPlaceBay": "في ورشة على شارع الغالي",
+  "@bookPlaceBay": {
+    "description": "Option"
+  },
+  "bookPlaceBayBody": "بدون رسوم مشوار. تُحضر السيارة إلى الورشة.",
+  "@bookPlaceBayBody": {
+    "description": "Option detail"
+  },
+  "bookPlaceHome": "في مكانك",
+  "@bookPlaceHome": {
+    "description": "Option"
+  },
+  "bookPlaceHomeBody": "يأتيك الفني إلى البيت أو العمل. رسوم المشوار من {amount}.",
+  "@bookPlaceHomeBody": {
+    "description": "Option detail",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "bookAddress": "العنوان",
+  "@bookAddress": {
+    "description": "Address group label"
+  },
+  "bookUseLocation": "استخدم موقعي الحالي",
+  "@bookUseLocation": {
+    "description": "Adds the phone's current location as an address"
+  },
+  "bookTechTitle": "اختر الفني",
+  "@bookTechTitle": {
+    "description": "Step title"
+  },
+  "bookAnyTech": "أول فني متاح",
+  "@bookAnyTech": {
+    "description": "Option"
+  },
+  "bookAnyTechBody": "نختار لك أفضل فني متاح في الموعد الذي تختاره.",
+  "@bookAnyTechBody": {
+    "description": "Option detail"
+  },
+  "bookAtBay": "ورشة {shop}",
+  "@bookAtBay": {
+    "description": "Where a technician works",
+    "placeholders": {
+      "shop": {
+        "type": "String"
+      }
+    }
+  },
+  "bookAway": "يبعد {distance}",
+  "@bookAway": {
+    "description": "Distance of a mobile technician",
+    "placeholders": {
+      "distance": {
+        "type": "String"
+      }
+    }
+  },
+  "bookYears": "{count, plural, =1{خبرة سنة} =2{خبرة سنتين} few{خبرة {count} سنوات} other{خبرة {count} سنة}}",
+  "@bookYears": {
+    "description": "Years of experience",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "bookNoTechs": "لا يوجد فني متاح لهذا العمل في هذا المكان حاليًا. جرّب مكانًا آخر.",
+  "@bookNoTechs": {
+    "description": "Empty state"
+  },
+  "bookTimeTitle": "اختر الموعد",
+  "@bookTimeTitle": {
+    "description": "Step title"
+  },
+  "bookEarliest": "أقرب موعد بعد ساعتين، حتى يجهّز المحل القطعة.",
+  "@bookEarliest": {
+    "description": "Note on the time step"
+  },
+  "bookNoSlots": "لا توجد مواعيد متاحة في هذا اليوم. اختر يومًا آخر.",
+  "@bookNoSlots": {
+    "description": "Empty state"
+  },
+  "bookDayOff": "لا عمل في هذا اليوم.",
+  "@bookDayOff": {
+    "description": "The day is a day off (Friday)"
+  },
+  "bookReviewTitle": "راجع الحجز",
+  "@bookReviewTitle": {
+    "description": "Step title"
+  },
+  "bookDuration": "المدة المتوقعة",
+  "@bookDuration": {
+    "description": "Summary label"
+  },
+  "bookCancelNote": "الإلغاء مجاني حتى {hours} ساعات قبل الموعد.",
+  "@bookCancelNote": {
+    "description": "Policy note",
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "bookHold": "احجز هذا الموعد",
+  "@bookHold": {
+    "description": "Button that holds the slot"
+  },
+  "bookHoldNote": "نحجز لك الموعد {minutes} دقائق حتى تُكمل الدفع.",
+  "@bookHoldNote": {
+    "description": "Hold explanation",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "bookConfirm": "تأكيد الحجز",
+  "@bookConfirm": {
+    "description": "Button for a stand-alone booking"
+  },
+  "bookDepositNote": "يُدفع عربون {amount} عبر بنكك لتأكيد زيارة الفني، والباقي نقدًا.",
+  "@bookDepositNote": {
+    "description": "Cash + home visit rule",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "bookPickTime": "اختر موعدًا للمتابعة",
+  "@bookPickTime": {
+    "description": "Disabled-button hint"
+  },
+  "bookWhen": "الموعد",
+  "@bookWhen": {
+    "description": "Summary label"
+  },
+  "checkoutTitle": "إتمام الطلب",
+  "@checkoutTitle": {
+    "description": "Screen title"
+  },
+  "checkoutReceive": "طريقة الاستلام",
+  "@checkoutReceive": {
+    "description": "Section title"
+  },
+  "checkoutPickupBody": "{place} — مجانًا",
+  "@checkoutPickupBody": {
+    "description": "Pickup option detail",
+    "placeholders": {
+      "place": {
+        "type": "String"
+      }
+    }
+  },
+  "checkoutDeliveryTo": "إلى {address}",
+  "@checkoutDeliveryTo": {
+    "description": "Delivery option detail",
+    "placeholders": {
+      "address": {
+        "type": "String"
+      }
+    }
+  },
+  "checkoutToTechBody": "يسلّم المحل القطعة لفنيك قبل الموعد.",
+  "@checkoutToTechBody": {
+    "description": "Fulfilment when fitting is booked"
+  },
+  "checkoutPayment": "طريقة الدفع",
+  "@checkoutPayment": {
+    "description": "Section title"
+  },
+  "checkoutBankak": "تحويل بنكك",
+  "@checkoutBankak": {
+    "description": "Payment option"
+  },
+  "checkoutBankakBody": "حوّل المبلغ ثم ارفع الإيصال. نؤكد الدفع خلال ساعات العمل.",
+  "@checkoutBankakBody": {
+    "description": "Payment option detail"
+  },
+  "checkoutCash": "نقدًا",
+  "@checkoutCash": {
+    "description": "Payment option"
+  },
+  "checkoutCashBody": "ادفع عند الاستلام أو التوصيل أو للفني.",
+  "@checkoutCashBody": {
+    "description": "Payment option detail"
+  },
+  "checkoutPayWithin": "ادفع خلال ساعتين، وإلا يُلغى الطلب تلقائيًا وتعود القطع للمحل.",
+  "@checkoutPayWithin": {
+    "description": "Payment window rule"
+  },
+  "checkoutDueNow": "المطلوب الآن عبر بنكك",
+  "@checkoutDueNow": {
+    "description": "Amount paid upfront"
+  },
+  "checkoutRestCash": "الباقي نقدًا",
+  "@checkoutRestCash": {
+    "description": "Amount paid in cash later"
+  },
+  "checkoutPlace": "تأكيد الطلب",
+  "@checkoutPlace": {
+    "description": "Main button"
+  },
+  "checkoutTerms": "بتأكيد الطلب أنت توافق على شروط الاستخدام وسياسة الإرجاع.",
+  "@checkoutTerms": {
+    "description": "Legal note"
+  },
+  "checkoutSignIn": "سجّل الدخول لإتمام الطلب",
+  "@checkoutSignIn": {
+    "description": "Shown to guests"
+  },
+  "bankakTitle": "الدفع عبر بنكك",
+  "@bankakTitle": {
+    "description": "Screen title"
+  },
+  "bankakAmount": "حوّل هذا المبلغ بالضبط",
+  "@bankakAmount": {
+    "description": "Amount label"
+  },
+  "bankakStep1": "افتح تطبيق بنكك وحوّل إلى هذا الحساب",
+  "@bankakStep1": {
+    "description": "Instruction step"
+  },
+  "bankakAccountName": "اسم الحساب",
+  "@bankakAccountName": {
+    "description": "Field label"
+  },
+  "bankakAccountNumber": "رقم الحساب",
+  "@bankakAccountNumber": {
+    "description": "Field label"
+  },
+  "bankakSample": "حساب تجريبي — لا تحوّل إليه",
+  "@bankakSample": {
+    "description": "Warning in the demo"
+  },
+  "bankakStep2": "اكتب رقم الطلب في خانة التعليق",
+  "@bankakStep2": {
+    "description": "Instruction step"
+  },
+  "bankakRef": "رقم الطلب",
+  "@bankakRef": {
+    "description": "Field label"
+  },
+  "bankakStep3": "ارفع صورة الإيصال أو اكتب رقم العملية",
+  "@bankakStep3": {
+    "description": "Instruction step"
+  },
+  "bankakUpload": "ارفع صورة الإيصال",
+  "@bankakUpload": {
+    "description": "Button"
+  },
+  "bankakUploaded": "تم إرفاق صورة الإيصال",
+  "@bankakUploaded": {
+    "description": "Upload done"
+  },
+  "bankakTxn": "رقم العملية",
+  "@bankakTxn": {
+    "description": "Field label"
+  },
+  "bankakTxnHint": "يظهر في إيصال بنكك",
+  "@bankakTxnHint": {
+    "description": "Field help"
+  },
+  "bankakSubmit": "إرسال للتحقق",
+  "@bankakSubmit": {
+    "description": "Main button"
+  },
+  "bankakNeedProof": "ارفع الإيصال أو اكتب رقم العملية.",
+  "@bankakNeedProof": {
+    "description": "Validation"
+  },
+  "bankakTimeLeft": "الوقت المتبقي للدفع: {time}",
+  "@bankakTimeLeft": {
+    "description": "Countdown",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "bankakChecking": "جارٍ التحقق من الدفع",
+  "@bankakChecking": {
+    "description": "Banner title after submitting"
+  },
+  "bankakCheckingBody": "نطابق تحويلك مع كشف الحساب، عادةً خلال 30 دقيقة بين 8 ص و10 م. سنرسل لك إشعارًا.",
+  "@bankakCheckingBody": {
+    "description": "Banner body"
+  },
+  "bankakNever": "لا نعتبر الطلب مدفوعًا من صورة الإيصال وحدها، بل بعد مطابقتها مع البنك.",
+  "@bankakNever": {
+    "description": "Trust note"
+  },
+  "ordersTabOrders": "الطلبات",
+  "@ordersTabOrders": {
+    "description": "Tab"
+  },
+  "ordersTabBookings": "الحجوزات",
+  "@ordersTabBookings": {
+    "description": "Tab"
+  },
+  "ordersTabRequests": "طلبات الصور",
+  "@ordersTabRequests": {
+    "description": "Tab"
+  },
+  "ordersEmpty": "لا توجد طلبات بعد",
+  "@ordersEmpty": {
+    "description": "Empty state"
+  },
+  "ordersEmptyBody": "ستظهر طلباتك هنا بعد الشراء.",
+  "@ordersEmptyBody": {
+    "description": "Empty state"
+  },
+  "bookingsEmpty": "لا توجد حجوزات",
+  "@bookingsEmpty": {
+    "description": "Empty state"
+  },
+  "bookingsEmptyBody": "احجز فنيًا لتركيب قطعتك في الورشة أو في مكانك.",
+  "@bookingsEmptyBody": {
+    "description": "Empty state"
+  },
+  "requestsEmpty": "لا توجد طلبات صور",
+  "@requestsEmpty": {
+    "description": "Empty state"
+  },
+  "requestsEmptyBody": "أرسل صورة القطعة وستصلك عروض من المحلات.",
+  "@requestsEmptyBody": {
+    "description": "Empty state"
+  },
+  "ordersSignIn": "سجّل الدخول لترى طلباتك",
+  "@ordersSignIn": {
+    "description": "Guest state"
+  },
+  "ordersSignInBody": "تابع طلباتك وحجوزاتك وعروض المحلات من مكان واحد.",
+  "@ordersSignInBody": {
+    "description": "Guest state"
+  },
+  "orderRef": "طلب {ref}",
+  "@orderRef": {
+    "description": "Order title with reference",
+    "placeholders": {
+      "ref": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingRefTitle": "حجز {ref}",
+  "@bookingRefTitle": {
+    "description": "Booking title with reference",
+    "placeholders": {
+      "ref": {
+        "type": "String"
+      }
+    }
+  },
+  "orderTitle": "تفاصيل الطلب",
+  "@orderTitle": {
+    "description": "Screen title"
+  },
+  "orderPlacedOn": "تاريخ الطلب: {date}",
+  "@orderPlacedOn": {
+    "description": "Order date",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "orderPayNow": "ادفع الآن",
+  "@orderPayNow": {
+    "description": "Button"
+  },
+  "orderAwaiting": "بانتظار تحويلك",
+  "@orderAwaiting": {
+    "description": "Banner title"
+  },
+  "orderAwaitingBody": "حوّل {amount} عبر بنكك قبل {time} وإلا يُلغى الطلب.",
+  "@orderAwaitingBody": {
+    "description": "Banner body",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "orderPickupWhere": "الاستلام: {place}",
+  "@orderPickupWhere": {
+    "description": "Pickup location line",
+    "placeholders": {
+      "place": {
+        "type": "String"
+      }
+    }
+  },
+  "orderCancel": "إلغاء الطلب",
+  "@orderCancel": {
+    "description": "Button"
+  },
+  "orderCancelConfirm": "هل تريد إلغاء الطلب؟",
+  "@orderCancelConfirm": {
+    "description": "Dialog title"
+  },
+  "orderCancelBody": "تعود القطع للمحل ويُلغى أي موعد تركيب مرتبط بالطلب.",
+  "@orderCancelBody": {
+    "description": "Dialog body"
+  },
+  "orderKeep": "الاحتفاظ بالطلب",
+  "@orderKeep": {
+    "description": "Dialog button"
+  },
+  "orderReturn": "طلب إرجاع",
+  "@orderReturn": {
+    "description": "Button"
+  },
+  "orderReturnBody": "يمكنك الإرجاع خلال {days} أيام من الاستلام.",
+  "@orderReturnBody": {
+    "description": "Return policy",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "orderReturnSent": "أرسلنا طلب الإرجاع، سيتواصل معك المحل.",
+  "@orderReturnSent": {
+    "description": "Snackbar"
+  },
+  "orderRateShop": "قيّم المحل",
+  "@orderRateShop": {
+    "description": "Button"
+  },
+  "orderFitting": "موعد التركيب",
+  "@orderFitting": {
+    "description": "Linked booking card title"
+  },
+  "tlPlaced": "تم الطلب",
+  "@tlPlaced": {
+    "description": "Timeline step"
+  },
+  "tlPaymentChecked": "تأكيد الدفع",
+  "@tlPaymentChecked": {
+    "description": "Timeline step"
+  },
+  "tlShopConfirmed": "أكّد المحل",
+  "@tlShopConfirmed": {
+    "description": "Timeline step"
+  },
+  "tlReady": "القطعة جاهزة",
+  "@tlReady": {
+    "description": "Timeline step"
+  },
+  "tlPickedUp": "استلمت القطعة",
+  "@tlPickedUp": {
+    "description": "Timeline step"
+  },
+  "tlOnTheWay": "في الطريق إليك",
+  "@tlOnTheWay": {
+    "description": "Timeline step"
+  },
+  "tlDelivered": "وصلت إليك",
+  "@tlDelivered": {
+    "description": "Timeline step"
+  },
+  "tlHanded": "سُلّمت للفني",
+  "@tlHanded": {
+    "description": "Timeline step"
+  },
+  "tlCompleted": "اكتمل",
+  "@tlCompleted": {
+    "description": "Timeline step"
+  },
+  "tlBooked": "تم الحجز",
+  "@tlBooked": {
+    "description": "Timeline step"
+  },
+  "tlTechAccepted": "وافق الفني",
+  "@tlTechAccepted": {
+    "description": "Timeline step"
+  },
+  "tlEnRoute": "الفني في الطريق",
+  "@tlEnRoute": {
+    "description": "Timeline step"
+  },
+  "tlWorking": "جارٍ العمل",
+  "@tlWorking": {
+    "description": "Timeline step"
+  },
+  "tlJobDone": "اكتمل العمل",
+  "@tlJobDone": {
+    "description": "Timeline step"
+  },
+  "orderCancelled": "أُلغي هذا الطلب.",
+  "@orderCancelled": {
+    "description": "Banner"
+  },
+  "demoControls": "أدوات العرض التجريبي",
+  "@demoControls": {
+    "description": "Card title (demo only)"
+  },
+  "demoNextStep": "محاكاة الخطوة التالية",
+  "@demoNextStep": {
+    "description": "Button (demo only)"
+  },
+  "demoNextStepBody": "يحرّك الطلب كما لو أن الإدارة والمحل والفني قاموا بدورهم.",
+  "@demoNextStepBody": {
+    "description": "Explains the demo button"
+  },
+  "bookingTitle": "موعد التركيب",
+  "@bookingTitle": {
+    "description": "Screen title"
+  },
+  "bookingCode": "رمز إنهاء العمل",
+  "@bookingCode": {
+    "description": "Job code card title"
+  },
+  "bookingCodeBody": "أعطِ هذا الرمز للفني فقط بعد انتهاء العمل ورضاك عنه.",
+  "@bookingCodeBody": {
+    "description": "Job code explanation"
+  },
+  "bookingTech": "الفني",
+  "@bookingTech": {
+    "description": "Section label"
+  },
+  "bookingWhere": "المكان",
+  "@bookingWhere": {
+    "description": "Section label"
+  },
+  "bookingJob": "العمل",
+  "@bookingJob": {
+    "description": "Section label"
+  },
+  "bookingEnRoute": "{name} في الطريق إليك، يصل خلال 15 دقيقة تقريبًا.",
+  "@bookingEnRoute": {
+    "description": "Banner",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingWaitingTech": "ننتظر موافقة الفني، عادةً خلال {minutes} دقيقة.",
+  "@bookingWaitingTech": {
+    "description": "Banner",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingReschedule": "تغيير الموعد",
+  "@bookingReschedule": {
+    "description": "Button"
+  },
+  "bookingCancel": "إلغاء الموعد",
+  "@bookingCancel": {
+    "description": "Button"
+  },
+  "bookingCancelFree": "الإلغاء مجاني حتى {time}.",
+  "@bookingCancelFree": {
+    "description": "Policy line",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingCancelConfirm": "هل تريد إلغاء الموعد؟",
+  "@bookingCancelConfirm": {
+    "description": "Dialog title"
+  },
+  "bookingKeep": "الاحتفاظ بالموعد",
+  "@bookingKeep": {
+    "description": "Dialog button"
+  },
+  "bookingRate": "قيّم الفني",
+  "@bookingRate": {
+    "description": "Button"
+  },
+  "bookingRescheduleSoon": "اختر موعدًا جديدًا من خطوة الموعد.",
+  "@bookingRescheduleSoon": {
+    "description": "Snackbar"
+  },
+  "requestNewTitle": "اطلب بالصورة",
+  "@requestNewTitle": {
+    "description": "Screen title"
+  },
+  "requestNewIntro": "صوّر القطعة القديمة أو مكانها في السيارة. ترسل لك المحلات عروضًا، عادةً خلال ساعة.",
+  "@requestNewIntro": {
+    "description": "Explanation"
+  },
+  "requestAddPhoto": "إضافة صورة",
+  "@requestAddPhoto": {
+    "description": "Button"
+  },
+  "requestPhotos": "الصور ({count} من 3)",
+  "@requestPhotos": {
+    "description": "Photo counter",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "requestCar": "السيارة",
+  "@requestCar": {
+    "description": "Field label"
+  },
+  "requestCategory": "القسم",
+  "@requestCategory": {
+    "description": "Field label"
+  },
+  "requestNote": "صف القطعة",
+  "@requestNote": {
+    "description": "Field label"
+  },
+  "requestNoteHint": "مثال: مقبض الباب الخلفي اليمين، كروم",
+  "@requestNoteHint": {
+    "description": "Field hint"
+  },
+  "requestSend": "إرسال للمحلات",
+  "@requestSend": {
+    "description": "Main button"
+  },
+  "requestNeedPhoto": "أضف صورة واحدة على الأقل.",
+  "@requestNeedPhoto": {
+    "description": "Validation"
+  },
+  "requestTitle": "طلب بالصورة",
+  "@requestTitle": {
+    "description": "Screen title"
+  },
+  "requestOffers": "{count, plural, =0{لا عروض بعد} =1{عرض واحد} =2{عرضان} few{{count} عروض} other{{count} عرضًا}}",
+  "@requestOffers": {
+    "description": "Offer count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "requestNoOffersBody": "أبلغنا المحلات المتخصصة. سنرسل لك إشعارًا عند وصول عرض.",
+  "@requestNoOffersBody": {
+    "description": "Empty state"
+  },
+  "requestExpiresIn": "{count, plural, =1{ينتهي خلال ساعة} =2{ينتهي خلال ساعتين} few{ينتهي خلال {count} ساعات} other{ينتهي خلال {count} ساعة}}",
+  "@requestExpiresIn": {
+    "description": "Request expiry",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "requestValidUntil": "صالح حتى {time}",
+  "@requestValidUntil": {
+    "description": "Offer validity",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "requestClose": "إغلاق الطلب",
+  "@requestClose": {
+    "description": "Button"
+  },
+  "requestStatusOpen": "مفتوح",
+  "@requestStatusOpen": {
+    "description": "Status"
+  },
+  "requestStatusClosed": "مغلق",
+  "@requestStatusClosed": {
+    "description": "Status"
+  },
+  "requestStatusExpired": "منتهٍ",
+  "@requestStatusExpired": {
+    "description": "Status"
+  },
+  "requestSent": "أرسلنا طلبك للمحلات.",
+  "@requestSent": {
+    "description": "Snackbar"
+  },
+  "photoPlaceholder": "صورة {index}",
+  "@photoPlaceholder": {
+    "description": "Accessibility label for a sample photo",
+    "placeholders": {
+      "index": {
+        "type": "int"
+      }
+    }
+  },
+  "chatHint": "اكتب رسالة",
+  "@chatHint": {
+    "description": "Composer hint"
+  },
+  "chatVoice": "رسالة صوتية",
+  "@chatVoice": {
+    "description": "Voice note label"
+  },
+  "chatSend": "إرسال",
+  "@chatSend": {
+    "description": "Send button tooltip"
+  },
+  "chatRecord": "تسجيل رسالة صوتية",
+  "@chatRecord": {
+    "description": "Mic button tooltip"
+  },
+  "chatVoiceSoon": "اضغط مطولًا على الميكروفون للتسجيل، حتى 60 ثانية.",
+  "@chatVoiceSoon": {
+    "description": "Voice note hint"
+  },
+  "chatEmpty": "اسأل المحل عن القطعة أو السعر أو موعد التجهيز.",
+  "@chatEmpty": {
+    "description": "Empty chat hint"
+  },
+  "reviewTitle": "قيّم {name}",
+  "@reviewTitle": {
+    "description": "Sheet title",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewTags": "ما الذي أعجبك؟",
+  "@reviewTags": {
+    "description": "Tag group label"
+  },
+  "reviewTagGenuine": "قطعة أصلية",
+  "@reviewTagGenuine": {
+    "description": "Review tag"
+  },
+  "reviewTagFast": "سريع",
+  "@reviewTagFast": {
+    "description": "Review tag"
+  },
+  "reviewTagPrice": "سعر مناسب",
+  "@reviewTagPrice": {
+    "description": "Review tag"
+  },
+  "reviewTagPolite": "تعامل محترم",
+  "@reviewTagPolite": {
+    "description": "Review tag"
+  },
+  "reviewTagOnTime": "في الموعد",
+  "@reviewTagOnTime": {
+    "description": "Review tag"
+  },
+  "reviewComment": "أضف تعليقًا (اختياري)",
+  "@reviewComment": {
+    "description": "Field label"
+  },
+  "reviewSubmit": "إرسال التقييم",
+  "@reviewSubmit": {
+    "description": "Button"
+  },
+  "reviewThanks": "شكرًا على تقييمك",
+  "@reviewThanks": {
+    "description": "Snackbar"
+  },
+  "accountGuestTitle": "سجّل الدخول لتتابع طلباتك",
+  "@accountGuestTitle": {
+    "description": "Guest card title"
+  },
+  "accountGuestBody": "احفظ سياراتك وتابع طلباتك وحجوزاتك.",
+  "@accountGuestBody": {
+    "description": "Guest card body"
+  },
+  "accountSignIn": "تسجيل الدخول",
+  "@accountSignIn": {
+    "description": "Button"
+  },
+  "accountSignUp": "إنشاء حساب",
+  "@accountSignUp": {
+    "description": "Button"
+  },
+  "accountShopping": "التسوّق",
+  "@accountShopping": {
+    "description": "Section title"
+  },
+  "accountSettings": "إعدادات التطبيق",
+  "@accountSettings": {
+    "description": "Section title"
+  },
+  "accountSupport": "الدعم",
+  "@accountSupport": {
+    "description": "Section title"
+  },
+  "accountGarage": "سياراتي",
+  "@accountGarage": {
+    "description": "Menu row"
+  },
+  "accountAddresses": "عناويني",
+  "@accountAddresses": {
+    "description": "Menu row"
+  },
+  "accountNotifications": "الإشعارات",
+  "@accountNotifications": {
+    "description": "Menu row"
+  },
+  "accountLanguage": "اللغة",
+  "@accountLanguage": {
+    "description": "Menu row"
+  },
+  "accountAppearance": "المظهر",
+  "@accountAppearance": {
+    "description": "Menu row"
+  },
+  "appearanceSystem": "حسب الجهاز",
+  "@appearanceSystem": {
+    "description": "Theme option"
+  },
+  "appearanceLight": "فاتح",
+  "@appearanceLight": {
+    "description": "Theme option"
+  },
+  "appearanceDark": "داكن",
+  "@appearanceDark": {
+    "description": "Theme option"
+  },
+  "accountDataSaver": "توفير البيانات",
+  "@accountDataSaver": {
+    "description": "Menu row"
+  },
+  "accountDataSaverBody": "صور مصغّرة فقط حتى تضغط على الصورة",
+  "@accountDataSaverBody": {
+    "description": "Menu row detail"
+  },
+  "accountHelp": "المساعدة والدعم",
+  "@accountHelp": {
+    "description": "Menu row"
+  },
+  "accountTerms": "الشروط والخصوصية",
+  "@accountTerms": {
+    "description": "Menu row"
+  },
+  "accountTermsBody": "ستُنشر الشروط وسياسة الخصوصية وسياسة الإرجاع هنا قبل الإطلاق.",
+  "@accountTermsBody": {
+    "description": "Placeholder until legal texts exist"
+  },
+  "accountAbout": "عن التطبيق",
+  "@accountAbout": {
+    "description": "Menu row"
+  },
+  "accountVersion": "الإصدار {version}",
+  "@accountVersion": {
+    "description": "App version",
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "accountLicenses": "تراخيص البرامج",
+  "@accountLicenses": {
+    "description": "Open-source licences"
+  },
+  "accountSignOut": "تسجيل الخروج",
+  "@accountSignOut": {
+    "description": "Button"
+  },
+  "accountSignOutConfirm": "هل تريد تسجيل الخروج؟",
+  "@accountSignOutConfirm": {
+    "description": "Dialog title"
+  },
+  "accountCars": "{count, plural, =0{لا سيارات} =1{سيارة واحدة} =2{سيارتان} few{{count} سيارات} other{{count} سيارة}}",
+  "@accountCars": {
+    "description": "Car count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "garageTitle": "سياراتي",
+  "@garageTitle": {
+    "description": "Screen title"
+  },
+  "garageEmpty": "لم تُضف سيارة بعد",
+  "@garageEmpty": {
+    "description": "Empty state"
+  },
+  "garageEmptyBody": "أضف سيارتك لنعرض لك القطع المناسبة فقط.",
+  "@garageEmptyBody": {
+    "description": "Empty state"
+  },
+  "garageAdd": "إضافة سيارة",
+  "@garageAdd": {
+    "description": "Button"
+  },
+  "garageSelected": "المختارة",
+  "@garageSelected": {
+    "description": "Pill on the selected car"
+  },
+  "garageUse": "اختيار",
+  "@garageUse": {
+    "description": "Select this car"
+  },
+  "garageRemove": "إزالة السيارة",
+  "@garageRemove": {
+    "description": "Button"
+  },
+  "garageRemoveConfirm": "إزالة {car} من سياراتك؟",
+  "@garageRemoveConfirm": {
+    "description": "Dialog title",
+    "placeholders": {
+      "car": {
+        "type": "String"
+      }
+    }
+  },
+  "addCarTitle": "إضافة سيارة",
+  "@addCarTitle": {
+    "description": "Screen title"
+  },
+  "addCarMake": "اختر الشركة المصنّعة",
+  "@addCarMake": {
+    "description": "Step title"
+  },
+  "addCarModel": "اختر الموديل",
+  "@addCarModel": {
+    "description": "Step title"
+  },
+  "addCarYear": "اختر سنة الصنع والمحرك",
+  "@addCarYear": {
+    "description": "Step title"
+  },
+  "addCarSaved": "أُضيفت {car}",
+  "@addCarSaved": {
+    "description": "Snackbar",
+    "placeholders": {
+      "car": {
+        "type": "String"
+      }
+    }
+  },
+  "signInTitle": "تسجيل الدخول",
+  "@signInTitle": {
+    "description": "Screen title"
+  },
+  "signInSubtitle": "أهلًا بعودتك",
+  "@signInSubtitle": {
+    "description": "Greeting"
+  },
+  "fieldEmail": "البريد الإلكتروني",
+  "@fieldEmail": {
+    "description": "Field label"
+  },
+  "fieldPassword": "كلمة المرور",
+  "@fieldPassword": {
+    "description": "Field label"
+  },
+  "showPassword": "إظهار كلمة المرور",
+  "@showPassword": {
+    "description": "Tooltip"
+  },
+  "hidePassword": "إخفاء كلمة المرور",
+  "@hidePassword": {
+    "description": "Tooltip"
+  },
+  "signInForgot": "نسيت كلمة المرور؟",
+  "@signInForgot": {
+    "description": "Link"
+  },
+  "signInForgotSent": "سنرسل رابط إعادة التعيين إلى بريدك عند تفعيل خدمة البريد.",
+  "@signInForgotSent": {
+    "description": "Snackbar (needs custom SMTP, D-031)"
+  },
+  "signInSubmit": "دخول",
+  "@signInSubmit": {
+    "description": "Button"
+  },
+  "signInNoAccount": "ليس لديك حساب؟",
+  "@signInNoAccount": {
+    "description": "Prompt"
+  },
+  "signInCreate": "أنشئ حسابًا",
+  "@signInCreate": {
+    "description": "Link"
+  },
+  "signInDemoHint": "في النسخة التجريبية يعمل أي بريد صحيح مع كلمة مرور من 8 أحرف فيها أرقام.",
+  "@signInDemoHint": {
+    "description": "Demo hint"
+  },
+  "signUpTitle": "إنشاء حساب",
+  "@signUpTitle": {
+    "description": "Screen title"
+  },
+  "fieldName": "الاسم",
+  "@fieldName": {
+    "description": "Field label"
+  },
+  "fieldPhone": "رقم الهاتف",
+  "@fieldPhone": {
+    "description": "Field label"
+  },
+  "fieldPhoneHelp": "تتصل بك المحلات والفنيون على هذا الرقم.",
+  "@fieldPhoneHelp": {
+    "description": "Field help"
+  },
+  "signUpSubmit": "إنشاء الحساب",
+  "@signUpSubmit": {
+    "description": "Button"
+  },
+  "signUpHaveAccount": "لديك حساب؟",
+  "@signUpHaveAccount": {
+    "description": "Prompt"
+  },
+  "signUpTerms": "بإنشاء الحساب أنت توافق على الشروط وسياسة الخصوصية.",
+  "@signUpTerms": {
+    "description": "Legal note"
+  },
+  "signInWelcome": "أهلًا {name}",
+  "@signInWelcome": {
+    "description": "Snackbar after signing in",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "continueAsGuest": "تصفّح بدون حساب",
+  "@continueAsGuest": {
+    "description": "Skip sign-in"
+  }
 }
