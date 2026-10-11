@@ -83,7 +83,7 @@ Everything else in the brief stands: Arabic-first RTL, offline outbox, Bankak co
 Every milestone ends with: lint + tests green, docs updated, a commit, and a short summary to the owner. **I wait for the go-ahead before starting the next one.**
 
 **Progress**
-- **M0 — done 2026-10-10** (`4781714`), except the first CI run (needs a GitHub remote).
+- **M0 — done 2026-10-10** (`4781714`). First CI run green on 2026-10-12 (private repo `wdanwer99/alghali-app`).
   - 2026-10-11: `alghali-dev` and `alghali-test` created (Frankfurt, free plan), migrations pushed, email confirmation off, DB tests green against `alghali-test` — so every extension we need is available on the free plan.
 
   The custom-access-token hook and Edge Function deploy checks move to M1 and M3, where they're first used.
