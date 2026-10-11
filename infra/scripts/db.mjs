@@ -6,7 +6,7 @@ import { spawnSync } from 'node:child_process';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { readEnvFile, supabaseTarget } from './lib/env.mjs';
-import { root, supabaseBin } from './lib/paths.mjs';
+import { root, supabaseCommand } from './lib/paths.mjs';
 
 const [command, which = 'dev'] = process.argv.slice(2);
 const target = { dev: 'DEV', test: 'TEST' }[which];
@@ -22,8 +22,9 @@ if (!t.dbUrl || !t.projectRef) {
   process.exit(1);
 }
 
+const [cli, ...cliArgs] = supabaseCommand();
 const run = (args, opts = {}) =>
-  spawnSync(supabaseBin(), args, { cwd: root, encoding: 'utf8', ...opts });
+  spawnSync(cli, [...cliArgs, ...args], { cwd: root, encoding: 'utf8', ...opts });
 
 if (command === 'push') {
   const r = run(['db', 'push', '--db-url', t.dbUrl, '--include-all'], { stdio: 'inherit' });

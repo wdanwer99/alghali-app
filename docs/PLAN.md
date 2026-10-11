@@ -1,6 +1,6 @@
 # Alghali Street Platform — Plan
 
-**Status:** v1.1 · approved by owner 2026-10-10 (with change: email login for everyone, phone OTP deferred) · M0 in progress
+**Status:** v1.1 · approved by owner 2026-10-10 (with change: email login for everyone, phone OTP deferred) · M0 done · UI pass on sample data done 2026-10-11 · M1 not started
 **Source brief:** [`claude-code-prompt-alghali.md`](../claude-code-prompt-alghali.md) · **Decisions log:** [`DECISIONS.md`](DECISIONS.md)
 
 ---
@@ -83,11 +83,17 @@ Everything else in the brief stands: Arabic-first RTL, offline outbox, Bankak co
 Every milestone ends with: lint + tests green, docs updated, a commit, and a short summary to the owner. **I wait for the go-ahead before starting the next one.**
 
 **Progress**
-- **M0 — done 2026-10-10** (`4781714`), except two items that need the owner:
-  - running the DB tests against `alghali-test`, which confirms the extensions are available (needs the Supabase projects and `.env`)
-  - the first CI run (needs a GitHub remote)
+- **M0 — done 2026-10-10** (`4781714`), except the first CI run (needs a GitHub remote).
+  - 2026-10-11: `alghali-dev` and `alghali-test` created (Frankfurt, free plan), migrations pushed, email confirmation off, DB tests green against `alghali-test` — so every extension we need is available on the free plan.
 
   The custom-access-token hook and Edge Function deploy checks move to M1 and M3, where they're first used.
+- **UI pass on sample data — done 2026-10-11** (owner's request, before M1; D-047–D-055):
+  - Brand look: charcoal + red, bundled Arabic font, placeholder logo, app icons and splash screens.
+  - Buyer app: welcome, home, street strip, search, part, shop, cart, checkout, Bankak transfer, fitting booking, orders, bookings, part requests, chat, garage, notifications, account.
+  - Partner app: shop (orders, stock, quick listing, quotes, money, staff, insights) and technician (job offers, jobs with job code, schedule, earnings, profile).
+  - Admin: overview, Bankak queue, applications, orders, bookings, cash reconciliation, payouts, disputes, catalogue, settings, sign-in.
+
+  M4–M6 connect these screens to the backend instead of building them from scratch.
 
 | # | Scope | Exit criteria |
 |---|---|---|
