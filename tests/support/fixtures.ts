@@ -12,11 +12,13 @@ export const asAnon = (tx: Tx) => actAs(tx, 'anon');
 export interface DbError {
   code: string;
   message: string;
+  detail?: string;
 }
 
 /**
- * Runs `fn` in a savepoint and returns the error it raised, so the surrounding
- * transaction stays usable. Fails the test if nothing was raised.
+ * Runs `fn` in a savepoint and returns the error it raised (code and message; the
+ * detail is kept but not compared by `toEqual`), so the surrounding transaction stays
+ * usable. Fails the test if nothing was raised.
  */
 export async function failure(tx: Tx, fn: (sp: Tx) => Promise<unknown>): Promise<DbError> {
   try {
@@ -24,8 +26,10 @@ export async function failure(tx: Tx, fn: (sp: Tx) => Promise<unknown>): Promise
       await fn(sp as unknown as Tx);
     });
   } catch (e) {
-    const err = e as { code?: string; message?: string };
-    return { code: err.code ?? '', message: err.message ?? String(e) };
+    const err = e as { code?: string; message?: string; detail?: string };
+    const out: DbError = { code: err.code ?? '', message: err.message ?? String(e) };
+    Object.defineProperty(out, 'detail', { value: err.detail, enumerable: false });
+    return out;
   }
   throw new Error('expected the statement to fail, but it succeeded');
 }

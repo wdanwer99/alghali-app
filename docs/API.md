@@ -1,6 +1,6 @@
 # API
 
-The backend is Supabase. Clients **read** tables through PostgREST under row level security and **change things** by calling Postgres functions (RPC) or Edge Functions. This file lists what exists today; [PLAN.md §4](PLAN.md) lists what's coming. Dart wrappers live in `packages/core/lib/src/backend/` (`AuthRepository`, `CatalogueRepository`, `GarageRepository`, `ShopRepository`); TypeScript types in `packages/db-types` (`pnpm db:types`).
+The backend is Supabase. Clients **read** tables through PostgREST under row level security and **change things** by calling Postgres functions (RPC) or Edge Functions. This file lists what exists today; [PLAN.md §4](PLAN.md) lists what's coming. Dart wrappers live in `packages/core/lib/src/backend/` (`AuthRepository`, `CatalogueRepository`, `GarageRepository`, `ShopRepository`, `OrdersRepository`, `RequestsRepository`, `ChatRepository`, `NotificationsRepository`); TypeScript types in `packages/db-types` (`pnpm db:types`).
 
 ## Conventions
 
@@ -8,12 +8,12 @@ The backend is Supabase. Clients **read** tables through PostgREST under row lev
 
   | SQLSTATE | HTTP | Codes |
   |---|---|---|
-  | `42501` | 401 / 403 | `NOT_AUTHENTICATED`, `FORBIDDEN`, `SHOP_NOT_ACTIVE` |
-  | `P0002` | 404 | `NOT_FOUND`, `USER_NOT_FOUND`, `SHOP_NOT_FOUND`, `ZONE_NOT_FOUND`, `LISTING_NOT_FOUND`, `PART_NOT_FOUND`, `UNKNOWN_SETTING`, `NOT_A_MEMBER` |
-  | `PT409` | 409 | `VERSION_CONFLICT` (detail = server version), `SKU_TAKEN`, `ALREADY_MEMBER`, `APPLICATION_PENDING`, `INVALID_TRANSITION` |
-  | `22023` | 400 | validation: `INVALID_PHONE`, `INVALID_WHATSAPP`, `INVALID_LOCALE`, `NAME_TOO_LONG`, `INVALID_SETTING`, `INVALID_OPENING_HOURS`, `INVALID_IMAGE_KEY`, `PRICE_REQUIRED`, `INVALID_QTY`, `STOCK_BELOW_RESERVED`, `PART_REQUIRED`, `PART_NAME_REQUIRED`, `PART_NAME_INVALID`, `CATEGORY_NOT_FOUND`, `TOO_MANY_IMAGES`, `TOO_MANY_ROWS`, `TOO_MANY_SHOPS`, `TOO_MANY_STAFF`, `GARAGE_FULL`, `ADDRESS_BOOK_FULL`, `REASON_REQUIRED`, `CANNOT_REVOKE_OWN_ADMIN`, `CANNOT_REVOKE_BUYER`, `CANNOT_REMOVE_OWNER`, `IDEMPOTENCY_KEY_REUSED`, `INVALID_SORT`, `INVALID_VALUE` |
+  | `42501` | 401 / 403 | `NOT_AUTHENTICATED`, `FORBIDDEN`, `SHOP_NOT_ACTIVE`, `APPEND_ONLY` |
+  | `P0002` | 404 | `NOT_FOUND`, `USER_NOT_FOUND`, `SHOP_NOT_FOUND`, `ZONE_NOT_FOUND`, `LISTING_NOT_FOUND`, `PART_NOT_FOUND`, `UNKNOWN_SETTING`, `NOT_A_MEMBER`, `ORDER_NOT_FOUND`, `SUBORDER_NOT_FOUND`, `PAYMENT_NOT_FOUND`, `REFUND_NOT_FOUND`, `RETURN_NOT_FOUND`, `PAYOUT_NOT_FOUND`, `REQUEST_NOT_FOUND`, `OFFER_NOT_FOUND`, `CONVERSATION_NOT_FOUND`, `ADDRESS_NOT_FOUND` |
+  | `PT409` | 409 | `VERSION_CONFLICT` (detail = server version), `SKU_TAKEN`, `ALREADY_MEMBER`, `APPLICATION_PENDING`, `INVALID_TRANSITION`, `CART_CHANGED` (detail = the checked lines as JSON), `DUPLICATE_TXN`, `NOT_AWAITING_PAYMENT`, `PAYMENT_EXPIRED`, `NOT_UNDER_REVIEW`, `ALREADY_PAID`, `CANNOT_CANCEL`, `RETURN_EXISTS`, `RETURN_WINDOW_CLOSED`, `NOT_APPROVED`, `PERIOD_ALREADY_PAID` |
+  | `22023` | 400 | validation: `INVALID_PHONE`, `INVALID_WHATSAPP`, `INVALID_LOCALE`, `NAME_TOO_LONG`, `INVALID_SETTING`, `INVALID_OPENING_HOURS`, `INVALID_IMAGE_KEY`, `PRICE_REQUIRED`, `INVALID_QTY`, `STOCK_BELOW_RESERVED`, `PART_REQUIRED`, `PART_NAME_REQUIRED`, `PART_NAME_INVALID`, `CATEGORY_NOT_FOUND`, `TOO_MANY_IMAGES`, `TOO_MANY_ROWS`, `TOO_MANY_SHOPS`, `TOO_MANY_STAFF`, `GARAGE_FULL`, `ADDRESS_BOOK_FULL`, `REASON_REQUIRED`, `CANNOT_REVOKE_OWN_ADMIN`, `CANNOT_REVOKE_BUYER`, `CANNOT_REMOVE_OWNER`, `IDEMPOTENCY_KEY_REUSED`, `INVALID_SORT`, `INVALID_VALUE`; from M2: `INVALID_ITEMS`, `CART_FULL`, `INVALID_METHOD`, `INVALID_FULFILMENT`, `ADDRESS_REQUIRED`, `PHONE_REQUIRED`, `DELIVERY_UNAVAILABLE`, `DELIVERY_OUT_OF_RANGE`, `RECEIPT_REQUIRED`, `INVALID_TXN`, `TXN_REQUIRED`, `INVALID_RECEIPT_KEY`, `INVALID_REASON`, `INVALID_ACCOUNT`, `INVALID_REQUEST`, `INVALID_OFFER`, `TOO_MANY_REQUESTS`, `INVALID_VOICE_KEY` |
 
-  In Dart every failure becomes a `BackendException(code)`. Auth errors keep Supabase's code in upper case (`INVALID_CREDENTIALS`, `USER_ALREADY_EXISTS`, `WEAK_PASSWORD`, `OVER_REQUEST_RATE_LIMIT`). A dropped connection is `OFFLINE`.
+  In Dart every failure becomes a `BackendException(code)`; `checkout` throws its subclass `CartChangedException` with the checked lines. Auth errors keep Supabase's code in upper case (`INVALID_CREDENTIALS`, `USER_ALREADY_EXISTS`, `WEAK_PASSWORD`, `OVER_REQUEST_RATE_LIMIT`). A dropped connection is `OFFLINE`.
 - **Idempotency.** Mutating RPCs that create things take `p_idem uuid`. A replay with the same key returns the first result without doing anything again. Reusing a key for a different call is `IDEMPOTENCY_KEY_REUSED`. Keys are kept 7 days. Naturally repeatable calls (profile edits, status changes) don't take one.
 - **Money** is whole SDG (`bigint`; JSON numbers). **Times** are UTC ISO-8601. **Phones** are stored in E.164 (`+2499…`); any Sudanese format is accepted on input.
 - **Weekday numbers** are 0 = Sunday … 6 = Saturday, in Khartoum time. **Opening hours** are `{"0": [[480, 1200]], …}`: minutes after midnight, windows in order, a missing day = closed.
@@ -28,6 +28,7 @@ The backend is Supabase. Clients **read** tables through PostgREST under row lev
 | `public_settings()` | Buyer-visible settings: fees, fee bands, Bankak account, windows, `booking_lookahead_days`, `latest_app_versions` (`{buyer|partner: {latest_build, min_build, apk_url}}`), `support_phone`, `support_whatsapp` |
 | `catalogue_snapshot(p_since?)` | `{server_time, full, makes, models, variants, job_types, categories, markets, streets, zones, shops}` for the offline cache. With `p_since`, only rows changed since then, including deactivated ones (`is_active: false`) and shops no longer approved (`{id, status}`). Send `server_time` back next time. |
 | `search_parts(p_q, p_variant_id, p_category_id, p_only_fits, p_conditions[], p_price_max, p_shop_id, p_in_stock_only=true, p_deals_only, p_sort, p_limit=30, p_offset)` | One row per part: `part_id, category_id, name_ar/en, installable, std_job_minutes, is_verified, fit (FITS / CHECK_FITMENT / null), from_sdg, shop_count, conditions[], best_warranty_days, max_discount_percent, image_key, listings (≤ 5 offers, cheapest first), rank, total_count`. Parts whose fitment leaves out the given car are hidden. `p_sort`: `relevance` (fits first), `price_low`, `price_high`, `rating`, `discount`, `newest`. Category filters include child categories. |
+| `cart_validate(p_items)` | `p_items = [{listing_id \| offer_id, qty, seen_price_sdg}]` (≤ 50). Each line comes back with `ok`, `problem` (`PRICE_CHANGED`, `NOT_ENOUGH_STOCK`, `UNAVAILABLE`), the current `price_sdg`, `available_qty`, `shop_id` and the part's title and condition. Nothing is reserved. |
 | `part_detail(p_part_id, p_variant_id?)` | `{part: {…, fit, job_type_code, std_job_minutes, fitment_model_ids, fitment_note_ar/en}, listings: [{…, images, shop: {name, zone_id, plot_no, side, landmark, pos_m, verified, rating, phone, whatsapp, open_now}}]}`, in stock first, then cheapest. A merged part answers with the part it was merged into. |
 
 ### Signed-in users
@@ -53,6 +54,48 @@ The backend is Supabase. Clients **read** tables through PostgREST under row lev
 
 Shops may write while `PENDING` (to prepare stock) or `APPROVED`; a `SUSPENDED` or `REJECTED` shop gets `SHOP_NOT_ACTIVE`.
 
+#### Buying (M2)
+
+Order RPCs return `order_json`: the order with `payments`, `refunds` and `sub_orders` (each with `shop`, `items`, `events: [{from, to, actor, at}]` and `return`). A sub-order moves only along the transition table (D-082); any other move is `INVALID_TRANSITION`.
+
+| Function | Who | Does |
+|---|---|---|
+| `checkout(p_items, p_method, p_fulfilment?, p_address_id?, p_idem?)` | buyer with a phone | Re-checks every line and locks the prices. One sub-order per shop. `p_method`: `BANKAK` or `CASH`. `p_fulfilment = {"<shop_id>": "PICKUP" \| "DELIVERY"}` (pickup by default); delivery needs `p_address_id` and adds the shop's delivery fee (D-087). Reserves stock and takes offers. Bankak: `PENDING_PAYMENT` until `pay_by` (`payment_window_minutes`). Cash: straight to `CONFIRMED`, with one `DUE` cash payment per shop. A changed line gives `CART_CHANGED` and nothing is placed. |
+| `cancel_order(p_order_id, p_reason?)` | buyer | While waiting for payment, or a cash order no shop has accepted yet. Otherwise `CANNOT_CANCEL`. |
+| `submit_bankak_receipt(p_order_id, p_txn_no?, p_receipt_key?, p_idem?)` | buyer | The transaction number, the receipt (uploaded first to `receipts/{uid}/…`) or both (D-084). Until `pay_by`, also after a rejection. A number already used: `DUPLICATE_TXN`. |
+| `confirm_received(p_sub_order_id)` | buyer | Completes the sub-order now instead of after `auto_complete_days`. |
+| `request_return(p_sub_order_id, p_reason)` | buyer | Within `return_window_days` of receiving it; the whole sub-order (D-085). An admin decides. |
+| `set_refund_account(p_account)` | buyer | The buyer's own Bankak account for refunds. |
+| `create_part_request(p_note, p_variant_id?, p_category_id?, p_image_keys[]?, p_idem?)` | buyer | A photo request (≤ 4 photos from `request-photos/{uid}/…`; ≤ 10 open at a time). Matching shops are notified. Open for 3 days. |
+| `close_part_request(p_request_id)` | buyer | Its live offers expire. |
+| `start_conversation(p_shop_id, p_sub_order_id?)` | buyer | Opens or reopens the chat with an approved shop. Returns the conversation row. |
+| `mark_conversation_read(p_conversation_id)` | either side | |
+| `mark_notifications_read(p_ids[]?)` | self | Null marks everything. Returns how many changed. |
+
+#### Selling (M2)
+
+A shop sees a sub-order only once it is paid (or a cash order is placed), and never another shop's part of the same order (D-086). Shop order RPCs return `shop_sub_order_json`: the sub-order with `ref`, `payment_method`, `placed_at`, `buyer {name, phone}`, `payment_status`, `address` (delivery only), `items`, `events` and `return`.
+
+| Function | Who | Does |
+|---|---|---|
+| `shop_orders(p_shop_id, p_statuses[]?, p_limit?, p_offset?)` | members | Newest first. |
+| `shop_ack_suborder(p_sub_order_id)` | members | "Accept": a time stamp. The buyer can no longer cancel a cash order. |
+| `shop_reject_suborder(p_sub_order_id, p_reason)` | members | Stock goes back; a paid order is refunded. |
+| `shop_mark_ready(p_sub_order_id)` | members | `CONFIRMED → READY`. |
+| `shop_hand_over(p_sub_order_id)` | members | Pickup: `PICKED_UP`, and cash counts as collected now. Delivery: `OUT_FOR_DELIVERY`. Reserved stock becomes sold. |
+| `shop_mark_delivered(p_sub_order_id)` | members | `OUT_FOR_DELIVERY → DELIVERED`; cash counts as collected now. |
+| `shop_statement(p_shop_id, p_from?, p_to?)` | members | `{from, to, opening_sdg, closing_sdg, lines: [{id, kind, amount_sdg, at, ref, payout_id}], payouts}`. Positive = the platform owes the shop. The last 30 days by default. |
+| `shop_open_requests(p_shop_id, p_limit?, p_offset?)` | members | Open requests in the shop's specialities, with the buyer's first name, `my_offer` and `offer_count`. |
+| `shop_make_offer(p_shop_id, p_request_id, p_title_ar, p_condition, p_price_sdg, p_warranty_days?, p_note_ar?, p_part_id?, p_image_key?, p_valid_hours?, p_idem?)` | members | Replaces the shop's earlier offer on the request. Valid for 48 hours by default (1–168). |
+| `shop_withdraw_offer(p_shop_id, p_offer_id)` | members | |
+| `shop_start_conversation(p_sub_order_id)` | members | Chat with the buyer of one of the shop's orders. |
+| `shop_conversations(p_shop_id, p_limit?)` | members | The inbox: the buyer's name, the order reference, the last message and `unread`. |
+
+Three timed jobs run on the server (pg_cron):
+- Unpaid Bankak orders expire after `pay_by` (every 5 minutes). Receipts under review wait for the admin.
+- Picked-up or delivered sub-orders complete after `auto_complete_days` (hourly).
+- Photo requests expire (hourly).
+
 ### Admins
 
 | Function | Does |
@@ -63,6 +106,16 @@ Shops may write while `PENDING` (to prepare stock) or `APPROVED`; a `SUSPENDED` 
 | `admin_set_shop_status(p_shop_id, p_status, p_reason?)` | `PENDING → APPROVED/REJECTED`, `APPROVED ⇄ SUSPENDED`, `REJECTED → APPROVED`. A reason is required to reject or suspend. Approval grants the shop roles and places the shop mid-zone if `pos_m` is unset. |
 | `admin_verify_shop(p_shop_id, p_verified)` | The "verified" badge. |
 | `admin_merge_parts(p_from, p_into)` | Moves listings onto the target part and retires the duplicate. |
+| `admin_payment_queue()` | Receipts under review, oldest first, with the order, the buyer and the checks: amount, reference, `txn_seen_before` (D-054). |
+| `admin_confirm_payment(p_payment_id, p_txn_no?, p_ref_in_note?)` | The transfer is on the statement. The transaction number is required here (`TXN_REQUIRED`) and must be unused (`DUPLICATE_TXN`). Sub-orders go to `CONFIRMED` and the shops are told. |
+| `admin_reject_payment(p_payment_id, p_reason, p_note?)` | `AMOUNT_WRONG`, `NOT_ON_STATEMENT`, `DUPLICATE`, `UNREADABLE` or `OTHER`. The buyer can send again until `pay_by`. |
+| `admin_mark_refund_paid(p_refund_id, p_txn_no)` | The refund was sent by Bankak (D-088). |
+| `admin_cancel_suborder(p_sub_order_id, p_reason)` | Until the buyer has the part (up to `OUT_FOR_DELIVERY`); refunds what was paid. A reason is required. |
+| `admin_complete_suborder(p_sub_order_id)` | Completes a picked-up, delivered or handed-to-technician sub-order. |
+| `admin_decide_return(p_sub_order_id, p_approve, p_note?)` | Approve: `RETURNED`, stock back, the sale reversed and the buyer refunded in full. Decline (note required): `COMPLETED`. |
+| `admin_partner_balances()` | Every shop with ledger activity: its balance, cash collected since its last payout, the payout waiting, and how many runs in a row it ended owing the platform (D-018). |
+| `admin_generate_payouts(p_period_to?)` | A `DRAFT` payout for every shop the platform owes (D-089). |
+| `admin_approve_payouts(p_ids[])` / `admin_mark_payout_paid(p_payout_id, p_txn_no)` / `admin_cancel_payout(p_payout_id, p_reason)` | `DRAFT → APPROVED → PAID`. Paying posts the `PAYOUT` journal. |
 
 Admins also write the catalogue and street tables directly (D-068); every change is audited.
 
@@ -81,6 +134,16 @@ Admins also write the catalogue and street tables directly (D-068); every change
 | `garage_vehicles` | self | self (one default car, ≤ 10, VIN cleaned up) |
 | `addresses` | self | self (`label, description_ar, lat, lng, is_default`; ≤ 10) |
 | `audit_log` | admins | — |
+| `orders`, `payments`, `refunds` | the buyer (a shop sees only the cash payment of its own sub-order), admins | — |
+| `sub_orders`, `order_items`, `suborder_events`, `returns` | the buyer, the shop it belongs to, admins | — |
+| `cart_items` | self | self (`listing_id` or `offer_id`, `qty`, `seen_price_sdg`; ≤ 50 lines) |
+| `part_requests` | the buyer, admins (shops use `shop_open_requests`) | — |
+| `part_offers` | the request's buyer, the shop, admins | — |
+| `conversations` | both sides, admins | — |
+| `messages` | both sides, admins | both sides (`body`, or `voice_key` + `voice_secs` ≤ 60); live through Realtime |
+| `notifications` | self | — |
+| `payouts` | the shop's members, admins | — |
+| `ledger_accounts`, `ledger_journals`, `ledger_entries`, `payout_runs`, `payout_run_balances` | admins | — (append-only) |
 | `app_settings`, `idempotency_keys`, `part_search_docs`, `search_synonym_terms` | — | — |
 
 ## Storage
@@ -91,7 +154,10 @@ Admins also write the catalogue and street tables directly (D-068); every change
 | `imports` | no | 5 MB, xlsx/xls/csv | shop members under `{shop_id}/…` (and read their own) |
 | `templates` | yes | 5 MB | admins (`pnpm templates:upload <dev|test>`) — `templates/inventory-template.xlsx` |
 | `app-releases` | yes | 50 MB, APK | admins (D-058) |
-| `receipts`, `booking-photos`, `request-photos`, `voice-notes` | no | 5 MB / 2 MB | policies arrive with M2/M3 |
+| `receipts` | no | 5 MB, images/PDF | the buyer under `{uid}/…`; admins read |
+| `request-photos` | no | 5 MB, images | the buyer under `{uid}/…`; approved shops read the photos of open requests |
+| `voice-notes` | no | 2 MB, m4a/aac/mp3 | both sides of a conversation, under `{conversation_id}/…` |
+| `booking-photos` | no | 5 MB | policies arrive with M3 |
 
 ## Edge Functions
 

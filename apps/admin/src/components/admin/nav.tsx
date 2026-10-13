@@ -53,7 +53,7 @@ export function navGroups(locale: Locale, d: NavLabels, badges: NavBadges | null
       items: [
         { href: p('/approvals'), label: d.approvals, icon: UserPlus, badge: badges?.approvals },
         { href: p('/shops'), label: d.shops, icon: Store },
-        { href: p('/payouts'), label: d.payouts, icon: Wallet, sample: true },
+        { href: p('/payouts'), label: d.payouts, icon: Wallet },
       ],
     },
     {
@@ -68,10 +68,10 @@ export function navGroups(locale: Locale, d: NavLabels, badges: NavBadges | null
     {
       title: d.operations,
       items: [
-        { href: p('/payments'), label: d.payments, icon: Landmark, sample: true },
-        { href: p('/orders'), label: d.orders, icon: ReceiptText, sample: true },
+        { href: p('/payments'), label: d.payments, icon: Landmark },
+        { href: p('/orders'), label: d.orders, icon: ReceiptText },
         { href: p('/bookings'), label: d.bookings, icon: CalendarClock, sample: true },
-        { href: p('/cash'), label: d.cash, icon: Banknote, sample: true },
+        { href: p('/cash'), label: d.cash, icon: Banknote },
         { href: p('/disputes'), label: d.disputes, icon: MessageSquareWarning, sample: true },
       ],
     },

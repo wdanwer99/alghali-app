@@ -60,6 +60,7 @@
   "payDue": "Pay in cash",
   "payCollected": "Cash collected",
   "payExpired": "Payment time ran out",
+  "payCancelled": "Payment cancelled",
   "bkHeld": "Time held for you",
   "bkAwaitingPayment": "Waiting for payment check",
   "bkPendingTechAccept": "Waiting for the technician",

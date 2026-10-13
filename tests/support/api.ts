@@ -103,6 +103,12 @@ export class Fixtures {
       const shops = await this.sql<{ id: string }[]>`
         select distinct shop_id as id from public.shop_members where user_id = any (${this.users}::uuid[])`;
       const shopIds = shops.map((s) => s.id);
+      // Orders first (they point at shops, listings and buyers); the ledger keeps its
+      // history, since journals hold ids without foreign keys.
+      await this.sql`
+        delete from public.orders
+        where buyer_id = any (${this.users}::uuid[])
+           or id in (select order_id from public.sub_orders where shop_id = any (${shopIds}::uuid[]))`;
       await this.sql`delete from public.listings where shop_id = any (${shopIds}::uuid[])`;
       await this.sql`delete from public.parts where created_by_shop_id = any (${shopIds}::uuid[])`;
       await this.sql`delete from public.shops where id = any (${shopIds}::uuid[])`;

@@ -290,6 +290,9 @@ class CoreLocalizationsAr extends CoreLocalizations {
   String get payExpired => 'انتهت مهلة الدفع';
 
   @override
+  String get payCancelled => 'أُلغي الدفع';
+
+  @override
   String get bkHeld => 'الموعد محجوز مؤقتًا';
 
   @override

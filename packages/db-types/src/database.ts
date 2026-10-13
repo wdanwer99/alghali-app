@@ -113,6 +113,102 @@ export type Database = {
         }
         Relationships: []
       }
+      cart_items: {
+        Row: {
+          created_at: string
+          id: string
+          listing_id: string | null
+          offer_id: string | null
+          qty: number
+          seen_price_sdg: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          listing_id?: string | null
+          offer_id?: string | null
+          qty?: number
+          seen_price_sdg: number
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          listing_id?: string | null
+          offer_id?: string | null
+          qty?: number
+          seen_price_sdg?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cart_items_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cart_items_offer_id_fkey"
+            columns: ["offer_id"]
+            isOneToOne: false
+            referencedRelation: "part_offers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      conversations: {
+        Row: {
+          buyer_id: string
+          buyer_read_at: string | null
+          created_at: string
+          id: string
+          last_message_at: string | null
+          shop_id: string
+          shop_read_at: string | null
+          sub_order_id: string | null
+        }
+        Insert: {
+          buyer_id: string
+          buyer_read_at?: string | null
+          created_at?: string
+          id?: string
+          last_message_at?: string | null
+          shop_id: string
+          shop_read_at?: string | null
+          sub_order_id?: string | null
+        }
+        Update: {
+          buyer_id?: string
+          buyer_read_at?: string | null
+          created_at?: string
+          id?: string
+          last_message_at?: string | null
+          shop_id?: string
+          shop_read_at?: string | null
+          sub_order_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversations_shop_id_fkey"
+            columns: ["shop_id"]
+            isOneToOne: false
+            referencedRelation: "shops"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_sub_order_id_fkey"
+            columns: ["sub_order_id"]
+            isOneToOne: false
+            referencedRelation: "sub_orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       devices: {
         Row: {
           app: string
@@ -285,6 +381,116 @@ export type Database = {
           name_en?: string
           sort?: number
           updated_at?: string
+        }
+        Relationships: []
+      }
+      ledger_accounts: {
+        Row: {
+          code: string
+          created_at: string
+          id: string
+          kind: string
+          shop_id: string | null
+          technician_id: string | null
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          id?: string
+          kind: string
+          shop_id?: string | null
+          technician_id?: string | null
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          shop_id?: string | null
+          technician_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ledger_accounts_shop_id_fkey"
+            columns: ["shop_id"]
+            isOneToOne: true
+            referencedRelation: "shops"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ledger_entries: {
+        Row: {
+          account_id: string
+          amount_sdg: number
+          id: number
+          journal_id: string
+        }
+        Insert: {
+          account_id: string
+          amount_sdg: number
+          id?: never
+          journal_id: string
+        }
+        Update: {
+          account_id?: string
+          amount_sdg?: number
+          id?: never
+          journal_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ledger_entries_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "ledger_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ledger_entries_journal_id_fkey"
+            columns: ["journal_id"]
+            isOneToOne: false
+            referencedRelation: "ledger_journals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ledger_journals: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          kind: string
+          memo: string | null
+          order_id: string | null
+          payment_id: string | null
+          payout_id: string | null
+          refund_id: string | null
+          sub_order_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          kind: string
+          memo?: string | null
+          order_id?: string | null
+          payment_id?: string | null
+          payout_id?: string | null
+          refund_id?: string | null
+          sub_order_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          kind?: string
+          memo?: string | null
+          order_id?: string | null
+          payment_id?: string | null
+          payout_id?: string | null
+          refund_id?: string | null
+          sub_order_id?: string | null
         }
         Relationships: []
       }
@@ -475,6 +681,217 @@ export type Database = {
         }
         Relationships: []
       }
+      messages: {
+        Row: {
+          body: string | null
+          conversation_id: string
+          created_at: string
+          id: string
+          sender_id: string
+          voice_key: string | null
+          voice_secs: number | null
+        }
+        Insert: {
+          body?: string | null
+          conversation_id: string
+          created_at?: string
+          id?: string
+          sender_id?: string
+          voice_key?: string | null
+          voice_secs?: number | null
+        }
+        Update: {
+          body?: string | null
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          sender_id?: string
+          voice_key?: string | null
+          voice_secs?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notifications: {
+        Row: {
+          code: string
+          created_at: string
+          id: string
+          payload: Json
+          read_at: string | null
+          user_id: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          id?: string
+          payload?: Json
+          read_at?: string | null
+          user_id: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          id?: string
+          payload?: Json
+          read_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      order_items: {
+        Row: {
+          brand: string | null
+          condition: Database["public"]["Enums"]["listing_condition"]
+          id: string
+          line_sdg: number
+          listing_id: string | null
+          offer_id: string | null
+          part_id: string | null
+          qty: number
+          sub_order_id: string
+          title_ar: string
+          title_en: string
+          unit_price_sdg: number
+          warranty_days: number
+        }
+        Insert: {
+          brand?: string | null
+          condition: Database["public"]["Enums"]["listing_condition"]
+          id?: string
+          line_sdg: number
+          listing_id?: string | null
+          offer_id?: string | null
+          part_id?: string | null
+          qty: number
+          sub_order_id: string
+          title_ar: string
+          title_en: string
+          unit_price_sdg: number
+          warranty_days?: number
+        }
+        Update: {
+          brand?: string | null
+          condition?: Database["public"]["Enums"]["listing_condition"]
+          id?: string
+          line_sdg?: number
+          listing_id?: string | null
+          offer_id?: string | null
+          part_id?: string | null
+          qty?: number
+          sub_order_id?: string
+          title_ar?: string
+          title_en?: string
+          unit_price_sdg?: number
+          warranty_days?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_offer_fk"
+            columns: ["offer_id"]
+            isOneToOne: false
+            referencedRelation: "part_offers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_part_id_fkey"
+            columns: ["part_id"]
+            isOneToOne: false
+            referencedRelation: "parts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_sub_order_id_fkey"
+            columns: ["sub_order_id"]
+            isOneToOne: false
+            referencedRelation: "sub_orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          address_id: string | null
+          address_snapshot: Json | null
+          booking_fee_sdg: number
+          buyer_id: string
+          created_at: string
+          delivery_sdg: number
+          id: string
+          idem_key: string | null
+          items_sdg: number
+          labour_sdg: number
+          pay_by: string | null
+          payment_method: Database["public"]["Enums"]["payment_method"]
+          ref: string
+          total_sdg: number
+          travel_sdg: number
+        }
+        Insert: {
+          address_id?: string | null
+          address_snapshot?: Json | null
+          booking_fee_sdg?: number
+          buyer_id: string
+          created_at?: string
+          delivery_sdg?: number
+          id?: string
+          idem_key?: string | null
+          items_sdg: number
+          labour_sdg?: number
+          pay_by?: string | null
+          payment_method: Database["public"]["Enums"]["payment_method"]
+          ref: string
+          total_sdg: number
+          travel_sdg?: number
+        }
+        Update: {
+          address_id?: string | null
+          address_snapshot?: Json | null
+          booking_fee_sdg?: number
+          buyer_id?: string
+          created_at?: string
+          delivery_sdg?: number
+          id?: string
+          idem_key?: string | null
+          items_sdg?: number
+          labour_sdg?: number
+          pay_by?: string | null
+          payment_method?: Database["public"]["Enums"]["payment_method"]
+          ref?: string
+          total_sdg?: number
+          travel_sdg?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_address_id_fkey"
+            columns: ["address_id"]
+            isOneToOne: false
+            referencedRelation: "addresses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_ref_fkey"
+            columns: ["ref"]
+            isOneToOne: true
+            referencedRelation: "refs"
+            referencedColumns: ["ref"]
+          },
+        ]
+      }
       part_categories: {
         Row: {
           icon: string
@@ -561,6 +978,133 @@ export type Database = {
           },
           {
             foreignKeyName: "part_fitments_variant_id_fkey"
+            columns: ["variant_id"]
+            isOneToOne: false
+            referencedRelation: "vehicle_variants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      part_offers: {
+        Row: {
+          condition: Database["public"]["Enums"]["listing_condition"]
+          created_at: string
+          created_by: string | null
+          id: string
+          image_key: string | null
+          note_ar: string | null
+          part_id: string | null
+          price_sdg: number
+          request_id: string
+          shop_id: string
+          status: string
+          title_ar: string
+          title_en: string
+          valid_until: string
+          warranty_days: number
+        }
+        Insert: {
+          condition: Database["public"]["Enums"]["listing_condition"]
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          image_key?: string | null
+          note_ar?: string | null
+          part_id?: string | null
+          price_sdg: number
+          request_id: string
+          shop_id: string
+          status?: string
+          title_ar: string
+          title_en?: string
+          valid_until?: string
+          warranty_days?: number
+        }
+        Update: {
+          condition?: Database["public"]["Enums"]["listing_condition"]
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          image_key?: string | null
+          note_ar?: string | null
+          part_id?: string | null
+          price_sdg?: number
+          request_id?: string
+          shop_id?: string
+          status?: string
+          title_ar?: string
+          title_en?: string
+          valid_until?: string
+          warranty_days?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "part_offers_part_id_fkey"
+            columns: ["part_id"]
+            isOneToOne: false
+            referencedRelation: "parts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "part_offers_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "part_requests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "part_offers_shop_id_fkey"
+            columns: ["shop_id"]
+            isOneToOne: false
+            referencedRelation: "shops"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      part_requests: {
+        Row: {
+          buyer_id: string
+          category_id: string | null
+          created_at: string
+          expires_at: string
+          id: string
+          image_keys: string[]
+          note: string
+          status: string
+          variant_id: string | null
+        }
+        Insert: {
+          buyer_id?: string
+          category_id?: string | null
+          created_at?: string
+          expires_at?: string
+          id?: string
+          image_keys?: string[]
+          note: string
+          status?: string
+          variant_id?: string | null
+        }
+        Update: {
+          buyer_id?: string
+          category_id?: string | null
+          created_at?: string
+          expires_at?: string
+          id?: string
+          image_keys?: string[]
+          note?: string
+          status?: string
+          variant_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "part_requests_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "part_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "part_requests_variant_id_fkey"
             columns: ["variant_id"]
             isOneToOne: false
             referencedRelation: "vehicle_variants"
@@ -679,6 +1223,269 @@ export type Database = {
           },
         ]
       }
+      payment_events: {
+        Row: {
+          actor_id: string | null
+          actor_kind: string
+          at: string
+          from_status: Database["public"]["Enums"]["payment_status"] | null
+          id: number
+          note: string | null
+          payment_id: string
+          to_status: Database["public"]["Enums"]["payment_status"]
+        }
+        Insert: {
+          actor_id?: string | null
+          actor_kind: string
+          at?: string
+          from_status?: Database["public"]["Enums"]["payment_status"] | null
+          id?: never
+          note?: string | null
+          payment_id: string
+          to_status: Database["public"]["Enums"]["payment_status"]
+        }
+        Update: {
+          actor_id?: string | null
+          actor_kind?: string
+          at?: string
+          from_status?: Database["public"]["Enums"]["payment_status"] | null
+          id?: never
+          note?: string | null
+          payment_id?: string
+          to_status?: Database["public"]["Enums"]["payment_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payment_events_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "payments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payment_transitions: {
+        Row: {
+          actor: string
+          from_status: Database["public"]["Enums"]["payment_status"]
+          to_status: Database["public"]["Enums"]["payment_status"]
+        }
+        Insert: {
+          actor: string
+          from_status: Database["public"]["Enums"]["payment_status"]
+          to_status: Database["public"]["Enums"]["payment_status"]
+        }
+        Update: {
+          actor?: string
+          from_status?: Database["public"]["Enums"]["payment_status"]
+          to_status?: Database["public"]["Enums"]["payment_status"]
+        }
+        Relationships: []
+      }
+      payments: {
+        Row: {
+          amount_sdg: number
+          bankak_txn_no: string | null
+          booking_id: string | null
+          collected_at: string | null
+          collected_by: string | null
+          created_at: string
+          id: string
+          method: Database["public"]["Enums"]["payment_method"]
+          order_id: string
+          purpose: Database["public"]["Enums"]["payment_purpose"]
+          receipt_key: string | null
+          ref_in_note: boolean | null
+          reject_reason: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: Database["public"]["Enums"]["payment_status"]
+          sub_order_id: string | null
+          submitted_at: string | null
+        }
+        Insert: {
+          amount_sdg: number
+          bankak_txn_no?: string | null
+          booking_id?: string | null
+          collected_at?: string | null
+          collected_by?: string | null
+          created_at?: string
+          id?: string
+          method: Database["public"]["Enums"]["payment_method"]
+          order_id: string
+          purpose?: Database["public"]["Enums"]["payment_purpose"]
+          receipt_key?: string | null
+          ref_in_note?: boolean | null
+          reject_reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status: Database["public"]["Enums"]["payment_status"]
+          sub_order_id?: string | null
+          submitted_at?: string | null
+        }
+        Update: {
+          amount_sdg?: number
+          bankak_txn_no?: string | null
+          booking_id?: string | null
+          collected_at?: string | null
+          collected_by?: string | null
+          created_at?: string
+          id?: string
+          method?: Database["public"]["Enums"]["payment_method"]
+          order_id?: string
+          purpose?: Database["public"]["Enums"]["payment_purpose"]
+          receipt_key?: string | null
+          ref_in_note?: boolean | null
+          reject_reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: Database["public"]["Enums"]["payment_status"]
+          sub_order_id?: string | null
+          submitted_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_sub_order_id_fkey"
+            columns: ["sub_order_id"]
+            isOneToOne: false
+            referencedRelation: "sub_orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payout_run_balances: {
+        Row: {
+          balance_sdg: number
+          run_id: string
+          shop_id: string
+        }
+        Insert: {
+          balance_sdg: number
+          run_id: string
+          shop_id: string
+        }
+        Update: {
+          balance_sdg?: number
+          run_id?: string
+          shop_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payout_run_balances_run_id_fkey"
+            columns: ["run_id"]
+            isOneToOne: false
+            referencedRelation: "payout_runs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payout_run_balances_shop_id_fkey"
+            columns: ["shop_id"]
+            isOneToOne: false
+            referencedRelation: "shops"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payout_runs: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          period_from: string | null
+          period_to: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          period_from?: string | null
+          period_to: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          period_from?: string | null
+          period_to?: string
+        }
+        Relationships: []
+      }
+      payouts: {
+        Row: {
+          amount_sdg: number
+          approved_at: string | null
+          approved_by: string | null
+          bankak_txn_no: string | null
+          cancel_reason: string | null
+          created_at: string
+          deductions_sdg: number
+          id: string
+          paid_at: string | null
+          paid_by: string | null
+          run_id: string
+          sales_sdg: number
+          shop_id: string | null
+          status: string
+          technician_id: string | null
+        }
+        Insert: {
+          amount_sdg: number
+          approved_at?: string | null
+          approved_by?: string | null
+          bankak_txn_no?: string | null
+          cancel_reason?: string | null
+          created_at?: string
+          deductions_sdg?: number
+          id?: string
+          paid_at?: string | null
+          paid_by?: string | null
+          run_id: string
+          sales_sdg?: number
+          shop_id?: string | null
+          status?: string
+          technician_id?: string | null
+        }
+        Update: {
+          amount_sdg?: number
+          approved_at?: string | null
+          approved_by?: string | null
+          bankak_txn_no?: string | null
+          cancel_reason?: string | null
+          created_at?: string
+          deductions_sdg?: number
+          id?: string
+          paid_at?: string | null
+          paid_by?: string | null
+          run_id?: string
+          sales_sdg?: number
+          shop_id?: string | null
+          status?: string
+          technician_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payouts_run_id_fkey"
+            columns: ["run_id"]
+            isOneToOne: false
+            referencedRelation: "payout_runs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payouts_shop_id_fkey"
+            columns: ["shop_id"]
+            isOneToOne: false
+            referencedRelation: "shops"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
@@ -689,6 +1496,7 @@ export type Database = {
           locale: string
           phone: string | null
           phone_verified_at: string | null
+          refund_account: string | null
           updated_at: string
         }
         Insert: {
@@ -700,6 +1508,7 @@ export type Database = {
           locale?: string
           phone?: string | null
           phone_verified_at?: string | null
+          refund_account?: string | null
           updated_at?: string
         }
         Update: {
@@ -711,9 +1520,126 @@ export type Database = {
           locale?: string
           phone?: string | null
           phone_verified_at?: string | null
+          refund_account?: string | null
           updated_at?: string
         }
         Relationships: []
+      }
+      refs: {
+        Row: {
+          created_at: string
+          kind: string
+          ref: string
+        }
+        Insert: {
+          created_at?: string
+          kind: string
+          ref: string
+        }
+        Update: {
+          created_at?: string
+          kind?: string
+          ref?: string
+        }
+        Relationships: []
+      }
+      refunds: {
+        Row: {
+          amount_sdg: number
+          bankak_txn_no: string | null
+          buyer_id: string
+          created_at: string
+          id: string
+          order_id: string
+          paid_at: string | null
+          paid_by: string | null
+          reason: string | null
+          status: string
+          sub_order_id: string | null
+        }
+        Insert: {
+          amount_sdg: number
+          bankak_txn_no?: string | null
+          buyer_id: string
+          created_at?: string
+          id?: string
+          order_id: string
+          paid_at?: string | null
+          paid_by?: string | null
+          reason?: string | null
+          status?: string
+          sub_order_id?: string | null
+        }
+        Update: {
+          amount_sdg?: number
+          bankak_txn_no?: string | null
+          buyer_id?: string
+          created_at?: string
+          id?: string
+          order_id?: string
+          paid_at?: string | null
+          paid_by?: string | null
+          reason?: string | null
+          status?: string
+          sub_order_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "refunds_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "refunds_sub_order_id_fkey"
+            columns: ["sub_order_id"]
+            isOneToOne: true
+            referencedRelation: "sub_orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      returns: {
+        Row: {
+          created_at: string
+          decided_at: string | null
+          decided_by: string | null
+          decision_note: string | null
+          id: string
+          reason: string
+          status: string
+          sub_order_id: string
+        }
+        Insert: {
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+          decision_note?: string | null
+          id?: string
+          reason: string
+          status?: string
+          sub_order_id: string
+        }
+        Update: {
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+          decision_note?: string | null
+          id?: string
+          reason?: string
+          status?: string
+          sub_order_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "returns_sub_order_id_fkey"
+            columns: ["sub_order_id"]
+            isOneToOne: true
+            referencedRelation: "sub_orders"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       search_synonym_terms: {
         Row: {
@@ -979,6 +1905,143 @@ export type Database = {
           },
         ]
       }
+      sub_orders: {
+        Row: {
+          cancel_reason: string | null
+          cancelled_at: string | null
+          commission_bp: number
+          commission_sdg: number
+          completed_at: string | null
+          created_at: string
+          delivered_at: string | null
+          delivery_fee_sdg: number
+          fulfilment: Database["public"]["Enums"]["fulfilment_type"]
+          handed_over_at: string | null
+          id: string
+          items_sdg: number
+          order_id: string
+          ready_at: string | null
+          shop_ack_at: string | null
+          shop_id: string
+          status: Database["public"]["Enums"]["suborder_status"]
+          status_changed_at: string
+        }
+        Insert: {
+          cancel_reason?: string | null
+          cancelled_at?: string | null
+          commission_bp: number
+          commission_sdg: number
+          completed_at?: string | null
+          created_at?: string
+          delivered_at?: string | null
+          delivery_fee_sdg?: number
+          fulfilment: Database["public"]["Enums"]["fulfilment_type"]
+          handed_over_at?: string | null
+          id?: string
+          items_sdg: number
+          order_id: string
+          ready_at?: string | null
+          shop_ack_at?: string | null
+          shop_id: string
+          status: Database["public"]["Enums"]["suborder_status"]
+          status_changed_at?: string
+        }
+        Update: {
+          cancel_reason?: string | null
+          cancelled_at?: string | null
+          commission_bp?: number
+          commission_sdg?: number
+          completed_at?: string | null
+          created_at?: string
+          delivered_at?: string | null
+          delivery_fee_sdg?: number
+          fulfilment?: Database["public"]["Enums"]["fulfilment_type"]
+          handed_over_at?: string | null
+          id?: string
+          items_sdg?: number
+          order_id?: string
+          ready_at?: string | null
+          shop_ack_at?: string | null
+          shop_id?: string
+          status?: Database["public"]["Enums"]["suborder_status"]
+          status_changed_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sub_orders_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sub_orders_shop_id_fkey"
+            columns: ["shop_id"]
+            isOneToOne: false
+            referencedRelation: "shops"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      suborder_events: {
+        Row: {
+          actor_id: string | null
+          actor_kind: string
+          at: string
+          from_status: Database["public"]["Enums"]["suborder_status"] | null
+          id: number
+          reason: string | null
+          sub_order_id: string
+          to_status: Database["public"]["Enums"]["suborder_status"]
+        }
+        Insert: {
+          actor_id?: string | null
+          actor_kind: string
+          at?: string
+          from_status?: Database["public"]["Enums"]["suborder_status"] | null
+          id?: never
+          reason?: string | null
+          sub_order_id: string
+          to_status: Database["public"]["Enums"]["suborder_status"]
+        }
+        Update: {
+          actor_id?: string | null
+          actor_kind?: string
+          at?: string
+          from_status?: Database["public"]["Enums"]["suborder_status"] | null
+          id?: never
+          reason?: string | null
+          sub_order_id?: string
+          to_status?: Database["public"]["Enums"]["suborder_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "suborder_events_sub_order_id_fkey"
+            columns: ["sub_order_id"]
+            isOneToOne: false
+            referencedRelation: "sub_orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      suborder_transitions: {
+        Row: {
+          actor: string
+          from_status: Database["public"]["Enums"]["suborder_status"]
+          to_status: Database["public"]["Enums"]["suborder_status"]
+        }
+        Insert: {
+          actor: string
+          from_status: Database["public"]["Enums"]["suborder_status"]
+          to_status: Database["public"]["Enums"]["suborder_status"]
+        }
+        Update: {
+          actor?: string
+          from_status?: Database["public"]["Enums"]["suborder_status"]
+          to_status?: Database["public"]["Enums"]["suborder_status"]
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           granted_at: string
@@ -1173,6 +2236,33 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      account_balance: { Args: { p_account_id: string }; Returns: number }
+      admin_approve_payouts: { Args: { p_ids: string[] }; Returns: number }
+      admin_cancel_payout: {
+        Args: { p_payout_id: string; p_reason: string }
+        Returns: undefined
+      }
+      admin_cancel_suborder: {
+        Args: { p_reason: string; p_sub_order_id: string }
+        Returns: Json
+      }
+      admin_complete_suborder: {
+        Args: { p_sub_order_id: string }
+        Returns: Json
+      }
+      admin_confirm_payment: {
+        Args: {
+          p_payment_id: string
+          p_ref_in_note?: boolean
+          p_txn_no?: string
+        }
+        Returns: Json
+      }
+      admin_decide_return: {
+        Args: { p_approve: boolean; p_note?: string; p_sub_order_id: string }
+        Returns: Json
+      }
+      admin_generate_payouts: { Args: { p_period_to?: string }; Returns: Json }
       admin_grant_role: {
         Args: {
           p_role: Database["public"]["Enums"]["app_role"]
@@ -1180,9 +2270,23 @@ export type Database = {
         }
         Returns: undefined
       }
+      admin_mark_payout_paid: {
+        Args: { p_payout_id: string; p_txn_no: string }
+        Returns: undefined
+      }
+      admin_mark_refund_paid: {
+        Args: { p_refund_id: string; p_txn_no: string }
+        Returns: undefined
+      }
       admin_merge_parts: {
         Args: { p_from: string; p_into: string }
         Returns: undefined
+      }
+      admin_partner_balances: { Args: never; Returns: Json[] }
+      admin_payment_queue: { Args: never; Returns: Json[] }
+      admin_reject_payment: {
+        Args: { p_note?: string; p_payment_id: string; p_reason: string }
+        Returns: Json
       }
       admin_revoke_role: {
         Args: {
@@ -1266,7 +2370,49 @@ export type Database = {
         }
         Returns: undefined
       }
+      auto_complete_suborders: { Args: never; Returns: number }
+      can_see_sub_order: { Args: { p_sub_order_id: string }; Returns: boolean }
+      cancel_order: {
+        Args: { p_order_id: string; p_reason?: string }
+        Returns: Json
+      }
+      cart_check: { Args: { p_items: Json; p_lock?: boolean }; Returns: Json }
+      cart_validate: { Args: { p_items: Json }; Returns: Json }
       catalogue_snapshot: { Args: { p_since?: string }; Returns: Json }
+      checkout: {
+        Args: {
+          p_address_id?: string
+          p_fulfilment?: Json
+          p_idem?: string
+          p_items: Json
+          p_method: Database["public"]["Enums"]["payment_method"]
+        }
+        Returns: Json
+      }
+      clean_txn: { Args: { p: string }; Returns: string }
+      close_part_request: { Args: { p_request_id: string }; Returns: undefined }
+      collect_cash: { Args: { p_sub_order_id: string }; Returns: undefined }
+      commission_of: {
+        Args: { p_bp: number; p_items_sdg: number }
+        Returns: number
+      }
+      confirm_received: { Args: { p_sub_order_id: string }; Returns: Json }
+      create_part_request: {
+        Args: {
+          p_category_id?: string
+          p_idem?: string
+          p_image_keys?: string[]
+          p_note: string
+          p_variant_id?: string
+        }
+        Returns: Json
+      }
+      delivery_fee: {
+        Args: { p_address_id: string; p_shop_id: string }
+        Returns: number
+      }
+      expire_part_requests: { Args: never; Returns: number }
+      expire_unpaid_orders: { Args: never; Returns: number }
       has_role: {
         Args: { p_role: Database["public"]["Enums"]["app_role"] }
         Returns: boolean
@@ -1277,22 +2423,71 @@ export type Database = {
         Returns: Json
       }
       is_admin: { Args: never; Returns: boolean }
+      is_conversation_participant: {
+        Args: { p_conversation_id: string }
+        Returns: boolean
+      }
       is_open_at: { Args: { p_at: string; p_hours: Json }; Returns: boolean }
       is_shop_member: {
         Args: { p_owner_only?: boolean; p_shop_id: string }
         Returns: boolean
       }
+      ledger_account: { Args: { p_code: string }; Returns: string }
       listing_json: { Args: { p_listing_id: string }; Returns: Json }
+      luhn_check_digit: { Args: { p_digits: string }; Returns: number }
+      mark_conversation_read: {
+        Args: { p_conversation_id: string }
+        Returns: undefined
+      }
+      mark_notifications_read: { Args: { p_ids?: string[] }; Returns: number }
       me: { Args: never; Returns: Json }
+      new_ref: { Args: { p_kind: string }; Returns: string }
       normalize_phone: { Args: { p: string }; Returns: string }
+      notify: {
+        Args: { p_code: string; p_payload?: Json; p_user_id: string }
+        Returns: undefined
+      }
+      notify_shop: {
+        Args: { p_code: string; p_payload?: Json; p_shop_id: string }
+        Returns: undefined
+      }
+      order_json: { Args: { p_order_id: string }; Returns: Json }
       part_detail: {
         Args: { p_part_id: string; p_variant_id?: string }
         Returns: Json
       }
+      payment_transition_allowed: {
+        Args: {
+          p_actor: string
+          p_from: Database["public"]["Enums"]["payment_status"]
+          p_to: Database["public"]["Enums"]["payment_status"]
+        }
+        Returns: boolean
+      }
       ping: { Args: never; Returns: Json }
+      post_journal: {
+        Args: {
+          p_amount: number
+          p_credit: string
+          p_debit: string
+          p_kind: string
+          p_memo?: string
+          p_order_id?: string
+          p_payment_id?: string
+          p_payout_id?: string
+          p_refund_id?: string
+          p_sub_order_id?: string
+        }
+        Returns: string
+      }
+      post_sale: { Args: { p_sub_order_id: string }; Returns: undefined }
       public_settings: { Args: never; Returns: Json }
       refresh_part_search_doc: {
         Args: { p_part_id: string }
+        Returns: undefined
+      }
+      refund_sub_order: {
+        Args: { p_reason: string; p_sub_order_id: string }
         Returns: undefined
       }
       register_device: {
@@ -1305,13 +2500,61 @@ export type Database = {
         }
         Returns: Json
       }
+      release_reservation: {
+        Args: { p_sub_order_id: string }
+        Returns: undefined
+      }
+      request_matches_shop: {
+        Args: { p_request_id: string; p_shop_id: string }
+        Returns: boolean
+      }
+      request_return: {
+        Args: { p_reason: string; p_sub_order_id: string }
+        Returns: Json
+      }
       require_admin: { Args: never; Returns: string }
+      require_own_sub_order: {
+        Args: { p_sub_order_id: string }
+        Returns: {
+          cancel_reason: string | null
+          cancelled_at: string | null
+          commission_bp: number
+          commission_sdg: number
+          completed_at: string | null
+          created_at: string
+          delivered_at: string | null
+          delivery_fee_sdg: number
+          fulfilment: Database["public"]["Enums"]["fulfilment_type"]
+          handed_over_at: string | null
+          id: string
+          items_sdg: number
+          order_id: string
+          ready_at: string | null
+          shop_ack_at: string | null
+          shop_id: string
+          status: Database["public"]["Enums"]["suborder_status"]
+          status_changed_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "sub_orders"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       require_shop: {
         Args: { p_owner_only?: boolean; p_shop_id: string }
         Returns: string
       }
       require_shop_writable: { Args: { p_shop_id: string }; Returns: string }
+      require_sub_order_shop: {
+        Args: { p_sub_order_id: string }
+        Returns: string
+      }
       require_user: { Args: never; Returns: string }
+      restock: { Args: { p_sub_order_id: string }; Returns: undefined }
+      reverse_sale: { Args: { p_sub_order_id: string }; Returns: undefined }
+      sale_posted: { Args: { p_sub_order_id: string }; Returns: boolean }
       search_expand: { Args: { p_term: string }; Returns: string[] }
       search_parts: {
         Args: {
@@ -1354,6 +2597,7 @@ export type Database = {
         Args: { p_model_ids: string[]; p_part_id: string }
         Returns: undefined
       }
+      set_refund_account: { Args: { p_account: string }; Returns: undefined }
       set_shop_specialities: {
         Args: {
           p_category_ids: string[]
@@ -1362,6 +2606,10 @@ export type Database = {
         }
         Returns: undefined
       }
+      setting: { Args: { p_key: string }; Returns: Json }
+      setting_int: { Args: { p_key: string }; Returns: number }
+      shop_account: { Args: { p_shop_id: string }; Returns: string }
+      shop_ack_suborder: { Args: { p_sub_order_id: string }; Returns: Json }
       shop_add_staff: {
         Args: { p_email: string; p_shop_id: string }
         Returns: Json
@@ -1370,10 +2618,16 @@ export type Database = {
         Args: { p_listing_id: string; p_shop_id: string }
         Returns: undefined
       }
+      shop_balance: { Args: { p_shop_id: string }; Returns: number }
       shop_bulk_update: {
         Args: { p_idem?: string; p_items: Json; p_shop_id: string }
         Returns: Json
       }
+      shop_conversations: {
+        Args: { p_limit?: number; p_shop_id: string }
+        Returns: Json[]
+      }
+      shop_hand_over: { Args: { p_sub_order_id: string }; Returns: Json }
       shop_import_rows: {
         Args: {
           p_dry_run?: boolean
@@ -1394,6 +2648,41 @@ export type Database = {
         }
         Returns: Json[]
       }
+      shop_make_offer: {
+        Args: {
+          p_condition: Database["public"]["Enums"]["listing_condition"]
+          p_idem?: string
+          p_image_key?: string
+          p_note_ar?: string
+          p_part_id?: string
+          p_price_sdg: number
+          p_request_id: string
+          p_shop_id: string
+          p_title_ar: string
+          p_valid_hours?: number
+          p_warranty_days?: number
+        }
+        Returns: Json
+      }
+      shop_mark_delivered: { Args: { p_sub_order_id: string }; Returns: Json }
+      shop_mark_ready: { Args: { p_sub_order_id: string }; Returns: Json }
+      shop_open_requests: {
+        Args: { p_limit?: number; p_offset?: number; p_shop_id: string }
+        Returns: Json[]
+      }
+      shop_orders: {
+        Args: {
+          p_limit?: number
+          p_offset?: number
+          p_shop_id: string
+          p_statuses?: Database["public"]["Enums"]["suborder_status"][]
+        }
+        Returns: Json[]
+      }
+      shop_reject_suborder: {
+        Args: { p_reason: string; p_sub_order_id: string }
+        Returns: Json
+      }
       shop_remove_staff: {
         Args: { p_shop_id: string; p_user_id: string }
         Returns: undefined
@@ -1412,6 +2701,15 @@ export type Database = {
           user_id: string
         }[]
       }
+      shop_start_conversation: {
+        Args: { p_sub_order_id: string }
+        Returns: Json
+      }
+      shop_statement: {
+        Args: { p_from?: string; p_shop_id: string; p_to?: string }
+        Returns: Json
+      }
+      shop_sub_order_json: { Args: { p_sub_order_id: string }; Returns: Json }
       shop_update_profile: {
         Args: { p_patch: Json; p_shop_id: string }
         Returns: Json
@@ -1436,9 +2734,34 @@ export type Database = {
         }
         Returns: Json
       }
+      shop_withdraw_offer: {
+        Args: { p_offer_id: string; p_shop_id: string }
+        Returns: undefined
+      }
       shop_write_part: {
         Args: { p: Json; p_part_id: string; p_shop_id: string }
         Returns: string
+      }
+      start_conversation: {
+        Args: { p_shop_id: string; p_sub_order_id?: string }
+        Returns: Json
+      }
+      submit_bankak_receipt: {
+        Args: {
+          p_idem?: string
+          p_order_id: string
+          p_receipt_key?: string
+          p_txn_no?: string
+        }
+        Returns: Json
+      }
+      suborder_transition_allowed: {
+        Args: {
+          p_actor: string
+          p_from: Database["public"]["Enums"]["suborder_status"]
+          p_to: Database["public"]["Enums"]["suborder_status"]
+        }
+        Returns: boolean
       }
       suggest_parts: {
         Args: {
@@ -1455,6 +2778,25 @@ export type Database = {
           name_ar: string
           name_en: string
         }[]
+      }
+      take_stock: { Args: { p_sub_order_id: string }; Returns: undefined }
+      transition_payment: {
+        Args: {
+          p_actor: string
+          p_id: string
+          p_note?: string
+          p_to: Database["public"]["Enums"]["payment_status"]
+        }
+        Returns: Database["public"]["Enums"]["payment_status"]
+      }
+      transition_suborder: {
+        Args: {
+          p_actor: string
+          p_id: string
+          p_reason?: string
+          p_to: Database["public"]["Enums"]["suborder_status"]
+        }
+        Returns: Database["public"]["Enums"]["suborder_status"]
       }
       try_uuid: { Args: { p: string }; Returns: string }
       unregister_device: { Args: { p_fcm_token: string }; Returns: undefined }
@@ -1475,8 +2817,34 @@ export type Database = {
     }
     Enums: {
       app_role: "BUYER" | "SHOP_OWNER" | "SHOP_STAFF" | "TECHNICIAN" | "ADMIN"
+      fulfilment_type: "PICKUP" | "DELIVERY" | "TO_TECHNICIAN"
       listing_condition: "NEW_OEM" | "NEW_AFTERMARKET" | "USED"
       partner_status: "PENDING" | "APPROVED" | "REJECTED" | "SUSPENDED"
+      payment_method: "BANKAK" | "CASH"
+      payment_purpose: "ORDER" | "BOOKING_DEPOSIT"
+      payment_status:
+        | "AWAITING_TRANSFER"
+        | "RECEIPT_SUBMITTED"
+        | "CONFIRMED"
+        | "REJECTED"
+        | "DUE"
+        | "COLLECTED"
+        | "EXPIRED"
+        | "CANCELLED"
+      suborder_status:
+        | "PENDING_PAYMENT"
+        | "PAYMENT_REVIEW"
+        | "CONFIRMED"
+        | "READY"
+        | "PICKED_UP"
+        | "OUT_FOR_DELIVERY"
+        | "DELIVERED"
+        | "HANDED_TO_TECHNICIAN"
+        | "COMPLETED"
+        | "CANCELLED"
+        | "REJECTED_BY_SHOP"
+        | "RETURN_REQUESTED"
+        | "RETURNED"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1605,8 +2973,36 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["BUYER", "SHOP_OWNER", "SHOP_STAFF", "TECHNICIAN", "ADMIN"],
+      fulfilment_type: ["PICKUP", "DELIVERY", "TO_TECHNICIAN"],
       listing_condition: ["NEW_OEM", "NEW_AFTERMARKET", "USED"],
       partner_status: ["PENDING", "APPROVED", "REJECTED", "SUSPENDED"],
+      payment_method: ["BANKAK", "CASH"],
+      payment_purpose: ["ORDER", "BOOKING_DEPOSIT"],
+      payment_status: [
+        "AWAITING_TRANSFER",
+        "RECEIPT_SUBMITTED",
+        "CONFIRMED",
+        "REJECTED",
+        "DUE",
+        "COLLECTED",
+        "EXPIRED",
+        "CANCELLED",
+      ],
+      suborder_status: [
+        "PENDING_PAYMENT",
+        "PAYMENT_REVIEW",
+        "CONFIRMED",
+        "READY",
+        "PICKED_UP",
+        "OUT_FOR_DELIVERY",
+        "DELIVERED",
+        "HANDED_TO_TECHNICIAN",
+        "COMPLETED",
+        "CANCELLED",
+        "REJECTED_BY_SHOP",
+        "RETURN_REQUESTED",
+        "RETURNED",
+      ],
     },
   },
 } as const

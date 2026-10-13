@@ -1,0 +1,96 @@
+{
+  "id": "beeaa29f-c1d4-4f7f-a67e-da40aa67270b",
+  "ref": "29027703",
+  "pay_by": null,
+  "refunds": [],
+  "buyer_id": "c15b1e6c-dada-40b2-8f2f-d43638d41869",
+  "payments": [
+    {
+      "id": "c707d6e2-4892-425a-8827-7a9089594da7",
+      "method": "CASH",
+      "status": "DUE",
+      "purpose": "ORDER",
+      "order_id": "beeaa29f-c1d4-4f7f-a67e-da40aa67270b",
+      "amount_sdg": 5500,
+      "booking_id": null,
+      "created_at": "2026-10-13T23:06:27.074363+00:00",
+      "ref_in_note": null,
+      "reviewed_at": null,
+      "reviewed_by": null,
+      "collected_at": null,
+      "collected_by": null,
+      "sub_order_id": "7dfcd9be-ede3-4b59-a424-cf8de05c8ec7",
+      "submitted_at": null,
+      "bankak_txn_no": null,
+      "reject_reason": null
+    }
+  ],
+  "items_sdg": 5500,
+  "total_sdg": 5500,
+  "address_id": null,
+  "created_at": "2026-10-13T23:06:27.074363+00:00",
+  "labour_sdg": 0,
+  "sub_orders": [
+    {
+      "id": "7dfcd9be-ede3-4b59-a424-cf8de05c8ec7",
+      "shop": {
+        "id": "6810aed0-c3e9-41d4-a107-0dc8faa2956b",
+        "phone": "+249912345678",
+        "pos_m": 1010,
+        "name_ar": "الزين للإكسسوارات",
+        "name_en": "Al-Zain Accessories",
+        "plot_no": "97",
+        "zone_id": "237f7fdb-07f6-485c-a7b5-ac99ad76e1a3",
+        "whatsapp": null
+      },
+      "items": [
+        {
+          "id": "2b30f83a-0bfa-4352-9bb9-c13967fa6121",
+          "qty": 1,
+          "brand": null,
+          "part_id": "0149b1c4-4d76-49eb-8434-20f914aa3a0f",
+          "line_sdg": 5500,
+          "offer_id": null,
+          "title_ar": "لمبات إشارة خلفية (طقم 4)",
+          "title_en": "Rear indicator bulbs (set of 4)",
+          "condition": "NEW_AFTERMARKET",
+          "listing_id": "0d29ac69-8895-4acb-8f23-7681aa630397",
+          "sub_order_id": "7dfcd9be-ede3-4b59-a424-cf8de05c8ec7",
+          "warranty_days": 0,
+          "unit_price_sdg": 5500
+        }
+      ],
+      "events": [
+        {
+          "at": "2026-10-13T23:06:27.074363+00:00",
+          "to": "CONFIRMED",
+          "from": null,
+          "actor": "BUYER"
+        }
+      ],
+      "return": null,
+      "status": "CONFIRMED",
+      "shop_id": "6810aed0-c3e9-41d4-a107-0dc8faa2956b",
+      "order_id": "beeaa29f-c1d4-4f7f-a67e-da40aa67270b",
+      "ready_at": null,
+      "items_sdg": 5500,
+      "created_at": "2026-10-13T23:06:27.074363+00:00",
+      "fulfilment": "PICKUP",
+      "shop_ack_at": null,
+      "cancelled_at": null,
+      "completed_at": null,
+      "delivered_at": null,
+      "cancel_reason": null,
+      "commission_bp": 500,
+      "commission_sdg": 275,
+      "handed_over_at": null,
+      "delivery_fee_sdg": 0,
+      "status_changed_at": "2026-10-13T23:06:27.074363+00:00"
+    }
+  ],
+  "travel_sdg": 0,
+  "delivery_sdg": 0,
+  "payment_method": "CASH",
+  "booking_fee_sdg": 0,
+  "address_snapshot": null
+}

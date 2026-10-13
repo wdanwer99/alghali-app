@@ -12,7 +12,10 @@ import {
   Package,
   PackageSearch,
   Settings,
+  ReceiptText,
   ShieldCheck,
+  Undo2,
+  Wallet,
   Store,
   UserCog,
   UserPlus,
@@ -38,7 +41,8 @@ import {
 import type { Locale } from '@/i18n/config';
 import { getDictionary, getLocale, type Dictionary } from '@/i18n/dictionaries';
 import { requireAdmin } from '@/lib/auth';
-import { cashRows, disputes, receipts } from '@/lib/demo/data';
+import { disputes } from '@/lib/demo/data';
+import { loadCommerceCounts } from '@/lib/data/commerce';
 import { loadOverview, type Activity } from '@/lib/data/overview';
 import { named } from '@/lib/data/util';
 import { ago, digits, fill, money } from '@/lib/format';
@@ -61,7 +65,7 @@ export default async function OverviewPage() {
 
 async function Overview({ d, locale }: { d: Dictionary; locale: Locale }) {
   const { supabase } = await requireAdmin();
-  const o = await loadOverview(supabase);
+  const [o, c] = await Promise.all([loadOverview(supabase), loadCommerceCounts(supabase)]);
   const now = new Date();
   const t = d.overview;
   const p = (path: string) => `/${locale}${path}`;
@@ -101,8 +105,22 @@ async function Overview({ d, locale }: { d: Dictionary; locale: Locale }) {
       href: p('/payments'),
       icon: Landmark,
       label: t.queuePayments,
-      value: digits(receipts.length),
-      sample: true,
+      value: digits(c.receipts),
+      note: c.oldestReceiptAt
+        ? fill(t.kpiPendingNote, { age: ago(new Date(c.oldestReceiptAt), now, d.common) })
+        : undefined,
+    },
+    {
+      href: p('/payments'),
+      icon: Undo2,
+      label: t.queueRefunds,
+      value: money(c.refundsSdg, d.common.currency),
+    },
+    {
+      href: p('/orders'),
+      icon: ReceiptText,
+      label: t.queueReturns,
+      value: digits(c.returns),
     },
     {
       href: p('/disputes'),
@@ -115,11 +133,7 @@ async function Overview({ d, locale }: { d: Dictionary; locale: Locale }) {
       href: p('/cash'),
       icon: Banknote,
       label: t.queueCash,
-      value: money(
-        cashRows.reduce((s, r) => s + r.owedSdg, 0),
-        d.common.currency,
-      ),
-      sample: true,
+      value: money(c.owedToPlatformSdg, d.common.currency),
     },
   ];
 
@@ -159,10 +173,11 @@ async function Overview({ d, locale }: { d: Dictionary; locale: Locale }) {
         />
         <StatCard
           index={3}
-          label={t.kpiAccounts}
-          value={<AnimatedNumber value={o.accounts} />}
-          note={fill(t.kpiAccountsNote, { n: digits(o.shopOwners) })}
-          icon={<Users />}
+          href={p('/orders')}
+          label={t.kpiOrders}
+          value={<AnimatedNumber value={c.ordersToday} />}
+          note={fill(t.kpiOrdersNote, { amount: money(c.salesTodaySdg, d.common.currency) })}
+          icon={<Wallet />}
         />
       </div>
 
@@ -189,7 +204,7 @@ async function Overview({ d, locale }: { d: Dictionary; locale: Locale }) {
         <Panel title={t.attention}>
           <ul className="divide-y">
             {queues.map((q, i) => (
-              <li key={q.href} className="rise" style={riseStyle(i)}>
+              <li key={q.label} className="rise" style={riseStyle(i)}>
                 <Link
                   href={q.href}
                   className="group flex items-center gap-3 px-4 py-3 transition-colors hover:bg-muted/60 focus-visible:bg-muted focus-visible:outline-none"
@@ -299,7 +314,20 @@ function describe(
       return say('MERGE', GitMerge);
     case 'SET_PASSWORD':
       return say('PASSWORD', KeyRound);
+    case 'CONFIRM_PAYMENT':
+      return say('PAYMENT_CONFIRMED', Landmark);
+    case 'REJECT_PAYMENT':
+      return say('PAYMENT_REJECTED', Landmark);
+    case 'REFUND_PAID':
+      return say('REFUND_SENT', Undo2);
+    case 'APPROVE_RETURN':
+    case 'DECLINE_RETURN':
+      return say('RETURN_DECIDED', Undo2);
     default:
+      if (a.entity === 'payout' || a.entity === 'payout_run') return say('PAYOUTS', Wallet);
+      if (a.entity === 'sub_order') {
+        return say(a.action === 'COMPLETE' ? 'ORDER_COMPLETED' : 'ORDER_CANCELLED', ReceiptText);
+      }
       if (a.entity === 'shop') return say('UPDATE_SHOP', Store);
       if (['markets', 'streets', 'zones'].includes(a.entity)) return say('STREET', MapPinned);
       return say('CATALOGUE', BookOpen);

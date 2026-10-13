@@ -1,0 +1,26 @@
+{
+  "to": "2026-10-13T23:06:28.458097+00:00",
+  "from": "2026-09-13T23:06:28.458097+00:00",
+  "lines": [
+    {
+      "at": "2026-10-13T22:48:49.096585+00:00",
+      "id": "bb1075ce-5a4c-4bda-8525-ca0e7cbbf760",
+      "ref": "58156415",
+      "kind": "SALE",
+      "payout_id": null,
+      "amount_sdg": 145000
+    },
+    {
+      "at": "2026-10-13T22:48:49.096585+00:00",
+      "id": "13be32f7-a79d-48d4-aab5-71991bd1face",
+      "ref": "58156415",
+      "kind": "COMMISSION",
+      "payout_id": null,
+      "amount_sdg": -7250
+    }
+  ],
+  "payouts": [],
+  "shop_id": "6c910581-25e5-46e3-9b54-d80a0c972047",
+  "closing_sdg": 137750,
+  "opening_sdg": 0
+}

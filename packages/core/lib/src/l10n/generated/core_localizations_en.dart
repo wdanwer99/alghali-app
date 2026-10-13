@@ -273,6 +273,9 @@ class CoreLocalizationsEn extends CoreLocalizations {
   String get payExpired => 'Payment time ran out';
 
   @override
+  String get payCancelled => 'Payment cancelled';
+
+  @override
   String get bkHeld => 'Time held for you';
 
   @override

@@ -8,6 +8,27 @@
     "admin": { "email": "admin@demo.alghali.invalid", "name": "مشرف التجربة" },
     "buyer": { "email": "buyer@demo.alghali.invalid", "name": "أحمد محمد", "phone": "0912000001" }
   },
+  "buyers": {
+    "ahmed": { "email": "buyer@demo.alghali.invalid", "name": "أحمد محمد", "phone": "0912000001" },
+    "mona": { "email": "buyer.mona@demo.alghali.invalid", "name": "منى حسن", "phone": "0912000002" },
+    "sara": { "email": "buyer.sara@demo.alghali.invalid", "name": "Sara Ali", "phone": "0912000003" },
+    "omer": { "email": "buyer.omer@demo.alghali.invalid", "name": "عمر الطيب", "phone": "0912000004" }
+  },
+  "_orders": "Each order is placed and moved along through the real RPCs. stage: awaiting (no transfer yet), receipt (in the admin queue), ready, completed, cash_new, cash_completed, return_requested, rejected_refund (refund to send).",
+  "orders": [
+    { "buyer": "mona", "method": "BANKAK", "stage": "receipt", "lines": [["nour", "h4-led", "NEW_AFTERMARKET", 2]] },
+    { "buyer": "ahmed", "method": "BANKAK", "stage": "receipt", "lines": [["nour", "h4-halogen", "NEW_OEM", 1]] },
+    { "buyer": "sara", "method": "BANKAK", "stage": "receipt", "lines": [["tawfiq", "pads-hilux", "NEW_AFTERMARKET", 1]] },
+    { "buyer": "omer", "method": "BANKAK", "stage": "receipt", "lines": [["baraka", "battery-70", "NEW_AFTERMARKET", 1], ["amin", "oil-5w30", "NEW_OEM", 1]] },
+    { "buyer": "sara", "method": "BANKAK", "stage": "awaiting", "lines": [["oils", "oil-filter-toyota", "NEW_AFTERMARKET", 3]] },
+    { "buyer": "ahmed", "method": "BANKAK", "stage": "ready", "lines": [["farouq", "air-filter-hilux", "NEW_OEM", 1]] },
+    { "buyer": "mona", "method": "CASH", "stage": "cash_new", "lines": [["zain", "phone-holder", "NEW_AFTERMARKET", 1]] },
+    { "buyer": "omer", "method": "BANKAK", "stage": "completed", "lines": [["farouq", "pads-hilux", "NEW_OEM", 1]] },
+    { "buyer": "ahmed", "method": "BANKAK", "stage": "completed", "lines": [["nour", "battery-55", "NEW_AFTERMARKET", 1]] },
+    { "buyer": "sara", "method": "CASH", "stage": "cash_completed", "lines": [["amin", "belt-hilux", "NEW_AFTERMARKET", 1]] },
+    { "buyer": "mona", "method": "BANKAK", "stage": "return_requested", "lines": [["huda", "cabin-filter", "NEW_AFTERMARKET", 1]] },
+    { "buyer": "omer", "method": "BANKAK", "stage": "rejected_refund", "lines": [["tyres", "tyre-185", "NEW_AFTERMARKET", 1]] }
+  ],
   "parts": {
     "h4-led": { "cat": "lighting", "ar": "لمبات أمامية LED مقاس H4 (زوج)", "en": "H4 LED headlight bulbs (pair)", "models": ["toyota/hilux", "toyota/hiace", "toyota/corolla", "hyundai/accent", "hyundai/atos", "nissan/sunny"], "keywords": ["كشافات", "headlight"] },
     "h4-halogen": { "cat": "lighting", "ar": "لمبة هالوجين H4", "en": "H4 halogen bulb", "oem": ["90981-13045"], "models": ["toyota/hilux", "toyota/hiace", "toyota/corolla", "hyundai/accent", "hyundai/atos", "nissan/sunny"] },

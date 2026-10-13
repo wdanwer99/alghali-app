@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart' show immutable;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../models/catalogue.dart';
+import '../models/commerce.dart';
 import '../models/partner.dart';
 import 'backend_error.dart';
 
@@ -146,6 +147,61 @@ class ShopRepository {
         );
         return [for (final r in rows.cast<Json>()) PartSuggestion.fromJson(r)];
       });
+
+  /// The shop's orders, newest first; [statuses] filters (e.g. the "to do" tab). Orders
+  /// still waiting for the buyer's Bankak transfer are not shown.
+  Future<List<ShopSubOrder>> orders(
+    String shopId, {
+    Set<SubOrderStatus>? statuses,
+    int limit = 50,
+    int offset = 0,
+  }) => guard(() async {
+    final rows = await _client.rpc<List<dynamic>>(
+      'shop_orders',
+      params: {
+        'p_shop_id': shopId,
+        'p_statuses': statuses == null ? null : [for (final s in statuses) s.code],
+        'p_limit': limit,
+        'p_offset': offset,
+      },
+    );
+    return [for (final r in rows.cast<Json>()) ShopSubOrder.fromJson(r)];
+  });
+
+  Future<ShopSubOrder> _act(String fn, String subOrderId, [Json extra = const {}]) =>
+      guard(() async {
+        final row = await _client.rpc<Json>(fn, params: {'p_sub_order_id': subOrderId, ...extra});
+        return ShopSubOrder.fromJson(row);
+      });
+
+  /// "Accept": the shop has seen the order (a cash order can no longer be cancelled by
+  /// the buyer).
+  Future<ShopSubOrder> acknowledge(String subOrderId) => _act('shop_ack_suborder', subOrderId);
+
+  /// The shop can't supply it; a paid order is refunded to the buyer.
+  Future<ShopSubOrder> reject(String subOrderId, String reason) =>
+      _act('shop_reject_suborder', subOrderId, {'p_reason': reason});
+
+  Future<ShopSubOrder> markReady(String subOrderId) => _act('shop_mark_ready', subOrderId);
+
+  /// Pickup: the buyer collected it. Delivery: it left with the driver. Cash is
+  /// recorded as collected by the shop at this point (pickup) or on delivery.
+  Future<ShopSubOrder> handOver(String subOrderId) => _act('shop_hand_over', subOrderId);
+
+  Future<ShopSubOrder> markDelivered(String subOrderId) => _act('shop_mark_delivered', subOrderId);
+
+  /// Ledger lines and payouts between [from] and [to] (the last 30 days by default).
+  Future<ShopStatement> statement(String shopId, {DateTime? from, DateTime? to}) => guard(() async {
+    final row = await _client.rpc<Json>(
+      'shop_statement',
+      params: {
+        'p_shop_id': shopId,
+        'p_from': from?.toUtc().toIso8601String(),
+        'p_to': to?.toUtc().toIso8601String(),
+      },
+    );
+    return ShopStatement.fromJson(row);
+  });
 
   /// Uploads a stock sheet (.xlsx or .csv) and imports it. With [dryRun] nothing is
   /// saved: the report shows what would happen.

@@ -7,7 +7,9 @@ import { connect, hasDb, skipReason, type Sql } from '../support/db.ts';
 /** Tables clients may write directly; RLS limits whose rows (PLAN §1 rule 2). */
 const DIRECT_WRITE_TABLES = [
   'addresses',
+  'cart_items',
   'garage_vehicles',
+  'messages', // insert only: participants, as themselves
   // Admin-only through RLS (D-068).
   'job_types',
   'markets',
@@ -25,6 +27,7 @@ const DIRECT_WRITE_TABLES = [
 /** Functions anyone (signed in or not) may call. */
 const ANON_FUNCTIONS = [
   'ar_normalize',
+  'cart_validate',
   'catalogue_snapshot',
   'has_role',
   'is_admin',
@@ -65,6 +68,44 @@ const AUTHENTICATED_FUNCTIONS = [
   'try_uuid',
   'unregister_device',
   'update_profile',
+  // M2 commerce
+  'admin_approve_payouts',
+  'admin_cancel_payout',
+  'admin_cancel_suborder',
+  'admin_complete_suborder',
+  'admin_confirm_payment',
+  'admin_decide_return',
+  'admin_generate_payouts',
+  'admin_mark_payout_paid',
+  'admin_mark_refund_paid',
+  'admin_partner_balances',
+  'admin_payment_queue',
+  'admin_reject_payment',
+  'can_see_sub_order',
+  'cancel_order',
+  'checkout',
+  'close_part_request',
+  'confirm_received',
+  'create_part_request',
+  'is_conversation_participant',
+  'mark_conversation_read',
+  'mark_notifications_read',
+  'request_return',
+  'set_refund_account',
+  'shop_ack_suborder',
+  'shop_conversations',
+  'shop_hand_over',
+  'shop_make_offer',
+  'shop_mark_delivered',
+  'shop_mark_ready',
+  'shop_open_requests',
+  'shop_orders',
+  'shop_reject_suborder',
+  'shop_start_conversation',
+  'shop_statement',
+  'shop_withdraw_offer',
+  'start_conversation',
+  'submit_bankak_receipt',
 ].sort();
 
 describe.skipIf(!hasDb)('security baseline', () => {

@@ -453,6 +453,12 @@ abstract class CoreLocalizations {
   /// **'انتهت مهلة الدفع'**
   String get payExpired;
 
+  /// Payment state: the order was cancelled before it was paid
+  ///
+  /// In ar, this message translates to:
+  /// **'أُلغي الدفع'**
+  String get payCancelled;
+
   /// Booking status: slot held during checkout
   ///
   /// In ar, this message translates to:

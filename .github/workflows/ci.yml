@@ -62,8 +62,8 @@ jobs:
         run: |
           node infra/scripts/make-import-template.mjs
           git diff --exit-code --stat -- supabase/templates
-      - name: Start Supabase (database, auth, storage, Edge Functions)
-        run: pnpm exec supabase start -x studio,imgproxy,mailpit,logflare,vector,supavisor,realtime,postgres-meta
+      - name: Start Supabase (database, auth, storage, realtime, Edge Functions)
+        run: pnpm exec supabase start -x studio,imgproxy,mailpit,logflare,vector,supavisor,postgres-meta
       - name: Apply migrations
         run: pnpm exec supabase db reset
       - name: Expose the local API to the tests
@@ -81,4 +81,4 @@ jobs:
         run: |
           node infra/scripts/seed-demo.mjs local
           node infra/scripts/seed-demo.mjs local | tee seed.log
-          grep -q " 0 new listings" seed.log
+          grep -q " 0 new listings, 0 new orders" seed.log

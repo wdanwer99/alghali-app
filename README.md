@@ -36,11 +36,11 @@ pnpm hosted:push test
 pnpm functions:deploy:dev   # Edge Functions (bundled by Supabase, no Docker)
 pnpm functions:deploy:test
 pnpm templates:upload dev   # the Excel stock template shops download
-pnpm db:seed:dev            # demo shops, stock and accounts — dev only
+pnpm db:seed:dev            # demo shops, stock, buyers, orders and accounts — dev only
 pnpm env:sync               # copies client-safe keys into the apps
 ```
 
-**Demo accounts on alghali-dev** (after `pnpm db:seed:dev`): `buyer@demo.alghali.invalid`, `admin@demo.alghali.invalid` and one owner per shop, `owner.<shop>@demo.alghali.invalid` (for example `owner.nour@…`). They all use the `DEMO_PASSWORD` that the seed saved in `.env`.
+**Demo accounts on alghali-dev** (after `pnpm db:seed:dev`): `admin@demo.alghali.invalid`; buyers `buyer@demo.alghali.invalid`, `buyer.mona@…`, `buyer.sara@…` and `buyer.omer@…`, who have 12 orders between them at different stages; and one owner per shop, `owner.<shop>@demo.alghali.invalid` (for example `owner.nour@…`). They all use the `DEMO_PASSWORD` that the seed saved in `.env`.
 
 ## Everyday commands
 
@@ -54,7 +54,7 @@ pnpm env:sync               # copies client-safe keys into the apps
 | `pnpm db:push:dev` / `pnpm db:push:test` | Apply new migrations                                                                                   |
 | `pnpm db:reset:test`                     | Wipe `alghali-test` and re-apply every migration                                                       |
 | `pnpm db:types`                          | Regenerate `packages/db-types` from `alghali-dev`                                                      |
-| `pnpm db:seed:dev`                       | Load the demo shops and stock into `alghali-dev` (refuses any other project)                           |
+| `pnpm db:seed:dev`                       | Load the demo shops, stock, buyers and orders into `alghali-dev` (refuses any other project)           |
 | `pnpm functions:deploy:<dev\|test>`      | Deploy the Edge Functions                                                                              |
 | `pnpm hosted:diff <dev\|test>`           | Compare the project's settings with `infra/hosted/supabase/config.toml` (`hosted:push` applies)        |
 | `pnpm import-template`                   | Rebuild `supabase/templates/inventory-template.xlsx`; `pnpm templates:upload <dev\|test>` publishes it |

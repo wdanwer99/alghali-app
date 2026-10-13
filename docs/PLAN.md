@@ -1,6 +1,6 @@
 # Alghali Street Platform — Plan
 
-**Status:** v1.2 · approved by owner 2026-10-10 (with change: email login for everyone, phone OTP deferred) · M0 done · UI pass on sample data done 2026-10-11 · 2026-10-13: owner asked for a production launch with every feature (D-056–D-064: Android only, download link, free plan, push only, no domain) · M1 done 2026-10-13 · M2 not started
+**Status:** v1.2 · approved by owner 2026-10-10 (with change: email login for everyone, phone OTP deferred) · M0 done · UI pass on sample data done 2026-10-11 · 2026-10-13: owner asked for a production launch with every feature (D-056–D-064: Android only, download link, free plan, push only, no domain) · M1 done 2026-10-13 · M2 done 2026-10-14
 **Source brief:** [`claude-code-prompt-alghali.md`](../claude-code-prompt-alghali.md) · **Decisions log:** [`DECISIONS.md`](DECISIONS.md)
 
 ---
@@ -115,8 +115,19 @@ Every milestone ends with: lint + tests green, docs updated, a commit, and a sho
   - Real sign-in (admins only), overview, shop applications, a new Shops page, Users (admin role, temporary passwords), catalogue (fitment, shop parts, synonyms), Street & zones editor, and settings, all against `alghali-dev`.
   - More interactive: Ctrl K quick-jump, optimistic actions with toasts, a slide-in shop panel, live search, save bars, and motion that respects "reduce motion".
   - The owner can now set the street's city, GPS starting point and zone names (D-077) and the Bankak account (D-034) from the console.
-  - Still sample data until M2/M3: payments, orders, bookings, cash, payouts, disputes, technician applications.
+  - Still sample data until M2/M3: payments, orders, bookings, cash, payouts, disputes, technician applications. (Payments, orders, cash and payouts moved to real data in M2.)
   - Left for M6: Playwright smoke tests for each queue.
+- **M2 — done 2026-10-14** (D-081–D-095):
+  - **Backend:** cart and checkout (split per shop, price re-check and lock, stock reservation, payment window), the sub-order and payment state machines as transition tables, Bankak receipts and the admin queue, cash at pickup or delivery, returns, refunds, the ledger, statements and payouts, photo requests and offers, chat with Realtime and voice notes, the in-app inbox, and three timed jobs. Applied to `alghali-dev` and `alghali-test`.
+  - **Admin console:** Payments (receipts and refunds), Orders (with a detail page), Cash and Payouts now read the real database (D-094).
+  - **Demo data on dev:** 4 buyers and 12 orders at different stages (D-095).
+  - **TypeScript types** regenerated; **Dart repositories and parsers** for orders, requests, chat, the inbox and the shop's orders and statement.
+  - **Tests:** 259 TypeScript (DB, API end-to-end, sheet reader), 3 admin and 98 Flutter. Exit criteria met: table-driven state-machine tests, e2e checkout through payment confirmation, the ledger balancing on every path, and a reused Bankak transaction number rejected.
+  - **Not in M2:**
+    - Push notifications and the 30-minute "shop hasn't accepted" alert (D-020) need the M3 dispatcher; alerts land in the in-app inbox meanwhile.
+    - Handing parts to a technician and booking deposits come with M3 bookings.
+    - The buyer and partner screens still use sample data; M4/M5 connect them to these repositories.
+  - **Owner input still needed before launch:** unchanged from M1 (the street's city, GPS starting point and zone names, the Bankak account, and real fee amounts). Delivery fees can't be worked out for shops without a map pin until the street's starting point is set (D-087).
 
 | # | Scope | Exit criteria |
 |---|---|---|

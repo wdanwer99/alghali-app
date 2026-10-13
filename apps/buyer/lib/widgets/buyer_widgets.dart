@@ -57,6 +57,7 @@ Tone paymentTone(PaymentStatus s) => switch (s) {
   PaymentStatus.due => Tone.warning,
   PaymentStatus.confirmed || PaymentStatus.collected => Tone.success,
   PaymentStatus.rejected || PaymentStatus.expired => Tone.danger,
+  PaymentStatus.cancelled => Tone.neutral,
 };
 
 Tone bookingTone(BookingStatus s) => switch (s) {

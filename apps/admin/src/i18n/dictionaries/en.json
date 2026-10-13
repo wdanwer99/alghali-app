@@ -9,11 +9,7 @@
   },
   "sample": {
     "title": "Sample data.",
-    "payments": "Bankak receipts arrive with orders and payments (milestone M2). Nothing on this screen is real yet.",
-    "orders": "Orders arrive with the commerce milestone (M2). Nothing on this screen is real yet.",
     "bookings": "Bookings arrive with installation (milestone M3). Nothing on this screen is real yet.",
-    "cash": "Cash tracking arrives with orders and payments (milestone M2). Nothing on this screen is real yet.",
-    "payouts": "Payouts arrive with the ledger (milestone M2). Nothing on this screen is real yet.",
     "disputes": "Disputes arrive with installation (milestone M3). Nothing on this screen is real yet.",
     "technicians": "Technician applications arrive with installation (milestone M3). These cards are samples."
   },
@@ -116,7 +112,20 @@
     "INVALID_LOCATION": "Enter both latitude and longitude, or leave both empty.",
     "ZONE_OUT_OF_RANGE": "A zone must start before it ends and stay within the street's length.",
     "ZONE_HAS_SHOPS": "A zone that still has shops can't be removed. Hide it instead.",
-    "FAILED": "Something went wrong. Try again."
+    "FAILED": "Something went wrong. Try again.",
+    "DUPLICATE_TXN": "That transaction number was already used for another payment.",
+    "TXN_REQUIRED": "Type the transaction number from the statement first.",
+    "INVALID_TXN": "Enter the transaction number from Bankak, digits only.",
+    "NOT_UNDER_REVIEW": "This receipt was already handled. Refresh to see the latest.",
+    "ALREADY_PAID": "This was already recorded as sent.",
+    "NOT_APPROVED": "Approve the payout before recording it as paid.",
+    "PERIOD_ALREADY_PAID": "Payouts for this period were already prepared.",
+    "PAYOUT_NOT_FOUND": "This payout no longer exists or can't change.",
+    "RETURN_NOT_FOUND": "This return was already decided.",
+    "SUBORDER_NOT_FOUND": "That part of the order no longer exists.",
+    "REFUND_NOT_FOUND": "This refund no longer exists.",
+    "PAYMENT_NOT_FOUND": "This payment no longer exists.",
+    "INVALID_REASON": "Pick a reason."
   },
   "status": {
     "order": {
@@ -141,7 +150,8 @@
       "rejected": "Rejected",
       "due": "Cash on handover",
       "collected": "Cash collected",
-      "expired": "Expired"
+      "expired": "Expired",
+      "cancelled": "Cancelled"
     },
     "booking": {
       "held": "Held",
@@ -161,7 +171,8 @@
     "payout": {
       "draft": "Being prepared",
       "approved": "Approved",
-      "paid": "Paid"
+      "paid": "Paid",
+      "cancelled": "Cancelled"
     },
     "dispute": {
       "open": "Open",
@@ -211,7 +222,11 @@
     "byCategoryTotal": "{n} active listings",
     "partsInCategory": "{n} parts",
     "activity": "Recent activity",
-    "activityEmpty": "Nothing has happened yet."
+    "activityEmpty": "Nothing has happened yet.",
+    "queueRefunds": "Refunds to send",
+    "queueReturns": "Returns to decide",
+    "kpiOrders": "Orders today",
+    "kpiOrdersNote": "{amount} in sales"
   },
   "activity": {
     "APPLY": "{shop} applied to join",
@@ -229,7 +244,14 @@
     "STREET": "{actor} edited the street and zones",
     "CATALOGUE": "{actor} edited the catalogue",
     "someone": "Someone",
-    "aShop": "a shop"
+    "aShop": "a shop",
+    "PAYMENT_CONFIRMED": "{actor} confirmed a Bankak transfer",
+    "PAYMENT_REJECTED": "{actor} rejected a receipt",
+    "REFUND_SENT": "{actor} sent a refund",
+    "ORDER_CANCELLED": "{actor} cancelled part of an order",
+    "ORDER_COMPLETED": "{actor} marked an order completed",
+    "RETURN_DECIDED": "{actor} decided a return",
+    "PAYOUTS": "{actor} worked on partner payouts"
   },
   "payments": {
     "title": "Bankak transfer confirmations",
@@ -268,7 +290,32 @@
     "inNote": "In the note",
     "notInNote": "Not in the note",
     "failedHint": "Some checks failed. Reject the receipt so the buyer can fix it.",
-    "reason": "Reason"
+    "reason": "Reason",
+    "tabTransfers": "Transfers to check",
+    "tabRefunds": "Refunds to send",
+    "statementAmount": "A transfer of {amount} appears on the Bankak statement",
+    "txnLabel": "Transaction number from the statement",
+    "txnMissing": "The buyer sent only a screenshot. Type the transaction number from the statement before confirming.",
+    "refInNoteLabel": "The order number is in the transfer note",
+    "refInNoteHint": "Optional. The transfer can still be matched by amount and transaction number.",
+    "noReceipt": "No screenshot: the buyer sent the transaction number only.",
+    "openReceipt": "Open full size",
+    "payBy": "Pay by",
+    "rejectedBefore": "Rejected {n} time(s) before",
+    "reasonOther": "Other",
+    "rejectNote": "Note for the buyer (optional)",
+    "buyerPhone": "Buyer phone",
+    "refundsEmpty": "No refunds to send",
+    "refundsEmptyBody": "When a shop declines a paid order, or a return is approved, the refund appears here.",
+    "refundTo": "Send to",
+    "noRefundAccount": "No refund account yet: call the buyer",
+    "markRefundPaid": "Mark sent",
+    "refundPaidTitle": "Record the refund transfer",
+    "refundPaidBody": "Send {amount} to {buyer} from the platform's Bankak account, then enter the transaction number.",
+    "refundPaidToast": "Refund recorded; the buyer was told.",
+    "refundSent": "Sent",
+    "refundReason": "Why",
+    "refundOrder": "Order"
   },
   "approvals": {
     "title": "Partner applications",
@@ -347,7 +394,60 @@
     "items": "Items",
     "allStatuses": "All statuses",
     "showing": "Showing: {n}",
-    "placed": "Placed"
+    "placed": "Placed",
+    "empty": "No orders yet",
+    "emptyBody": "Orders appear here as soon as buyers check out.",
+    "back": "All orders",
+    "notFound": "This order doesn't exist.",
+    "parts": "Parts",
+    "delivery": "Delivery",
+    "commission": "Commission",
+    "timeline": "Timeline",
+    "payments": "Payments",
+    "refunds": "Refunds",
+    "deliverTo": "Deliver to",
+    "accepted": "Accepted by the shop",
+    "notAccepted": "Not accepted by the shop yet",
+    "cancelSub": "Cancel this part",
+    "cancelTitle": "Cancel {shop}'s part of the order?",
+    "cancelBody": "The stock goes back to the shop. If the buyer has paid, a refund is created for you to send.",
+    "cancelledToast": "Cancelled; the buyer and the shop were told.",
+    "complete": "Mark completed",
+    "completedToast": "Marked completed; the shop's sale is recorded.",
+    "returnRequested": "The buyer asked to return this",
+    "returnApprove": "Approve return",
+    "returnDecline": "Decline",
+    "returnApprovedToast": "Return approved; a refund is ready to send.",
+    "returnDeclinedToast": "Return declined; the sale stands.",
+    "declineTitle": "Why decline the return?",
+    "returnDecided": "Return {status}",
+    "qty": "Qty",
+    "unitPrice": "Price",
+    "by": "by {who}",
+    "reasonGiven": "Reason",
+    "refundSent": "Sent, txn {txn}",
+    "refundPending": "To send",
+    "conditions": {
+      "NEW_OEM": "Genuine, new",
+      "NEW_AFTERMARKET": "New, aftermarket",
+      "USED": "Used"
+    },
+    "fulfilment": {
+      "PICKUP": "Pickup at the shop",
+      "DELIVERY": "Delivery",
+      "TO_TECHNICIAN": "To the technician"
+    },
+    "actors": {
+      "BUYER": "Buyer",
+      "SHOP": "Shop",
+      "ADMIN": "Admin",
+      "SYSTEM": "Automatic"
+    },
+    "returnStatus": {
+      "REQUESTED": "requested",
+      "APPROVED": "approved",
+      "DECLINED": "declined"
+    }
   },
   "bookings": {
     "title": "Bookings",
@@ -362,23 +462,28 @@
   },
   "cash": {
     "title": "Cash reconciliation",
-    "subtitle": "Cash partners collected and the commission they owe the platform. Flagged after two payout cycles unpaid.",
+    "subtitle": "Who owes whom: commission on cash the shops kept, and what the platform owes them. Flagged after two payout runs unpaid.",
     "collected": "Cash collected",
     "handed": "Handed to shops",
     "owed": "Owed to platform",
     "cycles": "Unpaid cycles",
     "flag": "Over the limit",
-    "totalOwed": "Total owed to the platform"
+    "totalOwed": "Total owed to the platform",
+    "owedToShop": "Platform owes",
+    "openPayout": "Payout waiting",
+    "empty": "No money has moved yet",
+    "emptyBody": "Shops appear here once they sell through the platform.",
+    "collectedHint": "Cash the shop took from buyers since its last payout."
   },
   "payouts": {
     "title": "Partner payouts",
-    "subtitle": "This week's payouts, sent by Bankak on Sunday after commission.",
+    "subtitle": "What each shop is owed after commission and the cash it already kept, sent by Bankak.",
     "period": "Period",
     "approveAll": "Approve all",
     "markPaid": "Mark paid",
     "txnPrompt": "Bankak transaction number",
-    "sales": "Sales and labour",
-    "commission": "Commission and fees",
+    "sales": "Sales",
+    "commission": "Deductions",
     "net": "Net",
     "totalToPay": "Total to pay",
     "paidToast": "Payout recorded.",
@@ -387,7 +492,18 @@
     "markPaidTitle": "Record the Bankak transfer",
     "markPaidBody": "Send {amount} to {partner} from the platform's Bankak account, then enter the transaction number.",
     "txnInvalid": "Enter the transaction number from Bankak, digits only.",
-    "txnShort": "Txn {txn}"
+    "txnShort": "Txn {txn}",
+    "prepare": "Prepare payouts",
+    "prepared": "Payouts prepared for every shop the platform owes.",
+    "noRun": "No payouts prepared yet",
+    "noRunBody": "Prepare payouts to see what each shop is owed up to now.",
+    "nothingOwed": "No shop is owed money right now.",
+    "deductionsHint": "Commission, cash the shop already kept, and balances carried over.",
+    "cancelPayout": "Cancel payout",
+    "cancelTitle": "Cancel the payout to {partner}?",
+    "cancelledToast": "Payout cancelled. The amount stays owed and joins the next payout.",
+    "upTo": "Up to {date}",
+    "nextPayDay": "Next payout day: {date}"
   },
   "disputes": {
     "title": "Disputes",

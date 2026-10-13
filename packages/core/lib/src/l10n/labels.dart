@@ -58,6 +58,7 @@ extension CoreLabels on CoreLocalizations {
     PaymentStatus.due => payDue,
     PaymentStatus.collected => payCollected,
     PaymentStatus.expired => payExpired,
+    PaymentStatus.cancelled => payCancelled,
   };
 
   String bookingStatus(BookingStatus s) => switch (s) {

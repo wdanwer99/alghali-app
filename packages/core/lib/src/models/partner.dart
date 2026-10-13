@@ -1,6 +1,150 @@
 import 'package:flutter/foundation.dart' show immutable;
 
 import 'catalogue.dart';
+import 'commerce.dart';
+
+// ------------------------------------------------------------- shop orders --
+
+/// One sub-order as the shop sees it (`shop_sub_order_json`): the order reference, the
+/// buyer's name and phone to call, how the buyer pays, and where to deliver.
+@immutable
+class ShopSubOrder {
+  const ShopSubOrder({
+    required this.subOrder,
+    required this.ref,
+    required this.method,
+    required this.placedAt,
+    required this.buyerName,
+    this.buyerPhone,
+    this.paymentStatus,
+    this.address,
+    this.commissionSdg = 0,
+  });
+
+  factory ShopSubOrder.fromJson(Json j) {
+    final buyer = j['buyer'] as Json? ?? const {};
+    final address = j['address'] as Json?;
+    return ShopSubOrder(
+      subOrder: SubOrder.fromJson(j),
+      ref: j['ref'] as String,
+      method: PaymentMethod.fromCode(j['payment_method'] as String),
+      placedAt: DateTime.parse(j['placed_at'] as String),
+      buyerName: buyer['name'] as String? ?? '',
+      buyerPhone: buyer['phone'] as String?,
+      paymentStatus: j['payment_status'] == null
+          ? null
+          : PaymentStatus.fromCode(j['payment_status'] as String),
+      address: address == null
+          ? null
+          : DeliveryAddress(
+              label: address['label'] as String? ?? '',
+              directions: address['description_ar'] as String?,
+              lat: (address['lat'] as num?)?.toDouble(),
+              lng: (address['lng'] as num?)?.toDouble(),
+            ),
+      commissionSdg: j['commission_sdg'] as int? ?? 0,
+    );
+  }
+
+  final SubOrder subOrder;
+  final String ref;
+  final PaymentMethod method;
+  final DateTime placedAt;
+  final String buyerName;
+  final String? buyerPhone;
+
+  /// Cash: due or collected by this shop. Bankak: the order's transfer.
+  final PaymentStatus? paymentStatus;
+  final DeliveryAddress? address;
+  final int commissionSdg;
+}
+
+/// An open photo request as a shop sees it (`shop_open_requests`): the buyer's first
+/// name, this shop's latest offer and how many live offers it has.
+@immutable
+class OpenRequest {
+  const OpenRequest({required this.request, required this.offerCount, this.myOffer});
+
+  factory OpenRequest.fromJson(Json j) {
+    final mine = j['my_offer'] as Json?;
+    return OpenRequest(
+      request: PartRequest.fromJson(j),
+      offerCount: j['offer_count'] as int? ?? 0,
+      myOffer: mine == null ? null : PartOffer.fromJson(mine),
+    );
+  }
+
+  final PartRequest request;
+  final int offerCount;
+  final PartOffer? myOffer;
+}
+
+/// What a shop offers on a photo request.
+@immutable
+class OfferDraft {
+  const OfferDraft({
+    required this.title,
+    required this.condition,
+    required this.priceSdg,
+    this.warrantyDays = 0,
+    this.note,
+    this.partId,
+    this.imageKey,
+    this.validHours = 48,
+  });
+
+  final String title;
+  final ListingCondition condition;
+  final int priceSdg;
+  final int warrantyDays;
+  final String? note;
+  final String? partId;
+
+  /// A photo already uploaded under shops/{shop id}/… in the public media bucket.
+  final String? imageKey;
+
+  /// 1–168 hours; 48 by default.
+  final int validHours;
+}
+
+@immutable
+class DeliveryAddress {
+  const DeliveryAddress({required this.label, this.directions, this.lat, this.lng});
+
+  final String label;
+  final String? directions;
+  final double? lat;
+  final double? lng;
+}
+
+/// A shop's statement (`shop_statement`). Amounts: positive = the platform owes the shop.
+@immutable
+class ShopStatement {
+  const ShopStatement({
+    required this.from,
+    required this.to,
+    required this.openingSdg,
+    required this.closingSdg,
+    required this.lines,
+    required this.payouts,
+  });
+
+  factory ShopStatement.fromJson(Json j) => ShopStatement(
+    from: DateTime.parse(j['from'] as String),
+    to: DateTime.parse(j['to'] as String),
+    openingSdg: j['opening_sdg'] as int,
+    closingSdg: j['closing_sdg'] as int,
+    lines: [for (final l in (j['lines'] as List).cast<Json>()) ?LedgerLine.fromJson(l)],
+    payouts: [for (final p in (j['payouts'] as List).cast<Json>()) Payout.fromJson(p)],
+  );
+
+  final DateTime from;
+  final DateTime to;
+  final int openingSdg;
+  final int closingSdg;
+  final List<LedgerLine> lines;
+  final List<Payout> payouts;
+}
 
 // ------------------------------------------------------------- shop stock --
 
@@ -331,6 +475,31 @@ class LedgerLine {
     this.ref,
   });
 
+  /// A `shop_statement` line. Reversals show under their kind with the opposite sign
+  /// (a reversed sale reads as a refund). Null for kinds this app version doesn't know.
+  static LedgerLine? fromJson(Json j) {
+    final kind = switch (j['kind']) {
+      'SALE' => LedgerKind.sale,
+      'SALE_REVERSAL' || 'CASH_RETURNED' || 'REFUND' => LedgerKind.refund,
+      'COMMISSION' || 'COMMISSION_REVERSAL' => LedgerKind.commission,
+      'CASH_COLLECTED' => LedgerKind.cashCollected,
+      'CASH_HANDOVER' => LedgerKind.cashHandover,
+      'PAYOUT' => LedgerKind.payout,
+      'LABOUR' => LedgerKind.labour,
+      'TRAVEL_FEE' => LedgerKind.travelFee,
+      'BOOKING_FEE' => LedgerKind.bookingFee,
+      _ => null,
+    };
+    if (kind == null) return null;
+    return LedgerLine(
+      id: j['id'] as String,
+      kind: kind,
+      amountSdg: j['amount_sdg'] as int,
+      at: DateTime.parse(j['at'] as String),
+      ref: j['ref'] as String?,
+    );
+  }
+
   final String id;
   final LedgerKind kind;
   final int amountSdg;
@@ -362,6 +531,19 @@ class Payout {
     required this.status,
     this.paidAt,
   });
+
+  /// A payout listed in `shop_statement` (its period isn't included there: from = to = created).
+  factory Payout.fromJson(Json j) {
+    final created = DateTime.parse(j['created_at'] as String);
+    return Payout(
+      id: j['id'] as String,
+      from: created,
+      to: created,
+      amountSdg: j['amount_sdg'] as int,
+      status: PayoutStatus.values.byName((j['status'] as String).toLowerCase()),
+      paidAt: DateTime.tryParse(j['paid_at'] as String? ?? ''),
+    );
+  }
 
   final String id;
   final DateTime from;

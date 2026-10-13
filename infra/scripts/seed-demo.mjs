@@ -172,8 +172,77 @@ try {
     added++;
   }
 
+  // Demo orders, placed and moved along through the same RPCs the apps call. Only when
+  // the demo buyers have no orders yet, so a re-run adds nothing.
+  const buyers = {};
+  for (const [key, b] of Object.entries(demo.buyers))
+    buyers[key] = await account(b.email, b.name, b.phone);
+  const [{ n: existingOrders }] = await sql`
+    select count(*)::int as n from public.orders where buyer_id = any (${Object.values(buyers)}::uuid[])`;
+  let placedOrders = 0;
+  if (existingOrders === 0) {
+    const txn = () => String(100000000 + Math.floor(Math.random() * 899999999));
+    for (const spec of demo.orders) {
+      const buyer = buyers[spec.buyer];
+      const items = [];
+      for (const [shopKey, partKey, condition, qty] of spec.lines) {
+        const [l] = await sql`
+          select id, price_sdg from public.listings
+          where shop_id = ${shops[shopKey]} and part_id = ${parts[partKey]} and condition = ${condition}::public.listing_condition`;
+        items.push({ listing_id: l.id, qty, seen_price_sdg: Number(l.price_sdg) });
+      }
+      const order = await as(buyer, async (tx) => {
+        const [{ o }] =
+          await tx`select public.checkout(${tx.json(items)}, ${spec.method}::public.payment_method) as o`;
+        return o;
+      });
+      const shopKeys = spec.lines.map(([shopKey]) => shopKey);
+      const subFor = (shopKey) => order.sub_orders.find((s) => s.shop_id === shops[shopKey]).id;
+      const byShop = async (fn) => {
+        for (const shopKey of new Set(shopKeys)) {
+          await as(owners[shopKey], (tx) => fn(tx, subFor(shopKey)));
+        }
+      };
+      const stage = spec.stage;
+      if (spec.method === 'BANKAK' && stage !== 'awaiting') {
+        await as(buyer, (tx) => tx`select public.submit_bankak_receipt(${order.id}, ${txn()})`);
+        if (stage !== 'receipt') {
+          const payment = order.payments.find((p) => p.method === 'BANKAK');
+          await as(admin, (tx) => tx`select public.admin_confirm_payment(${payment.id})`);
+        }
+      }
+      if (stage === 'rejected_refund') {
+        await byShop(
+          (tx, sub) => tx`select public.shop_reject_suborder(${sub}, 'نفدت الكمية من المخزن')`,
+        );
+      }
+      if (['ready', 'completed', 'cash_completed', 'return_requested'].includes(stage)) {
+        await byShop(async (tx, sub) => {
+          await tx`select public.shop_ack_suborder(${sub})`;
+          await tx`select public.shop_mark_ready(${sub})`;
+        });
+      }
+      if (['completed', 'cash_completed', 'return_requested'].includes(stage)) {
+        await byShop((tx, sub) => tx`select public.shop_hand_over(${sub})`);
+      }
+      if (['completed', 'cash_completed'].includes(stage)) {
+        for (const s of order.sub_orders) {
+          await as(buyer, (tx) => tx`select public.confirm_received(${s.id})`);
+        }
+      }
+      if (stage === 'return_requested') {
+        const sub = order.sub_orders[0].id;
+        await as(
+          buyer,
+          (tx) => tx`select public.request_return(${sub}, 'الفلتر لا يناسب السيارة')`,
+        );
+      }
+      placedOrders++;
+    }
+  }
+
   console.log(
-    `${which} seeded: ${demo.shops.length} shops, ${Object.keys(parts).length} demo parts, ${added} new listings.`,
+    `${which} seeded: ${demo.shops.length} shops, ${Object.keys(parts).length} demo parts, ${added} new listings, ${placedOrders} new orders.`,
   );
   console.log(
     `Demo sign-in: ${demo.people.buyer.email}, ${demo.people.admin.email}, owner.<shop>@demo.alghali.invalid`,

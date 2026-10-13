@@ -1,39 +1,51 @@
 'use client';
 
-import { Search } from 'lucide-react';
+import { ReceiptText, Search } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useId, useState } from 'react';
+import type { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/dictionaries';
-import type { OrderRow, OrderStatus } from '@/lib/demo/data';
+import type { OrderRow, SubStatus } from '@/lib/data/commerce';
 import { digits, fill, formatRef, money, searchKey } from '@/lib/format';
-import { orderTone, paymentTone } from '@/lib/tones';
-import { Num, Panel, StatusBadge, Table, Td, Th } from './ui';
+import { orderTone, paymentTone, statusKey } from '@/lib/tones';
+import { EmptyState, Num, Panel, StatusBadge, Table, Td, Th } from './ui';
 
-const statuses: OrderStatus[] = [
-  'paymentReview',
-  'pendingPayment',
-  'confirmed',
-  'ready',
-  'handedToTechnician',
-  'completed',
-  'cancelled',
+const statuses: SubStatus[] = [
+  'PAYMENT_REVIEW',
+  'PENDING_PAYMENT',
+  'RETURN_REQUESTED',
+  'CONFIRMED',
+  'READY',
+  'OUT_FOR_DELIVERY',
+  'PICKED_UP',
+  'DELIVERED',
+  'HANDED_TO_TECHNICIAN',
+  'COMPLETED',
+  'REJECTED_BY_SHOP',
+  'RETURNED',
+  'CANCELLED',
 ];
 
 /** Dates arrive pre-formatted from the server so both render the same text. */
 export function OrdersTable({
   orders,
+  locale,
   d,
   common,
   status,
 }: {
   orders: (OrderRow & { placedText: string })[];
+  locale: Locale;
   d: Dictionary['orders'];
   common: Dictionary['common'];
   status: Dictionary['status'];
 }) {
   const [query, setQuery] = useState('');
-  const [filter, setFilter] = useState<OrderStatus | 'all'>('all');
+  const [filter, setFilter] = useState<SubStatus | 'all'>('all');
   const searchId = useId();
   const filterId = useId();
+  const router = useRouter();
 
   const q = searchKey(query);
   const qDigits = query.replace(/\D/g, '');
@@ -42,6 +54,15 @@ export function OrdersTable({
       (filter === 'all' || o.status === filter) &&
       (!q || searchKey(o.buyer).includes(q) || (qDigits.length > 0 && o.ref.includes(qDigits))),
   );
+  const href = (o: OrderRow) => `/${locale}/orders/${o.id}`;
+
+  if (orders.length === 0) {
+    return (
+      <Panel>
+        <EmptyState icon={<ReceiptText />} title={d.empty} body={d.emptyBody} />
+      </Panel>
+    );
+  }
 
   return (
     <Panel>
@@ -72,13 +93,13 @@ export function OrdersTable({
           <select
             id={filterId}
             value={filter}
-            onChange={(e) => setFilter(e.target.value as OrderStatus | 'all')}
+            onChange={(e) => setFilter(e.target.value as SubStatus | 'all')}
             className="h-10 min-w-44 rounded-lg border border-input bg-card px-3 text-sm outline-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30"
           >
             <option value="all">{d.allStatuses}</option>
             {statuses.map((s) => (
               <option key={s} value={s}>
-                {status.order[s]}
+                {status.order[statusKey(s)]}
               </option>
             ))}
           </select>
@@ -106,9 +127,19 @@ export function OrdersTable({
           </thead>
           <tbody>
             {rows.map((o) => (
-              <tr key={o.ref} className="hover:bg-muted/40">
+              <tr
+                key={o.id}
+                onClick={() => router.push(href(o))}
+                className="group cursor-pointer hover:bg-muted/40"
+              >
                 <Td>
-                  <Num className="font-semibold">{formatRef(o.ref)}</Num>
+                  <Link
+                    href={href(o)}
+                    onClick={(e) => e.stopPropagation()}
+                    className="font-semibold tabular-nums underline-offset-2 group-hover:underline focus-visible:underline focus-visible:outline-none"
+                  >
+                    {formatRef(o.ref)}
+                  </Link>
                 </Td>
                 <Td className="whitespace-nowrap text-muted-foreground">{o.placedText}</Td>
                 <Td>
@@ -126,15 +157,19 @@ export function OrdersTable({
                 <Td>
                   <div className="flex items-center gap-2 whitespace-nowrap">
                     <span className="text-muted-foreground">
-                      {o.method === 'bankak' ? common.bankak : common.cash}
+                      {o.method === 'BANKAK' ? common.bankak : common.cash}
                     </span>
-                    <StatusBadge tone={paymentTone[o.payment]}>
-                      {status.payment[o.payment]}
-                    </StatusBadge>
+                    {o.payment && (
+                      <StatusBadge tone={paymentTone[o.payment]}>
+                        {status.payment[statusKey(o.payment)]}
+                      </StatusBadge>
+                    )}
                   </div>
                 </Td>
                 <Td>
-                  <StatusBadge tone={orderTone[o.status]}>{status.order[o.status]}</StatusBadge>
+                  <StatusBadge tone={orderTone[o.status]}>
+                    {status.order[statusKey(o.status)]}
+                  </StatusBadge>
                 </Td>
               </tr>
             ))}

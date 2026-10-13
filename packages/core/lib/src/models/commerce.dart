@@ -2,6 +2,12 @@ import 'package:flutter/foundation.dart' show immutable;
 
 import 'catalogue.dart';
 
+/// "PENDING_PAYMENT" ↔ "pendingPayment": database codes and Dart enum names.
+String screamingCase(String camel) =>
+    camel.replaceAllMapped(RegExp('[A-Z]'), (m) => '_${m[0]}').toUpperCase();
+String camelCase(String screaming) =>
+    screaming.toLowerCase().replaceAllMapped(RegExp('_([a-z])'), (m) => m[1]!.toUpperCase());
+
 /// Status changes as shown on tracking timelines.
 @immutable
 class StatusEvent<S extends Enum> {
@@ -26,12 +32,28 @@ enum SubOrderStatus {
   cancelled,
   rejectedByShop,
   returnRequested,
-  returned,
+  returned;
+
+  String get code => screamingCase(name);
+  static SubOrderStatus fromCode(String code) => values.byName(camelCase(code));
 }
 
-enum FulfilmentType { pickup, delivery, toTechnician }
+enum FulfilmentType {
+  pickup,
+  delivery,
+  toTechnician;
 
-enum PaymentMethod { bankak, cash }
+  String get code => screamingCase(name);
+  static FulfilmentType fromCode(String code) => values.byName(camelCase(code));
+}
+
+enum PaymentMethod {
+  bankak,
+  cash;
+
+  String get code => screamingCase(name);
+  static PaymentMethod fromCode(String code) => values.byName(camelCase(code));
+}
 
 enum PaymentStatus {
   awaitingTransfer,
@@ -41,6 +63,92 @@ enum PaymentStatus {
   due,
   collected,
   expired,
+  cancelled;
+
+  String get code => screamingCase(name);
+  static PaymentStatus fromCode(String code) => values.byName(camelCase(code));
+}
+
+/// A refund the platform owes the buyer for one sub-order (shop declined, cancelled
+/// after payment, or an approved return).
+@immutable
+class Refund {
+  const Refund({required this.id, required this.amountSdg, required this.sent, this.subOrderId});
+
+  factory Refund.fromJson(Json j) => Refund(
+    id: j['id'] as String,
+    subOrderId: j['sub_order_id'] as String?,
+    amountSdg: j['amount_sdg'] as int,
+    sent: j['status'] == 'PAID',
+  );
+
+  final String id;
+  final String? subOrderId;
+  final int amountSdg;
+  final bool sent;
+}
+
+enum ReturnState { requested, approved, declined }
+
+@immutable
+class ReturnRequest {
+  const ReturnRequest({required this.reason, required this.state, this.note});
+
+  factory ReturnRequest.fromJson(Json j) => ReturnRequest(
+    reason: j['reason'] as String,
+    state: ReturnState.values.byName((j['status'] as String).toLowerCase()),
+    note: j['decision_note'] as String?,
+  );
+
+  final String reason;
+  final ReturnState state;
+
+  /// The admin's note when deciding.
+  final String? note;
+}
+
+/// One cart line checked against the shop's current price and stock (`cart_validate`).
+enum CartProblem { priceChanged, notEnoughStock, unavailable }
+
+@immutable
+class CartCheck {
+  const CartCheck({
+    required this.qty,
+    required this.seenPriceSdg,
+    required this.ok,
+    this.listingId,
+    this.offerId,
+    this.problem,
+    this.priceSdg,
+    this.availableQty,
+  });
+
+  factory CartCheck.fromJson(Json j) => CartCheck(
+    listingId: j['listing_id'] as String?,
+    offerId: j['offer_id'] as String?,
+    qty: j['qty'] as int,
+    seenPriceSdg: j['seen_price_sdg'] as int,
+    ok: j['ok'] as bool,
+    problem: switch (j['problem']) {
+      'PRICE_CHANGED' => CartProblem.priceChanged,
+      'NOT_ENOUGH_STOCK' => CartProblem.notEnoughStock,
+      'UNAVAILABLE' => CartProblem.unavailable,
+      _ => null,
+    },
+    priceSdg: j['price_sdg'] as int?,
+    availableQty: j['available_qty'] as int?,
+  );
+
+  final String? listingId;
+  final String? offerId;
+  final int qty;
+  final int seenPriceSdg;
+  final bool ok;
+  final CartProblem? problem;
+
+  /// The price now (null when unavailable).
+  final int? priceSdg;
+  final int? availableQty;
 }
 
 /// A line in a placed order. Title and price are copied at checkout, so later
@@ -57,6 +165,18 @@ class OrderItem {
     this.warrantyDays = 0,
   });
 
+  /// A row of `order_items`. [listingId] holds the offer id for an item bought from a
+  /// photo-request offer.
+  factory OrderItem.fromJson(Json j) => OrderItem(
+    listingId: (j['listing_id'] ?? j['offer_id']) as String,
+    partId: j['part_id'] as String? ?? '',
+    title: LocalizedText.fromJson(j, 'title'),
+    condition: ListingCondition.fromCode(j['condition'] as String),
+    unitPriceSdg: j['unit_price_sdg'] as int,
+    qty: j['qty'] as int,
+    warrantyDays: j['warranty_days'] as int? ?? 0,
+  );
+
   final String listingId;
   final String partId;
   final LocalizedText title;
@@ -66,6 +186,19 @@ class OrderItem {
   final int warrantyDays;
 
   int get lineSdg => unitPriceSdg * qty;
+}
+
+/// Events come as `{from, to, at}` from the order RPCs, or as `suborder_events` rows.
+List<StatusEvent<SubOrderStatus>> _events(Object? list) {
+  final rows = [...?(list as List?)?.cast<Json>()];
+  rows.sort((a, b) => (a['at'] as String).compareTo(b['at'] as String));
+  return [
+    for (final e in rows)
+      StatusEvent(
+        SubOrderStatus.fromCode((e['to'] ?? e['to_status']) as String),
+        DateTime.parse(e['at'] as String),
+      ),
+  ];
 }
 
 /// The part of an order that one shop handles.
@@ -80,7 +213,30 @@ class SubOrder {
     required this.events,
     this.deliveryFeeSdg = 0,
     this.acknowledgedAt,
+    this.returnRequest,
+    this.cancelReason,
   });
+
+  /// From the order RPCs (`items`, `events`, `return`) or a direct select
+  /// (`order_items`, `suborder_events`, `returns`).
+  factory SubOrder.fromJson(Json j) {
+    final ret = j['return'] ?? j['returns'];
+    return SubOrder(
+      id: j['id'] as String,
+      shopId: j['shop_id'] as String,
+      status: SubOrderStatus.fromCode(j['status'] as String),
+      fulfilment: FulfilmentType.fromCode(j['fulfilment'] as String),
+      items: [
+        for (final i in ((j['items'] ?? j['order_items']) as List).cast<Json>())
+          OrderItem.fromJson(i),
+      ],
+      events: _events(j['events'] ?? j['suborder_events']),
+      deliveryFeeSdg: j['delivery_fee_sdg'] as int? ?? 0,
+      acknowledgedAt: DateTime.tryParse(j['shop_ack_at'] as String? ?? ''),
+      returnRequest: ret is Json ? ReturnRequest.fromJson(ret) : null,
+      cancelReason: j['cancel_reason'] as String?,
+    );
+  }
 
   final String id;
   final String shopId;
@@ -92,6 +248,10 @@ class SubOrder {
 
   /// When the shop tapped "Accept" (D-020: a timestamp, not a status).
   final DateTime? acknowledgedAt;
+  final ReturnRequest? returnRequest;
+
+  /// Why the shop declined, or the order was cancelled.
+  final String? cancelReason;
 
   int get itemsSdg => items.fold(0, (sum, i) => sum + i.lineSdg);
 
@@ -103,6 +263,8 @@ class SubOrder {
     items: items,
     deliveryFeeSdg: deliveryFeeSdg,
     acknowledgedAt: acknowledgedAt ?? this.acknowledgedAt,
+    returnRequest: returnRequest,
+    cancelReason: cancelReason,
     events: status == null || status == this.status
         ? events
         : [...events, StatusEvent(status, at ?? DateTime.now())],
@@ -126,7 +288,43 @@ class Order {
     this.depositSdg = 0,
     this.buyerName = '',
     this.txnNo,
+    this.refunds = const <Refund>[],
   });
+
+  /// From `order_json()` (checkout and order RPCs) or a direct select with nested
+  /// `payments`, `refunds` and `sub_orders`. A cash order has no pay-by time; it uses
+  /// the order time. Its payment state is the shops' cash still due, else collected.
+  factory Order.fromJson(Json j) {
+    final method = PaymentMethod.fromCode(j['payment_method'] as String);
+    final payments = [...?(j['payments'] as List?)?.cast<Json>()];
+    final bankak = payments.where(
+      (p) => p['method'] == 'BANKAK' && p['purpose'] != 'BOOKING_DEPOSIT',
+    );
+    final cash = payments.where((p) => p['method'] == 'CASH').map((p) => p['status'] as String);
+    final createdAt = DateTime.parse(j['created_at'] as String);
+    return Order(
+      id: j['id'] as String,
+      ref: j['ref'] as String,
+      createdAt: createdAt,
+      payBy: DateTime.tryParse(j['pay_by'] as String? ?? '') ?? createdAt,
+      method: method,
+      paymentStatus: bankak.isNotEmpty
+          ? PaymentStatus.fromCode(bankak.first['status'] as String)
+          : cash.contains('DUE')
+          ? PaymentStatus.due
+          : cash.contains('COLLECTED')
+          ? PaymentStatus.collected
+          : PaymentStatus.cancelled,
+      txnNo: bankak.isNotEmpty ? bankak.first['bankak_txn_no'] as String? : null,
+      subOrders: [for (final s in (j['sub_orders'] as List).cast<Json>()) SubOrder.fromJson(s)],
+      bookingFeeSdg: j['booking_fee_sdg'] as int? ?? 0,
+      labourSdg: j['labour_sdg'] as int? ?? 0,
+      travelFeeSdg: j['travel_sdg'] as int? ?? 0,
+      refunds: [
+        for (final r in [...?(j['refunds'] as List?)?.cast<Json>()]) Refund.fromJson(r),
+      ],
+    );
+  }
 
   final String id;
 
@@ -148,6 +346,7 @@ class Order {
   final int depositSdg;
   final String buyerName;
   final String? txnNo;
+  final List<Refund> refunds;
 
   int get itemsSdg => subOrders.fold(0, (sum, s) => sum + s.itemsSdg);
   int get deliverySdg => subOrders.fold(0, (sum, s) => sum + s.deliveryFeeSdg);
@@ -173,6 +372,7 @@ class Order {
     depositSdg: depositSdg,
     buyerName: buyerName,
     txnNo: txnNo ?? this.txnNo,
+    refunds: refunds,
   );
 }
 
@@ -338,7 +538,26 @@ class PartOffer {
     required this.validUntil,
     this.warrantyDays = 0,
     this.note,
+    this.live = true,
+    this.imageKey,
   });
+
+  /// A row of `part_offers`.
+  factory PartOffer.fromJson(Json j) {
+    final note = j['note_ar'] as String?;
+    return PartOffer(
+      id: j['id'] as String,
+      shopId: j['shop_id'] as String,
+      title: LocalizedText.fromJson(j, 'title'),
+      condition: ListingCondition.fromCode(j['condition'] as String),
+      priceSdg: j['price_sdg'] as int,
+      validUntil: DateTime.parse(j['valid_until'] as String),
+      warrantyDays: j['warranty_days'] as int? ?? 0,
+      note: note == null ? null : LocalizedText(note, note),
+      live: j['status'] == 'OFFERED',
+      imageKey: j['image_key'] as String?,
+    );
+  }
 
   final String id;
   final String shopId;
@@ -348,6 +567,10 @@ class PartOffer {
   final DateTime validUntil;
   final int warrantyDays;
   final LocalizedText? note;
+
+  /// Still open to buy (not withdrawn, expired or already ordered).
+  final bool live;
+  final String? imageKey;
 }
 
 @immutable
@@ -363,7 +586,29 @@ class PartRequest {
     this.categoryId,
     this.photoCount = 1,
     this.buyerName = '',
+    this.imageKeys = const <String>[],
   });
+
+  /// A row of `part_requests` (with `part_offers` nested for the buyer), or an entry of
+  /// `shop_open_requests` (with `buyer_name`).
+  factory PartRequest.fromJson(Json j) {
+    final images = [...?(j['image_keys'] as List?)?.cast<String>()];
+    return PartRequest(
+      id: j['id'] as String,
+      note: j['note'] as String,
+      status: RequestStatus.values.byName((j['status'] as String).toLowerCase()),
+      createdAt: DateTime.parse(j['created_at'] as String),
+      expiresAt: DateTime.parse(j['expires_at'] as String),
+      offers: [
+        for (final o in [...?(j['part_offers'] as List?)?.cast<Json>()]) PartOffer.fromJson(o),
+      ],
+      variantId: j['variant_id'] as String?,
+      categoryId: j['category_id'] as String?,
+      photoCount: images.length,
+      imageKeys: images,
+      buyerName: j['buyer_name'] as String? ?? '',
+    );
+  }
 
   final String id;
   final String note;
@@ -375,6 +620,9 @@ class PartRequest {
   final String? categoryId;
   final int photoCount;
   final String buyerName;
+
+  /// Storage keys in the private request-photos bucket.
+  final List<String> imageKeys;
 }
 
 // ------------------------------------------------------- inbox and chat --
@@ -402,6 +650,34 @@ class AppNotification {
   final String? route;
 }
 
+/// One entry of the in-app inbox (`notifications`). The app words it from [code] and
+/// [payload] in the reader's language; push (M3) carries the same code.
+@immutable
+class InboxItem {
+  const InboxItem({
+    required this.id,
+    required this.code,
+    required this.payload,
+    required this.at,
+    this.read = false,
+  });
+
+  factory InboxItem.fromJson(Json j) => InboxItem(
+    id: j['id'] as String,
+    code: j['code'] as String,
+    payload: (j['payload'] as Json?) ?? const {},
+    at: DateTime.parse(j['created_at'] as String),
+    read: j['read_at'] != null,
+  );
+
+  /// ORDER_PLACED, PAYMENT_CONFIRMED, PAYMENT_REJECTED, NEW_ORDER, ORDER_READY, NEW_OFFER, …
+  final String code;
+  final String id;
+  final Json payload;
+  final DateTime at;
+  final bool read;
+}
+
 @immutable
 class ChatMessage {
   const ChatMessage({
@@ -410,7 +686,18 @@ class ChatMessage {
     required this.at,
     this.text,
     this.voiceSecs,
+    this.voiceKey,
   });
+
+  /// A row of `messages`; [mine] compares the sender with the signed-in user.
+  factory ChatMessage.fromJson(Json j, {required String myId}) => ChatMessage(
+    id: j['id'] as String,
+    mine: j['sender_id'] == myId,
+    at: DateTime.parse(j['created_at'] as String),
+    text: j['body'] as String?,
+    voiceSecs: j['voice_secs'] as int?,
+    voiceKey: j['voice_key'] as String?,
+  );
 
   final String id;
   final bool mine;
@@ -419,4 +706,72 @@ class ChatMessage {
 
   /// Set for voice notes (max 60 s, D-033).
   final int? voiceSecs;
+
+  /// Storage key of the voice note in the private voice-notes bucket.
+  final String? voiceKey;
+}
+
+/// A chat between a buyer and a shop, optionally about one sub-order.
+@immutable
+class Conversation {
+  const Conversation({
+    required this.id,
+    required this.shopId,
+    required this.title,
+    this.subOrderId,
+    this.orderRef,
+    this.last,
+    this.unread = false,
+  });
+
+  /// An entry of `shop_conversations`: [title] is the buyer's name.
+  factory Conversation.forShop(Json j) {
+    final last = j['last'] as Json?;
+    final name = j['buyer_name'] as String? ?? '';
+    return Conversation(
+      id: j['id'] as String,
+      shopId: j['shop_id'] as String,
+      title: LocalizedText(name, name),
+      subOrderId: j['sub_order_id'] as String?,
+      orderRef: j['order_ref'] as String?,
+      last: last == null
+          ? null
+          : ChatMessage(
+              id: '',
+              mine: last['mine'] as bool? ?? false,
+              at: DateTime.parse(last['at'] as String),
+              text: last['body'] as String?,
+              voiceSecs: last['voice_secs'] as int?,
+            ),
+      unread: j['unread'] as bool? ?? false,
+    );
+  }
+
+  /// A `conversations` row as the buyer reads it, with `shop`, `sub_order.order.ref` and
+  /// the newest of `messages` nested: [title] is the shop's name.
+  factory Conversation.forBuyer(Json j, {required String myId}) {
+    final shop = j['shop'] as Json? ?? const {};
+    final messages = [...?(j['messages'] as List?)?.cast<Json>()];
+    final lastAt = DateTime.tryParse(j['last_message_at'] as String? ?? '');
+    final readAt = DateTime.tryParse(j['buyer_read_at'] as String? ?? '');
+    return Conversation(
+      id: j['id'] as String,
+      shopId: j['shop_id'] as String,
+      title: LocalizedText.fromJson(shop, 'name'),
+      subOrderId: j['sub_order_id'] as String?,
+      orderRef: ((j['sub_order'] as Json?)?['order'] as Json?)?['ref'] as String?,
+      last: messages.isEmpty ? null : ChatMessage.fromJson(messages.first, myId: myId),
+      unread: lastAt != null && (readAt == null || lastAt.isAfter(readAt)),
+    );
+  }
+
+  final String id;
+  final String shopId;
+
+  /// The other side: the shop's name for the buyer, the buyer's name for the shop.
+  final LocalizedText title;
+  final String? subOrderId;
+  final String? orderRef;
+  final ChatMessage? last;
+  final bool unread;
 }

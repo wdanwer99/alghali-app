@@ -300,6 +300,10 @@
   "@payExpired": {
     "description": "Payment status"
   },
+  "payCancelled": "أُلغي الدفع",
+  "@payCancelled": {
+    "description": "Payment state: the order was cancelled before it was paid"
+  },
   "bkHeld": "الموعد محجوز مؤقتًا",
   "@bkHeld": {
     "description": "Booking status: slot held during checkout"

@@ -1,12 +1,7 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:alghali_core/alghali_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-/// Real responses captured from alghali-dev (see infra/scripts/seed-demo.mjs), so the
-/// parsers are checked against what the server actually sends.
-Object? fixture(String name) => jsonDecode(File('test/fixtures/$name.json').readAsStringSync());
+import 'support/fixtures.dart';
 
 void main() {
   test('search_parts rows become part cards with fit, offers and the server’s shop count', () {
