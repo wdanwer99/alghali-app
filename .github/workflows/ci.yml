@@ -58,11 +58,27 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - name: Start Supabase (database only)
-        run: pnpm exec supabase start -x studio,imgproxy,mailpit,logflare,vector,edge-runtime,supavisor,realtime,storage-api,postgres-meta
-      - name: Apply migrations + seed
+      - name: Import template is up to date
+        run: |
+          node infra/scripts/make-import-template.mjs
+          git diff --exit-code --stat -- supabase/templates
+      - name: Start Supabase (database, auth, storage, Edge Functions)
+        run: pnpm exec supabase start -x studio,imgproxy,mailpit,logflare,vector,supavisor,realtime,postgres-meta
+      - name: Apply migrations
         run: pnpm exec supabase db reset
-      - name: DB tests
-        env:
-          DB_URL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+      - name: Expose the local API to the tests
+        run: |
+          eval "$(pnpm exec supabase status -o env)"
+          {
+            echo "DB_URL=postgresql://postgres:postgres@127.0.0.1:54322/postgres"
+            echo "API_URL=$API_URL"
+            echo "API_PUBLISHABLE_KEY=${PUBLISHABLE_KEY:-$ANON_KEY}"
+            echo "API_SECRET_KEY=${SECRET_KEY:-$SERVICE_ROLE_KEY}"
+          } >> "$GITHUB_ENV"
+      - name: DB, Edge Function and API tests
         run: pnpm --filter @alghali/tests test
+      - name: Demo seed loads, and re-running it adds nothing
+        run: |
+          node infra/scripts/seed-demo.mjs local
+          node infra/scripts/seed-demo.mjs local | tee seed.log
+          grep -q " 0 new listings" seed.log

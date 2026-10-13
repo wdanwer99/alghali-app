@@ -13,14 +13,6 @@ describe.skipIf(!hasDb)('foundation migration', () => {
     }
   });
 
-  it('every table in the public schema has row level security enabled', async () => {
-    const rows = await sql<{ table: string }[]>`
-      select c.relname as table
-      from pg_class c join pg_namespace n on n.oid = c.relnamespace
-      where n.nspname = 'public' and c.relkind in ('r', 'p') and not c.relrowsecurity`;
-    expect(rows.map((r) => r.table)).toEqual([]);
-  });
-
   it('ping() answers anonymous callers', async () => {
     const res = await withRollback(sql, async (tx) => {
       await actAs(tx, 'anon');

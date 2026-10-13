@@ -79,14 +79,34 @@ class SearchQuery {
 /// One part in search results, with the shops that sell it (cheapest first).
 @immutable
 class PartResult {
-  const PartResult({required this.part, required this.fit, required this.listings});
+  const PartResult({
+    required this.part,
+    required this.fit,
+    required this.listings,
+    this._shopCount,
+  });
+
+  /// A `search_parts` row. The server sends at most 5 offers per part, so the
+  /// shop count comes from the server rather than from [listings].
+  factory PartResult.fromJson(Json j) {
+    final part = Part.fromJson(j);
+    return PartResult(
+      part: part,
+      fit: Fit.fromCode(j['fit'] as String?),
+      listings: [
+        for (final l in (j['listings'] as List).cast<Json>()) Listing.fromJson(l, partId: part.id),
+      ],
+      shopCount: j['shop_count'] as int?,
+    );
+  }
 
   final Part part;
   final Fit? fit;
   final List<Listing> listings;
+  final int? _shopCount;
 
   int get fromSdg => listings.first.priceSdg;
-  int get shopCount => listings.map((l) => l.shopId).toSet().length;
+  int get shopCount => _shopCount ?? listings.map((l) => l.shopId).toSet().length;
   Set<ListingCondition> get conditions => listings.map((l) => l.condition).toSet();
   int get bestWarrantyDays => listings.fold(0, (m, l) => l.warrantyDays > m ? l.warrantyDays : m);
 }

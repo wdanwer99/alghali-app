@@ -2,6 +2,7 @@
 //   node db.mjs push <dev|test>   apply supabase/migrations to that project
 //   node db.mjs types dev         regenerate packages/db-types/src/database.ts
 //   node db.mjs seed <dev|test>   run supabase/seed.sql against that project
+//   node db.mjs reset test        drop everything in alghali-test and re-apply all migrations
 import { spawnSync } from 'node:child_process';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -10,8 +11,12 @@ import { root, supabaseCommand } from './lib/paths.mjs';
 
 const [command, which = 'dev'] = process.argv.slice(2);
 const target = { dev: 'DEV', test: 'TEST' }[which];
-if (!target || !['push', 'types', 'seed'].includes(command)) {
-  console.error('usage: db.mjs <push|types|seed> <dev|test>');
+if (!target || !['push', 'types', 'seed', 'reset'].includes(command)) {
+  console.error('usage: db.mjs <push|types|seed> <dev|test> | db.mjs reset test');
+  process.exit(2);
+}
+if (command === 'reset' && which !== 'test') {
+  console.error('reset only runs against the test project.');
   process.exit(2);
 }
 
@@ -28,6 +33,11 @@ const run = (args, opts = {}) =>
 
 if (command === 'push') {
   const r = run(['db', 'push', '--db-url', t.dbUrl, '--include-all'], { stdio: 'inherit' });
+  process.exit(r.status ?? 1);
+}
+
+if (command === 'reset') {
+  const r = run(['db', 'reset', '--db-url', t.dbUrl, '--no-seed', '--yes'], { stdio: 'inherit' });
   process.exit(r.status ?? 1);
 }
 

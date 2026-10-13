@@ -22,6 +22,26 @@ void main() {
       };
       expect(stems, hasLength(1));
     });
+
+    test('Arabic-Indic digits and Persian letters, as in ar_normalize()', () {
+      expect(arNormalize('٤٥٠٠٠ ۱۲'), '45000 12');
+      expect(arNormalize('کیا'), 'كيا');
+    });
+
+    // The same cases as tests/db/catalogue.test.ts runs against search_terms().
+    for (final (input, expected) in [
+      ('لمبات', ['لمب']),
+      ('اللمبات', ['لمب']),
+      ('فلتر زيت', ['فلتر', 'زيت']),
+      ('زيت 5W-30، فلتر', ['زيت', '5w-30', 'فلتر']),
+      ('إطار 265/65R17.', ['اطار', '265/65r17']),
+      ('OEM: 04465-0K290', ['oem', '04465-0k290']),
+      ('!!!', <String>[]),
+    ]) {
+      test('searchTerms("$input") matches the database', () {
+        expect(searchTerms(input)..sort(), [...expected]..sort());
+      });
+    }
   });
 
   group('catalogue search', () {

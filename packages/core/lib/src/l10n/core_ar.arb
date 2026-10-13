@@ -384,6 +384,10 @@
   "@jobTyres": {
     "description": "Job type"
   },
+  "jobMechanical": "ميكانيكا",
+  "@jobMechanical": {
+    "description": "Job type: engine, cooling, gearbox and clutch work"
+  },
   "modeBay": "في الورشة",
   "@modeBay": {
     "description": "Technician works at a bay on the street"

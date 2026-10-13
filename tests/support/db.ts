@@ -18,6 +18,8 @@ export const hasDb = dbUrl !== '';
 export const skipReason =
   'No test database: set SUPABASE_TEST_DB_URL in .env (or DB_URL in CI) to run DB tests.';
 
+export { must } from './must.ts';
+
 export type Sql = postgres.Sql;
 export type Tx = postgres.TransactionSql;
 

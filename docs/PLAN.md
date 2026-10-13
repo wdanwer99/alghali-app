@@ -1,6 +1,6 @@
 # Alghali Street Platform — Plan
 
-**Status:** v1.1 · approved by owner 2026-10-10 (with change: email login for everyone, phone OTP deferred) · M0 done · UI pass on sample data done 2026-10-11 · M1 not started
+**Status:** v1.2 · approved by owner 2026-10-10 (with change: email login for everyone, phone OTP deferred) · M0 done · UI pass on sample data done 2026-10-11 · 2026-10-13: owner asked for a production launch with every feature (D-056–D-064: Android only, download link, free plan, push only, no domain) · M1 done 2026-10-13 · M2 not started
 **Source brief:** [`claude-code-prompt-alghali.md`](../claude-code-prompt-alghali.md) · **Decisions log:** [`DECISIONS.md`](DECISIONS.md)
 
 ---
@@ -94,6 +94,23 @@ Every milestone ends with: lint + tests green, docs updated, a commit, and a sho
   - Admin: overview, Bankak queue, applications, orders, bookings, cash reconciliation, payouts, disputes, catalogue, settings, sign-in.
 
   M4–M6 connect these screens to the backend instead of building them from scratch.
+- **M1 — done 2026-10-13** (D-065–D-078):
+  - **Backend:** identity, catalogue, street and shops, stock, search, settings, storage and the `inventory-import` Edge Function, applied to `alghali-dev` and `alghali-test`.
+  - **Starter catalogue** in every environment: 13 makes, 147 engine variants, 12 categories, 76 parts, 37 synonym groups.
+  - **Demo shops and stock** on dev only (`pnpm db:seed:dev`).
+  - **Excel template** published to the `templates` bucket.
+  - **TypeScript types** regenerated; **Dart repositories and parsers** in `packages/core`.
+  - **Tests:** 197 TypeScript (DB, API end-to-end, sheet reader) and 73 Flutter.
+  - **Hosted password rule fixed:** dev and test accepted 6 characters; now 8 with letters and digits (D-073).
+  - **Changes from this plan:**
+    - Search is per part, not per listing (D-066).
+    - Shops create their own unverified parts (D-067).
+    - No JWT claims hook (D-065).
+    - Admins edit catalogue tables directly (D-068).
+    - Categories are flat (D-075).
+    - New job type `MECHANICAL` (D-076).
+  - **Not in M1:** the admin's "set temporary password" (D-064) moves to M6 with the admin console; technician applications to M3.
+  - **Owner input still needed before launch:** the street's city, GPS starting point and real zone names (D-077), the Bankak account, and real fee amounts (D-034).
 
 | # | Scope | Exit criteria |
 |---|---|---|

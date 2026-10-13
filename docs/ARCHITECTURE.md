@@ -1,9 +1,9 @@
 # Architecture
 
-Status: M0. See [PLAN.md](PLAN.md) for the full design and [DECISIONS.md](DECISIONS.md) for why.
+Status: M1 (identity, catalogue, street and shops, stock, search, storage). See [PLAN.md](PLAN.md) for the full design, [DECISIONS.md](DECISIONS.md) for why and [API.md](API.md) for every call.
 
 ```
- Buyer app (Flutter) ──┐                        ┌── Edge Functions (TypeScript)   [M1+]
+ Buyer app (Flutter) ──┐                        ┌── Edge Functions (TypeScript): inventory-import
  Partner app (Flutter) ├── supabase SDKs ──► Supabase ──┤
  Admin (Next.js) ──────┘   Auth · PostgREST ·   └── Postgres: tables + RLS + RPC + triggers
                            Storage · Realtime        PostGIS · btree_gist · pg_trgm · pg_cron · pgmq · pg_net
@@ -11,9 +11,25 @@ Status: M0. See [PLAN.md](PLAN.md) for the full design and [DECISIONS.md](DECISI
 
 ## Backend (Supabase)
 
-- **Migrations** live in `supabase/migrations/*.sql`, applied with `pnpm db:push:<dev|test>` (no Docker). CI applies them to a throwaway local Supabase.
-- **Rules:** every table has RLS on. Business writes go through `SECURITY DEFINER` functions with `set search_path = ''`, which check the caller's role and ownership. EXECUTE is revoked from `public` and granted per role.
-- **Settings** (`app_settings`): admin-editable config with seeded defaults. Clients read the safe subset via `public_settings()`.
+- **Migrations** live in `supabase/migrations/*.sql`, applied with `pnpm db:push:<dev|test>` (no Docker). CI applies them to a throwaway local Supabase. Applied migrations are never edited; changes go in new files (D-072).
+  | File | What |
+  |---|---|
+  | `…foundation` | extensions, `app_settings`, `ping`, `public_settings` |
+  | `…identity` | profiles, roles, devices, idempotency keys, audit log, admin role and settings RPCs, new-user trigger |
+  | `…catalogue` | Arabic normaliser, vehicles, job types, categories, parts, fitment, synonyms, garage |
+  | `…location` | markets, streets, zones, shops, staff, specialities, addresses, shop application and review |
+  | `…inventory` | listings, photos, price history, imports, per-part search documents, shop stock RPCs |
+  | `…search` | `search_parts`, `part_detail`, `suggest_parts`, `catalogue_snapshot` |
+  | `…storage` | buckets and their policies |
+  | `…starter_catalogue` | reference data for every environment (D-071) |
+- **Rules:** every table has RLS on. Business writes go through `SECURITY DEFINER` functions with `set search_path = ''`, which check the caller's role and ownership. EXECUTE is revoked from `public`, `anon` and `authenticated` and granted per function. Roles are read from `user_roles` on every check (D-065). Admins edit the catalogue tables directly, with an audit trigger (D-068).
+- **Errors** are machine codes with an SQLSTATE that sets the HTTP status (D-069); **mutations** that create things take an idempotency key.
+- **Search** (D-066): `ar_normalize()` / `ar_stem()` / `search_terms()` turn text into normalised words. Each part keeps one `part_search_docs` row: a `tsvector` of its words plus a trigram index for typos. Synonym groups (`search_synonyms` → `search_synonym_terms`) expand each query word. The Dart twin is `packages/core/lib/src/data/arabic.dart`; both are tested on the same cases.
+- **Shops' own parts** (D-067): quick listing creates unverified parts with model-level fitment. Admins merge them into catalogue parts.
+- **Storage:** buckets with size and MIME limits. Public: `media-public` (shop photos under `shops/{shop_id}/`), `templates`, `app-releases`. Private: `imports` (stock sheets under `{shop_id}/`), plus receipts and photos for M2/M3.
+- **Edge Functions** (`supabase/functions`, Deno): `inventory-import` reads stock sheets with the vendored SheetJS (D-070) and calls `shop_import_rows` as the caller. The sheet reader (`_shared/inventory/parse.ts`) is plain TypeScript tested with vitest. Deploy with `pnpm functions:deploy:<dev|test>` (bundled server-side, no Docker).
+- **Settings** (`app_settings`): admin-editable config with seeded defaults, each value checked by `validate_setting()`. Clients read the safe subset via `public_settings()`.
+- **Hosted project settings** (password rule, email confirmation) live in `infra/hosted/supabase/config.toml` (D-073).
 - **Health:** `ping()` returns `{ok, server_time}` to anyone.
 
 ## Flutter (`apps/buyer`, `apps/partner`, `packages/core`)
@@ -23,6 +39,7 @@ Status: M0. See [PLAN.md](PLAN.md) for the full design and [DECISIONS.md](DECISI
 - **State and navigation:** Riverpod 3 for state; go_router 18 for navigation. The first launch redirects to the shared `LanguagePickerScreen` (Arabic preselected).
 - **Strings:** each app has `lib/l10n/app_{ar,en}.arb`, with Arabic as the template. `packages/core` has its own `CoreLocalizations` for shared widgets. Generated code is committed, and CI checks it's current.
 - **Config:** `AppEnv` reads `--dart-define-from-file=env/dev.json`, which `pnpm env:sync` writes. Without keys the app runs and backend status shows "not set up".
+- **Backend layer** (`packages/core/lib/src/backend`): `AuthRepository`, `CatalogueRepository`, `GarageRepository` and `ShopRepository` wrap the RPCs with typed models, behind Riverpod providers (`*RepositoryProvider`). Every failure is a `BackendException(code)`; `offline` ones are what the outbox will retry (M4). The models parse JSON with `fromJson` factories (D-074). The screens still use sample data until M4/M5 wire them to these repositories.
 - **Offline:** `AppDatabase` (Drift/SQLite) has `outbox_entries` (queued mutations keyed by idempotency key) and `cache_entries` (cached reads). The sync engine that replays the outbox is built in M4.
 - **Theme:** `AppTheme.light()` uses large tap targets (52 px primary buttons) and the system Arabic font (nothing bundled; small APK).
 - **Android:** minimum SDK 26 (Android 8.0); app IDs `sd.alghali.buyer` and `sd.alghali.partner`.
@@ -38,10 +55,12 @@ Status: M0. See [PLAN.md](PLAN.md) for the full design and [DECISIONS.md](DECISI
 
 | Where | What | Runs |
 |---|---|---|
-| `tests/db` | Migrations, RLS, functions, state machines (later), concurrency (M3) | Against `alghali-test` locally, local Supabase in CI |
+| `tests/db` | Security baseline (RLS on every table; allow-lists of writable tables and callable functions; pinned search paths), every RPC's rules and permissions, search, import, normaliser | Against `alghali-test` locally, local Supabase in CI |
+| `tests/api` | End to end over HTTP as the apps call it: sign-up, password rule, RLS through PostgREST, storage policies, the `inventory-import` function | Same; creates real accounts and deletes them afterwards |
+| `tests/functions` | The stock-sheet reader on real .xlsx files; the template matches the reader and the starter categories | Always |
 | `tests/infra` | Env sync never leaks secrets | Always |
 | `apps/admin/src/**/*.test.ts` | Dictionary parity, locale/direction | Always |
-| `packages/core/test` | Outbox/cache on real SQLite, language controller | Always |
+| `packages/core/test` | JSON parsers on captured responses, repository requests against a fake server, error mapping, normaliser twin, outbox/cache on real SQLite, language controller | Always |
 | `apps/*/test` | App opens in Arabic RTL, switches to English LTR | Always |
 
-DB tests wrap each case in a transaction that is rolled back, and switch to `anon` / `authenticated` with JWT claims set exactly as PostgREST does.
+DB tests wrap each case in a transaction that is rolled back, and switch to `anon` / `authenticated` with JWT claims set exactly as PostgREST does. CI also loads the demo seed twice and checks the second run adds nothing.

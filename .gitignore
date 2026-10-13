@@ -53,3 +53,6 @@ Thumbs.db
 
 # --- claude code (local) ---
 .claude/settings.local.json
+
+# Supabase CLI state from `pnpm hosted:diff/push`
+infra/hosted/supabase/.temp/

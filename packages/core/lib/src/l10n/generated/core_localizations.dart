@@ -579,6 +579,12 @@ abstract class CoreLocalizations {
   /// **'إطارات'**
   String get jobTyres;
 
+  /// Job type: engine, cooling, gearbox and clutch work
+  ///
+  /// In ar, this message translates to:
+  /// **'ميكانيكا'**
+  String get jobMechanical;
+
   /// Technician works at a bay on the street
   ///
   /// In ar, this message translates to:

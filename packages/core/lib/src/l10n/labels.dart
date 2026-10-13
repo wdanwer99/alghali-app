@@ -85,6 +85,7 @@ extension CoreLabels on CoreLocalizations {
     JobType.ac => jobAc,
     JobType.suspension => jobSuspension,
     JobType.tyres => jobTyres,
+    JobType.mechanical => jobMechanical,
   };
 
   String workMode(WorkMode m) => switch (m) {

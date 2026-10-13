@@ -11,6 +11,30 @@ class FeeBand {
   final int sdg;
 }
 
+/// The newest and minimum Android builds of one app, and where to download it (D-058).
+@immutable
+class AppRelease {
+  const AppRelease({required this.latestBuild, required this.minBuild, this.apkUrl});
+
+  factory AppRelease.fromJson(Json j) => AppRelease(
+    latestBuild: j['latest_build'] as int,
+    minBuild: j['min_build'] as int,
+    apkUrl: j['apk_url'] as String?,
+  );
+
+  static const none = AppRelease(latestBuild: 1, minBuild: 1);
+
+  final int latestBuild;
+  final int minBuild;
+  final String? apkUrl;
+
+  /// A newer build exists; the app offers to update.
+  bool updateAvailable(int build) => build < latestBuild && apkUrl != null;
+
+  /// This build is no longer supported; the app asks to update before continuing.
+  bool updateRequired(int build) => build < minBuild && apkUrl != null;
+}
+
 /// The buyer-visible subset of `app_settings` (the `public_settings()` RPC).
 /// SDG values are placeholders until confirmed with real prices (D-034).
 @immutable
@@ -29,7 +53,46 @@ class PlatformSettings {
     required this.deliveryFeeBands,
     required this.bankakAccountName,
     required this.bankakAccountNumber,
+    this.bookingLookaheadDays = 7,
+    this.buyerRelease = AppRelease.none,
+    this.partnerRelease = AppRelease.none,
+    this.supportPhone = '',
+    this.supportWhatsapp = '',
   });
+
+  /// From `public_settings()`. Settings the server keeps private (commission,
+  /// technician timeout, part-ready buffer) keep the [demo] values; the apps only use
+  /// them for estimates the server re-checks.
+  factory PlatformSettings.fromJson(Json j) {
+    List<FeeBand> bands(String key) => [
+      for (final b in (j[key] as List).cast<Json>())
+        FeeBand((b['max_km'] as num).toDouble(), b['sdg'] as int),
+    ];
+    final name = j['bankak_account_name'] as String? ?? '';
+    final releases = j['latest_app_versions'] as Json? ?? const {};
+    AppRelease release(String app) =>
+        releases[app] is Json ? AppRelease.fromJson(releases[app] as Json) : AppRelease.none;
+    return PlatformSettings(
+      bookingFeeSdg: j['booking_fee_sdg'] as int,
+      mobileDepositSdg: j['mobile_deposit_sdg'] as int,
+      slotHoldMinutes: j['slot_hold_minutes'] as int,
+      paymentWindowMinutes: j['payment_window_minutes'] as int,
+      cancelCutoffHours: j['cancel_cutoff_hours'] as int,
+      returnWindowDays: j['return_window_days'] as int,
+      partReadyBufferMinutes: demo.partReadyBufferMinutes,
+      techAcceptTimeoutMinutes: demo.techAcceptTimeoutMinutes,
+      commissionPercent: demo.commissionPercent,
+      travelFeeBands: bands('travel_fee_bands'),
+      deliveryFeeBands: bands('delivery_fee_bands'),
+      bankakAccountName: LocalizedText(name, name),
+      bankakAccountNumber: j['bankak_account_number'] as String? ?? '',
+      bookingLookaheadDays: j['booking_lookahead_days'] as int? ?? 7,
+      buyerRelease: release('buyer'),
+      partnerRelease: release('partner'),
+      supportPhone: j['support_phone'] as String? ?? '',
+      supportWhatsapp: j['support_whatsapp'] as String? ?? '',
+    );
+  }
 
   static const demo = PlatformSettings(
     bookingFeeSdg: 2000,
@@ -64,6 +127,11 @@ class PlatformSettings {
   final List<FeeBand> deliveryFeeBands;
   final LocalizedText bankakAccountName;
   final String bankakAccountNumber;
+  final int bookingLookaheadDays;
+  final AppRelease buyerRelease;
+  final AppRelease partnerRelease;
+  final String supportPhone;
+  final String supportWhatsapp;
 
   /// Null when [km] is beyond the last band (not served).
   int? travelFee(double km) => _band(travelFeeBands, km);

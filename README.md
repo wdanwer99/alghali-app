@@ -28,29 +28,42 @@ Arabic first (RTL), offline-tolerant, light on data. Payments at launch: Bankak 
 pnpm install
 flutter pub get
 cp .env.example .env        # then fill in both Supabase projects (see comments in the file)
-npx supabase login          # once, for type generation
+npx supabase login          # once, for type generation, deploys and project settings
 pnpm db:push:dev            # apply migrations to alghali-dev
 pnpm db:push:test           # apply migrations to alghali-test
+pnpm hosted:push dev        # password rule + no confirmation emails (infra/hosted/supabase/config.toml)
+pnpm hosted:push test
+pnpm functions:deploy:dev   # Edge Functions (bundled by Supabase, no Docker)
+pnpm functions:deploy:test
+pnpm templates:upload dev   # the Excel stock template shops download
+pnpm db:seed:dev            # demo shops, stock and accounts — dev only
 pnpm env:sync               # copies client-safe keys into the apps
 ```
 
-In each Supabase project, turn **Authentication → Sign In / Providers → Email → Confirm email** off for development (D-031).
+**Demo accounts on alghali-dev** (after `pnpm db:seed:dev`): `buyer@demo.alghali.invalid`, `admin@demo.alghali.invalid` and one owner per shop, `owner.<shop>@demo.alghali.invalid` (for example `owner.nour@…`). They all use the `DEMO_PASSWORD` that the seed saved in `.env`.
 
 ## Everyday commands
 
-| Command                                  | Does                                                                                         |
-| ---------------------------------------- | -------------------------------------------------------------------------------------------- |
-| `pnpm dev`                               | Sync env, start the admin at http://localhost:3000 (redirects to `/ar`)                      |
-| `pnpm buyer` / `pnpm partner`            | Run a Flutter app on the connected device/emulator against `alghali-dev`                     |
-| `pnpm check`                             | Everything CI runs: lint, typecheck, TS tests, Dart format, `flutter analyze`, Flutter tests |
-| `pnpm test`                              | TypeScript tests (DB tests run when `SUPABASE_TEST_DB_URL` is set)                           |
-| `pnpm flutter:test`                      | Flutter tests in core, buyer and partner                                                     |
-| `pnpm db:push:dev` / `pnpm db:push:test` | Apply new migrations                                                                         |
-| `pnpm db:types`                          | Regenerate `packages/db-types` from `alghali-dev`                                            |
+| Command                                  | Does                                                                                                   |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `pnpm dev`                               | Sync env, start the admin at http://localhost:3000 (redirects to `/ar`)                                |
+| `pnpm buyer` / `pnpm partner`            | Run a Flutter app on the connected device/emulator against `alghali-dev`                               |
+| `pnpm check`                             | Everything CI runs: lint, typecheck, TS tests, Dart format, `flutter analyze`, Flutter tests           |
+| `pnpm test`                              | TypeScript tests (DB tests run when `SUPABASE_TEST_DB_URL` is set)                                     |
+| `pnpm flutter:test`                      | Flutter tests in core, buyer and partner                                                               |
+| `pnpm db:push:dev` / `pnpm db:push:test` | Apply new migrations                                                                                   |
+| `pnpm db:reset:test`                     | Wipe `alghali-test` and re-apply every migration                                                       |
+| `pnpm db:types`                          | Regenerate `packages/db-types` from `alghali-dev`                                                      |
+| `pnpm db:seed:dev`                       | Load the demo shops and stock into `alghali-dev` (refuses any other project)                           |
+| `pnpm functions:deploy:<dev\|test>`      | Deploy the Edge Functions                                                                              |
+| `pnpm hosted:diff <dev\|test>`           | Compare the project's settings with `infra/hosted/supabase/config.toml` (`hosted:push` applies)        |
+| `pnpm import-template`                   | Rebuild `supabase/templates/inventory-template.xlsx`; `pnpm templates:upload <dev\|test>` publishes it |
 
 Apps built without Supabase keys still run and show "not set up" for backend status.
 
-**Sample data.** For now all three apps run on built-in sample data (PLAN §2, D-051), so every screen works without a backend. Nothing real happens: the Bankak account shown is a dummy, and calls and messages are switched off.
+**Sample data.** For now all three apps run on built-in sample data (PLAN §2, D-051), so every screen works without a backend. Nothing real happens: the Bankak account shown is a dummy, and calls and messages are switched off. The backend behind them is ready from M1; M4–M6 switch the screens over to it (`packages/core/lib/src/backend`).
+
+**Tests that hit Supabase** run against `alghali-test`. `pnpm test` includes end-to-end API tests that create real accounts there and delete them afterwards.
 
 ## Screenshots
 

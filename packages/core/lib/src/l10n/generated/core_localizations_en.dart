@@ -336,6 +336,9 @@ class CoreLocalizationsEn extends CoreLocalizations {
   String get jobTyres => 'Tyres';
 
   @override
+  String get jobMechanical => 'Mechanical';
+
+  @override
   String get modeBay => 'At the workshop';
 
   @override

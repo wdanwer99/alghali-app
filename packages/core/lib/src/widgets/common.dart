@@ -729,6 +729,8 @@ IconData categoryIcon(CategoryIcon icon) => switch (icon) {
   CategoryIcon.suspension => Icons.compress,
   CategoryIcon.tyres => Icons.tire_repair,
   CategoryIcon.engine => Icons.build_outlined,
+  CategoryIcon.transmission => Icons.settings_outlined,
+  CategoryIcon.body => Icons.directions_car_outlined,
   CategoryIcon.accessories => Icons.event_seat_outlined,
 };
 

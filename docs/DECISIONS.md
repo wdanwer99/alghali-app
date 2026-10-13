@@ -124,3 +124,55 @@ Format: **D-nnn · date · status** — decision. *Why.* `Owner` = decided by th
   - The admin must tick "Transfer appears on the Bankak statement" before confirming.
   - The reject dialog pre-selects the reason from the failed check.
 - **D-055 · Default** — **The admin demo uses a fixed "now"** (`DEMO_NOW`, Wednesday 14 Oct 2026, 09:30 Khartoum). Dates are formatted on the server and passed to client components. *Next 16's Cache Components refuses `new Date()` in prerendered pages, and server-formatted text avoids server/browser differences.*
+
+### Going to production (owner's answers, 2026-10-13)
+The owner asked for a production-ready app for real users, with every feature in the plan (M1–M7).
+- **D-056 · Owner** — **Check in after every milestone**, as before. I stop after each of M1–M7 for the owner to try it and say "go".
+- **D-057 · Owner** — **Android only at launch.** No iPhone build, Apple account or App Store review. The Flutter code stays cross-platform so iOS can be added later.
+- **D-058 · Owner** — **The Android apps are installed from a download link, not Google Play.** What this means:
+  - A release signing key is generated once. **The owner keeps a backup of it**: without it, users can't install updates over their existing app.
+  - The APKs are served from a public storage bucket, with a small download page (ar/en) that explains Android's "unknown app" prompt.
+  - Both apps check a `latest_app_versions` setting on start. They offer an update when a newer build exists and require one when a build is below the minimum.
+- **D-059 · Owner** — **Email + password stays the sign-in for everyone at launch** (confirms D-030). Phone OTP remains the first post-launch item.
+- **D-060 · Owner** — **The live server stays on Supabase's free plan for now.** Consequences:
+  - The free plan allows two active projects, and dev and test use both. At launch (M7) a live project takes one of those places; which one gets paused is decided then.
+  - The free plan has no automatic backups. M7 adds a nightly database backup job.
+  - Free limits (500 MB database, 1 GB storage) are fine for a first launch. Upgrading to Pro later needs no code change.
+- **D-061 · Owner** — **Push notifications are the only alert channel at launch** (Firebase Cloud Messaging; the owner creates a free Firebase project). SMS and WhatsApp stay as logged stubs behind the channel interface, so a provider can be plugged in later. Every alert also lands in the in-app notifications inbox.
+- **D-062 · Owner** — **Starter catalogue from me; shops add their own stock.** I prepare common vehicles in Sudan and part categories with Arabic and English names. Shops sign up in the partner app and list stock by hand or by Excel upload. Fitment data is added over time from the admin.
+- **D-063 · Owner** — **No domain name at launch.** The admin site and download page use free hosting addresses. The admin host must allow commercial use on its free tier (Vercel's free tier doesn't); the host is chosen in M6.
+- **D-064 · Default** — **Password reset without a domain:**
+  - Reset emails go through a free SMTP service from a dedicated sender mailbox that the owner creates before launch (for example a new Gmail account with an app password).
+  - Admins can also set a temporary password for a user who calls support. This covers users who don't check email.
+  - *Without our own domain, reset emails are more likely to land in spam, so the admin path matters.*
+
+### M1 foundation (2026-10-13)
+- **D-065 · Default** — **No custom JWT claims hook.** Row level security and every RPC read `user_roles` directly (`has_role()`, `is_admin()`), so revoking a role works at once. Apps call `me()` after sign-in to get roles and shops. *One less hosted setting to keep in sync, and nothing goes stale in a token.*
+- **D-066 · Default** — **Search is grouped by part.** Each part has one search document (`part_search_docs`): its names, its category and parent category, keywords, OEM numbers with and without dashes, and the brands shops list it under. Triggers keep it current. `search_parts()` returns one card per part with up to 5 offers, cheapest first, which is what the buyer screens show. Details:
+  - Every query word must match, as a prefix, directly or through a synonym group.
+  - When nothing matches exactly, it falls back to fuzzy trigram matching for typos.
+  - Replaces the per-listing `listing_search_docs` in PLAN §3.5.
+- **D-067 · Default** — **Shops type part names; parts they create start unverified.** The quick-listing screen asks for a name, a category and car models, not a catalogue pick. So:
+  - `shop_upsert_listing` creates the shop's own part (`created_by_shop_id`, `is_verified = false`), with fitment for every engine of the chosen models. "Not sure" means no fitment ("check fitment").
+  - The shop can rename it while it is unverified. Other shops can't use it.
+  - Admins merge duplicates into catalogue parts (`admin_merge_parts`), so offers group under one card.
+  - `suggest_parts` offers matching catalogue parts while the shop types.
+- **D-068 · Default** — **Admins edit the catalogue and street tables directly under RLS** (makes, models, variants, job types, categories, parts, fitment, synonyms, markets, streets, zones). These tables have no state machine. A trigger writes every admin change to `audit_log`. Shops, listings and roles still change only through RPCs.
+- **D-069 · Default** — **RPC errors are machine codes.** The message is `UPPER_SNAKE_CASE` (for example `INVALID_PHONE`, `VERSION_CONFLICT`). The SQLSTATE sets the HTTP status: `42501` → 401/403, `P0002` → 404, `PT409` → 409, `22023` → 400. The apps translate the code. The full list is in API.md.
+- **D-070 · Default** — **SheetJS 0.20.3 is vendored** in `supabase/functions/_shared/vendor/sheetjs/` (Apache-2.0, unchanged), for reading stock sheets. *The Edge Function bundler can't import from cdn.sheetjs.com, and npm only has the outdated 0.18.5.* The tests and the template script import the same file.
+- **D-071 · Default** — **The starter catalogue is a migration; demo data is a dev-only script.**
+  - `20261013100600_starter_catalogue.sql` loads into every environment, the live project included: 13 makes, 47 models, 147 engine variants, 12 categories, 9 job types, 76 everyday parts, 37 synonym groups, and the street with 4 placeholder zones.
+  - The demo shops, accounts and stock (`supabase/seed/demo.json`) load only through `pnpm db:seed:dev`, which refuses any other target.
+- **D-072 · Default** — **Applied migrations are never edited.** From M1 on, `alghali-dev` has the migrations, so every change is a new migration file. The test project is reset at will (`pnpm db:reset:test`).
+- **D-073 · Default** — **Hosted project settings live in `infra/hosted/supabase/config.toml`** and are applied with `pnpm hosted:push <dev|test>`. Only the settings declared there change. Fixed on 2026-10-13: dev and test accepted 6-character passwords with no letter or digit rule. They now match D-046.
+- **D-074 · Default** — **Dart models parse JSON with hand-written `fromJson` factories**, matching the existing plain immutable classes, instead of freezed (amends D-005). The parsers are tested against real responses captured from `alghali-dev` (`packages/core/test/fixtures`). The repositories are tested against a fake HTTP server, so function and parameter names can't drift from the SQL.
+- **D-075 · Default** — **Categories are flat at launch** (12 top-level categories), matching the quick-listing chips and the home screen. The table supports a tree, and search includes child categories, so sub-categories can come later.
+- **D-076 · Default** — **New job type `MECHANICAL` (ميكانيكا)** for engine, cooling, gearbox and clutch work, with new category icons `transmission` and `body`. *None of the 8 job types from the UI pass fitted a clutch job.* Body & glass and Accessories have no job type, so those parts can't be booked for fitting.
+- **D-077 · Owner input needed** — **The street's city and GPS starting point are not set.** Travel and delivery fees are measured from that point, so the owner must give it before launch, along with the real zone names (the starter data says "القطاع 1…4"). Until then, fee calculations (M2/M3) report that the street location is missing.
+- **D-078 · Default** — **Excel import is forgiving about wording, strict about meaning.** What the reader accepts:
+  - Arabic or English headers, a title above the header row, and blank rows.
+  - Prices like "45,000 ج", Arabic-Indic digits, and warranties like "6 أشهر" or "سنة".
+  - Condition words like أصلي, جديد and مستعمل.
+  - Categories matched by any shared word, so "اضاءة" finds الإضاءة.
+
+  Rows still need a name, category, condition, price (or "عند الطلب") and quantity, and each problem row is reported with its Excel row number. A re-import updates a listing found by SKU, or else by name + condition + brand.

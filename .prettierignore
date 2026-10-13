@@ -10,6 +10,11 @@ pnpm-lock.yaml
 packages/db-types/src/database.ts
 apps/admin/src/components/ui/
 supabase/.temp/
+supabase/functions/_shared/vendor/
+infra/hosted/supabase/.temp/
+
+# hand-maintained data table, kept one row per line
+supabase/seed/demo.json
 **/.next/
 **/coverage/
 

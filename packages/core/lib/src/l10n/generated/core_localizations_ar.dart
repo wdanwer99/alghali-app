@@ -353,6 +353,9 @@ class CoreLocalizationsAr extends CoreLocalizations {
   String get jobTyres => 'إطارات';
 
   @override
+  String get jobMechanical => 'ميكانيكا';
+
+  @override
   String get modeBay => 'في الورشة';
 
   @override

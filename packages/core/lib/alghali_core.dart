@@ -1,10 +1,17 @@
 /// Shared code for the Alghali buyer and partner apps.
 library;
 
+export 'src/backend/auth_repository.dart';
 export 'src/backend/backend.dart';
+export 'src/backend/backend_error.dart';
+export 'src/backend/catalogue_repository.dart';
+export 'src/backend/garage_repository.dart';
+export 'src/backend/repositories.dart';
+export 'src/backend/shop_repository.dart';
 export 'src/config/app_env.dart';
 export 'src/data/arabic.dart';
 export 'src/data/catalogue_data.dart';
+export 'src/data/catalogue_snapshot.dart';
 export 'src/data/platform_settings.dart';
 export 'src/data/refs.dart';
 export 'src/data/slots.dart';
@@ -16,6 +23,7 @@ export 'src/i18n/locale_controller.dart';
 export 'src/l10n/generated/core_localizations.dart';
 export 'src/l10n/labels.dart';
 export 'src/l10n/localized.dart';
+export 'src/models/account.dart';
 export 'src/models/catalogue.dart';
 export 'src/models/commerce.dart';
 export 'src/models/partner.dart';

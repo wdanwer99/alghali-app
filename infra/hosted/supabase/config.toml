@@ -1,0 +1,15 @@
+# The settings we manage on the hosted Supabase projects. Only what is declared here is
+# pushed; everything else on the project is left as it is (unlike supabase/config.toml, which
+# is the full template for the local stack CI runs).
+#   pnpm hosted:diff <dev|test>     preview
+#   pnpm hosted:push <dev|test>     apply
+project_id = "alghali"
+
+[auth]
+# D-046: same rule as the local stack and the apps' sign-up forms.
+minimum_password_length = 8
+password_requirements = "letters_digits"
+
+[auth.email]
+# D-031: no confirmation emails until custom SMTP is set up before launch.
+enable_confirmations = false

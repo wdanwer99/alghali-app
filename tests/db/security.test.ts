@@ -1,0 +1,143 @@
+import { afterAll, describe, expect, it } from 'vitest';
+import { connect, hasDb, skipReason, type Sql } from '../support/db.ts';
+
+// Allow-lists. Adding a table or function to one of these is a security decision:
+// say why in the migration that needs it.
+
+/** Tables clients may write directly; RLS limits whose rows (PLAN §1 rule 2). */
+const DIRECT_WRITE_TABLES = [
+  'addresses',
+  'garage_vehicles',
+  // Admin-only through RLS (D-068).
+  'job_types',
+  'markets',
+  'part_categories',
+  'part_fitments',
+  'parts',
+  'search_synonyms',
+  'streets',
+  'vehicle_makes',
+  'vehicle_models',
+  'vehicle_variants',
+  'zones',
+].sort();
+
+/** Functions anyone (signed in or not) may call. */
+const ANON_FUNCTIONS = [
+  'ar_normalize',
+  'catalogue_snapshot',
+  'has_role',
+  'is_admin',
+  'is_shop_member',
+  'part_detail',
+  'ping',
+  'public_settings',
+  'search_parts',
+  'search_terms',
+  'valid_opening_hours',
+].sort();
+
+/** Functions only signed-in users may call (each checks role/ownership itself). */
+const AUTHENTICATED_FUNCTIONS = [
+  ...ANON_FUNCTIONS,
+  'admin_grant_role',
+  'admin_merge_parts',
+  'admin_revoke_role',
+  'admin_search_users',
+  'admin_set_shop_status',
+  'admin_settings',
+  'admin_update_setting',
+  'admin_verify_shop',
+  'apply_as_shop',
+  'me',
+  'register_device',
+  'shop_add_staff',
+  'shop_archive_listing',
+  'shop_bulk_update',
+  'shop_import_rows',
+  'shop_listings',
+  'shop_remove_staff',
+  'shop_set_listing_images',
+  'shop_staff',
+  'shop_update_profile',
+  'shop_upsert_listing',
+  'suggest_parts',
+  'try_uuid',
+  'unregister_device',
+  'update_profile',
+].sort();
+
+describe.skipIf(!hasDb)('security baseline', () => {
+  const sql: Sql = connect();
+  afterAll(() => sql.end());
+
+  it('every public table has row level security enabled', async () => {
+    const rows = await sql<{ table: string }[]>`
+      select c.relname as table
+      from pg_class c join pg_namespace n on n.oid = c.relnamespace
+      where n.nspname = 'public' and c.relkind in ('r', 'p') and not c.relrowsecurity`;
+    expect(rows.map((r) => r.table)).toEqual([]);
+  });
+
+  it('anon can never write to a public table', async () => {
+    const rows = await sql<{ table: string }[]>`
+      select distinct table_name as table from information_schema.role_table_grants
+      where table_schema = 'public' and grantee = 'anon'
+        and privilege_type in ('INSERT', 'UPDATE', 'DELETE', 'TRUNCATE')`;
+    expect(rows.map((r) => r.table)).toEqual([]);
+  });
+
+  it('signed-in users write directly only to the allow-listed tables', async () => {
+    const rows = await sql<{ table: string }[]>`
+      select distinct table_name as table from information_schema.role_table_grants
+      where table_schema = 'public' and grantee = 'authenticated'
+        and privilege_type in ('INSERT', 'UPDATE', 'DELETE')
+      order by 1`;
+    expect(rows.map((r) => r.table)).toEqual(DIRECT_WRITE_TABLES);
+  });
+
+  it('nobody but the owner can truncate, reference or add triggers to tables', async () => {
+    const rows = await sql<{ table: string; grantee: string; privilege_type: string }[]>`
+      select table_name as table, grantee, privilege_type from information_schema.role_table_grants
+      where table_schema = 'public' and grantee in ('anon', 'authenticated')
+        and privilege_type in ('TRUNCATE', 'REFERENCES', 'TRIGGER')`;
+    expect(rows).toEqual([]);
+  });
+
+  async function callable(role: 'anon' | 'authenticated'): Promise<string[]> {
+    const rows = await sql<{ name: string }[]>`
+      select distinct p.proname as name
+      from pg_proc p join pg_namespace n on n.oid = p.pronamespace
+      where n.nspname = 'public' and p.prokind = 'f'
+        and has_function_privilege(${role}, p.oid, 'EXECUTE')
+      order by 1`;
+    return rows.map((r) => r.name);
+  }
+
+  it('anon can call only the allow-listed functions', async () => {
+    expect(await callable('anon')).toEqual(ANON_FUNCTIONS);
+  });
+
+  it('signed-in users can call only the allow-listed functions', async () => {
+    expect(await callable('authenticated')).toEqual(AUTHENTICATED_FUNCTIONS);
+  });
+
+  it('every security definer function pins an empty search_path', async () => {
+    const rows = await sql<{ name: string }[]>`
+      select p.proname as name
+      from pg_proc p join pg_namespace n on n.oid = p.pronamespace
+      where n.nspname = 'public' and p.prosecdef
+        and not coalesce('search_path=""' = any (p.proconfig), false)`;
+    expect(rows.map((r) => r.name)).toEqual([]);
+  });
+
+  it('every public bucket is limited by size and MIME type', async () => {
+    const rows = await sql<{ id: string }[]>`
+      select id from storage.buckets where file_size_limit is null or allowed_mime_types is null`;
+    expect(rows.map((r) => r.id)).toEqual([]);
+  });
+});
+
+describe.runIf(!hasDb)('security baseline (skipped)', () => {
+  it.skip(skipReason, () => undefined);
+});
