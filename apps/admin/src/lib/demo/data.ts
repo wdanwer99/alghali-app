@@ -1,10 +1,10 @@
 /**
- * Sample data for the admin demo, consistent with the phone apps' sample
- * data (same shops, technicians and order references). Replaced by Supabase
- * queries in M6. All amounts are illustrative SDG values.
+ * Sample data for the screens whose tables don't exist yet (payments, orders,
+ * cash and payouts arrive in M2; bookings, disputes and technician applications
+ * in M3). Every screen that uses it says so with a "Sample data" banner.
+ * Consistent with the phone apps' sample data. Amounts are illustrative SDG.
  */
 import type { Locale } from '@/i18n/config';
-import { formatRef } from '@/lib/format';
 
 export type L10n = { ar: string; en: string };
 export const tr = (t: L10n, locale: Locale) => t[locale];
@@ -127,37 +127,8 @@ export type Application = {
   years?: number;
 };
 
+/** Technician applications (M3); shop applications are real (shops with status PENDING). */
 export const applications: Application[] = [
-  {
-    id: 'app-1',
-    kind: 'shop',
-    name: { ar: 'المستقبل للبطاريات', en: 'Al-Mustaqbal Batteries' },
-    submittedAt: minutesAgo(26 * 60),
-    detail: {
-      ar: 'الوسط · قطعة 61 · المالك: إبراهيم ح.',
-      en: 'Middle · Plot 61 · Owner: Ibrahim H.',
-    },
-    docs: [
-      { key: 'license', ok: true },
-      { key: 'id', ok: true },
-      { key: 'photos', ok: true },
-    ],
-  },
-  {
-    id: 'app-2',
-    kind: 'shop',
-    name: { ar: 'الأمانة لقطع نيسان', en: 'Al-Amana Nissan Parts' },
-    submittedAt: minutesAgo(5 * 60),
-    detail: {
-      ar: 'قرب الجامع · قطعة 77 · المالك: صلاح د.',
-      en: 'By the mosque · Plot 77 · Owner: Salah D.',
-    },
-    docs: [
-      { key: 'license', ok: true },
-      { key: 'id', ok: true },
-      { key: 'photos', ok: false },
-    ],
-  },
   {
     id: 'app-3',
     kind: 'technician',
@@ -651,138 +622,5 @@ export const disputes: DisputeRow[] = [
     related: withCheckDigit('6603551'),
     openedAt: minutesAgo(2 * 60),
     status: 'open',
-  },
-];
-
-// ----------------------------------------------------------------- catalogue --
-
-export const catalogueStats = { makes: 5, models: 15, parts: 27, withFitment: 19 };
-
-export const fitmentGaps: { name: L10n; listings: number }[] = [
-  { name: { ar: 'لمبات إشارة خلفية (طقم 4)', en: 'Rear indicator bulbs (set of 4)' }, listings: 2 },
-  { name: { ar: 'بوري مزدوج 12 فولت', en: '12 V dual horn' }, listings: 2 },
-  { name: { ar: 'تعبئة غاز المكيف R134a', en: 'AC gas refill (R134a)' }, listings: 2 },
-  {
-    name: { ar: 'زيت محرك 5W-30 تخليقي (4 لتر)', en: '5W-30 synthetic engine oil (4 L)' },
-    listings: 3,
-  },
-  { name: { ar: 'زيت فرامل DOT4 (1 لتر)', en: 'DOT4 brake fluid (1 L)' }, listings: 2 },
-  { name: { ar: 'كسوة مقاعد جلد', en: 'Leather seat covers' }, listings: 1 },
-  { name: { ar: 'دواسات أرضية مطاطية', en: 'Rubber floor mats' }, listings: 1 },
-  { name: { ar: 'حامل جوال للتابلوه', en: 'Dashboard phone holder' }, listings: 1 },
-];
-
-export const synonymGroups: string[][] = [
-  ['لمبة', 'لمبات', 'بلب', 'bulb', 'lamp'],
-  ['فحمات', 'فحمة', 'تيل', 'pads'],
-  ['إطار', 'لستك', 'لساتك', 'كفر', 'tyre', 'tire'],
-  ['بوري', 'زمارة', 'كلاكس', 'horn'],
-  ['دينمو', 'دينامو', 'مولد', 'alternator'],
-  ['بوجي', 'بواجي', 'spark plug'],
-  ['مكيف', 'تكييف', 'AC'],
-  ['فريون', 'غاز', 'refrigerant'],
-];
-
-export const categories: { name: L10n; parts: number }[] = [
-  { name: { ar: 'الإضاءة', en: 'Lighting' }, parts: 4 },
-  { name: { ar: 'الفرامل', en: 'Brakes' }, parts: 4 },
-  { name: { ar: 'الزيوت والفلاتر', en: 'Oil & filters' }, parts: 3 },
-  { name: { ar: 'البطاريات', en: 'Batteries' }, parts: 2 },
-  { name: { ar: 'التكييف', en: 'Air conditioning' }, parts: 3 },
-  { name: { ar: 'العفشة', en: 'Suspension' }, parts: 2 },
-  { name: { ar: 'الكهرباء', en: 'Electrical' }, parts: 2 },
-  { name: { ar: 'الإطارات', en: 'Tyres' }, parts: 2 },
-  { name: { ar: 'المحرك', en: 'Engine' }, parts: 2 },
-  { name: { ar: 'الإكسسوارات', en: 'Accessories' }, parts: 3 },
-];
-
-// ------------------------------------------------------------------ settings --
-
-/** Same placeholder values as the apps' `PlatformSettings.demo` (packages/core). */
-export const platformSettings = {
-  commissionPercent: 5,
-  bookingFeeSdg: 2000,
-  mobileDepositSdg: 5000,
-  slotHoldMinutes: 10,
-  paymentWindowMinutes: 120,
-  techAcceptTimeoutMinutes: 20,
-  cancelCutoffHours: 6,
-  returnWindowDays: 3,
-  travelFeeBands: [
-    { maxKm: 3, sdg: 3000 },
-    { maxKm: 8, sdg: 6000 },
-    { maxKm: 15, sdg: 10000 },
-  ],
-  bankakAccountName: { ar: 'منصة شارع الغالي (تجريبي)', en: 'Alghali Street Platform (sample)' },
-  // Deliberately not a real account: the demo must never collect money.
-  bankakAccountNumber: '0000000000',
-};
-
-// ------------------------------------------------------------------ overview --
-
-export const today = {
-  salesSdg: 1284500,
-  orders: 23,
-  bookings: 9,
-};
-
-/** Orders per day for the last 14 days, oldest first; Fridays are quiet. */
-export const dailyOrders: { day: Date; orders: number }[] = [
-  14, 18, 9, 21, 19, 25, 22, 16, 20, 11, 27, 24, 26, 23,
-].map((orders, i) => ({ day: new Date(Date.UTC(2026, 9, 1 + i, 10)), orders }));
-
-export type Activity = {
-  id: string;
-  kind: 'payment' | 'order' | 'booking' | 'partner' | 'dispute';
-  text: L10n;
-  at: Date;
-};
-
-export const activity: Activity[] = [
-  {
-    id: 'a1',
-    kind: 'payment',
-    text: {
-      // The reference is isolated left-to-right, or Arabic shows its halves swapped.
-      ar: `أرسل عمر ط. إيصال بنكك للطلب ${formatRef(withCheckDigit('6604412'))}`,
-      en: `Omer T. sent a Bankak receipt for order ${formatRef(withCheckDigit('6604412'))}`,
-    },
-    at: minutesAgo(4),
-  },
-  {
-    id: 'a2',
-    kind: 'booking',
-    text: {
-      ar: 'قبل محمد عثمان عمل تركيب غدًا 4:00 م',
-      en: 'Mohamed Osman accepted a fitting tomorrow at 4:00 PM',
-    },
-    at: minutesAgo(11),
-  },
-  {
-    id: 'a3',
-    kind: 'order',
-    text: {
-      ar: 'جهّز النور لقطع الغيار طلبًا للتوصيل',
-      en: 'Al-Nour Auto Parts prepared an order for delivery',
-    },
-    at: minutesAgo(26),
-  },
-  {
-    id: 'a4',
-    kind: 'partner',
-    text: {
-      ar: 'طلب انضمام جديد من فني: طارق حسن',
-      en: 'New technician application: Tarig Hassan',
-    },
-    at: minutesAgo(180),
-  },
-  {
-    id: 'a5',
-    kind: 'dispute',
-    text: {
-      ar: 'فتح عثمان ب. نزاعًا عن ضرر في التوصيل',
-      en: 'Osman B. opened a dispute about delivery damage',
-    },
-    at: minutesAgo(120),
   },
 ];

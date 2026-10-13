@@ -176,3 +176,7 @@ The owner asked for a production-ready app for real users, with every feature in
   - Categories matched by any shared word, so "اضاءة" finds الإضاءة.
 
   Rows still need a name, category, condition, price (or "عند الطلب") and quantity, and each problem row is reported with its Excel row number. A re-import updates a listing found by SKU, or else by name + condition + brand.
+
+### Admin console pulled forward (2026-10-14)
+- **D-079 · Owner's choice** — **The admin console reads the real database now, ahead of M6**, for everything M1 built: sign-in, overview, shop applications, shops, users, catalogue (fitment, shop parts, synonyms), street & zones, and settings. Screens whose tables come in M2/M3 (payments, orders, bookings, cash, payouts, disputes, technician applications) keep their sample data, each under a visible "Sample data" banner and a "Sample" tag in the menu. *The owner chose labelled sample data over empty screens or hiding them.*
+- **D-080 · Default** — **Temporary passwords (D-064) go through an Edge Function, `admin-set-password`.** It checks the caller is an admin with the caller's own token, applies the D-073 password rule, changes the password with the secret key, and writes `SET_PASSWORD` to the audit log (never the password). *Changing another user's password needs the secret key, which must never reach the admin website.*

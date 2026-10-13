@@ -2,9 +2,9 @@
 
 import { Checkbox } from '@base-ui/react/checkbox';
 import { Dialog } from '@base-ui/react/dialog';
-import { Check, CircleCheck, X } from 'lucide-react';
-import { useEffect, useState, type ReactNode } from 'react';
-import { cn } from 'cn';
+import { Check, CircleCheck, Loader2, X } from 'lucide-react';
+import { useId, useState, type ReactNode } from 'react';
+import { Button } from '@/components/ui/button';
 
 /** Centred dialog with a title and optional description; the caller supplies the body and buttons. */
 export function Modal({
@@ -105,35 +105,93 @@ export function CheckField({
   );
 }
 
-/** A button for an action the demo can't carry out; says so next to it for a few seconds. */
-export function DemoAction({
-  label,
-  note,
-  icon,
+/**
+ * Asks before a consequential action. With [reasonLabel] it also asks why, and
+ * the confirm button stays disabled until a reason is written.
+ */
+export function ConfirmDialog({
+  open,
+  onOpenChange,
+  title,
+  description,
+  confirmLabel,
+  cancelLabel,
+  tone = 'default',
+  reasonLabel,
+  reasonPlaceholder,
+  pending,
+  onConfirm,
 }: {
-  label: string;
-  note: string;
-  icon?: ReactNode;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  title: string;
+  description?: string;
+  confirmLabel: string;
+  cancelLabel: string;
+  tone?: 'default' | 'danger';
+  reasonLabel?: string;
+  reasonPlaceholder?: string;
+  pending?: boolean;
+  onConfirm: (reason: string) => void;
 }) {
-  const [shown, setShown] = useState(false);
-  useEffect(() => {
-    if (!shown) return;
-    const id = setTimeout(() => setShown(false), 3000);
-    return () => clearTimeout(id);
-  }, [shown]);
+  const [reason, setReason] = useState('');
+  const reasonId = useId();
+  const needsReason = reasonLabel !== undefined;
   return (
-    <span className="inline-flex flex-wrap items-center gap-2">
-      <button
-        type="button"
-        onClick={() => setShown(true)}
-        className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-border bg-card px-2.5 text-sm font-medium hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none [&_svg]:size-4"
+    <Modal
+      open={open}
+      onOpenChange={(next) => {
+        onOpenChange(next);
+        if (!next) setReason('');
+      }}
+      title={title}
+      description={description}
+    >
+      <form
+        className="flex flex-col gap-4"
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (!needsReason || reason.trim()) onConfirm(reason.trim());
+        }}
       >
-        {icon}
-        {label}
-      </button>
-      <span role="status" className={cn('text-xs text-muted-foreground', !shown && 'sr-only')}>
-        {shown ? note : ''}
-      </span>
-    </span>
+        {needsReason && (
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor={reasonId} className="text-sm font-medium">
+              {reasonLabel}
+            </label>
+            <textarea
+              id={reasonId}
+              autoFocus
+              required
+              rows={3}
+              maxLength={500}
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              placeholder={reasonPlaceholder}
+              className="w-full resize-none rounded-lg border border-input bg-card px-3 py-2 text-base outline-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30"
+            />
+          </div>
+        )}
+        <div className="flex flex-wrap justify-end gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            className="h-10 px-4"
+            onClick={() => onOpenChange(false)}
+          >
+            {cancelLabel}
+          </Button>
+          <Button
+            type="submit"
+            variant={tone === 'danger' ? 'destructive' : 'default'}
+            className="h-10 px-4"
+            disabled={pending || (needsReason && !reason.trim())}
+          >
+            {pending && <Loader2 className="animate-spin" aria-hidden />}
+            {confirmLabel}
+          </Button>
+        </div>
+      </form>
+    </Modal>
   );
 }

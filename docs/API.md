@@ -95,6 +95,13 @@ Admins also write the catalogue and street tables directly (D-068); every change
 
 ## Edge Functions
 
+### `admin-set-password`
+`POST /functions/v1/admin-set-password` with an admin's session. Body: `{ "user_id": "…", "password": "…" }`.
+
+Gives a temporary password to a user who called support (D-064, D-080). The caller must have `ADMIN`; the password must have 8–72 characters with letters and digits (D-073). The change is audited as `SET_PASSWORD` (the password isn't stored).
+
+Response: `{ "ok": true }`. Errors: 401 `NOT_AUTHENTICATED`, 403 `FORBIDDEN`, 400 `INVALID_BODY` / `WEAK_PASSWORD`, 404 `USER_NOT_FOUND`.
+
 ### `inventory-import`
 `POST /functions/v1/inventory-import` with the user's session; optional `Idempotency-Key: <uuid>`.
 

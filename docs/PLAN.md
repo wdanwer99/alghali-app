@@ -111,6 +111,12 @@ Every milestone ends with: lint + tests green, docs updated, a commit, and a sho
     - New job type `MECHANICAL` (D-076).
   - **Not in M1:** the admin's "set temporary password" (D-064) moves to M6 with the admin console; technician applications to M3.
   - **Owner input still needed before launch:** the street's city, GPS starting point and real zone names (D-077), the Bankak account, and real fee amounts (D-034).
+- **Admin console on real data — 2026-10-14** (owner's request, part of M6 pulled forward; D-079, D-080):
+  - Real sign-in (admins only), overview, shop applications, a new Shops page, Users (admin role, temporary passwords), catalogue (fitment, shop parts, synonyms), Street & zones editor, and settings, all against `alghali-dev`.
+  - More interactive: Ctrl K quick-jump, optimistic actions with toasts, a slide-in shop panel, live search, save bars, and motion that respects "reduce motion".
+  - The owner can now set the street's city, GPS starting point and zone names (D-077) and the Bankak account (D-034) from the console.
+  - Still sample data until M2/M3: payments, orders, bookings, cash, payouts, disputes, technician applications.
+  - Left for M6: Playwright smoke tests for each queue.
 
 | # | Scope | Exit criteria |
 |---|---|---|

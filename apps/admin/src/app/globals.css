@@ -148,6 +148,45 @@
   }
 }
 
+/*
+ * Motion: short, ease-out, transform/opacity only (ui-ux-pro-max). `rise` is the
+ * entrance for cards, rows and panels; set `--i` on siblings to stagger them.
+ * The reduced-motion rule below turns all of this off.
+ */
+@theme {
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@keyframes shimmer {
+  to {
+    background-position-x: -200%;
+  }
+}
+
+@utility rise {
+  animation: rise 320ms var(--ease-out-soft) both;
+  animation-delay: calc(min(var(--i, 0), 12) * 40ms);
+}
+
+@utility skeleton {
+  border-radius: var(--radius-md);
+  background: linear-gradient(
+      90deg,
+      var(--muted) 0%,
+      color-mix(in oklab, var(--muted), var(--foreground) 6%) 50%,
+      var(--muted) 100%
+    )
+    0 0 / 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -169,6 +208,7 @@
     *::before,
     *::after {
       animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
     }
   }

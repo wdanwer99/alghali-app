@@ -1,26 +1,63 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { CircleAlert, Eye, EyeOff, Loader2 } from 'lucide-react';
+import { AnimatePresence, motion, useAnimate } from 'motion/react';
+import { useActionState, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import type { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/dictionaries';
+import { signIn, type SignInState } from '@/lib/actions/auth';
 
-/** Demo sign-in: any email and password opens the console (Supabase Auth replaces this in M1). */
-export function LoginForm({ locale, d }: { locale: Locale; d: Dictionary['login'] }) {
-  const router = useRouter();
-  const [busy, setBusy] = useState(false);
+/** Email + password sign-in against Supabase Auth; only admins get in. */
+export function LoginForm({
+  locale,
+  d,
+  notice,
+}: {
+  locale: Locale;
+  d: Dictionary['login'];
+  notice?: string;
+}) {
+  const [state, action, pending] = useActionState<SignInState, FormData>(signIn, {});
+  const [showPassword, setShowPassword] = useState(false);
+  const [scope, animate] = useAnimate();
+
+  // A small shake when the attempt fails, so the error is noticed without reading.
+  useEffect(() => {
+    if (state.error && scope.current) {
+      animate(scope.current, { x: [0, -8, 8, -5, 5, 0] }, { duration: 0.4 });
+    }
+  }, [state, animate, scope]);
+
+  const message = state.error ? d[state.error] : notice;
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        setBusy(true);
-        router.push(`/${locale}`);
-      }}
-      className="flex flex-col gap-4"
-    >
+    <form ref={scope} action={action} className="flex flex-col gap-4">
+      <input type="hidden" name="locale" value={locale} />
+      <AnimatePresence initial={false}>
+        {message && (
+          <motion.p
+            key={message}
+            role={state.error ? 'alert' : 'status'}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="overflow-hidden"
+          >
+            <span
+              className={
+                state.error
+                  ? 'flex items-start gap-2 rounded-lg bg-danger-soft px-3 py-2.5 text-sm text-destructive'
+                  : 'flex items-start gap-2 rounded-lg bg-muted px-3 py-2.5 text-sm text-muted-foreground'
+              }
+            >
+              <CircleAlert className="mt-0.5 size-4 shrink-0" aria-hidden />
+              {message}
+            </span>
+          </motion.p>
+        )}
+      </AnimatePresence>
       <div className="flex flex-col gap-2">
         <Label htmlFor="email">{d.email}</Label>
         <Input
@@ -30,25 +67,39 @@ export function LoginForm({ locale, d }: { locale: Locale; d: Dictionary['login'
           autoComplete="username"
           dir="ltr"
           required
-          className="h-10"
+          defaultValue={state.email}
+          aria-invalid={state.error === 'invalidCredentials' || undefined}
+          className="h-11"
         />
       </div>
       <div className="flex flex-col gap-2">
         <Label htmlFor="password">{d.password}</Label>
-        <Input
-          id="password"
-          name="password"
-          type="password"
-          autoComplete="current-password"
-          dir="ltr"
-          required
-          className="h-10"
-        />
+        <div className="relative">
+          <Input
+            id="password"
+            name="password"
+            type={showPassword ? 'text' : 'password'}
+            autoComplete="current-password"
+            dir="ltr"
+            required
+            aria-invalid={state.error === 'invalidCredentials' || undefined}
+            className="h-11 pe-11"
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword((v) => !v)}
+            aria-label={showPassword ? d.hidePassword : d.showPassword}
+            aria-pressed={showPassword}
+            className="absolute inset-y-0 end-0 grid w-11 cursor-pointer place-items-center rounded-e-lg text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+          >
+            {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+          </button>
+        </div>
       </div>
-      <Button type="submit" className="h-10" disabled={busy}>
-        {d.submit}
+      <Button type="submit" className="h-11 text-base" disabled={pending}>
+        {pending && <Loader2 className="animate-spin" aria-hidden />}
+        {pending ? d.signingIn : d.submit}
       </Button>
-      <p className="text-xs text-muted-foreground">{d.demoHint}</p>
     </form>
   );
 }

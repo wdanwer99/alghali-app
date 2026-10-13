@@ -27,7 +27,7 @@ Status: M1 (identity, catalogue, street and shops, stock, search, storage). See 
 - **Search** (D-066): `ar_normalize()` / `ar_stem()` / `search_terms()` turn text into normalised words. Each part keeps one `part_search_docs` row: a `tsvector` of its words plus a trigram index for typos. Synonym groups (`search_synonyms` → `search_synonym_terms`) expand each query word. The Dart twin is `packages/core/lib/src/data/arabic.dart`; both are tested on the same cases.
 - **Shops' own parts** (D-067): quick listing creates unverified parts with model-level fitment. Admins merge them into catalogue parts.
 - **Storage:** buckets with size and MIME limits. Public: `media-public` (shop photos under `shops/{shop_id}/`), `templates`, `app-releases`. Private: `imports` (stock sheets under `{shop_id}/`), plus receipts and photos for M2/M3.
-- **Edge Functions** (`supabase/functions`, Deno): `inventory-import` reads stock sheets with the vendored SheetJS (D-070) and calls `shop_import_rows` as the caller. The sheet reader (`_shared/inventory/parse.ts`) is plain TypeScript tested with vitest. Deploy with `pnpm functions:deploy:<dev|test>` (bundled server-side, no Docker).
+- **Edge Functions** (`supabase/functions`, Deno): `admin-set-password` sets a temporary password for an admin (D-080); `inventory-import` reads stock sheets with the vendored SheetJS (D-070) and calls `shop_import_rows` as the caller. The sheet reader (`_shared/inventory/parse.ts`) is plain TypeScript tested with vitest. Deploy with `pnpm functions:deploy:<dev|test>` (bundled server-side, no Docker).
 - **Settings** (`app_settings`): admin-editable config with seeded defaults, each value checked by `validate_setting()`. Clients read the safe subset via `public_settings()`.
 - **Hosted project settings** (password rule, email confirmation) live in `infra/hosted/supabase/config.toml` (D-073).
 - **Health:** `ping()` returns `{ok, server_time}` to anyone.
@@ -49,7 +49,11 @@ Status: M1 (identity, catalogue, street and shops, stock, search, storage). See 
 - **Stack:** Next.js 16 (App Router, `cacheComponents`), Tailwind 4, shadcn/ui (Base UI, RTL mode).
 - **i18n:** routes live under `app/[lang]` (`ar` default, `en`). `src/proxy.ts` (Next 16's renamed middleware) redirects locale-less paths to the saved or default language. Dictionaries are in `src/i18n/dictionaries/*.json`, read through `next/root-params`, and a test enforces identical keys in both languages.
 - **RTL:** `<html dir>` follows the locale, and Base UI's `DirectionProvider` wraps the app.
-- **Backend:** server components call Supabase with the publishable key. Cookie sessions for signed-in admins arrive in M1.
+- **Sign-in:** Supabase Auth email + password with cookie sessions (`@supabase/ssr`). `src/proxy.ts` refreshes the session on every request and sends signed-out visitors to `/{lang}/login`. Only accounts with the `ADMIN` role stay signed in; a non-admin is signed straight back out.
+- **Data:** `src/lib/auth.ts` (`requireAdmin()`) reads the session and checks `is_admin()` on every request. Queries in `src/lib/data/` run as that admin, so row level security applies as it does in the apps; no secret key is in the admin app. With `cacheComponents`, each page renders its header at once and streams its data behind `<Suspense>` with a skeleton.
+- **Changes:** Server Actions in `src/lib/actions/` re-check the admin, call the same RPCs and tables the docs list, then `refresh()` the page. The UI updates optimistically and undoes the change if the server refuses. Temporary passwords go through the `admin-set-password` Edge Function, which holds the secret key (D-080).
+- **Live and sample screens:** overview, applications (shops), shops, users, catalogue, street & zones and settings read the database. Payments, orders, bookings, cash, payouts, disputes and technician applications still show sample data from `src/lib/demo/data.ts` under a "Sample data" banner until M2/M3 build their tables (D-079).
+- **Motion:** `motion` for layout and presence animation (sliding nav highlight, cards that leave when decided, toasts, save bars, count-up numbers); CSS `rise` entrances in `globals.css`. Everything honours the OS "reduce motion" setting.
 
 ## Tests
 

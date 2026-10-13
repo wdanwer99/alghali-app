@@ -1,17 +1,40 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { defaultLocale, isLocale, LOCALE_COOKIE, locales } from '@/i18n/config';
+import { defaultLocale, isLocale, LOCALE_COOKIE, locales, type Locale } from '@/i18n/config';
+import { refreshSession } from '@/lib/supabase/proxy';
 
-/** Sends any path without a locale prefix to the saved language, or Arabic. */
-export function proxy(request: NextRequest) {
+/**
+ * 1. Sends any path without a locale prefix to the saved language, or Arabic.
+ * 2. Keeps the Supabase session fresh and sends signed-out visitors to sign-in
+ *    (pages and actions still check the admin role themselves).
+ */
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const hasLocale = locales.some((l) => pathname === `/${l}` || pathname.startsWith(`/${l}/`));
-  if (hasLocale) return;
+  const locale = locales.find((l) => pathname === `/${l}` || pathname.startsWith(`/${l}/`));
+  if (!locale) {
+    const saved = request.cookies.get(LOCALE_COOKIE)?.value;
+    const target = isLocale(saved) ? saved : defaultLocale;
+    const url = request.nextUrl.clone();
+    url.pathname = `/${target}${pathname === '/' ? '' : pathname}`;
+    return NextResponse.redirect(url);
+  }
 
-  const saved = request.cookies.get(LOCALE_COOKIE)?.value;
-  const locale = isLocale(saved) ? saved : defaultLocale;
+  const response = NextResponse.next({ request });
+  const { configured, signedIn } = await refreshSession(request, response);
+  // The sign-in page itself sends a signed-in admin on (a signed-in non-admin stays there).
+  if (configured && !signedIn && pathname !== `/${locale}/login`) {
+    return toLogin(request, response, locale);
+  }
+  return response;
+}
+
+function toLogin(request: NextRequest, from: NextResponse, locale: Locale) {
   const url = request.nextUrl.clone();
-  url.pathname = `/${locale}${pathname === '/' ? '' : pathname}`;
-  return NextResponse.redirect(url);
+  url.pathname = `/${locale}/login`;
+  url.search = '';
+  const response = NextResponse.redirect(url);
+  // Keep any cookie changes the refresh made (e.g. clearing an expired session).
+  for (const cookie of from.cookies.getAll()) response.cookies.set(cookie);
+  return response;
 }
 
 export const config = {

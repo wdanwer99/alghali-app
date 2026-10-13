@@ -1,6 +1,6 @@
 import { MapPin, Wrench } from 'lucide-react';
 import {
-  DemoBadge,
+  SampleBanner,
   Num,
   PageHeader,
   Panel,
@@ -25,11 +25,8 @@ export default async function BookingsPage() {
   const earlier = byTime.filter((b) => finished.includes(b.status)).reverse();
   return (
     <>
-      <PageHeader
-        title={d.bookings.title}
-        description={d.bookings.subtitle}
-        actions={<DemoBadge label={d.app.demo} note={d.app.demoNote} />}
-      />
+      <PageHeader title={d.bookings.title} description={d.bookings.subtitle} />
+      <SampleBanner title={d.sample.title} body={d.sample.bookings} />
       {/* One table with two groups, so the columns line up. */}
       <Panel>
         <Table>

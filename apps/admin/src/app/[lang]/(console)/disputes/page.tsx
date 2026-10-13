@@ -1,5 +1,5 @@
 import {
-  DemoBadge,
+  SampleBanner,
   Num,
   PageHeader,
   Panel,
@@ -22,11 +22,8 @@ export default async function DisputesPage() {
   );
   return (
     <>
-      <PageHeader
-        title={d.disputes.title}
-        description={d.disputes.subtitle}
-        actions={<DemoBadge label={d.app.demo} note={d.app.demoNote} />}
-      />
+      <PageHeader title={d.disputes.title} description={d.disputes.subtitle} />
+      <SampleBanner title={d.sample.title} body={d.sample.disputes} />
       <Panel>
         <Table>
           <thead>

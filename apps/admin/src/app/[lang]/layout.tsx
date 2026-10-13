@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { IBM_Plex_Sans_Arabic } from 'next/font/google';
 import { Direction } from '@/components/direction';
+import { MotionProvider } from '@/components/motion';
 import { dirOf, locales } from '@/i18n/config';
 import { getDictionary, getLocale } from '@/i18n/dictionaries';
 import '../globals.css';
@@ -22,12 +23,14 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function RootLayout({ children }: LayoutProps<'/[lang]'>) {
-  const locale = await getLocale();
+  const [locale, d] = await Promise.all([getLocale(), getDictionary()]);
   const dir = dirOf(locale);
   return (
     <html lang={locale} dir={dir} className={`${plexArabic.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-background text-foreground">
-        <Direction dir={dir}>{children}</Direction>
+        <Direction dir={dir}>
+          <MotionProvider closeLabel={d.common.close}>{children}</MotionProvider>
+        </Direction>
       </body>
     </html>
   );

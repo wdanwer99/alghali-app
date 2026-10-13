@@ -1,6 +1,6 @@
 import { Banknote, HandCoins, TriangleAlert } from 'lucide-react';
 import {
-  DemoBadge,
+  SampleBanner,
   Num,
   PageHeader,
   Panel,
@@ -27,11 +27,8 @@ export default async function CashPage() {
 
   return (
     <>
-      <PageHeader
-        title={d.cash.title}
-        description={d.cash.subtitle}
-        actions={<DemoBadge label={d.app.demo} note={d.app.demoNote} />}
-      />
+      <PageHeader title={d.cash.title} description={d.cash.subtitle} />
+      <SampleBanner title={d.sample.title} body={d.sample.cash} />
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <StatCard label={d.cash.totalOwed} value={sdg(owed)} icon={<Banknote />} />
         <StatCard label={d.cash.collected} value={sdg(collected)} icon={<HandCoins />} />
