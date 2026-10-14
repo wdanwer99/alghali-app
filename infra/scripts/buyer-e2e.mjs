@@ -41,4 +41,9 @@ try {
   process.exitCode = r.status ?? 1;
 } finally {
   rmSync(dir, { recursive: true, force: true });
+  // The test build lists the integration_test plugin here; a release build that reuses
+  // the file fails, and Flutter writes it again when it is missing.
+  rmSync(join(app, 'android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java'), {
+    force: true,
+  });
 }
