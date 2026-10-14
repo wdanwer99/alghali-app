@@ -81,4 +81,4 @@ jobs:
         run: |
           node infra/scripts/seed-demo.mjs local
           node infra/scripts/seed-demo.mjs local | tee seed.log
-          grep -q " 0 new listings, 0 new orders" seed.log
+          grep -q " 0 new listings, 0 new orders, 0 new technicians, 0 new bookings" seed.log

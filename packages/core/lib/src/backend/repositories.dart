@@ -2,12 +2,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'auth_repository.dart';
+import 'bookings_repository.dart';
 import 'catalogue_repository.dart';
 import 'chat_repository.dart';
 import 'garage_repository.dart';
 import 'orders_repository.dart';
 import 'requests_repository.dart';
 import 'shop_repository.dart';
+import 'technician_repository.dart';
 
 /// The Supabase client set up by [initBackend]. Tests override this with a client
 /// that talks to a fake HTTP server.
@@ -30,4 +32,10 @@ final requestsRepositoryProvider = Provider(
 final chatRepositoryProvider = Provider((ref) => ChatRepository(ref.watch(supabaseClientProvider)));
 final notificationsRepositoryProvider = Provider(
   (ref) => NotificationsRepository(ref.watch(supabaseClientProvider)),
+);
+final bookingsRepositoryProvider = Provider(
+  (ref) => BookingsRepository(ref.watch(supabaseClientProvider)),
+);
+final technicianRepositoryProvider = Provider(
+  (ref) => TechnicianRepository(ref.watch(supabaseClientProvider)),
 );

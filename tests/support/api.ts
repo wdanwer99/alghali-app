@@ -92,6 +92,29 @@ export class Fixtures {
     return { owner, shopId };
   }
 
+  /**
+   * An approved technician (bay and mobile) with a fresh account: LIGHTING at 6,000,
+   * every day all day, home at the street's starting point, bay at a fresh shop.
+   */
+  async technician(): Promise<{ user: TestUser; techId: string; bayShopId: string }> {
+    const user = await this.user({ phone: '0911111111', display_name: 'الفني عمر' });
+    const { shopId } = await this.shop();
+    const [t] = await this.sql<{ id: string }[]>`
+      insert into public.technicians (user_id, status, work_mode, home_bay_shop_id, home_lat, home_lng, radius_km, approved_at)
+      values (${user.id}, 'APPROVED', 'BOTH', ${shopId}, 15.6, 32.5, 10, now()) returning id`;
+    const techId = must(t).id;
+    await this.sql`
+      insert into public.technician_job_types (technician_id, job_type_id, labour_sdg)
+      select ${techId}, id, 6000 from public.job_types where code = 'LIGHTING'`;
+    await this.sql`
+      insert into public.availability_rules (technician_id, weekday, start_min, end_min)
+      select ${techId}, d, 0, 1440 from generate_series(0, 6) d`;
+    await this
+      .sql`insert into public.user_roles (user_id, role) values (${user.id}, 'TECHNICIAN') on conflict do nothing`;
+    await this.sql`select public.tech_account(${techId})`;
+    return { user, techId, bayShopId: shopId };
+  }
+
   async cleanup(): Promise<void> {
     if (this.files.length) {
       const byBucket = new Map<string, string[]>();
@@ -109,6 +132,11 @@ export class Fixtures {
         delete from public.orders
         where buyer_id = any (${this.users}::uuid[])
            or id in (select order_id from public.sub_orders where shop_id = any (${shopIds}::uuid[]))`;
+      await this.sql`
+        delete from public.bookings
+        where buyer_id = any (${this.users}::uuid[])
+           or technician_id in (select id from public.technicians where user_id = any (${this.users}::uuid[]))`;
+      await this.sql`delete from public.technicians where user_id = any (${this.users}::uuid[])`;
       await this.sql`delete from public.listings where shop_id = any (${shopIds}::uuid[])`;
       await this.sql`delete from public.parts where created_by_shop_id = any (${shopIds}::uuid[])`;
       await this.sql`delete from public.shops where id = any (${shopIds}::uuid[])`;

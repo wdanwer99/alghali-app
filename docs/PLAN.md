@@ -1,6 +1,6 @@
 # Alghali Street Platform — Plan
 
-**Status:** v1.2 · approved by owner 2026-10-10 (with change: email login for everyone, phone OTP deferred) · M0 done · UI pass on sample data done 2026-10-11 · 2026-10-13: owner asked for a production launch with every feature (D-056–D-064: Android only, download link, free plan, push only, no domain) · M1 done 2026-10-13 · M2 done 2026-10-14
+**Status:** v1.2 · approved by owner 2026-10-10 (with change: email login for everyone, phone OTP deferred) · M0 done · UI pass on sample data done 2026-10-11 · 2026-10-13: owner asked for a production launch with every feature (D-056–D-064: Android only, download link, free plan, push only, no domain) · M1 done 2026-10-13 · M2 done 2026-10-14 · M3 done 2026-10-14 · Rules for building on it: [BRIEF.md](BRIEF.md)
 **Source brief:** [`claude-code-prompt-alghali.md`](../claude-code-prompt-alghali.md) · **Decisions log:** [`DECISIONS.md`](DECISIONS.md)
 
 ---
@@ -128,6 +128,17 @@ Every milestone ends with: lint + tests green, docs updated, a commit, and a sho
     - Handing parts to a technician and booking deposits come with M3 bookings.
     - The buyer and partner screens still use sample data; M4/M5 connect them to these repositories.
   - **Owner input still needed before launch:** unchanged from M1 (the street's city, GPS starting point and zone names, the Bankak account, and real fee amounts). Delivery fees can't be worked out for shops without a map pin until the street's starting point is set (D-087).
+
+- **M3 — done 2026-10-14** (D-096–D-108):
+  - **Backend:** technicians (applying, job types with labour prices, makes, work mode, bay, radius, weekly hours, time off, quick block), the slot engine (pure TypeScript) behind the `booking-slots` Edge Function, holds checked again in SQL under the `EXCLUDE` constraint, the booking state machine with offers, timeouts and reassignment, fittings paid through checkout with deposits, parts that follow the fitting, cancellation charges, part-does-not-fit, job codes, photos, live location while on the way, technicians' payouts and statements, the notification dispatcher (templates in Arabic and English, push queue with retries, SMS/WhatsApp stubs) with reminders and the shop-acknowledgement alert, reviews and disputes. Applied to `alghali-dev` and `alghali-test`.
+  - **Admin console:** Bookings (with a detail page), Disputes and technician applications on real data; technicians in Cash and Payouts; no sample data left (D-106).
+  - **Demo data on dev:** 10 technicians (two applying) and 5 fittings at the bay (D-107).
+  - **Dart repositories and parsers** for fittings (buyer) and the technician's work (partner).
+  - **Development brief** for future work: `docs/BRIEF.md` (D-108).
+  - **Tests:** 342 TypeScript (DB, API end-to-end, slot engine, push wording), 3 admin and 115 Flutter. Exit criteria met: wide slot-engine tests, booking state-machine table tests, **20 parallel holds on one slot → exactly 1 succeeds**, timeout and reassignment tests, cancellation fee maths, and the whole fitting journey over HTTP.
+  - **Changes from this plan:** the hold is an RPC, not an Edge Function (D-096); a fitting waits for payment from checkout, not from the receipt (D-097, amends D-023); the alert queue is a table, not pgmq (D-101, amends D-007); a technician dropping out is reassigned, not `CANCELLED_BY_TECH` (D-102).
+  - **Not in M3:** real push needs the owner's Firebase project (then `pnpm notify:setup <env> --fcm key.json`); SMS/WhatsApp stay stubs (D-061). Shifting the earliest slot to admin working hours for unconfirmed Bankak orders (D-027) and opening hours in the 30-minute alert (D-020) are left out. Declining a part-does-not-fit return on a cash order needs a manual adjustment (D-098).
+  - **Owner input still needed before launch:** as before (street city, GPS starting point and zone names, Bankak account, real fees), plus the Firebase project. Fittings at the buyer's place can't be booked until the street's starting point is set.
 
 | # | Scope | Exit criteria |
 |---|---|---|

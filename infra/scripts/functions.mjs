@@ -25,11 +25,24 @@ const names = readdirSync(join(root, 'supabase/functions'), { withFileTypes: tru
   .filter((d) => d.isDirectory() && !d.name.startsWith('_'))
   .map((d) => d.name);
 
+// Called without a user session: guests ask for booking slots (the function passes their
+// role on to the database), and pg_cron calls notify-dispatch with its own shared token.
+const NO_JWT_CHECK = new Set(['booking-slots', 'notify-dispatch']);
+
 const [cli, ...cliArgs] = supabaseCommand();
 for (const name of names) {
   const r = spawnSync(
     cli,
-    [...cliArgs, 'functions', 'deploy', name, '--project-ref', t.projectRef, '--use-api'],
+    [
+      ...cliArgs,
+      'functions',
+      'deploy',
+      name,
+      '--project-ref',
+      t.projectRef,
+      '--use-api',
+      ...(NO_JWT_CHECK.has(name) ? ['--no-verify-jwt'] : []),
+    ],
     {
       cwd: root,
       stdio: 'inherit',

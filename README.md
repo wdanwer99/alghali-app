@@ -4,17 +4,17 @@ Marketplace for car parts and accessories from the shops of Alghali Street (Suda
 
 Arabic first (RTL), offline-tolerant, light on data. Payments at launch: Bankak (confirmed transfer) and cash.
 
-| Path                | What                                                                                                              |
-| ------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| `apps/buyer`        | Flutter buyer app (Android first)                                                                                 |
-| `apps/partner`      | Flutter app for shops and technicians                                                                             |
-| `apps/admin`        | Next.js admin panel (Arabic/English, RTL)                                                                         |
-| `packages/core`     | Shared Dart: theme, language, backend client, offline cache + outbox                                              |
-| `packages/db-types` | Generated TypeScript types for the database                                                                       |
-| `supabase`          | Migrations, Edge Functions, seed data (hosted Supabase backend)                                                   |
-| `tests`             | Database, state-machine and end-to-end API tests (vitest)                                                         |
-| `infra/scripts`     | Env sync, Supabase helpers, Flutter helpers                                                                       |
-| `docs`              | [PLAN](docs/PLAN.md) · [DECISIONS](docs/DECISIONS.md) · [ARCHITECTURE](docs/ARCHITECTURE.md) · [API](docs/API.md) |
+| Path                | What                                                                                                                                                    |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `apps/buyer`        | Flutter buyer app (Android first)                                                                                                                       |
+| `apps/partner`      | Flutter app for shops and technicians                                                                                                                   |
+| `apps/admin`        | Next.js admin panel (Arabic/English, RTL)                                                                                                               |
+| `packages/core`     | Shared Dart: theme, language, backend client, offline cache + outbox                                                                                    |
+| `packages/db-types` | Generated TypeScript types for the database                                                                                                             |
+| `supabase`          | Migrations, Edge Functions, seed data (hosted Supabase backend)                                                                                         |
+| `tests`             | Database, state-machine and end-to-end API tests (vitest)                                                                                               |
+| `infra/scripts`     | Env sync, Supabase helpers, Flutter helpers                                                                                                             |
+| `docs`              | [BRIEF](docs/BRIEF.md) (start here) · [PLAN](docs/PLAN.md) · [DECISIONS](docs/DECISIONS.md) · [ARCHITECTURE](docs/ARCHITECTURE.md) · [API](docs/API.md) |
 
 ## Prerequisites
 
@@ -36,32 +36,34 @@ pnpm hosted:push test
 pnpm functions:deploy:dev   # Edge Functions (bundled by Supabase, no Docker)
 pnpm functions:deploy:test
 pnpm templates:upload dev   # the Excel stock template shops download
-pnpm db:seed:dev            # demo shops, stock, buyers, orders and accounts — dev only
+pnpm db:seed:dev            # demo shops, stock, buyers, orders, technicians and fittings — dev only
+pnpm notify:setup dev       # connect the alert queue to its Edge Function (push stays a stub without --fcm)
 pnpm env:sync               # copies client-safe keys into the apps
 ```
 
-**Demo accounts on alghali-dev** (after `pnpm db:seed:dev`): `admin@demo.alghali.invalid`; buyers `buyer@demo.alghali.invalid`, `buyer.mona@…`, `buyer.sara@…` and `buyer.omer@…`, who have 12 orders between them at different stages; and one owner per shop, `owner.<shop>@demo.alghali.invalid` (for example `owner.nour@…`). They all use the `DEMO_PASSWORD` that the seed saved in `.env`.
+**Demo accounts on alghali-dev** (after `pnpm db:seed:dev`): `admin@demo.alghali.invalid`; buyers `buyer@demo.alghali.invalid`, `buyer.mona@…`, `buyer.sara@…` and `buyer.omer@…`, who have 12 orders between them at different stages; one owner per shop, `owner.<shop>@demo.alghali.invalid` (for example `owner.nour@…`); and ten technicians, `tech.<name>@demo.alghali.invalid` (for example `tech.omar@…`; `tech.mujahid@` and `tech.faisal@` are still waiting for approval), with five fittings between the buyers. They all use the `DEMO_PASSWORD` that the seed saved in `.env`.
 
 ## Everyday commands
 
-| Command                                  | Does                                                                                                   |
-| ---------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| `pnpm dev`                               | Sync env, start the admin at http://localhost:3000 (redirects to `/ar`)                                |
-| `pnpm buyer` / `pnpm partner`            | Run a Flutter app on the connected device/emulator against `alghali-dev`                               |
-| `pnpm check`                             | Everything CI runs: lint, typecheck, TS tests, Dart format, `flutter analyze`, Flutter tests           |
-| `pnpm test`                              | TypeScript tests (DB tests run when `SUPABASE_TEST_DB_URL` is set)                                     |
-| `pnpm flutter:test`                      | Flutter tests in core, buyer and partner                                                               |
-| `pnpm db:push:dev` / `pnpm db:push:test` | Apply new migrations                                                                                   |
-| `pnpm db:reset:test`                     | Wipe `alghali-test` and re-apply every migration                                                       |
-| `pnpm db:types`                          | Regenerate `packages/db-types` from `alghali-dev`                                                      |
-| `pnpm db:seed:dev`                       | Load the demo shops, stock, buyers and orders into `alghali-dev` (refuses any other project)           |
-| `pnpm functions:deploy:<dev\|test>`      | Deploy the Edge Functions                                                                              |
-| `pnpm hosted:diff <dev\|test>`           | Compare the project's settings with `infra/hosted/supabase/config.toml` (`hosted:push` applies)        |
-| `pnpm import-template`                   | Rebuild `supabase/templates/inventory-template.xlsx`; `pnpm templates:upload <dev\|test>` publishes it |
+| Command                                          | Does                                                                                                   |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
+| `pnpm dev`                                       | Sync env, start the admin at http://localhost:3000 (redirects to `/ar`)                                |
+| `pnpm buyer` / `pnpm partner`                    | Run a Flutter app on the connected device/emulator against `alghali-dev`                               |
+| `pnpm check`                                     | Everything CI runs: lint, typecheck, TS tests, Dart format, `flutter analyze`, Flutter tests           |
+| `pnpm test`                                      | TypeScript tests (DB tests run when `SUPABASE_TEST_DB_URL` is set)                                     |
+| `pnpm flutter:test`                              | Flutter tests in core, buyer and partner                                                               |
+| `pnpm db:push:dev` / `pnpm db:push:test`         | Apply new migrations                                                                                   |
+| `pnpm db:reset:test`                             | Wipe `alghali-test` and re-apply every migration                                                       |
+| `pnpm db:types`                                  | Regenerate `packages/db-types` from `alghali-dev`                                                      |
+| `pnpm db:seed:dev`                               | Load the demo shops, stock, buyers, orders, technicians and fittings into `alghali-dev` (dev only)     |
+| `pnpm functions:deploy:<dev\|test>`              | Deploy the Edge Functions                                                                              |
+| `pnpm hosted:diff <dev\|test>`                   | Compare the project's settings with `infra/hosted/supabase/config.toml` (`hosted:push` applies)        |
+| `pnpm import-template`                           | Rebuild `supabase/templates/inventory-template.xlsx`; `pnpm templates:upload <dev\|test>` publishes it |
+| `pnpm notify:setup <dev\|test> [--fcm key.json]` | Wire the alert queue to `notify-dispatch`; with a Firebase service account key, pushes really go out   |
 
 Apps built without Supabase keys still run and show "not set up" for backend status.
 
-**Sample data.** For now all three apps run on built-in sample data (PLAN §2, D-051), so every screen works without a backend. Nothing real happens: the Bankak account shown is a dummy, and calls and messages are switched off. The backend behind them is ready from M1; M4–M6 switch the screens over to it (`packages/core/lib/src/backend`).
+**Sample data.** The buyer and partner apps still run on built-in sample data (PLAN §2, D-051), so every screen works without a backend; nothing real happens there (the Bankak account shown is a dummy, calls and messages are off). The backend behind them is ready (M1–M3, `packages/core/lib/src/backend`) and M4–M5 switch the screens over. The admin console already reads the real database.
 
 **Tests that hit Supabase** run against `alghali-test`. `pnpm test` includes end-to-end API tests that create real accounts there and delete them afterwards.
 

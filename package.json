@@ -30,6 +30,7 @@
     "hosted:push": "node infra/scripts/hosted-config.mjs push",
     "import-template": "node infra/scripts/make-import-template.mjs",
     "templates:upload": "node infra/scripts/upload-templates.mjs",
+    "notify:setup": "node infra/scripts/notify-setup.mjs",
     "flutter:format": "node infra/scripts/dart-format.mjs"
   },
   "devDependencies": {

@@ -385,7 +385,9 @@ export async function loadOrder(supabase: Supabase, id: string): Promise<OrderDe
 // ------------------------------------------------------------------------ cash
 
 export type PartnerBalance = {
-  shopId: string;
+  /** A shop or a technician (M3); `id` is the shop's or the technician's id. */
+  party: 'SHOP' | 'TECH';
+  id: string;
   name: Named;
   /** Positive: the platform owes the shop. Negative: the shop owes the platform. */
   balanceSdg: number;
@@ -396,7 +398,9 @@ export type PartnerBalance = {
 
 export async function loadPartnerBalances(supabase: Supabase): Promise<PartnerBalance[]> {
   const rows = (await supabase.rpc('admin_partner_balances').then(must)) as unknown as {
-    shop_id: string;
+    party: 'SHOP' | 'TECH';
+    shop_id: string | null;
+    technician_id: string | null;
     name_ar: string;
     name_en: string;
     balance_sdg: number;
@@ -405,7 +409,8 @@ export async function loadPartnerBalances(supabase: Supabase): Promise<PartnerBa
     cycles_owing: number;
   }[];
   return rows.map((r) => ({
-    shopId: r.shop_id,
+    party: r.party,
+    id: (r.shop_id ?? r.technician_id) as string,
     name: named(r.name_ar, r.name_en),
     balanceSdg: Number(r.balance_sdg),
     cashCollectedSdg: Number(r.cash_collected_sdg),
@@ -420,7 +425,8 @@ export type PayoutStatus = 'DRAFT' | 'APPROVED' | 'PAID' | 'CANCELLED';
 
 export type Payout = {
   id: string;
-  shop: Named;
+  party: 'SHOP' | 'TECH';
+  partner: Named;
   amountSdg: number;
   salesSdg: number;
   deductionsSdg: number;
@@ -460,11 +466,15 @@ export async function loadPayouts(supabase: Supabase): Promise<Payouts> {
   const rows = await supabase
     .from('payouts')
     .select(
-      'id, amount_sdg, sales_sdg, deductions_sdg, status, bankak_txn_no, paid_at, shop:shops(name_ar, name_en)',
+      'id, amount_sdg, sales_sdg, deductions_sdg, status, bankak_txn_no, paid_at, shop:shops(name_ar, name_en), technician:technicians(user_id)',
     )
     .or(filter)
     .order('amount_sdg', { ascending: false })
     .then(must);
+  const techNames = await people(
+    supabase,
+    rows.flatMap((p) => (p.technician ? [p.technician.user_id] : [])),
+  );
   return {
     run: run
       ? { id: run.id, from: run.period_from, to: run.period_to, createdAt: run.created_at }
@@ -472,7 +482,10 @@ export async function loadPayouts(supabase: Supabase): Promise<Payouts> {
     payDay,
     rows: rows.map((p) => ({
       id: p.id,
-      shop: named(p.shop?.name_ar, p.shop?.name_en),
+      party: p.technician ? ('TECH' as const) : ('SHOP' as const),
+      partner: p.technician
+        ? named(techNames.get(p.technician.user_id)?.name, null)
+        : named(p.shop?.name_ar, p.shop?.name_en),
       amountSdg: Number(p.amount_sdg),
       salesSdg: Number(p.sales_sdg),
       deductionsSdg: Number(p.deductions_sdg),

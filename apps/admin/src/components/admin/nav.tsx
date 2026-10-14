@@ -70,9 +70,9 @@ export function navGroups(locale: Locale, d: NavLabels, badges: NavBadges | null
       items: [
         { href: p('/payments'), label: d.payments, icon: Landmark },
         { href: p('/orders'), label: d.orders, icon: ReceiptText },
-        { href: p('/bookings'), label: d.bookings, icon: CalendarClock, sample: true },
+        { href: p('/bookings'), label: d.bookings, icon: CalendarClock },
         { href: p('/cash'), label: d.cash, icon: Banknote },
-        { href: p('/disputes'), label: d.disputes, icon: MessageSquareWarning, sample: true },
+        { href: p('/disputes'), label: d.disputes, icon: MessageSquareWarning },
       ],
     },
   ] satisfies { title: string | null; items: NavItem[] }[];

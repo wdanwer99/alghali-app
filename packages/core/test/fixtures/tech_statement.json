@@ -1,0 +1,34 @@
+{
+  "to": "2026-10-14T01:15:54.948684+00:00",
+  "from": "2026-09-14T01:15:54.948684+00:00",
+  "lines": [
+    {
+      "at": "2026-10-14T01:00:46.89086+00:00",
+      "id": "4e36080c-a15d-445b-9f7d-87487881dc6e",
+      "ref": "69851954",
+      "kind": "CASH_HANDOVER",
+      "payout_id": null,
+      "amount_sdg": 38000
+    },
+    {
+      "at": "2026-10-14T01:00:47.701419+00:00",
+      "id": "9cf72e78-6112-4db6-9356-954fb9907164",
+      "ref": "69851954",
+      "kind": "CASH_COLLECTED",
+      "payout_id": null,
+      "amount_sdg": -47000
+    },
+    {
+      "at": "2026-10-14T01:00:47.701419+00:00",
+      "id": "6c5d1789-8726-4ca6-b7a1-c77630b6ff2f",
+      "ref": "69851954",
+      "kind": "LABOUR",
+      "payout_id": null,
+      "amount_sdg": 7000
+    }
+  ],
+  "payouts": [],
+  "closing_sdg": -2000,
+  "opening_sdg": 0,
+  "technician_id": "cc827c5a-a283-44ae-b3d2-dd4d845b99de"
+}

@@ -391,18 +391,91 @@ enum BookingStatus {
   cancelledByBuyer,
   cancelledByTech,
   cancelledByAdmin,
-  partDoesNotFit,
+  partDoesNotFit;
+
+  String get code => screamingCase(name);
+  static BookingStatus fromCode(String code) => values.byName(camelCase(code));
 }
 
-enum BookingPlace { bay, customer }
+enum BookingPlace {
+  bay('BAY'),
+  customer('CUSTOMER_LOCATION');
+
+  const BookingPlace(this.code);
+
+  final String code;
+
+  static BookingPlace fromCode(String code) => code == 'BAY' ? bay : customer;
+}
 
 @immutable
 class BookingItem {
-  const BookingItem({required this.title, required this.jobType, required this.minutes});
+  const BookingItem({
+    required this.title,
+    required this.jobType,
+    required this.minutes,
+    this.description,
+    this.orderItemId,
+  });
+
+  /// An item of `booking_json`. A job type this app version doesn't know reads as SERVICE.
+  factory BookingItem.fromJson(Json j) => BookingItem(
+    title: LocalizedText.fromJson(j, 'title'),
+    jobType: JobType.fromCode(j['job_type_code'] as String?) ?? JobType.service,
+    minutes: j['minutes'] as int,
+    description: j['description'] as String?,
+    orderItemId: j['order_item_id'] as String?,
+  );
 
   final LocalizedText title;
   final JobType jobType;
   final int minutes;
+
+  /// What the buyer wrote about a part bought elsewhere.
+  final String? description;
+  final String? orderItemId;
+}
+
+/// The technician's current offer on a booking (D-024).
+@immutable
+class BookingOffer {
+  const BookingOffer({required this.id, required this.open, required this.expiresAt});
+
+  factory BookingOffer.fromJson(Json j) => BookingOffer(
+    id: j['id'] as String,
+    open: j['status'] == 'OFFERED',
+    expiresAt: DateTime.parse(j['expires_at'] as String),
+  );
+
+  final String id;
+
+  /// Still waiting for the technician's answer.
+  final bool open;
+  final DateTime expiresAt;
+}
+
+@immutable
+class BookingPhoto {
+  const BookingPhoto({
+    required this.id,
+    required this.before,
+    required this.imageKey,
+    required this.takenAt,
+  });
+
+  factory BookingPhoto.fromJson(Json j) => BookingPhoto(
+    id: j['id'] as String,
+    before: j['kind'] == 'BEFORE',
+    imageKey: j['image_key'] as String,
+    takenAt: DateTime.parse(j['taken_at'] as String),
+  );
+
+  final String id;
+  final bool before;
+
+  /// In the private booking-photos bucket.
+  final String imageKey;
+  final DateTime takenAt;
 }
 
 @immutable
@@ -431,7 +504,88 @@ class Booking {
     this.variantId,
     this.paymentStatus,
     this.externalPart,
+    this.orderRef,
+    this.technicianName = '',
+    this.technicianPhone,
+    this.buyerPhone,
+    this.offer,
+    this.photos = const <BookingPhoto>[],
+    this.jobCodeLocked = false,
+    this.cancelReason,
+    this.locationNote,
+    this.bayName,
   });
+
+  /// From `booking_json` (booking RPCs, my_bookings, tech_bookings). The job code is there
+  /// for the buyer only; the technician gets the buyer's name and phone instead.
+  factory Booking.fromJson(Json j) {
+    final tech = j['technician'] as Json? ?? const {};
+    final buyer = j['buyer'] as Json?;
+    final bay = j['bay'] as Json?;
+    final snapshot = j['address_snapshot'] as Json?;
+    final offer = j['offer'] as Json?;
+    final payments = [...?(j['payments'] as List?)?.cast<Json>()];
+    final bankak = payments.where((p) => p['method'] == 'BANKAK').toList();
+    final items = [for (final i in (j['items'] as List).cast<Json>()) BookingItem.fromJson(i)];
+    final events = [...?(j['events'] as List?)?.cast<Json>()];
+    final description = items.map((i) => i.description).whereType<String>().join('، ');
+    return Booking(
+      id: j['id'] as String,
+      ref: j['ref'] as String,
+      status: BookingStatus.fromCode(j['status'] as String),
+      technicianId: j['technician_id'] as String,
+      place: BookingPlace.fromCode(j['place'] as String),
+      startAt: DateTime.parse(j['start_at'] as String),
+      durationMin: j['duration_min'] as int,
+      labourSdg: j['labour_sdg'] as int,
+      items: items,
+      jobCode: j['job_code'] as String? ?? '',
+      events: [
+        for (final e in events)
+          StatusEvent(BookingStatus.fromCode(e['to'] as String), DateTime.parse(e['at'] as String)),
+      ],
+      bayShopId: bay?['shop_id'] as String?,
+      address: snapshot == null
+          ? null
+          : Address(
+              id: j['address_id'] as String? ?? '',
+              label: LocalizedText(
+                snapshot['label'] as String? ?? '',
+                snapshot['label'] as String? ?? '',
+              ),
+              description: LocalizedText(
+                snapshot['description_ar'] as String? ?? '',
+                snapshot['description_ar'] as String? ?? '',
+              ),
+              distanceKm: 0,
+            ),
+      travelFeeSdg: j['travel_fee_sdg'] as int? ?? 0,
+      bookingFeeSdg: j['booking_fee_sdg'] as int? ?? 0,
+      depositSdg: j['deposit_sdg'] as int? ?? 0,
+      method: j['payment_method'] == null
+          ? PaymentMethod.bankak
+          : PaymentMethod.fromCode(j['payment_method'] as String),
+      orderId: j['order_id'] as String?,
+      buyerName: buyer?['name'] as String? ?? '',
+      variantId: j['variant_id'] as String?,
+      paymentStatus: bankak.isEmpty
+          ? null
+          : PaymentStatus.fromCode(bankak.first['status'] as String),
+      externalPart: description.isEmpty ? null : description,
+      orderRef: j['order_ref'] as String?,
+      technicianName: tech['name'] as String? ?? '',
+      technicianPhone: tech['phone'] as String?,
+      buyerPhone: buyer?['phone'] as String?,
+      offer: offer == null ? null : BookingOffer.fromJson(offer),
+      photos: [
+        for (final p in [...?(j['photos'] as List?)?.cast<Json>()]) BookingPhoto.fromJson(p),
+      ],
+      jobCodeLocked: j['job_code_locked'] as bool? ?? false,
+      cancelReason: j['cancel_reason'] as String?,
+      locationNote: j['location_note'] as String?,
+      bayName: bay == null ? null : LocalizedText.fromJson(bay, 'name'),
+    );
+  }
 
   final String id;
   final String ref;
@@ -464,6 +618,24 @@ class Booking {
 
   /// What the buyer described when the part was bought elsewhere.
   final String? externalPart;
+
+  /// The order that pays for it (its reference goes in the Bankak note).
+  final String? orderRef;
+  final String technicianName;
+
+  /// For the buyer once the technician accepted; always for the technician's own view.
+  final String? technicianPhone;
+
+  /// For the technician: whom to call.
+  final String? buyerPhone;
+  final BookingOffer? offer;
+  final List<BookingPhoto> photos;
+
+  /// Five wrong job codes: only an admin can close the job now (D-028).
+  final bool jobCodeLocked;
+  final String? cancelReason;
+  final String? locationNote;
+  final LocalizedText? bayName;
 
   DateTime get endAt => startAt.add(Duration(minutes: durationMin));
 
@@ -508,6 +680,16 @@ class Booking {
     variantId: variantId,
     paymentStatus: paymentStatus ?? this.paymentStatus,
     externalPart: externalPart,
+    orderRef: orderRef,
+    technicianName: technicianName,
+    technicianPhone: technicianPhone,
+    buyerPhone: buyerPhone,
+    offer: offer,
+    photos: photos,
+    jobCodeLocked: jobCodeLocked,
+    cancelReason: cancelReason,
+    locationNote: locationNote,
+    bayName: bayName,
   );
 }
 

@@ -20,9 +20,9 @@ import { useAction } from './use-action';
 import { EmptyState, Num, Panel, StatusBadge, Table, Td, Th } from './ui';
 
 /**
- * Payouts come from the ledger (D-018): "Prepare" creates a draft for every shop the
- * platform owes; an admin approves, sends the money by Bankak and records the
- * transaction number, which posts the payout to the shop's account.
+ * Payouts come from the ledger (D-018, D-089): "Prepare" creates a draft for every shop and
+ * technician the platform owes; an admin approves, sends the money by Bankak and records
+ * the transaction number, which posts the payout to their account.
  */
 export function PayoutsBoard({
   rows,
@@ -126,7 +126,12 @@ export function PayoutsBoard({
             <tbody>
               {rows.map((r) => (
                 <tr key={r.id} className="hover:bg-muted/40">
-                  <Td className="font-medium whitespace-nowrap">{named(r.shop, locale)}</Td>
+                  <Td className="font-medium whitespace-nowrap">
+                    <span className="inline-flex items-center gap-2">
+                      <bdi>{named(r.partner, locale)}</bdi>
+                      {r.party === 'TECH' && <StatusBadge tone="info">{d.techTag}</StatusBadge>}
+                    </span>
+                  </Td>
                   <Td className="text-end">
                     <Num>{sdg(r.salesSdg)}</Num>
                   </Td>
@@ -204,7 +209,7 @@ export function PayoutsBoard({
           paying
             ? fill(d.markPaidBody, {
                 amount: sdg(paying.amountSdg),
-                partner: named(paying.shop, locale),
+                partner: named(paying.partner, locale),
               })
             : undefined
         }
@@ -260,7 +265,9 @@ export function PayoutsBoard({
       <ConfirmDialog
         open={cancelling !== null}
         onOpenChange={(o) => !o && setCancelling(null)}
-        title={cancelling ? fill(d.cancelTitle, { partner: named(cancelling.shop, locale) }) : ''}
+        title={
+          cancelling ? fill(d.cancelTitle, { partner: named(cancelling.partner, locale) }) : ''
+        }
         description={d.cancelledToast}
         reasonLabel={common.notes}
         confirmLabel={d.cancelPayout}

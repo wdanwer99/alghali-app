@@ -10,6 +10,10 @@ const DIRECT_WRITE_TABLES = [
   'cart_items',
   'garage_vehicles',
   'messages', // insert only: participants, as themselves
+  // M3: the technician's own hours and time off; admins edit alert wording.
+  'availability_rules',
+  'notification_templates',
+  'time_off',
   // Admin-only through RLS (D-068).
   'job_types',
   'markets',
@@ -27,6 +31,9 @@ const DIRECT_WRITE_TABLES = [
 /** Functions anyone (signed in or not) may call. */
 const ANON_FUNCTIONS = [
   'ar_normalize',
+  'booking_context', // what the booking-slots Edge Function reads (no contact details)
+  'reviews_for',
+  'technician_profile',
   'cart_validate',
   'catalogue_snapshot',
   'has_role',
@@ -106,6 +113,42 @@ const AUTHENTICATED_FUNCTIONS = [
   'shop_withdraw_offer',
   'start_conversation',
   'submit_bankak_receipt',
+  // M3 installation
+  'admin_cancel_booking',
+  'admin_complete_booking',
+  'admin_hide_review',
+  'admin_reassign_booking',
+  'admin_set_technician_status',
+  'admin_update_dispute',
+  'admin_verify_technician',
+  'apply_as_technician',
+  'booking_detail',
+  'buyer_cancel_booking',
+  'buyer_reschedule',
+  'can_see_booking',
+  'can_see_dispute',
+  'create_booking_hold',
+  'create_review',
+  'dispute_reply',
+  'my_bookings',
+  'my_disputes',
+  'my_technician_id',
+  'open_dispute',
+  'release_booking_hold',
+  'tech_add_photo',
+  'tech_bookings',
+  'tech_cancel',
+  'tech_check_in',
+  'tech_complete',
+  'tech_en_route',
+  'tech_part_not_fit',
+  'tech_quick_block',
+  'tech_respond_offer',
+  'tech_set_job_types',
+  'tech_set_makes',
+  'tech_statement',
+  'tech_update_location',
+  'tech_update_profile',
 ].sort();
 
 describe.skipIf(!hasDb)('security baseline', () => {

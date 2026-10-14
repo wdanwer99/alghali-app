@@ -31,7 +31,14 @@ export default async function ConsoleLayout({ children }: { children: ReactNode 
 
 async function SignedInNav(shell: ShellProps) {
   const { supabase, admin } = await requireAdmin();
-  const approvals = await countPendingShops(supabase);
+  const [shops, technicians] = await Promise.all([
+    countPendingShops(supabase),
+    supabase
+      .from('technicians')
+      .select('id', { count: 'exact', head: true })
+      .eq('status', 'PENDING'),
+  ]);
+  const approvals = shops + (technicians.count ?? 0);
   return (
     <AdminNav {...shell} admin={{ name: admin.name, email: admin.email }} badges={{ approvals }} />
   );

@@ -1,0 +1,56 @@
+{
+  "duration_min": 30,
+  "travel_fee_sdg": 0,
+  "booking_fee_sdg": 2000,
+  "mobile_deposit_sdg": 0,
+  "items": [
+    {
+      "minutes": 30,
+      "title_ar": "الإضاءة",
+      "title_en": "Lighting",
+      "category_id": "91a081bf-d3f0-4766-984d-17d98d17cff4",
+      "description": "لمبات",
+      "job_type_id": "fc0c736a-eb8b-4c9a-a2d6-4a5ce9d86c4e"
+    }
+  ],
+  "labour_range": [
+    5000,
+    5000
+  ],
+  "technicians": [
+    {
+      "id": "86b8bf37-a20b-4011-98b9-f0ccbcae5a41",
+      "name": "عمر عبد الله",
+      "avatar_key": null,
+      "verified": true,
+      "rating_avg": 4.8,
+      "rating_count": 47,
+      "completed_jobs": 140,
+      "years_experience": 9,
+      "bio_ar": "كهرباء وإضاءة السيارات، تركيب لمبات LED وبطاريات.",
+      "bio_en": "Car electrics and lighting: LED bulbs and batteries.",
+      "work_mode": "BOTH",
+      "distance_km": null,
+      "bay": {
+        "name_ar": "النور لقطع الغيار",
+        "name_en": "Al-Nour Auto Parts",
+        "plot_no": "12",
+        "shop_id": "6c910581-25e5-46e3-9b54-d80a0c972047",
+        "zone_id": "35514f34-ec61-49ea-97fe-8871a9c55c0f"
+      },
+      "labour_sdg": 5000,
+      "score": 0.98,
+      "next_slot": "2026-10-14T07:00:00.000Z",
+      "slot_count": 106,
+      "slots": [
+        "2026-10-14T07:00:00.000Z",
+        "2026-10-14T07:30:00.000Z",
+        "2026-10-14T08:00:00.000Z",
+        "2026-10-14T08:30:00.000Z",
+        "2026-10-14T09:00:00.000Z",
+        "2026-10-14T09:30:00.000Z"
+      ]
+    }
+  ],
+  "any": []
+}

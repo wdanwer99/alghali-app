@@ -1,6 +1,7 @@
 import {
   BadgeCheck,
   Banknote,
+  CalendarClock,
   BookOpen,
   ChevronLeft,
   ChevronRight,
@@ -20,6 +21,7 @@ import {
   UserCog,
   UserPlus,
   Users,
+  Wrench,
   type LucideIcon,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -41,8 +43,8 @@ import {
 import type { Locale } from '@/i18n/config';
 import { getDictionary, getLocale, type Dictionary } from '@/i18n/dictionaries';
 import { requireAdmin } from '@/lib/auth';
-import { disputes } from '@/lib/demo/data';
 import { loadCommerceCounts } from '@/lib/data/commerce';
+import { loadInstallationCounts } from '@/lib/data/installation';
 import { loadOverview, type Activity } from '@/lib/data/overview';
 import { named } from '@/lib/data/util';
 import { ago, digits, fill, money } from '@/lib/format';
@@ -65,7 +67,11 @@ export default async function OverviewPage() {
 
 async function Overview({ d, locale }: { d: Dictionary; locale: Locale }) {
   const { supabase } = await requireAdmin();
-  const [o, c] = await Promise.all([loadOverview(supabase), loadCommerceCounts(supabase)]);
+  const [o, c, b] = await Promise.all([
+    loadOverview(supabase),
+    loadCommerceCounts(supabase),
+    loadInstallationCounts(supabase),
+  ]);
   const now = new Date();
   const t = d.overview;
   const p = (path: string) => `/${locale}${path}`;
@@ -88,6 +94,18 @@ async function Overview({ d, locale }: { d: Dictionary; locale: Locale }) {
       note: o.oldestPendingAt
         ? fill(t.kpiPendingNote, { age: ago(new Date(o.oldestPendingAt), now, d.common) })
         : undefined,
+    },
+    {
+      href: p('/approvals'),
+      icon: Wrench,
+      label: t.queueTechApplications,
+      value: digits(b.technicianApplications),
+    },
+    {
+      href: p('/bookings'),
+      icon: CalendarClock,
+      label: t.queueFittings,
+      value: digits(b.needsAttention),
     },
     {
       href: p('/catalogue?tab=shop-parts'),
@@ -126,8 +144,7 @@ async function Overview({ d, locale }: { d: Dictionary; locale: Locale }) {
       href: p('/disputes'),
       icon: MessageSquareWarning,
       label: t.queueDisputes,
-      value: digits(disputes.filter((x) => x.status !== 'resolved').length),
-      sample: true,
+      value: digits(b.openDisputes),
     },
     {
       href: p('/cash'),
@@ -292,6 +309,18 @@ function describe(
     icon,
     text: fill(t[key], values),
   });
+  if (a.entity === 'technician') {
+    if (a.action === 'APPLY') return say('TECH_APPLY', Wrench);
+    if (a.action === 'VERIFY') return say('TECH_VERIFY', BadgeCheck);
+    return say(
+      a.detail === 'APPROVED'
+        ? 'TECH_APPROVED'
+        : a.detail === 'REJECTED'
+          ? 'TECH_REJECTED'
+          : 'TECH_SUSPENDED',
+      ShieldCheck,
+    );
+  }
   switch (a.action) {
     case 'APPLY':
       return say('APPLY', UserPlus);
@@ -325,6 +354,18 @@ function describe(
       return say('RETURN_DECIDED', Undo2);
     default:
       if (a.entity === 'payout' || a.entity === 'payout_run') return say('PAYOUTS', Wallet);
+      if (a.entity === 'booking') {
+        return say(
+          a.action === 'CANCEL'
+            ? 'BOOKING_CANCELLED'
+            : a.action === 'REASSIGN'
+              ? 'BOOKING_REASSIGNED'
+              : 'BOOKING_COMPLETED',
+          CalendarClock,
+        );
+      }
+      if (a.entity === 'dispute') return say('DISPUTE', MessageSquareWarning);
+      if (a.entity === 'review') return say('REVIEW', ShieldCheck);
       if (a.entity === 'sub_order') {
         return say(a.action === 'COMPLETE' ? 'ORDER_COMPLETED' : 'ORDER_CANCELLED', ReceiptText);
       }

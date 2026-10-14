@@ -130,5 +130,27 @@
     ["zain", "seat-covers", "NEW_AFTERMARKET", 85000, null, 6, 0, null],
     ["zain", "floor-mats", "NEW_AFTERMARKET", 25000, null, 10, 0, null],
     ["zain", "phone-holder", "NEW_AFTERMARKET", 8000, null, 30, 0, null]
+  ],
+  "_technicians": "Ten technicians (brief §9), mixed work modes; the last two are applications waiting for an admin. Hours: Saturday–Thursday 09:00–13:00 and 16:00–21:00 (D-051). Home points are around Khartoum; fittings at the buyer's location need the street's starting point (D-077).",
+  "tech_hours": {"0": [[540, 780], [960, 1260]], "1": [[540, 780], [960, 1260]], "2": [[540, 780], [960, 1260]], "3": [[540, 780], [960, 1260]], "4": [[540, 780], [960, 1260]], "6": [[540, 780], [960, 1260]]},
+  "technicians": [
+    {"key": "omar", "name": "عمر عبد الله", "phone": "0912100001", "mode": "BOTH", "bay": "nour", "home": [15.59, 32.53], "radius": 12, "years": 9, "rating": 4.8, "jobs_done": 140, "verified": true, "jobs": {"LIGHTING": 5000, "ELECTRICAL": 9000, "BATTERY": 3000}, "makes": [], "bio_ar": "كهرباء وإضاءة السيارات، تركيب لمبات LED وبطاريات.", "bio_en": "Car electrics and lighting: LED bulbs and batteries."},
+    {"key": "yasir", "name": "ياسر محمد", "phone": "0912100002", "mode": "BAY", "bay": "tawfiq", "years": 12, "rating": 4.9, "jobs_done": 210, "verified": true, "jobs": {"BRAKES": 7000, "SUSPENSION": 12000}, "makes": ["toyota", "nissan", "mitsubishi"], "bio_ar": "فرامل وعفشة للبكاسي والعربات الكبيرة.", "bio_en": "Brakes and suspension for pickups and SUVs."},
+    {"key": "hamid", "name": "حامد إبراهيم", "phone": "0912100003", "mode": "MOBILE", "home": [15.55, 32.56], "radius": 15, "years": 6, "rating": 4.6, "jobs_done": 75, "verified": true, "jobs": {"AC": 15000, "ELECTRICAL": 8000}, "makes": [], "bio_ar": "صيانة وتعبئة مكيفات السيارات في موقعك.", "bio_en": "Car AC service and regas at your place."},
+    {"key": "khalid", "name": "خالد عثمان", "phone": "0912100004", "mode": "BOTH", "bay": "farouq", "home": [15.6, 32.5], "radius": 10, "years": 15, "rating": 4.7, "jobs_done": 180, "verified": true, "jobs": {"SERVICE": 3000, "BRAKES": 6500, "MECHANICAL": 20000}, "makes": ["toyota"], "bio_ar": "ميكانيكي تويوتا: زيت وفلاتر وفرامل ومحركات.", "bio_en": "Toyota mechanic: oil, filters, brakes, engines."},
+    {"key": "adil", "name": "عادل الأمين", "phone": "0912100005", "mode": "MOBILE", "home": [15.63, 32.55], "radius": 8, "years": 4, "rating": 4.4, "jobs_done": 40, "verified": false, "jobs": {"BATTERY": 2500, "LIGHTING": 4000, "TYRES": 3000}, "makes": [], "bio_ar": "تغيير بطاريات ولمبات وإطارات في مكانك.", "bio_en": "Batteries, bulbs and tyres where you are."},
+    {"key": "mustafa", "name": "مصطفى بشير", "phone": "0912100006", "mode": "BAY", "bay": "huda", "years": 10, "rating": 4.8, "jobs_done": 160, "verified": true, "jobs": {"AC": 14000}, "makes": [], "bio_ar": "ورشة مكيفات في الشارع: كمبروسر وغاز وتنظيف.", "bio_en": "AC workshop on the street: compressors, gas, cleaning."},
+    {"key": "salah", "name": "صلاح الدين", "phone": "0912100007", "mode": "BAY", "bay": "tyres", "years": 7, "rating": 4.5, "jobs_done": 300, "verified": true, "jobs": {"TYRES": 2000, "SUSPENSION": 10000}, "makes": [], "bio_ar": "تركيب وترصيص الإطارات وضبط الزوايا.", "bio_en": "Tyre fitting, balancing and alignment."},
+    {"key": "nasir", "name": "ناصر حسن", "phone": "0912100008", "mode": "BOTH", "bay": "nile", "home": [15.58, 32.52], "radius": 10, "years": 3, "rating": 4.2, "jobs_done": 25, "verified": false, "jobs": {"LIGHTING": 4500, "ELECTRICAL": 7000}, "makes": ["hyundai", "kia"], "bio_ar": "كهرباء العربات الكورية.", "bio_en": "Electrics for Korean cars."},
+    {"key": "mujahid", "name": "مجاهد علي", "phone": "0912100009", "mode": "MOBILE", "pending": true, "home": [15.57, 32.54], "radius": 10, "years": 2, "jobs": {"BATTERY": 2500, "LIGHTING": 4000}, "makes": [], "bio_ar": "أبدأ العمل كفني متنقل للبطاريات واللمبات.", "bio_en": "Starting out as a mobile battery and bulb fitter."},
+    {"key": "faisal", "name": "فيصل كمال", "phone": "0912100010", "mode": "BAY", "bay": "amin", "pending": true, "years": 11, "jobs": {"BRAKES": 6000, "SERVICE": 3000}, "makes": [], "bio_ar": "فني فرامل وصيانة دورية.", "bio_en": "Brakes and routine service."}
+  ],
+  "_bookings": "Demo fittings at the bay (the street's starting point is not set yet, D-077): stage awaiting = Bankak order not paid yet; receipt = transfer under review; offered = waiting for the technician; accepted = paid and accepted, parts ready; completed = fitted and rated. `part` is bought from `shop` in the same checkout; `category` is a part bought elsewhere.",
+  "bookings": [
+    {"buyer": "ahmed", "tech": "omar", "shop": "nour", "part": "h4-led", "method": "BANKAK", "stage": "accepted"},
+    {"buyer": "mona", "tech": "omar", "shop": "baraka", "part": "battery-70", "method": "CASH", "stage": "offered"},
+    {"buyer": "sara", "tech": "mustafa", "category": "ac", "note": "المكيف لا يبرد", "method": "BANKAK", "stage": "awaiting"},
+    {"buyer": "omer", "tech": "yasir", "shop": "tawfiq", "part": "pads-hilux", "method": "CASH", "stage": "completed"},
+    {"buyer": "ahmed", "tech": "salah", "category": "tyres", "note": "تركيب 4 إطارات", "method": "BANKAK", "stage": "receipt"}
   ]
 }

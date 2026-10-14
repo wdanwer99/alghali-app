@@ -391,6 +391,14 @@ deno_version = 2
 [functions.inventory-import]
 verify_jwt = false
 
+# Guests ask for slots too; the caller's role is passed on to booking_context().
+[functions.booking-slots]
+verify_jwt = false
+
+# Called by pg_cron through pg_net with its own shared token (NOTIFY_DISPATCH_TOKEN).
+[functions.notify-dispatch]
+verify_jwt = false
+
 [analytics]
 enabled = true
 port = 54327

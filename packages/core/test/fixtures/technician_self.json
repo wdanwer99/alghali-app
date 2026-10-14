@@ -1,0 +1,172 @@
+{
+  "id": "86b8bf37-a20b-4011-98b9-f0ccbcae5a41",
+  "user_id": "762ea9c3-1758-42ec-864d-a02b17c367a1",
+  "status": "APPROVED",
+  "status_reason": null,
+  "verified": true,
+  "work_mode": "BOTH",
+  "home_bay_shop_id": "6c910581-25e5-46e3-9b54-d80a0c972047",
+  "home_lat": 15.59,
+  "home_lng": 32.53,
+  "home_point": "0101000020E6100000A4703D0AD7434040AE47E17A142E2F40",
+  "radius_km": 12,
+  "employer_shop_id": null,
+  "years_experience": 9,
+  "bio_ar": "كهرباء وإضاءة السيارات، تركيب لمبات LED وبطاريات.",
+  "bio_en": "Car electrics and lighting: LED bulbs and batteries.",
+  "avatar_key": null,
+  "rating_avg": 4.8,
+  "rating_count": 47,
+  "completed_jobs": 140,
+  "approved_at": "2026-10-14T01:00:20.801757+00:00",
+  "created_at": "2026-10-14T01:00:19.113224+00:00",
+  "updated_at": "2026-10-14T01:00:21.61432+00:00",
+  "technician_job_types": [
+    {
+      "job_types": {
+        "id": "fc0c736a-eb8b-4c9a-a2d6-4a5ce9d86c4e",
+        "code": "LIGHTING",
+        "name_ar": "إضاءة",
+        "name_en": "Lighting"
+      },
+      "labour_sdg": 5000
+    },
+    {
+      "job_types": {
+        "id": "111f1f64-7b47-4a13-9f78-2521c9cc21c8",
+        "code": "ELECTRICAL",
+        "name_ar": "كهرباء",
+        "name_en": "Electrical"
+      },
+      "labour_sdg": 9000
+    },
+    {
+      "job_types": {
+        "id": "6d9e0757-d64e-4dc8-b4c8-02cc2e651eeb",
+        "code": "BATTERY",
+        "name_ar": "بطاريات",
+        "name_en": "Batteries"
+      },
+      "labour_sdg": 3000
+    }
+  ],
+  "technician_makes": [],
+  "availability_rules": [
+    {
+      "id": "dfb3d4ad-4a7e-476c-9b34-d9bdd945b7b4",
+      "modes": "BOTH",
+      "end_min": 780,
+      "weekday": 0,
+      "start_min": 540,
+      "created_at": "2026-10-14T01:00:19.113224+00:00",
+      "technician_id": "86b8bf37-a20b-4011-98b9-f0ccbcae5a41"
+    },
+    {
+      "id": "33275ac7-9963-4a1c-b230-806682fb2794",
+      "modes": "BOTH",
+      "end_min": 1260,
+      "weekday": 0,
+      "start_min": 960,
+      "created_at": "2026-10-14T01:00:19.113224+00:00",
+      "technician_id": "86b8bf37-a20b-4011-98b9-f0ccbcae5a41"
+    },
+    {
+      "id": "3a5da638-0c7e-459f-a3cb-eec62b7d0130",
+      "modes": "BOTH",
+      "end_min": 780,
+      "weekday": 1,
+      "start_min": 540,
+      "created_at": "2026-10-14T01:00:19.113224+00:00",
+      "technician_id": "86b8bf37-a20b-4011-98b9-f0ccbcae5a41"
+    },
+    {
+      "id": "988a84dd-2aa0-40c5-8a47-aa342c0f7449",
+      "modes": "BOTH",
+      "end_min": 1260,
+      "weekday": 1,
+      "start_min": 960,
+      "created_at": "2026-10-14T01:00:19.113224+00:00",
+      "technician_id": "86b8bf37-a20b-4011-98b9-f0ccbcae5a41"
+    },
+    {
+      "id": "df4c6ce4-d8b3-4679-9919-6218f0fb0a83",
+      "modes": "BOTH",
+      "end_min": 780,
+      "weekday": 2,
+      "start_min": 540,
+      "created_at": "2026-10-14T01:00:19.113224+00:00",
+      "technician_id": "86b8bf37-a20b-4011-98b9-f0ccbcae5a41"
+    },
+    {
+      "id": "9369b25f-7637-421f-88f5-3c601466f194",
+      "modes": "BOTH",
+      "end_min": 1260,
+      "weekday": 2,
+      "start_min": 960,
+      "created_at": "2026-10-14T01:00:19.113224+00:00",
+      "technician_id": "86b8bf37-a20b-4011-98b9-f0ccbcae5a41"
+    },
+    {
+      "id": "4f98604e-5ceb-4a27-ba9f-85a0f78aa503",
+      "modes": "BOTH",
+      "end_min": 780,
+      "weekday": 3,
+      "start_min": 540,
+      "created_at": "2026-10-14T01:00:19.113224+00:00",
+      "technician_id": "86b8bf37-a20b-4011-98b9-f0ccbcae5a41"
+    },
+    {
+      "id": "953fd042-3def-4ff9-bfb9-9d854bdf6443",
+      "modes": "BOTH",
+      "end_min": 1260,
+      "weekday": 3,
+      "start_min": 960,
+      "created_at": "2026-10-14T01:00:19.113224+00:00",
+      "technician_id": "86b8bf37-a20b-4011-98b9-f0ccbcae5a41"
+    },
+    {
+      "id": "42868801-85d5-436b-b965-2d7222e9b949",
+      "modes": "BOTH",
+      "end_min": 780,
+      "weekday": 4,
+      "start_min": 540,
+      "created_at": "2026-10-14T01:00:19.113224+00:00",
+      "technician_id": "86b8bf37-a20b-4011-98b9-f0ccbcae5a41"
+    },
+    {
+      "id": "d43692d7-08f3-4399-ad84-69b5cf2ecf8e",
+      "modes": "BOTH",
+      "end_min": 1260,
+      "weekday": 4,
+      "start_min": 960,
+      "created_at": "2026-10-14T01:00:19.113224+00:00",
+      "technician_id": "86b8bf37-a20b-4011-98b9-f0ccbcae5a41"
+    },
+    {
+      "id": "dace9bc5-f90c-426e-9217-a81783b30dd9",
+      "modes": "BOTH",
+      "end_min": 780,
+      "weekday": 6,
+      "start_min": 540,
+      "created_at": "2026-10-14T01:00:19.113224+00:00",
+      "technician_id": "86b8bf37-a20b-4011-98b9-f0ccbcae5a41"
+    },
+    {
+      "id": "06ed5ba1-c91d-4964-9aab-5c043e5dca53",
+      "modes": "BOTH",
+      "end_min": 1260,
+      "weekday": 6,
+      "start_min": 960,
+      "created_at": "2026-10-14T01:00:19.113224+00:00",
+      "technician_id": "86b8bf37-a20b-4011-98b9-f0ccbcae5a41"
+    }
+  ],
+  "time_off": [],
+  "bay": {
+    "id": "6c910581-25e5-46e3-9b54-d80a0c972047",
+    "name_ar": "النور لقطع الغيار",
+    "name_en": "Al-Nour Auto Parts",
+    "plot_no": "12",
+    "zone_id": "35514f34-ec61-49ea-97fe-8871a9c55c0f"
+  }
+}

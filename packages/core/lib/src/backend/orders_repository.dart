@@ -69,11 +69,16 @@ class OrdersRepository {
   /// delivery (pickup when missing); delivery needs [addressId]. Throws
   /// [CartChangedException] when a price or stock changed, PHONE_REQUIRED when the buyer
   /// has no phone yet.
+  ///
+  /// With [bookingId] (a held fitting, `BookingsRepository.hold`) the fitting is paid in
+  /// the same order and its parts go to the technician; [lines] may then be empty for a
+  /// part bought elsewhere (D-097). HOLD_EXPIRED when the hold lapsed.
   Future<Order> checkout(
     List<CheckoutLine> lines,
     PaymentMethod method, {
     Map<String, FulfilmentType> fulfilment = const {},
     String? addressId,
+    String? bookingId,
     String? idem,
   }) async {
     try {
@@ -87,6 +92,7 @@ class OrdersRepository {
           },
           'p_address_id': addressId,
           'p_idem': idem ?? newIdempotencyKey(),
+          'p_booking_id': bookingId,
         },
       );
       return Order.fromJson(row);

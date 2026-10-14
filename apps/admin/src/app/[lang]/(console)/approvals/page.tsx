@@ -4,7 +4,7 @@ import { PageHeader, PageSkeleton } from '@/components/admin/ui';
 import type { Locale } from '@/i18n/config';
 import { getDictionary, getLocale, type Dictionary } from '@/i18n/dictionaries';
 import { requireAdmin } from '@/lib/auth';
-import { applications, DEMO_NOW } from '@/lib/demo/data';
+import { listTechnicianApplications } from '@/lib/data/installation';
 import { listShops } from '@/lib/data/shops';
 import { ago } from '@/lib/format';
 
@@ -22,7 +22,10 @@ export default async function ApprovalsPage() {
 
 async function Applications({ d, locale }: { d: Dictionary; locale: Locale }) {
   const { supabase } = await requireAdmin();
-  const shops = await listShops(supabase);
+  const [shops, technicians] = await Promise.all([
+    listShops(supabase),
+    listTechnicianApplications(supabase),
+  ]);
   const now = new Date();
   return (
     <ApplicationsReview
@@ -30,20 +33,16 @@ async function Applications({ d, locale }: { d: Dictionary; locale: Locale }) {
       d={d.approvals}
       common={d.common}
       errors={d.errors}
-      sample={{
-        tag: d.app.sampleTag,
-        title: d.sample.title,
-        body: d.sample.technicians,
-        statuses: d.status.application,
-      }}
+      pendingLabel={d.status.application.pending}
       // Oldest first: whoever has waited longest is reviewed first.
       shops={shops
         .filter((s) => s.status === 'PENDING')
         .reverse()
         .map((shop) => ({ shop, submitted: ago(new Date(shop.createdAt), now, d.common) }))}
-      technicians={applications
-        .filter((a) => a.kind === 'technician')
-        .map((a) => ({ ...a, submitted: ago(a.submittedAt, DEMO_NOW, d.common) }))}
+      technicians={technicians.map((t) => ({
+        technician: t,
+        submitted: ago(new Date(t.appliedAt), now, d.common),
+      }))}
     />
   );
 }

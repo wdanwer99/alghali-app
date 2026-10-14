@@ -1,6 +1,6 @@
 import type { Tone } from '@/components/admin/ui';
 import type { PayoutStatus, PayStatus, SubStatus } from '@/lib/data/commerce';
-import type { BookingStatus, DisputeRow } from '@/lib/demo/data';
+import type { BookingStatus, DisputeStatus } from '@/lib/data/installation';
 
 /** "PAYMENT_REVIEW" → "paymentReview", the dictionary's key for a database status. */
 export function statusKey<T extends string>(status: T): CamelCase<T> {
@@ -49,17 +49,24 @@ export const payoutTone: Record<PayoutStatus, Tone> = {
 };
 
 export const bookingTone: Record<BookingStatus, Tone> = {
-  awaitingPayment: 'warning',
-  pendingTechAccept: 'warning',
-  accepted: 'info',
-  enRoute: 'info',
-  inProgress: 'info',
-  completed: 'success',
-  cancelledByBuyer: 'danger',
+  HELD: 'neutral',
+  AWAITING_PAYMENT: 'warning',
+  PENDING_TECH_ACCEPT: 'warning',
+  ACCEPTED: 'info',
+  EN_ROUTE: 'info',
+  IN_PROGRESS: 'info',
+  COMPLETED: 'success',
+  NEEDS_RESCHEDULE: 'danger',
+  EXPIRED: 'neutral',
+  CANCELLED_BY_BUYER: 'neutral',
+  CANCELLED_BY_TECH: 'neutral',
+  CANCELLED_BY_ADMIN: 'neutral',
+  PART_DOES_NOT_FIT: 'warning',
 };
 
-export const disputeTone: Record<DisputeRow['status'], Tone> = {
-  open: 'warning',
-  investigating: 'info',
-  resolved: 'success',
+export const disputeTone: Record<DisputeStatus, Tone> = {
+  OPEN: 'warning',
+  IN_REVIEW: 'info',
+  RESOLVED: 'success',
+  REJECTED: 'neutral',
 };

@@ -16,18 +16,27 @@ import { createBuyer, placeOrder, shopWithListing } from '../support/commerce.ts
 const SUBORDER: Record<string, Record<string, string[]>> = {
   PENDING_PAYMENT: { PAYMENT_REVIEW: ['BUYER'], CANCELLED: ['BUYER', 'SYSTEM', 'ADMIN'] },
   PAYMENT_REVIEW: { CONFIRMED: ['ADMIN'], PENDING_PAYMENT: ['ADMIN'], CANCELLED: ['ADMIN'] },
-  CONFIRMED: { READY: ['SHOP'], REJECTED_BY_SHOP: ['SHOP'], CANCELLED: ['BUYER', 'ADMIN'] },
+  CONFIRMED: {
+    READY: ['SHOP'],
+    REJECTED_BY_SHOP: ['SHOP'],
+    CANCELLED: ['BUYER', 'ADMIN', 'SYSTEM'],
+  },
   READY: {
     PICKED_UP: ['SHOP'],
     OUT_FOR_DELIVERY: ['SHOP'],
     HANDED_TO_TECHNICIAN: ['SHOP'],
     REJECTED_BY_SHOP: ['SHOP'],
-    CANCELLED: ['ADMIN'],
+    CANCELLED: ['ADMIN', 'SYSTEM'],
   },
   OUT_FOR_DELIVERY: { DELIVERED: ['SHOP'], CANCELLED: ['ADMIN'] },
   PICKED_UP: { COMPLETED: ['BUYER', 'SYSTEM', 'ADMIN'], RETURN_REQUESTED: ['BUYER'] },
   DELIVERED: { COMPLETED: ['BUYER', 'SYSTEM', 'ADMIN'], RETURN_REQUESTED: ['BUYER'] },
-  HANDED_TO_TECHNICIAN: { COMPLETED: ['SYSTEM', 'ADMIN'] },
+  // SYSTEM: the parts follow their fitting (D-098).
+  HANDED_TO_TECHNICIAN: {
+    COMPLETED: ['SYSTEM', 'ADMIN'],
+    RETURN_REQUESTED: ['SYSTEM'],
+    CANCELLED: ['SYSTEM'],
+  },
   COMPLETED: { RETURN_REQUESTED: ['BUYER'] },
   RETURN_REQUESTED: { RETURNED: ['ADMIN'], COMPLETED: ['ADMIN'] },
   CANCELLED: {},
@@ -43,20 +52,71 @@ const PAYMENT: Record<string, Record<string, string[]>> = {
   },
   RECEIPT_SUBMITTED: { CONFIRMED: ['ADMIN'], REJECTED: ['ADMIN'], CANCELLED: ['ADMIN'] },
   REJECTED: { RECEIPT_SUBMITTED: ['BUYER'], EXPIRED: ['SYSTEM'], CANCELLED: ['BUYER', 'ADMIN'] },
-  DUE: { COLLECTED: ['SHOP'], CANCELLED: ['BUYER', 'SHOP', 'ADMIN', 'SYSTEM'] },
+  // SYSTEM: cash a technician took at the job (D-098).
+  DUE: { COLLECTED: ['SHOP', 'SYSTEM'], CANCELLED: ['BUYER', 'SHOP', 'ADMIN', 'SYSTEM'] },
   CONFIRMED: {},
   COLLECTED: {},
   EXPIRED: {},
   CANCELLED: {},
 };
 
-const ACTORS = ['BUYER', 'SHOP', 'ADMIN', 'SYSTEM'];
+// PLAN §3.10 with D-024 (decline and timeout are offer statuses) and D-097–D-099.
+const BOOKING: Record<string, Record<string, string[]>> = {
+  HELD: {
+    AWAITING_PAYMENT: ['BUYER'],
+    PENDING_TECH_ACCEPT: ['BUYER'],
+    EXPIRED: ['SYSTEM'],
+    CANCELLED_BY_BUYER: ['BUYER'],
+  },
+  AWAITING_PAYMENT: {
+    PENDING_TECH_ACCEPT: ['ADMIN'],
+    NEEDS_RESCHEDULE: ['ADMIN'],
+    EXPIRED: ['SYSTEM'],
+    CANCELLED_BY_BUYER: ['BUYER'],
+    CANCELLED_BY_ADMIN: ['ADMIN', 'SYSTEM'],
+  },
+  PENDING_TECH_ACCEPT: {
+    ACCEPTED: ['TECH'],
+    NEEDS_RESCHEDULE: ['TECH', 'SYSTEM', 'ADMIN'],
+    CANCELLED_BY_BUYER: ['BUYER'],
+    CANCELLED_BY_ADMIN: ['ADMIN', 'SYSTEM'],
+  },
+  ACCEPTED: {
+    EN_ROUTE: ['TECH'],
+    IN_PROGRESS: ['TECH'],
+    PENDING_TECH_ACCEPT: ['TECH', 'ADMIN'],
+    NEEDS_RESCHEDULE: ['TECH', 'ADMIN'],
+    CANCELLED_BY_BUYER: ['BUYER'],
+    CANCELLED_BY_ADMIN: ['ADMIN', 'SYSTEM'],
+  },
+  EN_ROUTE: { IN_PROGRESS: ['TECH'], CANCELLED_BY_BUYER: ['BUYER'], CANCELLED_BY_ADMIN: ['ADMIN'] },
+  IN_PROGRESS: {
+    COMPLETED: ['TECH', 'ADMIN'],
+    PART_DOES_NOT_FIT: ['TECH'],
+    CANCELLED_BY_ADMIN: ['ADMIN'],
+  },
+  NEEDS_RESCHEDULE: {
+    PENDING_TECH_ACCEPT: ['BUYER'],
+    CANCELLED_BY_BUYER: ['BUYER'],
+    CANCELLED_BY_ADMIN: ['ADMIN', 'SYSTEM'],
+    EXPIRED: ['SYSTEM'],
+  },
+  COMPLETED: {},
+  EXPIRED: {},
+  CANCELLED_BY_BUYER: {},
+  CANCELLED_BY_TECH: {},
+  CANCELLED_BY_ADMIN: {},
+  PART_DOES_NOT_FIT: {},
+};
 
-function cases(spec: Record<string, Record<string, string[]>>) {
+const ACTORS = ['BUYER', 'SHOP', 'ADMIN', 'SYSTEM'];
+const BOOKING_ACTORS = ['BUYER', 'TECH', 'SHOP', 'ADMIN', 'SYSTEM'];
+
+function cases(spec: Record<string, Record<string, string[]>>, actors = ACTORS) {
   const states = Object.keys(spec);
   return states.flatMap((from) =>
     states.flatMap((to) =>
-      ACTORS.map((actor) => [from, to, actor, (spec[from]?.[to] ?? []).includes(actor)] as const),
+      actors.map((actor) => [from, to, actor, (spec[from]?.[to] ?? []).includes(actor)] as const),
     ),
   );
 }
@@ -68,7 +128,7 @@ describe.skipIf(!hasDb)('state machines', () => {
   it('the spec covers every sub-order and payment status', async () => {
     const enums = await sql<{ t: string; v: string }[]>`
       select t.typname as t, e.enumlabel as v from pg_enum e join pg_type t on t.oid = e.enumtypid
-      where t.typname in ('suborder_status', 'payment_status')`;
+      where t.typname in ('suborder_status', 'payment_status', 'booking_status')`;
     const of = (t: string) =>
       enums
         .filter((e) => e.t === t)
@@ -76,6 +136,17 @@ describe.skipIf(!hasDb)('state machines', () => {
         .sort();
     expect(of('suborder_status')).toEqual(Object.keys(SUBORDER).sort());
     expect(of('payment_status')).toEqual(Object.keys(PAYMENT).sort());
+    expect(of('booking_status')).toEqual(Object.keys(BOOKING).sort());
+  });
+
+  it('booking transitions: the table allows exactly the spec', async () => {
+    const rows = await sql<{ from_status: string; to_status: string; actor: string }[]>`
+      select from_status, to_status, actor from public.booking_transitions`;
+    const allowed = new Set(rows.map((r) => `${r.from_status}>${r.to_status}>${r.actor}`));
+    const mismatches = cases(BOOKING, BOOKING_ACTORS)
+      .filter(([f, t, a, ok]) => allowed.has(`${f}>${t}>${a}`) !== ok)
+      .map(([f, t, a, ok]) => `${f} → ${t} by ${a}: expected ${ok ? 'allowed' : 'refused'}`);
+    expect(mismatches).toEqual([]);
   });
 
   it('sub-order transitions: the table allows exactly the spec (all from × to × actor)', async () => {

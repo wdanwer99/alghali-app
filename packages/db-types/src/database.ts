@@ -113,6 +113,483 @@ export type Database = {
         }
         Relationships: []
       }
+      availability_rules: {
+        Row: {
+          created_at: string
+          end_min: number
+          id: string
+          modes: Database["public"]["Enums"]["work_mode"]
+          start_min: number
+          technician_id: string
+          weekday: number
+        }
+        Insert: {
+          created_at?: string
+          end_min: number
+          id?: string
+          modes?: Database["public"]["Enums"]["work_mode"]
+          start_min: number
+          technician_id: string
+          weekday: number
+        }
+        Update: {
+          created_at?: string
+          end_min?: number
+          id?: string
+          modes?: Database["public"]["Enums"]["work_mode"]
+          start_min?: number
+          technician_id?: string
+          weekday?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "availability_rules_technician_id_fkey"
+            columns: ["technician_id"]
+            isOneToOne: false
+            referencedRelation: "technicians"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      booking_codes: {
+        Row: {
+          attempts: number
+          booking_id: string
+          code: string
+          locked_at: string | null
+        }
+        Insert: {
+          attempts?: number
+          booking_id: string
+          code: string
+          locked_at?: string | null
+        }
+        Update: {
+          attempts?: number
+          booking_id?: string
+          code?: string
+          locked_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "booking_codes_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: true
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      booking_events: {
+        Row: {
+          actor_id: string | null
+          actor_kind: string
+          at: string
+          booking_id: string
+          from_status: Database["public"]["Enums"]["booking_status"] | null
+          id: number
+          reason: string | null
+          to_status: Database["public"]["Enums"]["booking_status"]
+        }
+        Insert: {
+          actor_id?: string | null
+          actor_kind: string
+          at?: string
+          booking_id: string
+          from_status?: Database["public"]["Enums"]["booking_status"] | null
+          id?: never
+          reason?: string | null
+          to_status: Database["public"]["Enums"]["booking_status"]
+        }
+        Update: {
+          actor_id?: string | null
+          actor_kind?: string
+          at?: string
+          booking_id?: string
+          from_status?: Database["public"]["Enums"]["booking_status"] | null
+          id?: never
+          reason?: string | null
+          to_status?: Database["public"]["Enums"]["booking_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "booking_events_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      booking_items: {
+        Row: {
+          booking_id: string
+          category_id: string | null
+          description: string | null
+          id: string
+          job_type_id: string
+          listing_id: string | null
+          minutes: number
+          offer_id: string | null
+          order_item_id: string | null
+          part_id: string | null
+          title_ar: string
+          title_en: string
+        }
+        Insert: {
+          booking_id: string
+          category_id?: string | null
+          description?: string | null
+          id?: string
+          job_type_id: string
+          listing_id?: string | null
+          minutes: number
+          offer_id?: string | null
+          order_item_id?: string | null
+          part_id?: string | null
+          title_ar: string
+          title_en: string
+        }
+        Update: {
+          booking_id?: string
+          category_id?: string | null
+          description?: string | null
+          id?: string
+          job_type_id?: string
+          listing_id?: string | null
+          minutes?: number
+          offer_id?: string | null
+          order_item_id?: string | null
+          part_id?: string | null
+          title_ar?: string
+          title_en?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "booking_items_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "booking_items_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "part_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "booking_items_job_type_id_fkey"
+            columns: ["job_type_id"]
+            isOneToOne: false
+            referencedRelation: "job_types"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "booking_items_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "booking_items_offer_id_fkey"
+            columns: ["offer_id"]
+            isOneToOne: false
+            referencedRelation: "part_offers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "booking_items_order_item_id_fkey"
+            columns: ["order_item_id"]
+            isOneToOne: false
+            referencedRelation: "order_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "booking_items_part_id_fkey"
+            columns: ["part_id"]
+            isOneToOne: false
+            referencedRelation: "parts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      booking_offers: {
+        Row: {
+          booking_id: string
+          expires_at: string
+          id: string
+          offered_at: string
+          reason: string | null
+          responded_at: string | null
+          status: Database["public"]["Enums"]["offer_status"]
+          technician_id: string
+        }
+        Insert: {
+          booking_id: string
+          expires_at: string
+          id?: string
+          offered_at?: string
+          reason?: string | null
+          responded_at?: string | null
+          status?: Database["public"]["Enums"]["offer_status"]
+          technician_id: string
+        }
+        Update: {
+          booking_id?: string
+          expires_at?: string
+          id?: string
+          offered_at?: string
+          reason?: string | null
+          responded_at?: string | null
+          status?: Database["public"]["Enums"]["offer_status"]
+          technician_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "booking_offers_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "booking_offers_technician_id_fkey"
+            columns: ["technician_id"]
+            isOneToOne: false
+            referencedRelation: "technicians"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      booking_photos: {
+        Row: {
+          booking_id: string
+          created_by: string | null
+          id: string
+          image_key: string
+          kind: string
+          taken_at: string
+        }
+        Insert: {
+          booking_id: string
+          created_by?: string | null
+          id?: string
+          image_key: string
+          kind: string
+          taken_at?: string
+        }
+        Update: {
+          booking_id?: string
+          created_by?: string | null
+          id?: string
+          image_key?: string
+          kind?: string
+          taken_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "booking_photos_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      booking_transitions: {
+        Row: {
+          actor: string
+          from_status: Database["public"]["Enums"]["booking_status"]
+          to_status: Database["public"]["Enums"]["booking_status"]
+        }
+        Insert: {
+          actor: string
+          from_status: Database["public"]["Enums"]["booking_status"]
+          to_status: Database["public"]["Enums"]["booking_status"]
+        }
+        Update: {
+          actor?: string
+          from_status?: Database["public"]["Enums"]["booking_status"]
+          to_status?: Database["public"]["Enums"]["booking_status"]
+        }
+        Relationships: []
+      }
+      bookings: {
+        Row: {
+          accepted_at: string | null
+          address_id: string | null
+          address_snapshot: Json | null
+          assignment_mode: string
+          bay_shop_id: string | null
+          block_from: string
+          block_to: string
+          booking_fee_sdg: number
+          buyer_id: string
+          cancel_reason: string | null
+          cancelled_at: string | null
+          checked_in_at: string | null
+          completed_at: string | null
+          created_at: string
+          deposit_sdg: number
+          duration_min: number
+          en_route_at: string | null
+          end_at: string
+          hold_expires_at: string | null
+          id: string
+          labour_sdg: number
+          lat: number | null
+          lng: number | null
+          location_note: string | null
+          make_id: string | null
+          order_id: string | null
+          payment_method: Database["public"]["Enums"]["payment_method"] | null
+          place: Database["public"]["Enums"]["booking_place"]
+          point: unknown
+          ref: string
+          reminded_day_at: string | null
+          reminded_hour_at: string | null
+          start_at: string
+          status: Database["public"]["Enums"]["booking_status"]
+          status_changed_at: string
+          technician_id: string
+          travel_fee_sdg: number
+          variant_id: string | null
+        }
+        Insert: {
+          accepted_at?: string | null
+          address_id?: string | null
+          address_snapshot?: Json | null
+          assignment_mode?: string
+          bay_shop_id?: string | null
+          block_from: string
+          block_to: string
+          booking_fee_sdg?: number
+          buyer_id: string
+          cancel_reason?: string | null
+          cancelled_at?: string | null
+          checked_in_at?: string | null
+          completed_at?: string | null
+          created_at?: string
+          deposit_sdg?: number
+          duration_min: number
+          en_route_at?: string | null
+          end_at: string
+          hold_expires_at?: string | null
+          id?: string
+          labour_sdg: number
+          lat?: number | null
+          lng?: number | null
+          location_note?: string | null
+          make_id?: string | null
+          order_id?: string | null
+          payment_method?: Database["public"]["Enums"]["payment_method"] | null
+          place: Database["public"]["Enums"]["booking_place"]
+          point?: unknown
+          ref: string
+          reminded_day_at?: string | null
+          reminded_hour_at?: string | null
+          start_at: string
+          status?: Database["public"]["Enums"]["booking_status"]
+          status_changed_at?: string
+          technician_id: string
+          travel_fee_sdg?: number
+          variant_id?: string | null
+        }
+        Update: {
+          accepted_at?: string | null
+          address_id?: string | null
+          address_snapshot?: Json | null
+          assignment_mode?: string
+          bay_shop_id?: string | null
+          block_from?: string
+          block_to?: string
+          booking_fee_sdg?: number
+          buyer_id?: string
+          cancel_reason?: string | null
+          cancelled_at?: string | null
+          checked_in_at?: string | null
+          completed_at?: string | null
+          created_at?: string
+          deposit_sdg?: number
+          duration_min?: number
+          en_route_at?: string | null
+          end_at?: string
+          hold_expires_at?: string | null
+          id?: string
+          labour_sdg?: number
+          lat?: number | null
+          lng?: number | null
+          location_note?: string | null
+          make_id?: string | null
+          order_id?: string | null
+          payment_method?: Database["public"]["Enums"]["payment_method"] | null
+          place?: Database["public"]["Enums"]["booking_place"]
+          point?: unknown
+          ref?: string
+          reminded_day_at?: string | null
+          reminded_hour_at?: string | null
+          start_at?: string
+          status?: Database["public"]["Enums"]["booking_status"]
+          status_changed_at?: string
+          technician_id?: string
+          travel_fee_sdg?: number
+          variant_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_address_id_fkey"
+            columns: ["address_id"]
+            isOneToOne: false
+            referencedRelation: "addresses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_bay_shop_id_fkey"
+            columns: ["bay_shop_id"]
+            isOneToOne: false
+            referencedRelation: "shops"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_make_id_fkey"
+            columns: ["make_id"]
+            isOneToOne: false
+            referencedRelation: "vehicle_makes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_ref_fkey"
+            columns: ["ref"]
+            isOneToOne: true
+            referencedRelation: "refs"
+            referencedColumns: ["ref"]
+          },
+          {
+            foreignKeyName: "bookings_technician_id_fkey"
+            columns: ["technician_id"]
+            isOneToOne: false
+            referencedRelation: "technicians"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_variant_id_fkey"
+            columns: ["variant_id"]
+            isOneToOne: false
+            referencedRelation: "vehicle_variants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       cart_items: {
         Row: {
           created_at: string
@@ -244,6 +721,104 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      dispute_messages: {
+        Row: {
+          body: string
+          created_at: string
+          dispute_id: string
+          from_admin: boolean
+          id: string
+          sender_id: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          dispute_id: string
+          from_admin?: boolean
+          id?: string
+          sender_id: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          dispute_id?: string
+          from_admin?: boolean
+          id?: string
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dispute_messages_dispute_id_fkey"
+            columns: ["dispute_id"]
+            isOneToOne: false
+            referencedRelation: "disputes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      disputes: {
+        Row: {
+          assigned_to: string | null
+          booking_id: string | null
+          category: string
+          created_at: string
+          description: string
+          id: string
+          opened_by: string
+          opener_role: string
+          resolution: string | null
+          resolved_at: string | null
+          status: string
+          sub_order_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          booking_id?: string | null
+          category: string
+          created_at?: string
+          description: string
+          id?: string
+          opened_by: string
+          opener_role: string
+          resolution?: string | null
+          resolved_at?: string | null
+          status?: string
+          sub_order_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          assigned_to?: string | null
+          booking_id?: string | null
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          opened_by?: string
+          opener_role?: string
+          resolution?: string | null
+          resolved_at?: string | null
+          status?: string
+          sub_order_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "disputes_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "disputes_sub_order_id_fkey"
+            columns: ["sub_order_id"]
+            isOneToOne: false
+            referencedRelation: "sub_orders"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       garage_vehicles: {
         Row: {
@@ -417,6 +992,13 @@ export type Database = {
             referencedRelation: "shops"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "ledger_accounts_technician_fk"
+            columns: ["technician_id"]
+            isOneToOne: true
+            referencedRelation: "technicians"
+            referencedColumns: ["id"]
+          },
         ]
       }
       ledger_entries: {
@@ -457,6 +1039,7 @@ export type Database = {
       }
       ledger_journals: {
         Row: {
+          booking_id: string | null
           created_at: string
           created_by: string | null
           id: string
@@ -469,6 +1052,7 @@ export type Database = {
           sub_order_id: string | null
         }
         Insert: {
+          booking_id?: string | null
           created_at?: string
           created_by?: string | null
           id?: string
@@ -481,6 +1065,7 @@ export type Database = {
           sub_order_id?: string | null
         }
         Update: {
+          booking_id?: string | null
           created_at?: string
           created_by?: string | null
           id?: string
@@ -719,8 +1304,119 @@ export type Database = {
           },
         ]
       }
+      notification_codes: {
+        Row: {
+          app: string
+          code: string
+          sms: boolean
+        }
+        Insert: {
+          app: string
+          code: string
+          sms?: boolean
+        }
+        Update: {
+          app?: string
+          code?: string
+          sms?: boolean
+        }
+        Relationships: []
+      }
+      notification_deliveries: {
+        Row: {
+          attempts: number
+          channel: Database["public"]["Enums"]["notify_channel"]
+          created_at: string
+          device_id: string | null
+          id: string
+          last_error: string | null
+          locale: string
+          next_attempt_at: string
+          notification_id: string
+          provider_ref: string | null
+          sent_at: string | null
+          status: string
+          target: string
+        }
+        Insert: {
+          attempts?: number
+          channel: Database["public"]["Enums"]["notify_channel"]
+          created_at?: string
+          device_id?: string | null
+          id?: string
+          last_error?: string | null
+          locale?: string
+          next_attempt_at?: string
+          notification_id: string
+          provider_ref?: string | null
+          sent_at?: string | null
+          status?: string
+          target: string
+        }
+        Update: {
+          attempts?: number
+          channel?: Database["public"]["Enums"]["notify_channel"]
+          created_at?: string
+          device_id?: string | null
+          id?: string
+          last_error?: string | null
+          locale?: string
+          next_attempt_at?: string
+          notification_id?: string
+          provider_ref?: string | null
+          sent_at?: string | null
+          status?: string
+          target?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_deliveries_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: false
+            referencedRelation: "devices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notification_deliveries_notification_id_fkey"
+            columns: ["notification_id"]
+            isOneToOne: false
+            referencedRelation: "notifications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notification_templates: {
+        Row: {
+          body: string
+          code: string
+          locale: string
+          title: string
+        }
+        Insert: {
+          body: string
+          code: string
+          locale: string
+          title: string
+        }
+        Update: {
+          body?: string
+          code?: string
+          locale?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_templates_code_fkey"
+            columns: ["code"]
+            isOneToOne: false
+            referencedRelation: "notification_codes"
+            referencedColumns: ["code"]
+          },
+        ]
+      }
       notifications: {
         Row: {
+          app: string | null
           code: string
           created_at: string
           id: string
@@ -729,6 +1425,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          app?: string | null
           code: string
           created_at?: string
           id?: string
@@ -737,6 +1434,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          app?: string | null
           code?: string
           created_at?: string
           id?: string
@@ -1345,6 +2043,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "payments_booking_fk"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "payments_order_id_fkey"
             columns: ["order_id"]
             isOneToOne: false
@@ -1389,6 +2094,39 @@ export type Database = {
             columns: ["shop_id"]
             isOneToOne: false
             referencedRelation: "shops"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payout_run_tech_balances: {
+        Row: {
+          balance_sdg: number
+          run_id: string
+          technician_id: string
+        }
+        Insert: {
+          balance_sdg: number
+          run_id: string
+          technician_id: string
+        }
+        Update: {
+          balance_sdg?: number
+          run_id?: string
+          technician_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payout_run_tech_balances_run_id_fkey"
+            columns: ["run_id"]
+            isOneToOne: false
+            referencedRelation: "payout_runs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payout_run_tech_balances_technician_id_fkey"
+            columns: ["technician_id"]
+            isOneToOne: false
+            referencedRelation: "technicians"
             referencedColumns: ["id"]
           },
         ]
@@ -1484,6 +2222,13 @@ export type Database = {
             referencedRelation: "shops"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "payouts_technician_fk"
+            columns: ["technician_id"]
+            isOneToOne: false
+            referencedRelation: "technicians"
+            referencedColumns: ["id"]
+          },
         ]
       }
       profiles: {
@@ -1547,6 +2292,7 @@ export type Database = {
         Row: {
           amount_sdg: number
           bankak_txn_no: string | null
+          booking_id: string | null
           buyer_id: string
           created_at: string
           id: string
@@ -1560,6 +2306,7 @@ export type Database = {
         Insert: {
           amount_sdg: number
           bankak_txn_no?: string | null
+          booking_id?: string | null
           buyer_id: string
           created_at?: string
           id?: string
@@ -1573,6 +2320,7 @@ export type Database = {
         Update: {
           amount_sdg?: number
           bankak_txn_no?: string | null
+          booking_id?: string | null
           buyer_id?: string
           created_at?: string
           id?: string
@@ -1584,6 +2332,13 @@ export type Database = {
           sub_order_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "refunds_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "refunds_order_id_fkey"
             columns: ["order_id"]
@@ -1637,6 +2392,80 @@ export type Database = {
             columns: ["sub_order_id"]
             isOneToOne: true
             referencedRelation: "sub_orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reviews: {
+        Row: {
+          author_id: string
+          booking_id: string | null
+          comment: string | null
+          created_at: string
+          hidden_at: string | null
+          hidden_reason: string | null
+          id: string
+          rating: number
+          shop_id: string | null
+          sub_order_id: string | null
+          technician_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          author_id: string
+          booking_id?: string | null
+          comment?: string | null
+          created_at?: string
+          hidden_at?: string | null
+          hidden_reason?: string | null
+          id?: string
+          rating: number
+          shop_id?: string | null
+          sub_order_id?: string | null
+          technician_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          author_id?: string
+          booking_id?: string | null
+          comment?: string | null
+          created_at?: string
+          hidden_at?: string | null
+          hidden_reason?: string | null
+          id?: string
+          rating?: number
+          shop_id?: string | null
+          sub_order_id?: string | null
+          technician_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reviews_shop_id_fkey"
+            columns: ["shop_id"]
+            isOneToOne: false
+            referencedRelation: "shops"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reviews_sub_order_id_fkey"
+            columns: ["sub_order_id"]
+            isOneToOne: false
+            referencedRelation: "sub_orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reviews_technician_id_fkey"
+            columns: ["technician_id"]
+            isOneToOne: false
+            referencedRelation: "technicians"
             referencedColumns: ["id"]
           },
         ]
@@ -1907,6 +2736,7 @@ export type Database = {
       }
       sub_orders: {
         Row: {
+          ack_alert_at: string | null
           cancel_reason: string | null
           cancelled_at: string | null
           commission_bp: number
@@ -1927,6 +2757,7 @@ export type Database = {
           status_changed_at: string
         }
         Insert: {
+          ack_alert_at?: string | null
           cancel_reason?: string | null
           cancelled_at?: string | null
           commission_bp: number
@@ -1947,6 +2778,7 @@ export type Database = {
           status_changed_at?: string
         }
         Update: {
+          ack_alert_at?: string | null
           cancel_reason?: string | null
           cancelled_at?: string | null
           commission_bp?: number
@@ -2041,6 +2873,230 @@ export type Database = {
           to_status?: Database["public"]["Enums"]["suborder_status"]
         }
         Relationships: []
+      }
+      tech_locations: {
+        Row: {
+          booking_id: string
+          lat: number
+          lng: number
+          technician_id: string
+          updated_at: string
+        }
+        Insert: {
+          booking_id: string
+          lat: number
+          lng: number
+          technician_id: string
+          updated_at?: string
+        }
+        Update: {
+          booking_id?: string
+          lat?: number
+          lng?: number
+          technician_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tech_locations_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: true
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tech_locations_technician_id_fkey"
+            columns: ["technician_id"]
+            isOneToOne: false
+            referencedRelation: "technicians"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      technician_job_types: {
+        Row: {
+          job_type_id: string
+          labour_sdg: number
+          technician_id: string
+        }
+        Insert: {
+          job_type_id: string
+          labour_sdg: number
+          technician_id: string
+        }
+        Update: {
+          job_type_id?: string
+          labour_sdg?: number
+          technician_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "technician_job_types_job_type_id_fkey"
+            columns: ["job_type_id"]
+            isOneToOne: false
+            referencedRelation: "job_types"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "technician_job_types_technician_id_fkey"
+            columns: ["technician_id"]
+            isOneToOne: false
+            referencedRelation: "technicians"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      technician_makes: {
+        Row: {
+          make_id: string
+          technician_id: string
+        }
+        Insert: {
+          make_id: string
+          technician_id: string
+        }
+        Update: {
+          make_id?: string
+          technician_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "technician_makes_make_id_fkey"
+            columns: ["make_id"]
+            isOneToOne: false
+            referencedRelation: "vehicle_makes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "technician_makes_technician_id_fkey"
+            columns: ["technician_id"]
+            isOneToOne: false
+            referencedRelation: "technicians"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      technicians: {
+        Row: {
+          approved_at: string | null
+          avatar_key: string | null
+          bio_ar: string | null
+          bio_en: string | null
+          completed_jobs: number
+          created_at: string
+          employer_shop_id: string | null
+          home_bay_shop_id: string | null
+          home_lat: number | null
+          home_lng: number | null
+          home_point: unknown
+          id: string
+          radius_km: number
+          rating_avg: number
+          rating_count: number
+          status: Database["public"]["Enums"]["partner_status"]
+          status_reason: string | null
+          updated_at: string
+          user_id: string
+          verified: boolean
+          work_mode: Database["public"]["Enums"]["work_mode"]
+          years_experience: number
+        }
+        Insert: {
+          approved_at?: string | null
+          avatar_key?: string | null
+          bio_ar?: string | null
+          bio_en?: string | null
+          completed_jobs?: number
+          created_at?: string
+          employer_shop_id?: string | null
+          home_bay_shop_id?: string | null
+          home_lat?: number | null
+          home_lng?: number | null
+          home_point?: unknown
+          id?: string
+          radius_km?: number
+          rating_avg?: number
+          rating_count?: number
+          status?: Database["public"]["Enums"]["partner_status"]
+          status_reason?: string | null
+          updated_at?: string
+          user_id: string
+          verified?: boolean
+          work_mode: Database["public"]["Enums"]["work_mode"]
+          years_experience?: number
+        }
+        Update: {
+          approved_at?: string | null
+          avatar_key?: string | null
+          bio_ar?: string | null
+          bio_en?: string | null
+          completed_jobs?: number
+          created_at?: string
+          employer_shop_id?: string | null
+          home_bay_shop_id?: string | null
+          home_lat?: number | null
+          home_lng?: number | null
+          home_point?: unknown
+          id?: string
+          radius_km?: number
+          rating_avg?: number
+          rating_count?: number
+          status?: Database["public"]["Enums"]["partner_status"]
+          status_reason?: string | null
+          updated_at?: string
+          user_id?: string
+          verified?: boolean
+          work_mode?: Database["public"]["Enums"]["work_mode"]
+          years_experience?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "technicians_employer_shop_id_fkey"
+            columns: ["employer_shop_id"]
+            isOneToOne: false
+            referencedRelation: "shops"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "technicians_home_bay_shop_id_fkey"
+            columns: ["home_bay_shop_id"]
+            isOneToOne: false
+            referencedRelation: "shops"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      time_off: {
+        Row: {
+          created_at: string
+          id: string
+          period: unknown
+          reason: string | null
+          technician_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          period: unknown
+          reason?: string | null
+          technician_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          period?: unknown
+          reason?: string | null
+          technician_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "time_off_technician_id_fkey"
+            columns: ["technician_id"]
+            isOneToOne: false
+            referencedRelation: "technicians"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
@@ -2238,6 +3294,10 @@ export type Database = {
     Functions: {
       account_balance: { Args: { p_account_id: string }; Returns: number }
       admin_approve_payouts: { Args: { p_ids: string[] }; Returns: number }
+      admin_cancel_booking: {
+        Args: { p_booking_id: string; p_reason: string }
+        Returns: Json
+      }
       admin_cancel_payout: {
         Args: { p_payout_id: string; p_reason: string }
         Returns: undefined
@@ -2246,6 +3306,7 @@ export type Database = {
         Args: { p_reason: string; p_sub_order_id: string }
         Returns: Json
       }
+      admin_complete_booking: { Args: { p_booking_id: string }; Returns: Json }
       admin_complete_suborder: {
         Args: { p_sub_order_id: string }
         Returns: Json
@@ -2270,6 +3331,10 @@ export type Database = {
         }
         Returns: undefined
       }
+      admin_hide_review: {
+        Args: { p_hidden: boolean; p_reason?: string; p_review_id: string }
+        Returns: undefined
+      }
       admin_mark_payout_paid: {
         Args: { p_payout_id: string; p_txn_no: string }
         Returns: undefined
@@ -2284,6 +3349,10 @@ export type Database = {
       }
       admin_partner_balances: { Args: never; Returns: Json[] }
       admin_payment_queue: { Args: never; Returns: Json[] }
+      admin_reassign_booking: {
+        Args: { p_booking_id: string; p_reason?: string }
+        Returns: Json
+      }
       admin_reject_payment: {
         Args: { p_note?: string; p_payment_id: string; p_reason: string }
         Returns: Json
@@ -2314,6 +3383,14 @@ export type Database = {
         }
         Returns: Json
       }
+      admin_set_technician_status: {
+        Args: {
+          p_reason?: string
+          p_status: Database["public"]["Enums"]["partner_status"]
+          p_technician_id: string
+        }
+        Returns: Json
+      }
       admin_settings: {
         Args: never
         Returns: {
@@ -2331,6 +3408,10 @@ export type Database = {
           isSetofReturn: true
         }
       }
+      admin_update_dispute: {
+        Args: { p_dispute_id: string; p_resolution?: string; p_status: string }
+        Returns: Json
+      }
       admin_update_setting: {
         Args: { p_key: string; p_value: Json }
         Returns: Json
@@ -2339,6 +3420,11 @@ export type Database = {
         Args: { p_shop_id: string; p_verified: boolean }
         Returns: Json
       }
+      admin_verify_technician: {
+        Args: { p_technician_id: string; p_verified: boolean }
+        Returns: Json
+      }
+      alert_unacknowledged_orders: { Args: never; Returns: number }
       apply_as_shop: {
         Args: {
           p_about_ar?: string
@@ -2359,6 +3445,23 @@ export type Database = {
         }
         Returns: Json
       }
+      apply_as_technician: {
+        Args: {
+          p_bio_ar?: string
+          p_employer_shop_id?: string
+          p_home_bay_shop_id?: string
+          p_home_lat?: number
+          p_home_lng?: number
+          p_idem?: string
+          p_job_types: Json
+          p_make_ids?: string[]
+          p_phone: string
+          p_radius_km?: number
+          p_work_mode: Database["public"]["Enums"]["work_mode"]
+          p_years_experience?: number
+        }
+        Returns: Json
+      }
       ar_normalize: { Args: { p: string }; Returns: string }
       ar_stem: { Args: { p_word: string }; Returns: string }
       audit: {
@@ -2371,6 +3474,103 @@ export type Database = {
         Returns: undefined
       }
       auto_complete_suborders: { Args: never; Returns: number }
+      booking_block: {
+        Args: {
+          p_end: string
+          p_place: Database["public"]["Enums"]["booking_place"]
+          p_start: string
+        }
+        Returns: unknown
+      }
+      booking_context: {
+        Args: {
+          p_address_id?: string
+          p_items: Json
+          p_lat?: number
+          p_lng?: number
+          p_place: Database["public"]["Enums"]["booking_place"]
+          p_technician_id?: string
+          p_variant_id?: string
+        }
+        Returns: Json
+      }
+      booking_detail: { Args: { p_booking_id: string }; Returns: Json }
+      booking_earliest: { Args: never; Returns: string }
+      booking_is_active: {
+        Args: { p_status: Database["public"]["Enums"]["booking_status"] }
+        Returns: boolean
+      }
+      booking_json: { Args: { p_booking_id: string }; Returns: Json }
+      booking_paid_upfront: { Args: { p_booking_id: string }; Returns: number }
+      booking_parts_follow: {
+        Args: {
+          p_booking_id: string
+          p_to: Database["public"]["Enums"]["booking_status"]
+        }
+        Returns: undefined
+      }
+      booking_quote: {
+        Args: {
+          p_buyer: string
+          p_items: Json
+          p_place: Database["public"]["Enums"]["booking_place"]
+          p_point: unknown
+          p_variant_id: string
+        }
+        Returns: Json
+      }
+      booking_sub_orders: {
+        Args: { p_booking_id: string }
+        Returns: {
+          ack_alert_at: string | null
+          cancel_reason: string | null
+          cancelled_at: string | null
+          commission_bp: number
+          commission_sdg: number
+          completed_at: string | null
+          created_at: string
+          delivered_at: string | null
+          delivery_fee_sdg: number
+          fulfilment: Database["public"]["Enums"]["fulfilment_type"]
+          handed_over_at: string | null
+          id: string
+          items_sdg: number
+          order_id: string
+          ready_at: string | null
+          shop_ack_at: string | null
+          shop_id: string
+          status: Database["public"]["Enums"]["suborder_status"]
+          status_changed_at: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "sub_orders"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
+      booking_transition_allowed: {
+        Args: {
+          p_actor: string
+          p_from: Database["public"]["Enums"]["booking_status"]
+          p_to: Database["public"]["Enums"]["booking_status"]
+        }
+        Returns: boolean
+      }
+      buyer_cancel_booking: {
+        Args: { p_booking_id: string; p_reason?: string }
+        Returns: Json
+      }
+      buyer_reschedule: {
+        Args: {
+          p_booking_id: string
+          p_start_at: string
+          p_technician_id?: string
+        }
+        Returns: Json
+      }
+      can_see_booking: { Args: { p_booking_id: string }; Returns: boolean }
+      can_see_dispute: { Args: { p_dispute_id: string }; Returns: boolean }
       can_see_sub_order: { Args: { p_sub_order_id: string }; Returns: boolean }
       cancel_order: {
         Args: { p_order_id: string; p_reason?: string }
@@ -2379,9 +3579,17 @@ export type Database = {
       cart_check: { Args: { p_items: Json; p_lock?: boolean }; Returns: Json }
       cart_validate: { Args: { p_items: Json }; Returns: Json }
       catalogue_snapshot: { Args: { p_since?: string }; Returns: Json }
+      check_technician_places: {
+        Args: {
+          p_bay: string
+          p_mode: Database["public"]["Enums"]["work_mode"]
+        }
+        Returns: undefined
+      }
       checkout: {
         Args: {
           p_address_id?: string
+          p_booking_id?: string
           p_fulfilment?: Json
           p_idem?: string
           p_items: Json
@@ -2397,6 +3605,20 @@ export type Database = {
         Returns: number
       }
       confirm_received: { Args: { p_sub_order_id: string }; Returns: Json }
+      create_booking_hold: {
+        Args: {
+          p_address_id?: string
+          p_assignment_mode?: string
+          p_idem?: string
+          p_items: Json
+          p_location_note?: string
+          p_place: Database["public"]["Enums"]["booking_place"]
+          p_start_at: string
+          p_technician_id: string
+          p_variant_id?: string
+        }
+        Returns: Json
+      }
       create_part_request: {
         Args: {
           p_category_id?: string
@@ -2407,10 +3629,27 @@ export type Database = {
         }
         Returns: Json
       }
+      create_review: {
+        Args: {
+          p_booking_id?: string
+          p_comment?: string
+          p_rating: number
+          p_sub_order_id?: string
+        }
+        Returns: Json
+      }
       delivery_fee: {
         Args: { p_address_id: string; p_shop_id: string }
         Returns: number
       }
+      dispute_json: { Args: { p_dispute_id: string }; Returns: Json }
+      dispute_parties: { Args: { p_dispute_id: string }; Returns: string[] }
+      dispute_reply: {
+        Args: { p_body: string; p_dispute_id: string }
+        Returns: Json
+      }
+      expire_booking_holds: { Args: never; Returns: number }
+      expire_booking_offers: { Args: never; Returns: number }
       expire_part_requests: { Args: never; Returns: number }
       expire_unpaid_orders: { Args: never; Returns: number }
       has_role: {
@@ -2432,6 +3671,14 @@ export type Database = {
         Args: { p_owner_only?: boolean; p_shop_id: string }
         Returns: boolean
       }
+      jsonb_uuids: { Args: { p: Json }; Returns: string[] }
+      khartoum_minutes: { Args: { p_at: string }; Returns: number }
+      khartoum_weekday: { Args: { p_at: string }; Returns: number }
+      kick_notify_dispatch: { Args: never; Returns: boolean }
+      labour_in_bounds: {
+        Args: { p_job_type_id: string; p_labour: number }
+        Returns: boolean
+      }
       ledger_account: { Args: { p_code: string }; Returns: string }
       listing_json: { Args: { p_listing_id: string }; Returns: Json }
       luhn_check_digit: { Args: { p_digits: string }; Returns: number }
@@ -2441,15 +3688,42 @@ export type Database = {
       }
       mark_notifications_read: { Args: { p_ids?: string[] }; Returns: number }
       me: { Args: never; Returns: Json }
+      my_bookings: {
+        Args: { p_limit?: number; p_offset?: number }
+        Returns: Json[]
+      }
+      my_disputes: { Args: { p_limit?: number }; Returns: Json[] }
+      my_technician_id: { Args: never; Returns: string }
       new_ref: { Args: { p_kind: string }; Returns: string }
+      next_technician: { Args: { p_booking_id: string }; Returns: string }
       normalize_phone: { Args: { p: string }; Returns: string }
       notify: {
         Args: { p_code: string; p_payload?: Json; p_user_id: string }
         Returns: undefined
       }
+      notify_admins: {
+        Args: { p_code: string; p_payload?: Json }
+        Returns: undefined
+      }
+      notify_claim: { Args: { p_limit?: number }; Returns: Json[] }
+      notify_partner: {
+        Args: { p_code: string; p_payload?: Json; p_user_id: string }
+        Returns: undefined
+      }
+      notify_report: { Args: { p_results: Json }; Returns: number }
       notify_shop: {
         Args: { p_code: string; p_payload?: Json; p_shop_id: string }
         Returns: undefined
+      }
+      offer_booking: { Args: { p_booking_id: string }; Returns: undefined }
+      open_dispute: {
+        Args: {
+          p_booking_id?: string
+          p_category: string
+          p_description: string
+          p_sub_order_id?: string
+        }
+        Returns: Json
       }
       order_json: { Args: { p_order_id: string }; Returns: Json }
       part_detail: {
@@ -2465,6 +3739,18 @@ export type Database = {
         Returns: boolean
       }
       ping: { Args: never; Returns: Json }
+      post_booking_journal: {
+        Args: {
+          p_amount: number
+          p_booking_id: string
+          p_credit: string
+          p_debit: string
+          p_kind: string
+          p_payment_id?: string
+          p_refund_id?: string
+        }
+        Returns: string
+      }
       post_journal: {
         Args: {
           p_amount: number
@@ -2482,6 +3768,10 @@ export type Database = {
       }
       post_sale: { Args: { p_sub_order_id: string }; Returns: undefined }
       public_settings: { Args: never; Returns: Json }
+      reassign_booking: {
+        Args: { p_actor: string; p_booking_id: string; p_reason: string }
+        Returns: Database["public"]["Enums"]["booking_status"]
+      }
       refresh_part_search_doc: {
         Args: { p_part_id: string }
         Returns: undefined
@@ -2500,6 +3790,10 @@ export type Database = {
         }
         Returns: Json
       }
+      release_booking_hold: {
+        Args: { p_booking_id: string }
+        Returns: undefined
+      }
       release_reservation: {
         Args: { p_sub_order_id: string }
         Returns: undefined
@@ -2513,9 +3807,59 @@ export type Database = {
         Returns: Json
       }
       require_admin: { Args: never; Returns: string }
+      require_buyer_booking: {
+        Args: { p_booking_id: string }
+        Returns: {
+          accepted_at: string | null
+          address_id: string | null
+          address_snapshot: Json | null
+          assignment_mode: string
+          bay_shop_id: string | null
+          block_from: string
+          block_to: string
+          booking_fee_sdg: number
+          buyer_id: string
+          cancel_reason: string | null
+          cancelled_at: string | null
+          checked_in_at: string | null
+          completed_at: string | null
+          created_at: string
+          deposit_sdg: number
+          duration_min: number
+          en_route_at: string | null
+          end_at: string
+          hold_expires_at: string | null
+          id: string
+          labour_sdg: number
+          lat: number | null
+          lng: number | null
+          location_note: string | null
+          make_id: string | null
+          order_id: string | null
+          payment_method: Database["public"]["Enums"]["payment_method"] | null
+          place: Database["public"]["Enums"]["booking_place"]
+          point: unknown
+          ref: string
+          reminded_day_at: string | null
+          reminded_hour_at: string | null
+          start_at: string
+          status: Database["public"]["Enums"]["booking_status"]
+          status_changed_at: string
+          technician_id: string
+          travel_fee_sdg: number
+          variant_id: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "bookings"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       require_own_sub_order: {
         Args: { p_sub_order_id: string }
         Returns: {
+          ack_alert_at: string | null
           cancel_reason: string | null
           cancelled_at: string | null
           commission_bp: number
@@ -2542,6 +3886,10 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      require_parts_collected: {
+        Args: { p_booking_id: string }
+        Returns: undefined
+      }
       require_shop: {
         Args: { p_owner_only?: boolean; p_shop_id: string }
         Returns: string
@@ -2551,9 +3899,67 @@ export type Database = {
         Args: { p_sub_order_id: string }
         Returns: string
       }
+      require_tech_booking: {
+        Args: { p_booking_id: string }
+        Returns: {
+          accepted_at: string | null
+          address_id: string | null
+          address_snapshot: Json | null
+          assignment_mode: string
+          bay_shop_id: string | null
+          block_from: string
+          block_to: string
+          booking_fee_sdg: number
+          buyer_id: string
+          cancel_reason: string | null
+          cancelled_at: string | null
+          checked_in_at: string | null
+          completed_at: string | null
+          created_at: string
+          deposit_sdg: number
+          duration_min: number
+          en_route_at: string | null
+          end_at: string
+          hold_expires_at: string | null
+          id: string
+          labour_sdg: number
+          lat: number | null
+          lng: number | null
+          location_note: string | null
+          make_id: string | null
+          order_id: string | null
+          payment_method: Database["public"]["Enums"]["payment_method"] | null
+          place: Database["public"]["Enums"]["booking_place"]
+          point: unknown
+          ref: string
+          reminded_day_at: string | null
+          reminded_hour_at: string | null
+          start_at: string
+          status: Database["public"]["Enums"]["booking_status"]
+          status_changed_at: string
+          technician_id: string
+          travel_fee_sdg: number
+          variant_id: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "bookings"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      require_technician: { Args: { p_approved?: boolean }; Returns: string }
       require_user: { Args: never; Returns: string }
+      resolve_booking_items: {
+        Args: { p_buyer: string; p_items: Json }
+        Returns: Json
+      }
       restock: { Args: { p_sub_order_id: string }; Returns: undefined }
       reverse_sale: { Args: { p_sub_order_id: string }; Returns: undefined }
+      reviews_for: {
+        Args: { p_limit?: number; p_shop_id?: string; p_technician_id?: string }
+        Returns: Json[]
+      }
       sale_posted: { Args: { p_sub_order_id: string }; Returns: boolean }
       search_expand: { Args: { p_term: string }; Returns: string[] }
       search_parts: {
@@ -2593,6 +3999,7 @@ export type Database = {
       }
       search_query: { Args: { p_q: string }; Returns: unknown }
       search_terms: { Args: { p: string }; Returns: string[] }
+      send_booking_reminders: { Args: never; Returns: number }
       set_part_fitment_by_models: {
         Args: { p_model_ids: string[]; p_part_id: string }
         Returns: undefined
@@ -2606,8 +4013,17 @@ export type Database = {
         }
         Returns: undefined
       }
+      set_technician_job_types: {
+        Args: { p_items: Json; p_technician_id: string }
+        Returns: undefined
+      }
+      set_technician_makes: {
+        Args: { p_make_ids: string[]; p_technician_id: string }
+        Returns: undefined
+      }
       setting: { Args: { p_key: string }; Returns: Json }
       setting_int: { Args: { p_key: string }; Returns: number }
+      settle_booking: { Args: { p_booking_id: string }; Returns: undefined }
       shop_account: { Args: { p_shop_id: string }; Returns: string }
       shop_ack_suborder: { Args: { p_sub_order_id: string }; Returns: Json }
       shop_add_staff: {
@@ -2780,6 +4196,86 @@ export type Database = {
         }[]
       }
       take_stock: { Args: { p_sub_order_id: string }; Returns: undefined }
+      tech_account: { Args: { p_technician_id: string }; Returns: string }
+      tech_add_photo: {
+        Args: { p_booking_id: string; p_image_key: string; p_kind: string }
+        Returns: Json
+      }
+      tech_balance: { Args: { p_technician_id: string }; Returns: number }
+      tech_bookings: {
+        Args: { p_limit?: number; p_scope?: string }
+        Returns: Json[]
+      }
+      tech_cancel: {
+        Args: { p_booking_id: string; p_reason: string }
+        Returns: Json
+      }
+      tech_check_in: { Args: { p_booking_id: string }; Returns: Json }
+      tech_complete: {
+        Args: { p_booking_id: string; p_code: string }
+        Returns: Json
+      }
+      tech_en_route: { Args: { p_booking_id: string }; Returns: Json }
+      tech_free: {
+        Args: {
+          p_block_from: string
+          p_block_to: string
+          p_end: string
+          p_except?: string
+          p_place: Database["public"]["Enums"]["booking_place"]
+          p_start: string
+          p_technician_id: string
+        }
+        Returns: boolean
+      }
+      tech_labour: {
+        Args: { p_job_type_ids: string[]; p_technician_id: string }
+        Returns: number
+      }
+      tech_part_not_fit: {
+        Args: { p_booking_id: string; p_reason: string }
+        Returns: Json
+      }
+      tech_quick_block: {
+        Args: { p_minutes: number; p_reason?: string }
+        Returns: Json
+      }
+      tech_respond_offer: {
+        Args: { p_accept: boolean; p_offer_id: string; p_reason?: string }
+        Returns: Json
+      }
+      tech_set_job_types: { Args: { p_items: Json }; Returns: Json }
+      tech_set_makes: { Args: { p_make_ids: string[] }; Returns: Json }
+      tech_statement: {
+        Args: { p_from?: string; p_to?: string }
+        Returns: Json
+      }
+      tech_suits: {
+        Args: {
+          p_job_type_ids: string[]
+          p_make_id: string
+          p_place: Database["public"]["Enums"]["booking_place"]
+          p_point: unknown
+          p_technician_id: string
+        }
+        Returns: boolean
+      }
+      tech_update_location: {
+        Args: { p_booking_id: string; p_lat: number; p_lng: number }
+        Returns: undefined
+      }
+      tech_update_profile: { Args: { p_patch: Json }; Returns: Json }
+      technician_json: { Args: { p_technician_id: string }; Returns: Json }
+      technician_profile: { Args: { p_technician_id: string }; Returns: Json }
+      transition_booking: {
+        Args: {
+          p_actor: string
+          p_id: string
+          p_reason?: string
+          p_to: Database["public"]["Enums"]["booking_status"]
+        }
+        Returns: Database["public"]["Enums"]["booking_status"]
+      }
       transition_payment: {
         Args: {
           p_actor: string
@@ -2798,6 +4294,7 @@ export type Database = {
         }
         Returns: Database["public"]["Enums"]["suborder_status"]
       }
+      travel_fee: { Args: { p_point: unknown }; Returns: number }
       try_uuid: { Args: { p: string }; Returns: string }
       unregister_device: { Args: { p_fcm_token: string }; Returns: undefined }
       update_profile: {
@@ -2817,8 +4314,30 @@ export type Database = {
     }
     Enums: {
       app_role: "BUYER" | "SHOP_OWNER" | "SHOP_STAFF" | "TECHNICIAN" | "ADMIN"
+      booking_place: "BAY" | "CUSTOMER_LOCATION"
+      booking_status:
+        | "HELD"
+        | "AWAITING_PAYMENT"
+        | "PENDING_TECH_ACCEPT"
+        | "ACCEPTED"
+        | "EN_ROUTE"
+        | "IN_PROGRESS"
+        | "COMPLETED"
+        | "NEEDS_RESCHEDULE"
+        | "EXPIRED"
+        | "CANCELLED_BY_BUYER"
+        | "CANCELLED_BY_TECH"
+        | "CANCELLED_BY_ADMIN"
+        | "PART_DOES_NOT_FIT"
       fulfilment_type: "PICKUP" | "DELIVERY" | "TO_TECHNICIAN"
       listing_condition: "NEW_OEM" | "NEW_AFTERMARKET" | "USED"
+      notify_channel: "PUSH" | "SMS" | "WHATSAPP"
+      offer_status:
+        | "OFFERED"
+        | "ACCEPTED"
+        | "DECLINED"
+        | "TIMED_OUT"
+        | "WITHDRAWN"
       partner_status: "PENDING" | "APPROVED" | "REJECTED" | "SUSPENDED"
       payment_method: "BANKAK" | "CASH"
       payment_purpose: "ORDER" | "BOOKING_DEPOSIT"
@@ -2845,6 +4364,7 @@ export type Database = {
         | "REJECTED_BY_SHOP"
         | "RETURN_REQUESTED"
         | "RETURNED"
+      work_mode: "BAY" | "MOBILE" | "BOTH"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -2973,8 +4493,32 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["BUYER", "SHOP_OWNER", "SHOP_STAFF", "TECHNICIAN", "ADMIN"],
+      booking_place: ["BAY", "CUSTOMER_LOCATION"],
+      booking_status: [
+        "HELD",
+        "AWAITING_PAYMENT",
+        "PENDING_TECH_ACCEPT",
+        "ACCEPTED",
+        "EN_ROUTE",
+        "IN_PROGRESS",
+        "COMPLETED",
+        "NEEDS_RESCHEDULE",
+        "EXPIRED",
+        "CANCELLED_BY_BUYER",
+        "CANCELLED_BY_TECH",
+        "CANCELLED_BY_ADMIN",
+        "PART_DOES_NOT_FIT",
+      ],
       fulfilment_type: ["PICKUP", "DELIVERY", "TO_TECHNICIAN"],
       listing_condition: ["NEW_OEM", "NEW_AFTERMARKET", "USED"],
+      notify_channel: ["PUSH", "SMS", "WHATSAPP"],
+      offer_status: [
+        "OFFERED",
+        "ACCEPTED",
+        "DECLINED",
+        "TIMED_OUT",
+        "WITHDRAWN",
+      ],
       partner_status: ["PENDING", "APPROVED", "REJECTED", "SUSPENDED"],
       payment_method: ["BANKAK", "CASH"],
       payment_purpose: ["ORDER", "BOOKING_DEPOSIT"],
@@ -3003,6 +4547,7 @@ export const Constants = {
         "RETURN_REQUESTED",
         "RETURNED",
       ],
+      work_mode: ["BAY", "MOBILE", "BOTH"],
     },
   },
 } as const

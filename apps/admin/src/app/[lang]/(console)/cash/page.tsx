@@ -83,8 +83,15 @@ async function Cash({ d, locale }: { d: Dictionary; locale: Locale }) {
             </thead>
             <tbody>
               {rows.map((r) => (
-                <tr key={r.shopId} className="hover:bg-muted/40">
-                  <Td className="font-medium whitespace-nowrap">{named(r.name, locale)}</Td>
+                <tr key={r.id} className="hover:bg-muted/40">
+                  <Td className="font-medium whitespace-nowrap">
+                    <span className="inline-flex items-center gap-2">
+                      <bdi>{named(r.name, locale)}</bdi>
+                      <StatusBadge tone={r.party === 'TECH' ? 'info' : 'neutral'}>
+                        {r.party === 'TECH' ? d.cash.techTag : d.cash.shopTag}
+                      </StatusBadge>
+                    </span>
+                  </Td>
                   <Td className="text-end">
                     <Num>{sdg(r.cashCollectedSdg)}</Num>
                   </Td>

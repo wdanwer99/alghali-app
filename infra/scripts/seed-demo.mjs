@@ -1,6 +1,7 @@
-// Loads supabase/seed/demo.json into alghali-dev: demo accounts (an admin, a buyer and one
-// owner per shop), approved shops, demo parts with fitment, and listings with a few price
-// cuts. Shops and listings go through the same RPCs the apps call. Safe to re-run.
+// Loads supabase/seed/demo.json into alghali-dev: demo accounts (an admin, buyers, one owner
+// per shop, technicians), approved shops, demo parts with fitment, listings with a few price
+// cuts, orders and fittings at different stages. Everything goes through the same RPCs the
+// apps call. Safe to re-run.
 //   node seed-demo.mjs dev     alghali-dev, keys from the root .env
 //   node seed-demo.mjs local   CI's local stack: API_URL, API_SECRET_KEY, DB_URL from the environment
 // Refuses every other project: demo data must never reach the live project (D-051, D-053).
@@ -241,11 +242,149 @@ try {
     }
   }
 
+  // Demo technicians: they apply in the partner app's way, set their hours, and an admin
+  // approves all but the last two (left for the admin's applications queue).
+  const jobTypes = Object.fromEntries(
+    (await sql`select code, id from public.job_types`).map((r) => [r.code, r.id]),
+  );
+  const techs = {};
+  const techUsers = {};
+  let newTechs = 0;
+  for (const t of demo.technicians) {
+    const user = await account(`tech.${t.key}@demo.alghali.invalid`, t.name, t.phone);
+    techUsers[t.key] = user;
+    let [row] = await sql`select id from public.technicians where user_id = ${user}`;
+    if (!row) {
+      row = await as(user, async (tx) => {
+        const [{ r }] = await tx`
+          select public.apply_as_technician(
+            p_work_mode => ${t.mode}::public.work_mode,
+            p_job_types => ${tx.json(Object.entries(t.jobs).map(([code, labour]) => ({ job_type_id: jobTypes[code], labour_sdg: labour })))},
+            p_phone => ${t.phone},
+            p_make_ids => (select coalesce(array_agg(id), '{}') from public.vehicle_makes where slug = any (${t.makes}::text[])),
+            p_home_bay_shop_id => ${t.bay ? shops[t.bay] : null},
+            p_home_lat => ${t.home?.[0] ?? null}, p_home_lng => ${t.home?.[1] ?? null},
+            p_radius_km => ${t.radius ?? 10}, p_years_experience => ${t.years},
+            p_bio_ar => ${t.bio_ar}) as r`;
+        await tx`select public.tech_update_profile(${tx.json({ bio_en: t.bio_en })})`;
+        for (const [weekday, windows] of Object.entries(demo.tech_hours)) {
+          for (const [start, end] of windows) {
+            await tx`insert into public.availability_rules (technician_id, weekday, start_min, end_min)
+                     values (${r.id}, ${Number(weekday)}, ${start}, ${end})`;
+          }
+        }
+        return r;
+      });
+      if (!t.pending) {
+        await as(
+          admin,
+          (tx) => tx`select public.admin_set_technician_status(${row.id}, 'APPROVED')`,
+        );
+        if (t.verified)
+          await as(admin, (tx) => tx`select public.admin_verify_technician(${row.id}, true)`);
+        // A track record, so ranking has something to rank (demo only).
+        await sql`update public.technicians set rating_avg = ${t.rating}, rating_count = ${Math.round(t.jobs_done / 3)},
+                    completed_jobs = ${t.jobs_done} where id = ${row.id}`;
+      }
+      newTechs++;
+    }
+    techs[t.key] = row.id;
+  }
+
+  // Demo fittings at the bay, only while the demo buyers have none.
+  const [{ n: existingBookings }] = await sql`
+    select count(*)::int as n from public.bookings where buyer_id = any (${Object.values(buyers)}::uuid[])`;
+  let newBookings = 0;
+  if (existingBookings === 0) {
+    const txn = () => String(100000000 + Math.floor(Math.random() * 899999999));
+    // Weekday afternoons from tomorrow (Khartoum), skipping Friday; one slot per fitting.
+    const [{ days }] = await sql`
+      select array_agg(to_char(d, 'YYYY-MM-DD') order by d) as days
+      from generate_series((now() at time zone 'Africa/Khartoum')::date + 1,
+                           (now() at time zone 'Africa/Khartoum')::date + 6, interval '1 day') d
+      where extract(dow from d) <> 5`;
+    let slot = 0;
+    for (const spec of demo.bookings) {
+      const buyer = buyers[spec.buyer];
+      const day = days[Math.floor(slot / 3) % days.length];
+      const start = new Date(
+        `${day}T${String(16 + (slot % 3)).padStart(2, '0')}:00:00+02:00`,
+      ).toISOString();
+      slot++;
+      let lines = [];
+      let item;
+      if (spec.part) {
+        const [l] = await sql`
+          select id, price_sdg from public.listings where shop_id = ${shops[spec.shop]} and part_id = ${parts[spec.part]}
+          order by price_sdg limit 1`;
+        lines = [{ listing_id: l.id, qty: 1, seen_price_sdg: Number(l.price_sdg) }];
+        item = { listing_id: l.id };
+      } else {
+        const [c] = await sql`select id from public.part_categories where slug = ${spec.category}`;
+        item = { category_id: c.id, description: spec.note };
+      }
+      const booking = await as(buyer, async (tx) => {
+        const [{ b }] = await tx`
+          select public.create_booking_hold(p_technician_id => ${techs[spec.tech]}, p_start_at => ${start},
+                                            p_items => ${tx.json([item])}, p_place => 'BAY') as b`;
+        return b;
+      });
+      const order = await as(buyer, async (tx) => {
+        const [{ o }] = await tx`
+          select public.checkout(p_items => ${tx.json(lines)}, p_method => ${spec.method}::public.payment_method,
+                                 p_booking_id => ${booking.id}) as o`;
+        return o;
+      });
+      const stage = spec.stage;
+      if (spec.method === 'BANKAK' && stage !== 'awaiting') {
+        await as(buyer, (tx) => tx`select public.submit_bankak_receipt(${order.id}, ${txn()})`);
+        if (stage !== 'receipt') {
+          const payment = order.payments.find((p) => p.method === 'BANKAK');
+          await as(admin, (tx) => tx`select public.admin_confirm_payment(${payment.id})`);
+        }
+      }
+      if (['accepted', 'completed'].includes(stage)) {
+        const [offer] =
+          await sql`select id from public.booking_offers where booking_id = ${booking.id} and status = 'OFFERED'`;
+        await as(
+          techUsers[spec.tech],
+          (tx) => tx`select public.tech_respond_offer(${offer.id}, true)`,
+        );
+        for (const s of order.sub_orders) {
+          const owner = owners[spec.shop];
+          await as(owner, async (tx) => {
+            await tx`select public.shop_ack_suborder(${s.id})`;
+            await tx`select public.shop_mark_ready(${s.id})`;
+            if (stage === 'completed') await tx`select public.shop_hand_over(${s.id})`;
+          });
+        }
+      }
+      if (stage === 'completed') {
+        // Done earlier today: the job is moved into the past (demo only), then closed the usual way.
+        await sql`update public.bookings set start_at = now() - interval '3 hours', end_at = now() - interval '2 hours',
+                    block_from = now() - interval '3 hours', block_to = now() - interval '2 hours' where id = ${booking.id}`;
+        const [{ code }] =
+          await sql`select code from public.booking_codes where booking_id = ${booking.id}`;
+        await as(techUsers[spec.tech], async (tx) => {
+          await tx`select public.tech_check_in(${booking.id})`;
+          await tx`select public.tech_complete(${booking.id}, ${code})`;
+        });
+        await as(buyer, async (tx) => {
+          await tx`select public.create_review(5, p_booking_id => ${booking.id}, p_comment => 'شغل نظيف وفي الموعد')`;
+          for (const s of order.sub_orders) {
+            await tx`select public.create_review(4, p_sub_order_id => ${s.id}, p_comment => 'القطعة أصلية')`;
+          }
+        });
+      }
+      newBookings++;
+    }
+  }
+
   console.log(
-    `${which} seeded: ${demo.shops.length} shops, ${Object.keys(parts).length} demo parts, ${added} new listings, ${placedOrders} new orders.`,
+    `${which} seeded: ${demo.shops.length} shops, ${Object.keys(parts).length} demo parts, ${added} new listings, ${placedOrders} new orders, ${newTechs} new technicians, ${newBookings} new bookings.`,
   );
   console.log(
-    `Demo sign-in: ${demo.people.buyer.email}, ${demo.people.admin.email}, owner.<shop>@demo.alghali.invalid`,
+    `Demo sign-in: ${demo.people.buyer.email}, ${demo.people.admin.email}, owner.<shop>@ and tech.<name>@demo.alghali.invalid`,
   );
   console.log('Password: DEMO_PASSWORD in .env');
 } finally {

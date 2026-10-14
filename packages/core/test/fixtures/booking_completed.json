@@ -1,0 +1,129 @@
+{
+  "id": "9f51cba6-bc88-4f8b-94c7-23b6c9de0980",
+  "bay": {
+    "lat": null,
+    "lng": null,
+    "name_ar": "التوفيق للفرامل والعفشة",
+    "name_en": "Al-Tawfiq Brakes & Suspension",
+    "plot_no": "73",
+    "shop_id": "bffcb014-8ef0-4ba8-b06e-293b769731c4",
+    "zone_id": "9cda2964-dc5c-4633-83f1-33e3361e3f25"
+  },
+  "lat": null,
+  "lng": null,
+  "ref": "69851954",
+  "buyer": null,
+  "items": [
+    {
+      "id": "73247f44-5f7d-47e0-bbbc-5de8cef58e54",
+      "minutes": 60,
+      "part_id": "b7df3b11-9f88-4cdf-9030-dadffa4a7925",
+      "offer_id": null,
+      "title_ar": "فحمات فرامل أمامية هايلكس",
+      "title_en": "Front brake pads (Hilux)",
+      "listing_id": "0ebe466b-0583-4d64-9e2d-6ecee2ffd5f5",
+      "category_id": "7d601158-e82c-4d71-b942-15e178627d8a",
+      "description": null,
+      "job_type_id": "1cab0f3d-9e3b-4694-b448-41bbeb3bb031",
+      "job_type_code": "BRAKES",
+      "order_item_id": "32ab8f9e-7ffe-4f4d-8981-9d9f05a26780"
+    }
+  ],
+  "offer": {
+    "id": "5f9f1c63-b2b7-4a9b-a3c1-f77e48d29580",
+    "status": "ACCEPTED",
+    "expires_at": "2026-10-14T01:20:46.145551+00:00"
+  },
+  "place": "BAY",
+  "end_at": "2026-10-13T23:00:47.434612+00:00",
+  "events": [
+    {
+      "at": "2026-10-14T01:00:45.794746+00:00",
+      "to": "HELD",
+      "from": null,
+      "actor": "BUYER",
+      "reason": null
+    },
+    {
+      "at": "2026-10-14T01:00:46.145551+00:00",
+      "to": "PENDING_TECH_ACCEPT",
+      "from": "HELD",
+      "actor": "BUYER",
+      "reason": null
+    },
+    {
+      "at": "2026-10-14T01:00:46.554334+00:00",
+      "to": "ACCEPTED",
+      "from": "PENDING_TECH_ACCEPT",
+      "actor": "TECH",
+      "reason": null
+    },
+    {
+      "at": "2026-10-14T01:00:47.701419+00:00",
+      "to": "IN_PROGRESS",
+      "from": "ACCEPTED",
+      "actor": "TECH",
+      "reason": null
+    },
+    {
+      "at": "2026-10-14T01:00:47.701419+00:00",
+      "to": "COMPLETED",
+      "from": "IN_PROGRESS",
+      "actor": "TECH",
+      "reason": null
+    }
+  ],
+  "photos": [],
+  "status": "COMPLETED",
+  "make_id": null,
+  "block_to": "2026-10-13T23:00:47.434612+00:00",
+  "buyer_id": "d151ba98-8196-491d-95d0-0828ad260383",
+  "job_code": "5951",
+  "order_id": "3c67001a-630c-45d8-97d5-ee454c448162",
+  "payments": [
+    {
+      "id": "ef1063b4-a7a7-4eb8-a69a-2d27a13cba41",
+      "method": "CASH",
+      "status": "COLLECTED",
+      "purpose": "ORDER",
+      "amount_sdg": 47000
+    }
+  ],
+  "start_at": "2026-10-13T22:00:47.434612+00:00",
+  "order_ref": "27920008",
+  "address_id": null,
+  "block_from": "2026-10-13T22:00:47.434612+00:00",
+  "created_at": "2026-10-14T01:00:45.794746+00:00",
+  "labour_sdg": 7000,
+  "technician": {
+    "id": "cc827c5a-a283-44ae-b3d2-dd4d845b99de",
+    "name": "ياسر محمد",
+    "phone": null,
+    "verified": true,
+    "avatar_key": null,
+    "rating_avg": 5,
+    "rating_count": 1
+  },
+  "variant_id": null,
+  "accepted_at": "2026-10-14T01:00:46.554334+00:00",
+  "bay_shop_id": "bffcb014-8ef0-4ba8-b06e-293b769731c4",
+  "deposit_sdg": 0,
+  "en_route_at": null,
+  "cancelled_at": null,
+  "completed_at": "2026-10-14T01:00:47.701419+00:00",
+  "duration_min": 60,
+  "cancel_reason": null,
+  "checked_in_at": "2026-10-14T01:00:47.701419+00:00",
+  "location_note": null,
+  "technician_id": "cc827c5a-a283-44ae-b3d2-dd4d845b99de",
+  "payment_method": "CASH",
+  "travel_fee_sdg": 0,
+  "assignment_mode": "CHOSEN",
+  "booking_fee_sdg": 2000,
+  "hold_expires_at": null,
+  "job_code_locked": false,
+  "reminded_day_at": null,
+  "address_snapshot": null,
+  "reminded_hour_at": null,
+  "status_changed_at": "2026-10-14T01:00:47.701419+00:00"
+}
