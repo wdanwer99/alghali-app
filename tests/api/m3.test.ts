@@ -245,7 +245,7 @@ describe.skipIf(!hasApi)('M3 over HTTP: fittings', () => {
     expect(Number(must(m).held)).toBe(0);
   });
 
-  it('notify-dispatch: refuses strangers; with the Vault token it works the queue (stubs without Firebase)', async () => {
+  it('notify-dispatch: refuses strangers; with the Vault token it works the queue (Firebase or stubs)', async () => {
     const res = await fetch(`${api.url}/functions/v1/notify-dispatch`, {
       method: 'POST',
       headers: { Authorization: 'Bearer nope' },
@@ -263,11 +263,16 @@ describe.skipIf(!hasApi)('M3 over HTTP: fittings', () => {
       headers: { Authorization: `Bearer ${secret.token}` },
     });
     expect(ok.status).toBe(200);
-    const [d] = await f.sql<{ status: string }[]>`
-      select d.status from public.notification_deliveries d join public.notifications n on n.id = d.notification_id
+    const [d] = await f.sql<{ status: string; last_error: string | null }[]>`
+      select d.status, d.last_error from public.notification_deliveries d
+      join public.notifications n on n.id = d.notification_id
       where n.user_id = ${user.id} and d.channel = 'PUSH'`;
-    expect(['STUB', 'SENT', 'PENDING']).toContain(must(d).status);
-    expect(must(d).status).not.toBe('PENDING');
+    // Without Firebase the push is a stub; with it, Google signs the dispatcher in and then
+    // refuses the made-up device token, so it fails for good without retrying.
+    expect([
+      ['STUB', 'NO_FCM_ACCOUNT'],
+      ['FAILED', 'INVALID_ARGUMENT'],
+    ]).toContainEqual([must(d).status, must(d).last_error]);
   });
 });
 

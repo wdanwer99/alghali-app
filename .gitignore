@@ -4,6 +4,7 @@
 !.env.example
 **/env/*.json
 !**/env/example.json
+/secrets/
 
 # --- node ---
 node_modules/

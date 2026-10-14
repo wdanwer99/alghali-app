@@ -138,7 +138,7 @@ Every milestone ends with: lint + tests green, docs updated, a commit, and a sho
   - **Tests:** 342 TypeScript (DB, API end-to-end, slot engine, push wording), 3 admin and 115 Flutter. Exit criteria met: wide slot-engine tests, booking state-machine table tests, **20 parallel holds on one slot → exactly 1 succeeds**, timeout and reassignment tests, cancellation fee maths, and the whole fitting journey over HTTP.
   - **Changes from this plan:** the hold is an RPC, not an Edge Function (D-096); a fitting waits for payment from checkout, not from the receipt (D-097, amends D-023); the alert queue is a table, not pgmq (D-101, amends D-007); a technician dropping out is reassigned, not `CANCELLED_BY_TECH` (D-102).
   - **Not in M3:** real push needs the owner's Firebase project (then `pnpm notify:setup <env> --fcm key.json`); SMS/WhatsApp stay stubs (D-061). Shifting the earliest slot to admin working hours for unconfirmed Bankak orders (D-027) and opening hours in the 30-minute alert (D-020) are left out. Declining a part-does-not-fit return on a cash order needs a manual adjustment (D-098).
-  - **Owner input still needed before launch:** as before (street city, GPS starting point and zone names, Bankak account, real fees), plus the Firebase project. Fittings at the buyer's place can't be booked until the street's starting point is set.
+  - **Owner input still needed before launch:** as before (street city, GPS starting point and zone names, Bankak account, real fees). The Firebase project was set up the same day (D-109). Fittings at the buyer's place can't be booked until the street's starting point is set.
 
 | # | Scope | Exit criteria |
 |---|---|---|

@@ -37,7 +37,7 @@ pnpm functions:deploy:dev   # Edge Functions (bundled by Supabase, no Docker)
 pnpm functions:deploy:test
 pnpm templates:upload dev   # the Excel stock template shops download
 pnpm db:seed:dev            # demo shops, stock, buyers, orders, technicians and fittings — dev only
-pnpm notify:setup dev       # connect the alert queue to its Edge Function (push stays a stub without --fcm)
+pnpm notify:setup dev --fcm secrets/firebase-service-account.json   # connect the alert queue to its Edge Function (push is a stub without --fcm)
 pnpm env:sync               # copies client-safe keys into the apps
 ```
 

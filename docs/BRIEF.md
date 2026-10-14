@@ -25,11 +25,11 @@ Where the project stands and the rules every change follows. Read this before wr
 | M4 Buyer app on the real backend · M5 Partner app · M6 Admin rest · M7 Hardening and launch | Not started | — |
 
 **Working state of each part:**
-- **Backend (Supabase):** everything up to M3 is applied to `alghali-dev` and `alghali-test`, with the Edge Functions deployed and the alert dispatcher wired (`pnpm notify:setup`); push is a stub until the owner's Firebase key is added.
+- **Backend (Supabase):** everything up to M3 is applied to `alghali-dev` and `alghali-test`, with the Edge Functions deployed and the alert dispatcher wired (`pnpm notify:setup`) with real Firebase push (D-109); phones receive pushes once the apps register their devices (M4/M5).
 - **Admin console:** every page reads the real database (D-106); no sample data is left.
 - **Buyer and partner apps:** every screen exists, on sample data (`packages/core/lib/src/demo`). `packages/core` already has typed repositories for everything up to M3; M4/M5 wire the screens to them **without redesigning** (the sample screens are the reference, D-051).
 
-**Waiting on the owner before launch:** the street's city, GPS starting point and real zone names (D-077), the platform Bankak account, real fee amounts (D-034), a Firebase project for push (D-061), and a sender mailbox for password-reset emails (D-064). The owner can enter the street, zones, Bankak account and fees in the admin console.
+**Waiting on the owner before launch:** the street's city, GPS starting point and real zone names (D-077), the platform Bankak account, real fee amounts (D-034), and a sender mailbox for password-reset emails (D-064). The owner can enter the street, zones, Bankak account and fees in the admin console.
 
 ---
 
@@ -109,7 +109,8 @@ Each milestone's exit criteria in PLAN §2 must have a test. Before committing, 
 ## 7. Environments, secrets and data
 
 - `alghali-dev` (`mhnftcntnaqarzugwvhz`): the apps and admin during development, with demo data. `alghali-test` (`enyqkvordmzauxwbfwif`): automated tests only. CI runs its own local Supabase.
-- **Secrets live only in the root `.env`.** `pnpm env:sync` copies client-safe values into the apps. Never print keys, never put them in commits or chat.
+- **Secrets live only in the root `.env`**, and key files in the root `secrets/` folder (ignored by Git). `pnpm env:sync` copies client-safe values into the apps. Never print keys, never put them in commits or chat.
+- **Firebase** (D-109): one project, `alghali-street`, for every environment. Its service account key is `secrets/firebase-service-account.json`, installed with `pnpm notify:setup <dev|test> --fcm secrets/firebase-service-account.json` (re-run after replacing the key). The apps' `google-services.json` (both Android apps, `sd.alghali.buyer` and `sd.alghali.partner`) waits in `secrets/` until M4/M5 add push registration.
 - **Demo data never reaches a live project.** `pnpm db:seed:dev` refuses any target except dev. The starter catalogue is a migration and goes everywhere (D-071).
 - Hosted auth settings are changed only through `infra/hosted/supabase/config.toml` and `pnpm hosted:push` (D-073). Don't push the repo's `supabase/config.toml` to a hosted project.
 - Edge Functions deploy with `pnpm functions:deploy:<dev|test>` (bundled by Supabase, no Docker).
