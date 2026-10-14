@@ -38,7 +38,7 @@ pnpm functions:deploy:test
 pnpm templates:upload dev   # the Excel stock template shops download
 pnpm db:seed:dev            # demo shops, stock, buyers, orders, technicians and fittings — dev only
 pnpm notify:setup dev --fcm secrets/firebase-service-account.json   # connect the alert queue to its Edge Function (push is a stub without --fcm)
-pnpm env:sync               # copies client-safe keys into the apps
+pnpm env:sync               # copies client-safe keys (and each app's Firebase entry from secrets/google-services.json) into the apps
 ```
 
 **Demo accounts on alghali-dev** (after `pnpm db:seed:dev`): `admin@demo.alghali.invalid`; buyers `buyer@demo.alghali.invalid`, `buyer.mona@…`, `buyer.sara@…` and `buyer.omer@…`, who have 12 orders between them at different stages; one owner per shop, `owner.<shop>@demo.alghali.invalid` (for example `owner.nour@…`); and ten technicians, `tech.<name>@demo.alghali.invalid` (for example `tech.omar@…`; `tech.mujahid@` and `tech.faisal@` are still waiting for approval), with five fittings between the buyers. They all use the `DEMO_PASSWORD` that the seed saved in `.env`.
@@ -52,6 +52,8 @@ pnpm env:sync               # copies client-safe keys into the apps
 | `pnpm check`                                     | Everything CI runs: lint, typecheck, TS tests, Dart format, `flutter analyze`, Flutter tests           |
 | `pnpm test`                                      | TypeScript tests (DB tests run when `SUPABASE_TEST_DB_URL` is set)                                     |
 | `pnpm flutter:test`                              | Flutter tests in core, buyer and partner                                                               |
+| `pnpm buyer:e2e [-- -d <device>]`                | The buyer's happy path on a running emulator or phone against `alghali-dev` (signs in as a demo buyer) |
+| `pnpm fixtures:buyer`                            | Re-capture the buyer app's test fixtures from `alghali-dev` (demo data)                                |
 | `pnpm db:push:dev` / `pnpm db:push:test`         | Apply new migrations                                                                                   |
 | `pnpm db:reset:test`                             | Wipe `alghali-test` and re-apply every migration                                                       |
 | `pnpm db:types`                                  | Regenerate `packages/db-types` from `alghali-dev`                                                      |
@@ -103,4 +105,4 @@ The logo is a placeholder drawn in code (D-049): `MarkPainter` in `packages/core
 - Every user-facing string lives in ARB files (Flutter) or `apps/admin/src/i18n/dictionaries` (admin), Arabic and English both complete — tests enforce it.
 - Money is integer SDG; times are stored in UTC and shown in `Africa/Khartoum`.
 - Every table has row level security; status changes only through database functions that check the caller (see PLAN §1).
-- Secrets live only in the root `.env` (git-ignored). `pnpm env:sync` never copies secret keys into apps.
+- Secrets live only in the root `.env` and the `secrets/` folder (both git-ignored). `pnpm env:sync` never copies secret keys into apps.

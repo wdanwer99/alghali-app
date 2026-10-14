@@ -1,6 +1,6 @@
 # Architecture
 
-Status: M3. M1 (identity, catalogue, street and shops, stock, search, storage), M2 (cart, checkout, payments, fulfilment, returns, ledger, payouts, photo requests, chat) and M3 (technicians, slots, bookings, notifications, reviews, disputes). The rules every change follows are in [BRIEF.md](BRIEF.md). See [PLAN.md](PLAN.md) for the full design, [DECISIONS.md](DECISIONS.md) for why and [API.md](API.md) for every call.
+Status: M4. M1 (identity, catalogue, street and shops, stock, search, storage), M2 (cart, checkout, payments, fulfilment, returns, ledger, payouts, photo requests, chat) M3 (technicians, slots, bookings, notifications, reviews, disputes) and M4 (the buyer app on the real backend, offline cache and outbox, push). The rules every change follows are in [BRIEF.md](BRIEF.md). See [PLAN.md](PLAN.md) for the full design, [DECISIONS.md](DECISIONS.md) for why and [API.md](API.md) for every call.
 
 ```
  Buyer app (Flutter) ──┐                        ┌── Edge Functions (TypeScript): inventory-import, booking-slots, notify-dispatch, admin-set-password
@@ -59,8 +59,17 @@ Status: M3. M1 (identity, catalogue, street and shops, stock, search, storage), 
 - **State and navigation:** Riverpod 3 for state; go_router 18 for navigation. The first launch redirects to the shared `LanguagePickerScreen` (Arabic preselected).
 - **Strings:** each app has `lib/l10n/app_{ar,en}.arb`, with Arabic as the template. `packages/core` has its own `CoreLocalizations` for shared widgets. Generated code is committed, and CI checks it's current.
 - **Config:** `AppEnv` reads `--dart-define-from-file=env/dev.json`, which `pnpm env:sync` writes. Without keys the app runs and backend status shows "not set up".
-- **Backend layer** (`packages/core/lib/src/backend`): `AuthRepository`, `CatalogueRepository`, `GarageRepository`, `ShopRepository` (stock, the shop's orders and statement), `OrdersRepository` (cart check, checkout, receipts, cancel, returns), `RequestsRepository` (photo requests and offers), `ChatRepository` (conversations, live messages, voice notes), `NotificationsRepository`, `BookingsRepository` (slots, holds, cancel, reschedule, live technician location, reviews, disputes) and `TechnicianRepository` (applying, prices, hours, offers, job day, earnings) wrap the RPCs and tables with typed models, behind Riverpod providers (`*RepositoryProvider`). Every failure is a `BackendException(code)`; `offline` ones are what the outbox will retry (M4). The models parse JSON with `fromJson` factories (D-074). The screens still use sample data until M4/M5 wire them to these repositories.
-- **Offline:** `AppDatabase` (Drift/SQLite) has `outbox_entries` (queued mutations keyed by idempotency key) and `cache_entries` (cached reads). The sync engine that replays the outbox is built in M4.
+- **Backend layer** (`packages/core/lib/src/backend`): `AuthRepository`, `CatalogueRepository`, `GarageRepository`, `ShopRepository` (stock, the shop's orders and statement), `OrdersRepository` (cart check, checkout, receipts, cancel, returns), `RequestsRepository` (photo requests and offers), `ChatRepository` (conversations, live messages, voice notes), `NotificationsRepository`, `BookingsRepository` (slots, holds, cancel, reschedule, live technician location, reviews, disputes) and `TechnicianRepository` (applying, prices, hours, offers, job day, earnings) and `AddressesRepository` wrap the RPCs and tables with typed models, behind Riverpod providers (`*RepositoryProvider`). Every failure is a `BackendException(code)` (with `sqlState` for database errors; `offline` ones are what the outbox retries). The models parse JSON with `fromJson` factories (D-074). The buyer app runs on them; the partner app still shows sample data until M5.
+- **Offline** (D-112): `AppDatabase` (Drift/SQLite) has `cache_entries` and `outbox_entries`.
+  - *Reads:* repositories mix in `CachedReads`: network first, the last saved answer when offline (`DriftReadCache`, keys starting `@` stored per user). Table reads follow `ReadPolicy` (one retry, 20 s). `OfflineSeed` loads the catalogue snapshot and public settings before the first frame; `LiveCatalogue` / `LiveSettings` then sync, the catalogue by deltas merged with `mergeSnapshot`.
+  - *Writes:* `Outbox` replays queued changes oldest first, each with its idempotency key; a connection problem keeps the change (back-off up to 5 minutes, nothing overtakes it), a refusal is dropped and reported on `results`. The app supplies the handlers (the buyer's are in `apps/buyer/lib/state/outbox.dart`).
+- **Push** (D-113): `FirebasePush` behind `PushClient` (`NoPush` in tests and builds without Firebase); started from the `FIREBASE_*` values `pnpm env:sync` writes.
+- **Device:** `Launch` (call, WhatsApp, directions, links), `Photos` (camera/gallery, shrunk to 1600 px), `Gps` (the phone's position, with clear errors), `VoiceRecordButton` / `VoiceNotePlayer`.
+
+### Buyer app (`apps/buyer`)
+
+- **State** (`lib/state`): `session` (Supabase auth plus the profile, kept for offline starts), `garage`, `cart` (lines kept on the phone and mirrored to `cart_items`; one held fitting at cart level, D-111), `orders` and `bookings` (lists that show the saved copy then refresh, a family provider per order or booking with its actions), `requests`, `account` (addresses, ratings, complaints), `inbox` (alerts, templates, chat), `catalogue` (search, deals, part and shop pages), `push`, `outbox`, `connection` (the offline banner).
+- **Screens** keep the approved design (D-051) and read these providers; `AsyncBody` gives every server-backed list the same skeleton, error-with-retry, pull-to-refresh and offline banner.
 - **Theme:** `AppTheme.light()` uses large tap targets (52 px primary buttons) and the system Arabic font (nothing bundled; small APK).
 - **Android:** minimum SDK 26 (Android 8.0); app IDs `sd.alghali.buyer` and `sd.alghali.partner`.
 
@@ -84,7 +93,9 @@ Status: M3. M1 (identity, catalogue, street and shops, stock, search, storage), 
 | `tests/functions` | The stock-sheet reader on real .xlsx files; the template matches the reader and the starter categories; the slot engine and ranking; push wording and the FCM client | Always |
 | `tests/infra` | Env sync never leaks secrets | Always |
 | `apps/admin/src/**/*.test.ts` | Dictionary parity, locale/direction | Always |
-| `packages/core/test` | JSON parsers on captured responses, repository requests against a fake server, error mapping, normaliser twin, outbox/cache on real SQLite, language controller | Always |
+| `packages/core/test` | JSON parsers on captured responses, repository requests against a fake server, error mapping, normaliser twin, outbox (order, back-off, refusals) and cache on real SQLite, snapshot merging, alert wording, language controller | Always |
+| `apps/buyer/test` | Every screen in Arabic and English at 360 dp on answers captured from dev (`FakeBackend`); the fitting-to-checkout journey, a lost hold, chat written offline and replayed once, orders shown offline | Always |
+| `apps/buyer/integration_test` | The happy path on an emulator or phone against dev (`pnpm buyer:e2e`) | By hand |
 | `apps/*/test` | App opens in Arabic RTL, switches to English LTR | Always |
 
 DB tests wrap each case in a transaction that is rolled back, and switch to `anon` / `authenticated` with JWT claims set exactly as PostgREST does. CI also loads the demo seed twice and checks the second run adds nothing.

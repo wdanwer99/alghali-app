@@ -6,15 +6,18 @@ import '../models/catalogue.dart';
 import '../models/commerce.dart';
 import '../models/installation.dart';
 import 'backend_error.dart';
+import 'read_cache.dart';
 
 /// The buyer's fittings: technicians and free times (the `booking-slots` Edge Function),
 /// holding a time, then paying through checkout (`OrdersRepository.checkout` with the
 /// booking), and afterwards cancelling, picking a new time, following the technician,
 /// rating and complaining.
-class BookingsRepository {
-  BookingsRepository(this._client);
+class BookingsRepository with CachedReads {
+  BookingsRepository(this._client, {this.cache});
 
   final SupabaseClient _client;
+  @override
+  final ReadCache? cache;
 
   /// Technicians who can fit [items] and their free starts over the next days. For a job
   /// at the buyer's place give [addressId] (signed in) or [lat]/[lng] (guests).
@@ -77,19 +80,25 @@ class BookingsRepository {
   Future<void> release(String bookingId) =>
       guard(() => _client.rpc<void>('release_booking_hold', params: {'p_booking_id': bookingId}));
 
-  /// Newest first.
-  Future<List<Booking>> mine({int limit = 30, int offset = 0}) => guard(() async {
-    final rows = await _client.rpc<List<dynamic>>(
-      'my_bookings',
-      params: {'p_limit': limit, 'p_offset': offset},
-    );
-    return [for (final r in rows.cast<Json>()) Booking.fromJson(r)];
-  });
+  /// Newest first. The first page is kept for offline use.
+  Future<List<Booking>> mine({int limit = 30, int offset = 0}) => cachedRead(
+    offset == 0 ? '@bookings' : '@bookings:$offset',
+    () => _client.rpc<List<dynamic>>('my_bookings', params: {'p_limit': limit, 'p_offset': offset}),
+    _bookings,
+  );
 
-  Future<Booking> get(String bookingId) => guard(() async {
-    final row = await _client.rpc<Json>('booking_detail', params: {'p_booking_id': bookingId});
-    return Booking.fromJson(row);
-  });
+  /// The saved first page, without asking the network.
+  Future<List<Booking>?> peek() => cachedPeek('@bookings', _bookings);
+
+  static List<Booking> _bookings(Object? raw) => [
+    for (final r in (raw! as List).cast<Json>()) Booking.fromJson(r),
+  ];
+
+  Future<Booking> get(String bookingId) => cachedRead(
+    '@booking:$bookingId',
+    () => _client.rpc<Json>('booking_detail', params: {'p_booking_id': bookingId}),
+    (raw) => Booking.fromJson(raw! as Json),
+  );
 
   /// Free until cancel_cutoff_hours before the start; later the booking fee and travel
   /// fee are kept (D-099). While still unpaid, the whole order is cancelled.
@@ -165,6 +174,14 @@ class BookingsRepository {
     );
     return controller.stream;
   }
+
+  /// Hour-long links to the job's before/after photos, by key; ones that can't be signed
+  /// are left out.
+  Future<Map<String, String>> photoUrls(List<String> keys) => guard(() async {
+    if (keys.isEmpty) return const {};
+    final urls = await _client.storage.from('booking-photos').createSignedUrlsResult(keys, 3600);
+    return {for (final u in urls.whereType<SignedUrlSuccess>()) u.path: u.signedUrl};
+  });
 
   // ---------------------------------------------------------------- reviews
 

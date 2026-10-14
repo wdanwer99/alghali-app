@@ -4,6 +4,7 @@ import 'package:material_ui/material_ui.dart';
 import '../data/arabic.dart';
 import '../l10n/generated/core_localizations.dart';
 import '../models/catalogue.dart';
+import '../platform/device.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_tokens.dart';
 import '../theme/app_typography.dart';
@@ -543,7 +544,9 @@ class ChoiceCard extends StatelessWidget {
   });
 
   final bool selected;
-  final VoidCallback onTap;
+
+  /// Null shows the choice greyed out (not available now; [subtitle] says why).
+  final VoidCallback? onTap;
   final String title;
   final String? subtitle;
   final IconData? icon;
@@ -556,48 +559,52 @@ class ChoiceCard extends StatelessWidget {
     return Semantics(
       selected: selected,
       button: true,
-      child: Material(
-        color: scheme.surface,
-        shape: RoundedRectangleBorder(
-          borderRadius: Radii.mdAll,
-          side: BorderSide(
-            color: selected ? scheme.secondary : scheme.outlineVariant,
-            width: selected ? 2 : 1,
+      enabled: onTap != null,
+      child: Opacity(
+        opacity: onTap == null ? 0.55 : 1,
+        child: Material(
+          color: scheme.surface,
+          shape: RoundedRectangleBorder(
+            borderRadius: Radii.mdAll,
+            side: BorderSide(
+              color: selected ? scheme.secondary : scheme.outlineVariant,
+              width: selected ? 2 : 1,
+            ),
           ),
-        ),
-        clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.all(Space.lg),
-            child: Row(
-              children: [
-                if (icon != null) ...[
-                  IconTile(icon: icon!, size: 44, tone: selected ? Tone.brand : Tone.neutral),
-                  const SizedBox(width: Space.md),
-                ],
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(title, style: theme.textTheme.titleSmall),
-                      if (subtitle != null)
-                        Text(
-                          subtitle!,
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: scheme.onSurfaceVariant,
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onTap: onTap,
+            child: Padding(
+              padding: const EdgeInsets.all(Space.lg),
+              child: Row(
+                children: [
+                  if (icon != null) ...[
+                    IconTile(icon: icon!, size: 44, tone: selected ? Tone.brand : Tone.neutral),
+                    const SizedBox(width: Space.md),
+                  ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(title, style: theme.textTheme.titleSmall),
+                        if (subtitle != null)
+                          Text(
+                            subtitle!,
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: scheme.onSurfaceVariant,
+                            ),
                           ),
-                        ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                if (trailing != null) ...[const SizedBox(width: Space.sm), trailing!],
-                const SizedBox(width: Space.sm),
-                Icon(
-                  selected ? Icons.radio_button_checked : Icons.radio_button_unchecked,
-                  color: selected ? scheme.secondary : scheme.outline,
-                ),
-              ],
+                  if (trailing != null) ...[const SizedBox(width: Space.sm), trailing!],
+                  const SizedBox(width: Space.sm),
+                  Icon(
+                    selected ? Icons.radio_button_checked : Icons.radio_button_unchecked,
+                    color: selected ? scheme.secondary : scheme.outline,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -669,12 +676,32 @@ void showDemoDisabled(BuildContext context) {
     ..showSnackBar(SnackBar(content: Text(CoreLocalizations.of(context).demoActionDisabled)));
 }
 
-/// Call / WhatsApp / Chat buttons for a shop, technician or buyer.
+/// Call / WhatsApp / Chat buttons for a shop, technician or buyer. With [live] the
+/// buttons open the phone and WhatsApp for [phone] / [whatsapp] (the phone number when
+/// no WhatsApp number is given) and are left out when there is no number; otherwise
+/// they show the demo notice.
 class ContactActions extends StatelessWidget {
-  const ContactActions({super.key, this.onChat, this.showWhatsApp = true});
+  const ContactActions({
+    super.key,
+    this.onChat,
+    this.showWhatsApp = true,
+    this.phone,
+    this.whatsapp,
+    this.live = false,
+  });
 
   final VoidCallback? onChat;
   final bool showWhatsApp;
+  final String? phone;
+  final String? whatsapp;
+  final bool live;
+
+  Future<void> _open(BuildContext context, Future<bool> Function() open) async {
+    if (await open() || !context.mounted) return;
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text(CoreLocalizations.of(context).errCannotOpen)));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -702,17 +729,26 @@ class ContactActions extends StatelessWidget {
         ),
       ),
     );
+    final wa = whatsapp ?? phone;
+    final buttons = [
+      if (!live)
+        action(Icons.call_outlined, t.actionCall, () => showDemoDisabled(context))
+      else if (phone != null)
+        action(Icons.call_outlined, t.actionCall, () => _open(context, () => Launch.call(phone!))),
+      if (showWhatsApp && !live)
+        action(Icons.chat_outlined, t.actionWhatsApp, () => showDemoDisabled(context))
+      else if (showWhatsApp && wa != null)
+        action(
+          Icons.chat_outlined,
+          t.actionWhatsApp,
+          () => _open(context, () => Launch.whatsApp(wa)),
+        ),
+      if (onChat != null) action(Icons.chat_bubble_outline, t.actionChat, onChat!),
+    ];
+    if (buttons.isEmpty) return const SizedBox.shrink();
     return Row(
       children: [
-        action(Icons.call_outlined, t.actionCall, () => showDemoDisabled(context)),
-        if (showWhatsApp) ...[
-          const SizedBox(width: Space.sm),
-          action(Icons.chat_outlined, t.actionWhatsApp, () => showDemoDisabled(context)),
-        ],
-        if (onChat != null) ...[
-          const SizedBox(width: Space.sm),
-          action(Icons.chat_bubble_outline, t.actionChat, onChat!),
-        ],
+        for (final (i, b) in buttons.indexed) ...[if (i > 0) const SizedBox(width: Space.sm), b],
       ],
     );
   }
@@ -734,14 +770,15 @@ IconData categoryIcon(CategoryIcon icon) => switch (icon) {
   CategoryIcon.accessories => Icons.event_seat_outlined,
 };
 
-/// Placeholder "photo" for a part: a tinted square with its category icon.
-/// Real listings show the shop's thumbnail here (D-008).
+/// A part's photo ([imageUrl], the shop's thumbnail, D-008), or a tinted square with its
+/// category icon when there is none or it can't load.
 class PartThumb extends StatelessWidget {
-  const PartThumb({super.key, required this.icon, this.size = 72, this.badge});
+  const PartThumb({super.key, required this.icon, this.size = 72, this.badge, this.imageUrl});
 
   final CategoryIcon icon;
   final double size;
   final String? badge;
+  final String? imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -757,7 +794,21 @@ class PartThumb extends StatelessWidget {
                 borderRadius: BorderRadius.circular(size * 0.16),
                 border: Border.all(color: scheme.outlineVariant),
               ),
-              child: Icon(categoryIcon(icon), size: size * 0.42, color: scheme.onSurfaceVariant),
+              child: imageUrl == null
+                  ? Icon(categoryIcon(icon), size: size * 0.42, color: scheme.onSurfaceVariant)
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(size * 0.16),
+                      child: Image.network(
+                        imageUrl!,
+                        fit: BoxFit.cover,
+                        cacheWidth: (size * MediaQuery.devicePixelRatioOf(context)).round(),
+                        errorBuilder: (_, _, _) => Icon(
+                          categoryIcon(icon),
+                          size: size * 0.42,
+                          color: scheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ),
             ),
           ),
           if (badge != null)

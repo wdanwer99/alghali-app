@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart' show immutable;
 
 import 'catalogue.dart';
+import 'commerce.dart';
 import 'partner.dart';
 
 WorkMode workModeOf(String code) => switch (code) {
@@ -59,6 +60,16 @@ class FittingItem {
   final String? partId;
   final String? categoryId;
   final String? description;
+
+  /// The same item again (to pick a new time for a booking).
+  static FittingItem? fromBooking(BookingItem i) {
+    if (i.orderItemId != null) return FittingItem.orderItem(i.orderItemId!);
+    if (i.listingId != null) return FittingItem.listing(i.listingId!);
+    if (i.offerId != null) return FittingItem.offer(i.offerId!);
+    if (i.partId != null) return FittingItem.part(i.partId!, description: i.description);
+    if (i.categoryId != null) return FittingItem.category(i.categoryId!, i.description ?? '');
+    return null;
+  }
 
   Json toJson() => {
     if (listingId != null) 'listing_id': listingId,

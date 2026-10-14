@@ -5,6 +5,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../app.dart';
 import '../../router.dart';
+import '../../state/catalogue.dart';
 import '../../state/garage.dart';
 import '../../widgets/buyer_widgets.dart';
 
@@ -22,7 +23,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   late final _text = TextEditingController(text: widget.initialQuery);
   late SearchQuery _query = SearchQuery(text: widget.initialQuery, categoryId: widget.categoryId);
 
-  static const _recent = ['لمبات', 'فحمات', 'بطارية 70', 'زيت 5W-30'];
+  static const _recentKey = 'recent_searches';
 
   bool get _browsing => _query.text.trim().isNotEmpty || _query.categoryId != null;
 
@@ -32,7 +33,14 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     super.dispose();
   }
 
-  void _search(String text) => setState(() => _query = _query.copyWith(text: text));
+  void _search(String text) {
+    setState(() => _query = _query.copyWith(text: text));
+    final q = text.trim();
+    if (q.isEmpty) return;
+    final prefs = ref.read(sharedPreferencesProvider);
+    final recent = [q, ...?prefs.getStringList(_recentKey)?.where((r) => r != q)].take(6).toList();
+    prefs.setStringList(_recentKey, recent);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +112,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     categories: catalogue.categories,
                     onCategory: (id) =>
                         setState(() => _query = _query.copyWith(categoryId: () => id)),
-                    recent: _recent,
+                    recent:
+                        ref.watch(sharedPreferencesProvider).getStringList(_recentKey) ?? const [],
                   ),
           ),
         ],
@@ -193,9 +202,9 @@ class _Results extends ConsumerWidget {
     final t = context.t;
     final theme = Theme.of(context);
     final catalogue = ref.watch(catalogueProvider);
-    final results = ref.watch(searchProvider(query));
+    final results = ref.watch(partSearchProvider(query));
     return switch (results) {
-      AsyncData(:final value) when value.isEmpty => SingleChildScrollView(
+      AsyncData(value: SearchPage(results: [])) => SingleChildScrollView(
         child: EmptyState(
           icon: Icons.search_off,
           title: t.searchNoResults,
@@ -207,7 +216,7 @@ class _Results extends ConsumerWidget {
           ),
         ),
       ),
-      AsyncData(:final value) => ListView.separated(
+      AsyncData(value: SearchPage(results: final value, :final total)) => ListView.separated(
         padding: const EdgeInsets.fromLTRB(Space.page, Space.md, Space.page, Space.xxl),
         itemCount: value.length + 1,
         separatorBuilder: (_, _) => const SizedBox(height: Space.sm),
@@ -216,7 +225,7 @@ class _Results extends ConsumerWidget {
             return Padding(
               padding: const EdgeInsets.only(bottom: Space.xs),
               child: Text(
-                '${t.searchResults(value.length)} · ${query.variantId == null ? t.searchNoCar : t.searchShowingFor(carLabel(context, catalogue, query.variantId!, engine: false))}',
+                '${t.searchResults(total)} · ${query.variantId == null ? t.searchNoCar : t.searchShowingFor(carLabel(context, catalogue, query.variantId!, engine: false))}',
                 style: theme.textTheme.bodySmall,
               ),
             );
@@ -230,7 +239,17 @@ class _Results extends ConsumerWidget {
           );
         },
       ),
-      AsyncError() => ErrorState(onRetry: () => ref.invalidate(searchProvider(query))),
+      AsyncError(:final error) => SingleChildScrollView(
+        child: EmptyState(
+          icon: Icons.cloud_off_outlined,
+          title: context.core.error(error),
+          action: OutlinedButton.icon(
+            onPressed: () => ref.invalidate(partSearchProvider(query)),
+            icon: const Icon(Icons.refresh),
+            label: Text(context.core.actionRetry),
+          ),
+        ),
+      ),
       _ => const SkeletonList(),
     };
   }
@@ -255,7 +274,7 @@ class _Suggestions extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.only(bottom: Space.xxl),
       children: [
-        SectionHeader(title: t.searchRecent),
+        if (recent.isNotEmpty) SectionHeader(title: t.searchRecent),
         for (final q in recent)
           ListTile(
             leading: const Icon(Icons.history),

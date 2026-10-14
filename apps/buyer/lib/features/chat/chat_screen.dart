@@ -1,11 +1,18 @@
+import 'dart:typed_data';
+
 import 'package:alghali_core/alghali_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../app.dart';
-import '../../state/orders.dart';
+import '../../router.dart';
+import '../../state/inbox.dart';
+import '../../state/session.dart';
+import '../../widgets/buyer_widgets.dart';
 
-/// Chat with a shop: text and voice notes (D-033), newest at the bottom.
+/// Chat with a shop: text and voice notes (D-033), newest at the bottom, live. Text can
+/// be written offline (it waits in the outbox, with a clock on the bubble).
 class ChatScreen extends ConsumerStatefulWidget {
   const ChatScreen({super.key, required this.shopId});
 
@@ -24,12 +31,20 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     super.dispose();
   }
 
-  void _send() {
+  Future<void> _send() async {
     final text = _text.text.trim();
     if (text.isEmpty) return;
-    ref.read(chatProvider.notifier).send(widget.shopId, text: text);
     _text.clear();
     setState(() {});
+    await ref.read(chatProvider(widget.shopId).notifier).send(text);
+  }
+
+  Future<void> _sendVoice(Uint8List audio, int seconds) async {
+    try {
+      await ref.read(chatProvider(widget.shopId).notifier).sendVoice(audio, seconds);
+    } on BackendException catch (e) {
+      if (mounted) showError(context, e);
+    }
   }
 
   @override
@@ -37,53 +52,92 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     final t = context.t;
     final theme = Theme.of(context);
     final shop = ref.watch(catalogueProvider).shop(widget.shopId);
-    final messages = ref.watch(chatProvider)[widget.shopId] ?? const <ChatMessage>[];
+    final signedIn = ref.watch(sessionProvider.select((s) => s.signedIn));
 
-    return Scaffold(
-      appBar: AppBar(
-        titleSpacing: 0,
-        title: Row(
-          children: [
-            InitialsAvatar(name: shop.name.tr(context), size: 36),
-            const SizedBox(width: Space.md),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    shop.name.tr(context),
-                    style: theme.textTheme.titleSmall,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Text(shop.openNow ? t.shopOpen : t.shopClosed, style: theme.textTheme.bodySmall),
-                ],
-              ),
+    final appBar = AppBar(
+      titleSpacing: 0,
+      title: Row(
+        children: [
+          InitialsAvatar(name: shop.name.tr(context), size: 36),
+          const SizedBox(width: Space.md),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  shop.name.tr(context),
+                  style: theme.textTheme.titleSmall,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(shop.openNow ? t.shopOpen : t.shopClosed, style: theme.textTheme.bodySmall),
+              ],
             ),
-          ],
-        ),
-        actions: [
-          IconButton(
-            tooltip: context.core.actionCall,
-            onPressed: () => showDemoDisabled(context),
-            icon: const Icon(Icons.call_outlined),
           ),
         ],
       ),
+      actions: [
+        if (shop.phone != null)
+          IconButton(
+            tooltip: context.core.actionCall,
+            onPressed: () => Launch.call(shop.phone!),
+            icon: const Icon(Icons.call_outlined),
+          ),
+      ],
+    );
+
+    if (!signedIn) {
+      return Scaffold(
+        appBar: appBar,
+        body: EmptyState(
+          icon: Icons.chat_bubble_outline,
+          title: t.chatSignIn,
+          action: FilledButton(
+            onPressed: () => context.push(Routes.signIn),
+            child: Text(t.accountSignIn),
+          ),
+        ),
+      );
+    }
+
+    final thread = ref.watch(chatProvider(widget.shopId));
+    final notifier = ref.read(chatProvider(widget.shopId).notifier);
+    return Scaffold(
+      appBar: appBar,
       body: Column(
         children: [
+          const OfflineBanner(),
           Expanded(
-            child: messages.isEmpty
-                ? EmptyState(icon: Icons.chat_bubble_outline, title: t.chatEmpty, compact: true)
-                : ListView.builder(
-                    reverse: true,
-                    padding: Space.pageInsets,
-                    itemCount: messages.length,
-                    itemBuilder: (context, i) {
-                      final m = messages[messages.length - 1 - i];
-                      return _Bubble(key: ValueKey(m.id), message: m);
-                    },
-                  ),
+            child: switch (thread) {
+              AsyncData(value: ChatThread(messages: [])) => EmptyState(
+                icon: Icons.chat_bubble_outline,
+                title: t.chatEmpty,
+                compact: true,
+              ),
+              AsyncData(:final value) => ListView.builder(
+                reverse: true,
+                padding: Space.pageInsets,
+                itemCount: value.messages.length,
+                itemBuilder: (context, i) {
+                  final m = value.messages[value.messages.length - 1 - i];
+                  return _Bubble(
+                    key: ValueKey(m.id),
+                    message: m,
+                    pending: value.pending.contains(m.id),
+                    voiceUrl: m.voiceKey == null ? null : () => notifier.voiceUrl(m.voiceKey!),
+                  );
+                },
+              ),
+              AsyncError(:final error) => EmptyState(
+                icon: Icons.cloud_off_outlined,
+                title: context.core.error(error),
+                action: OutlinedButton(
+                  onPressed: () => ref.invalidate(chatProvider(widget.shopId)),
+                  child: Text(context.core.actionRetry),
+                ),
+              ),
+              _ => const SkeletonList(),
+            },
           ),
           DecoratedBox(
             decoration: BoxDecoration(
@@ -101,11 +155,14 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                         controller: _text,
                         minLines: 1,
                         maxLines: 4,
+                        maxLength: 2000,
+                        enabled: thread.hasValue,
                         textInputAction: TextInputAction.send,
                         onSubmitted: (_) => _send(),
                         onChanged: (_) => setState(() {}),
                         decoration: InputDecoration(
                           hintText: t.chatHint,
+                          counterText: '',
                           contentPadding: const EdgeInsets.symmetric(
                             horizontal: Space.lg,
                             vertical: Space.md,
@@ -125,22 +182,14 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                       ),
                     ),
                     const SizedBox(width: Space.sm),
-                    _text.text.trim().isEmpty
-                        ? IconButton.filledTonal(
-                            tooltip: t.chatRecord,
-                            onPressed: () {
-                              ref.read(chatProvider.notifier).send(widget.shopId, voiceSecs: 8);
-                              ScaffoldMessenger.of(context)
-                                ..hideCurrentSnackBar()
-                                ..showSnackBar(SnackBar(content: Text(t.chatVoiceSoon)));
-                            },
-                            icon: const Icon(Icons.mic_none_rounded),
-                          )
-                        : IconButton.filled(
-                            tooltip: t.chatSend,
-                            onPressed: _send,
-                            icon: const Icon(Icons.send_rounded),
-                          ),
+                    if (_text.text.trim().isEmpty)
+                      VoiceRecordButton(onRecorded: _sendVoice)
+                    else
+                      IconButton.filled(
+                        tooltip: t.chatSend,
+                        onPressed: _send,
+                        icon: const Icon(Icons.send_rounded),
+                      ),
                   ],
                 ),
               ),
@@ -153,9 +202,11 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
 }
 
 class _Bubble extends StatelessWidget {
-  const _Bubble({super.key, required this.message});
+  const _Bubble({super.key, required this.message, this.pending = false, this.voiceUrl});
 
   final ChatMessage message;
+  final bool pending;
+  final Future<String> Function()? voiceUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -184,38 +235,29 @@ class _Bubble extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (message.voiceSecs != null)
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.play_arrow_rounded, color: fg),
-                  const SizedBox(width: Space.xs),
-                  for (var i = 0; i < 14; i++)
-                    Container(
-                      width: 3,
-                      height: 6.0 + (i * 7 % 13),
-                      margin: const EdgeInsets.symmetric(horizontal: 1),
-                      decoration: BoxDecoration(
-                        color: fg.withValues(alpha: 0.7),
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                    ),
-                  const SizedBox(width: Space.sm),
-                  Text(
-                    '0:${message.voiceSecs!.toString().padLeft(2, '0')}',
-                    style: theme.textTheme.labelSmall?.copyWith(color: fg),
-                  ),
-                ],
-              )
+              VoiceNotePlayer(seconds: message.voiceSecs!, color: fg, url: voiceUrl)
             else
               Text(message.text ?? '', style: theme.textTheme.bodyMedium?.copyWith(color: fg)),
             Align(
               alignment: AlignmentDirectional.centerEnd,
-              child: Text(
-                context.time(message.at),
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: fg.withValues(alpha: 0.7),
-                  fontSize: 11,
-                ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (pending) ...[
+                    Tooltip(
+                      message: context.core.queuedOffline,
+                      child: Icon(Icons.schedule, size: 12, color: fg.withValues(alpha: 0.7)),
+                    ),
+                    const SizedBox(width: Space.xxs),
+                  ],
+                  Text(
+                    context.time(message.at),
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: fg.withValues(alpha: 0.7),
+                      fontSize: 11,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

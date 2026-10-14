@@ -6,6 +6,7 @@ import '../models/catalogue.dart';
 import '../models/commerce.dart';
 import '../models/partner.dart';
 import 'backend_error.dart';
+import 'read_cache.dart';
 import 'uploads.dart';
 
 /// A photo to attach to a request.
@@ -13,10 +14,12 @@ typedef RequestPhoto = ({Uint8List bytes, String fileName});
 
 /// Photo requests: a buyer describes a part they can't find (up to 4 photos); matching
 /// shops answer with offers the buyer can add to the cart.
-class RequestsRepository {
-  RequestsRepository(this._client);
+class RequestsRepository with CachedReads {
+  RequestsRepository(this._client, {this.cache});
 
   final SupabaseClient _client;
+  @override
+  final ReadCache? cache;
 
   static const _bucket = 'request-photos';
 
@@ -54,14 +57,15 @@ class RequestsRepository {
   });
 
   /// The buyer's requests with every offer on them, newest first.
-  Future<List<PartRequest>> mine({int limit = 30}) => guard(() async {
-    final rows = await _client
+  Future<List<PartRequest>> mine({int limit = 30}) => cachedRead(
+    '@requests',
+    () => _client
         .from('part_requests')
         .select('*, part_offers(*)')
         .order('created_at', ascending: false)
-        .limit(limit);
-    return [for (final r in rows) PartRequest.fromJson(r)];
-  });
+        .limit(limit),
+    (raw) => [for (final r in (raw! as List).cast<Json>()) PartRequest.fromJson(r)],
+  );
 
   /// Closes the request; its live offers expire.
   Future<void> close(String requestId) =>

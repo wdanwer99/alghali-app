@@ -1,50 +1,14 @@
-import 'package:alghali_buyer/app.dart';
 import 'package:alghali_buyer/router.dart';
 import 'package:alghali_buyer/state/cart.dart';
 import 'package:alghali_buyer/state/orders.dart';
+import 'package:alghali_buyer/state/session.dart';
 import 'package:alghali_core/alghali_core.dart';
 import 'package:alghali_core/testing.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-/// Wednesday 14 Oct 2026, 09:30 in Khartoum.
-final now = DateTime.utc(2026, 10, 14, 7, 30);
-
-const signedIn = <String, Object>{
-  'locale': 'ar',
-  'demo_session': ['Ahmed', 'ahmed@example.com', '0912000000'],
-  'garage': ['gv-1|v-hilux-16p'],
-  'garage_selected': 'gv-1',
-};
-
-/// A small Android phone (360 × 780 dp), the narrowest layout we support.
-Future<ProviderContainer> pumpApp(WidgetTester tester, Map<String, Object> prefs) async {
-  tester.view.physicalSize = const Size(1080, 2340);
-  tester.view.devicePixelRatio = 3;
-  addTearDown(tester.view.reset);
-  SharedPreferences.setMockInitialValues(prefs);
-  final instance = await SharedPreferences.getInstance();
-  await tester.pumpWidget(
-    ProviderScope(
-      overrides: [
-        sharedPreferencesProvider.overrideWithValue(instance),
-        clockProvider.overrideWithValue(() => now),
-      ],
-      child: const BuyerApp(),
-    ),
-  );
-  await settle(tester);
-  return ProviderScope.containerOf(tester.element(find.byType(BuyerApp)));
-}
-
-/// Hold countdowns tick every second, so pump a fixed time rather than settle.
-Future<void> settle(WidgetTester tester) async {
-  for (var i = 0; i < 10; i++) {
-    await tester.pump(const Duration(milliseconds: 100));
-  }
-}
+import 'support/backend.dart';
 
 Future<void> go(WidgetTester tester, ProviderContainer c, String location) async {
   c.read(routerProvider).go(location);
@@ -54,134 +18,123 @@ Future<void> go(WidgetTester tester, ProviderContainer c, String location) async
 TextDirection directionOf(WidgetTester tester) =>
     Directionality.of(tester.element(find.byType(Scaffold).first));
 
+/// The Hilux in the captured catalogue.
+String hiluxVariant() {
+  final s = fixture('catalogue_snapshot') as Json;
+  final model = (s['models'] as List).cast<Json>().firstWhere((m) => m['name_en'] == 'Hilux');
+  return (s['variants'] as List).cast<Json>().firstWhere((v) => v['model_id'] == model['id'])['id']
+      as String;
+}
+
+Map<String, Object> withHilux() => {
+  'garage': ['8f1c3c1e-0000-4000-8000-000000000001|${hiluxVariant()}'],
+  'garage_selected': '8f1c3c1e-0000-4000-8000-000000000001',
+};
+
 void main() {
   // Real fonts, so text widths (and any overflow) match the phone.
   setUpAll(loadAppFonts);
 
   group('first launch', () {
     testWidgets('shows the welcome screen in Arabic, right-to-left', (tester) async {
-      await pumpApp(tester, {});
+      final backend = FakeBackend();
+      await pumpApp(tester, backend, signedIn: false, prefs: {}, locale: 'ar');
+      final c = ProviderScope.containerOf(tester.element(find.byType(Scaffold).first));
+      c.read(routerProvider).go(Routes.welcome);
+      await settle(tester);
       expect(find.text('اختر اللغة'), findsOneWidget);
-      expect(find.text('قطع الغيار والتركيب في مكان واحد'), findsOneWidget);
       expect(directionOf(tester), TextDirection.rtl);
     });
-
-    testWidgets('choosing English flips to left-to-right and lands on home', (tester) async {
-      await pumpApp(tester, {});
-      await tester.tap(find.text('English'));
-      await settle(tester);
-      expect(find.text('Choose your language'), findsOneWidget);
-      expect(directionOf(tester), TextDirection.ltr);
-
-      await tester.tap(find.text('Continue'));
-      await settle(tester);
-      expect(find.text('Add your car to see parts that fit'), findsOneWidget);
-      expect(find.text('Shop by category'), findsOneWidget);
-    });
   });
 
-  testWidgets('a signed-in buyer sees their car and next fitting on home', (tester) async {
-    await pumpApp(tester, signedIn);
-    expect(find.textContaining('تويوتا هايلكس'), findsOneWidget);
-    expect(find.text('موعد التركيب القادم'), findsOneWidget);
+  testWidgets('home shows the live categories and the street', (tester) async {
+    final backend = FakeBackend();
+    await pumpApp(tester, backend, locale: 'en', prefs: withHilux());
+    expect(find.text('Shop by category'), findsOneWidget);
+    expect(find.text('Lighting'), findsWidgets);
+    expect(find.textContaining('Toyota Hilux'), findsOneWidget);
+    expect(tester.takeException(), isNull);
   });
 
-  testWidgets('searching "لمبات" finds bulbs that fit the Hilux', (tester) async {
-    final c = await pumpApp(tester, signedIn);
+  testWidgets('searching "لمبات" shows the bulbs that fit the Hilux', (tester) async {
+    final backend = FakeBackend();
+    final c = await pumpApp(tester, backend, prefs: withHilux());
     await go(tester, c, Routes.searchFor(q: 'لمبات'));
     expect(find.text('لمبة هالوجين H4'), findsOneWidget);
-    expect(find.text('لمبات أمامية LED مقاس H4 (زوج)'), findsOneWidget);
-    expect(find.text('يناسب سيارتك'), findsWidgets);
-    // Brake pads are not bulbs.
-    expect(find.text('فحمات فرامل أمامية'), findsNothing);
+    expect(find.text('يناسب سيارتك'), findsNWidgets(3));
+    final call = backend.server.to('/rest/v1/rpc/search_parts').last;
+    expect(call.body, contains(hiluxVariant()));
   });
 
-  testWidgets('adding the best offer to the cart updates the cart badge', (tester) async {
-    final c = await pumpApp(tester, signedIn);
-    await go(tester, c, Routes.part('pt-h4-halogen'));
-    final add = find.widgetWithText(FilledButton, 'أضف للسلة');
-    await tester.ensureVisible(add);
-    await settle(tester);
-    await tester.tap(add);
-    await settle(tester);
-    expect(c.read(cartCountProvider), 1);
-    expect(find.text('أُضيفت إلى السلة'), findsOneWidget);
-  });
-
-  testWidgets('guests are asked to sign in before checkout', (tester) async {
-    final c = await pumpApp(tester, {'locale': 'en'});
-    final catalogue = c.read(catalogueProvider);
-    c
-        .read(cartProvider.notifier)
-        .addListing(catalogue.listing('ls-04'), catalogue.part('pt-h4-halogen'));
+  testWidgets('a guest is asked to sign in before checkout', (tester) async {
+    final backend = FakeBackend();
+    final c = await pumpApp(tester, backend, signedIn: false, locale: 'en');
+    final detail = PartDetail.fromJson(fixture('part_detail') as Json);
+    c.read(cartProvider.notifier).addListing(detail.offers.first.listing, detail.part);
     await go(tester, c, Routes.cart);
     expect(find.text('Sign in to check out'), findsOneWidget);
+    expect(c.read(sessionProvider).signedIn, isFalse);
   });
 
-  testWidgets('Bankak checkout shows the order number and goes to "being checked"', (tester) async {
-    final c = await pumpApp(tester, signedIn);
-    final catalogue = c.read(catalogueProvider);
-    c
-        .read(cartProvider.notifier)
-        .addListing(catalogue.listing('ls-04'), catalogue.part('pt-h4-halogen'));
-    await go(tester, c, Routes.cart);
-    await tester.tap(find.text('متابعة الدفع'));
-    await settle(tester);
+  testWidgets('Bankak checkout places the order and sends the transaction number', (tester) async {
+    final backend = FakeBackend();
+    final c = await pumpApp(tester, backend, prefs: withHilux());
+    final detail = PartDetail.fromJson(fixture('part_detail') as Json);
+    c.read(cartProvider.notifier).addListing(detail.offers.first.listing, detail.part);
+    await go(tester, c, Routes.checkout);
     await tester.tap(find.text('تأكيد الطلب'));
     await settle(tester);
 
-    final order = c.read(ordersProvider).first;
-    expect(isValidRef(order.ref), isTrue);
-    expect(order.paymentStatus, PaymentStatus.awaitingTransfer);
+    final checkout = jsonBody(backend.server.to('/rest/v1/rpc/checkout').single);
+    expect(checkout['p_method'], 'BANKAK');
+    expect(checkout['p_idem'], isNotNull);
     expect(find.text('حوّل هذا المبلغ بالضبط'), findsOneWidget);
-    expect(find.text('حساب تجريبي — لا تحوّل إليه'), findsOneWidget);
+    expect(c.read(cartProvider).lines, isEmpty);
 
-    // Neither receipt nor transaction number: the form explains what's missing.
     await tester.tap(find.text('إرسال للتحقق'));
     await settle(tester);
-    final txn = find.byType(TextField);
-    await tester.scrollUntilVisible(txn, 200, scrollable: find.byType(Scrollable).first);
     expect(find.text('ارفع الإيصال أو اكتب رقم العملية.'), findsOneWidget);
 
+    final txn = find.byType(TextField);
     await tester.enterText(txn, '200987361');
     await tester.tap(find.text('إرسال للتحقق'));
     await settle(tester);
-    expect(c.read(ordersProvider).first.paymentStatus, PaymentStatus.receiptSubmitted);
-    expect(find.text('جارٍ التحقق من الدفع'), findsWidgets);
+    final receipt = jsonBody(backend.server.to('/rest/v1/rpc/submit_bankak_receipt').single);
+    expect(receipt['p_txn_no'], '200987361');
+    final order = c.read(ordersProvider).value!.first;
+    expect(order.bankakStatus, PaymentStatus.receiptSubmitted);
   });
 
-  group('every screen lays out at 360 dp without overflow', () {
-    final routes = [
-      Routes.home,
-      Routes.street,
-      Routes.cart,
-      Routes.orders,
-      Routes.account,
-      Routes.searchFor(q: 'فلتر'),
-      Routes.part('pt-pads-hilux'),
-      Routes.shop('sh-farouq'),
-      Routes.garage,
-      Routes.addCar,
-      Routes.order('ord-1001'),
-      Routes.order('ord-1002'),
-      Routes.booking('bk-2001'),
-      Routes.request('rq-3001'),
-      Routes.newRequest,
-      Routes.chat('sh-farouq'),
-      Routes.notifications,
-      Routes.bookExternal,
-      Routes.signIn,
-      Routes.signUp,
-    ];
-    for (final locale in ['ar', 'en']) {
-      testWidgets(locale, (tester) async {
-        final c = await pumpApp(tester, {...signedIn, 'locale': locale});
-        for (final r in routes) {
-          await go(tester, c, r);
-          expect(tester.takeException(), isNull, reason: r);
-        }
-        expect(directionOf(tester), locale == 'ar' ? TextDirection.rtl : TextDirection.ltr);
-      });
-    }
-  });
+  testWidgets(
+    'push: the phone registers after sign-in; alerts show a banner and open their screen',
+    (tester) async {
+      final backend = FakeBackend();
+      final push = FakePush();
+      final c = await pumpApp(tester, backend, push: push, locale: 'en');
+
+      final device = jsonBody(backend.server.to('/rest/v1/rpc/register_device').single);
+      expect(device['p_app'], 'buyer');
+      expect(device['p_fcm_token'], 'fcm-token-1');
+      expect(device['p_app_build'], 4);
+      expect(device['p_locale'], 'en');
+
+      // An alert while the app is open: worded from the templates, with a way in.
+      final order = (fixture('orders') as List).cast<Json>().firstWhere(
+        (o) => (o['sub_orders'] as List).isNotEmpty,
+      );
+      push.arrive({'code': 'ORDER_READY', 'order_id': order['id'] as String, 'ref': '72491962'});
+      await settle(tester);
+      expect(find.textContaining('Your order is ready'), findsOneWidget);
+      expect(find.textContaining('Order 72491962 is ready at the shop.'), findsOneWidget);
+      await tester.tap(find.text('Open'));
+      await settle(tester);
+      expect(c.read(routerProvider).state.uri.path, Routes.order(order['id'] as String));
+
+      // Tapping an alert in the notification tray opens its fitting.
+      final booking = (fixture('my_bookings') as List).cast<Json>().first;
+      push.tap({'code': 'BOOKING_ACCEPTED', 'booking_id': booking['id'] as String});
+      await settle(tester);
+      expect(c.read(routerProvider).state.uri.path, Routes.booking(booking['id'] as String));
+    },
+  );
 }

@@ -6,9 +6,19 @@ import '../config/app_env.dart';
 final appEnvProvider = Provider<AppEnv>((ref) => AppEnv.empty);
 
 /// Connects the Supabase client. Safe to call without keys: it does nothing.
+///
+/// Reads retry once and give up after 20 seconds, so with a bad connection the screens
+/// fall back to what is saved on the phone quickly instead of waiting on stalled requests.
 Future<void> initBackend(AppEnv env) async {
   if (!env.isConfigured) return;
-  await Supabase.initialize(url: env.supabaseUrl, publishableKey: env.supabasePublishableKey);
+  await Supabase.initialize(
+    url: env.supabaseUrl,
+    publishableKey: env.supabasePublishableKey,
+    postgrestOptions: const PostgrestClientOptions(
+      retryCount: 1,
+      requestTimeout: Duration(seconds: 20),
+    ),
+  );
 }
 
 sealed class BackendStatus {

@@ -458,4 +458,133 @@ class CoreLocalizationsEn extends CoreLocalizations {
   String thousands(String value) {
     return '${value}K';
   }
+
+  @override
+  String get errOffline => 'No connection. Try again in a moment.';
+
+  @override
+  String get errGeneric => 'Something went wrong. Please try again.';
+
+  @override
+  String get errSessionExpired => 'Your session ended. Please sign in again.';
+
+  @override
+  String get errInvalidCredentials => 'Wrong email or password.';
+
+  @override
+  String get errEmailTaken => 'This email already has an account. Sign in instead.';
+
+  @override
+  String get errTooManyAttempts => 'Too many attempts. Wait a little, then try again.';
+
+  @override
+  String get errPhoneRequired =>
+      'Add your phone number in your account first, so the shop or technician can call you.';
+
+  @override
+  String get errSlotTaken => 'Someone just took this time. Pick another.';
+
+  @override
+  String get errHoldExpired => 'The time you held has lapsed. Pick it again.';
+
+  @override
+  String get errTechnicianUnavailable =>
+      'This technician is no longer free then. Pick another time or technician.';
+
+  @override
+  String get errTooEarly => 'That time is too soon. Pick a later one.';
+
+  @override
+  String get errOutOfRange => 'That place is outside the service area.';
+
+  @override
+  String get errTravelUnavailable =>
+      'Fitting at your place isn\'t available yet. Choose a workshop on the street.';
+
+  @override
+  String get errDeliveryUnavailable =>
+      'Delivery isn\'t available to this address yet. Choose pickup.';
+
+  @override
+  String get errDuplicateTxn => 'This transaction number was already used. Check it.';
+
+  @override
+  String get errPaymentExpired => 'The time to pay for this order has passed.';
+
+  @override
+  String get errCannotCancel => 'This can no longer be cancelled.';
+
+  @override
+  String get errTooManyRequests => 'You have too many open photo requests. Close some first.';
+
+  @override
+  String get errGarageFull => 'You can save up to 10 cars.';
+
+  @override
+  String get errFileTooLarge => 'The file is too big (5 MB at most).';
+
+  @override
+  String get errFileType => 'That file type isn\'t supported.';
+
+  @override
+  String get errNotFound => 'We couldn\'t find that. It may have been removed.';
+
+  @override
+  String get errForbidden => 'You can\'t do that.';
+
+  @override
+  String get errCartChanged => 'Some prices or stock changed. Check your cart, then confirm.';
+
+  @override
+  String get errAddressRequired => 'Choose an address or add a new one.';
+
+  @override
+  String get errLocationOff => 'Turn on location (GPS) on your phone, then try again.';
+
+  @override
+  String get errLocationDenied => 'Allow location access in your phone settings.';
+
+  @override
+  String get errMicDenied => 'Allow microphone access in your phone settings.';
+
+  @override
+  String get errCannotOpen => 'Couldn\'t open that on your phone.';
+
+  @override
+  String get errUnavailable => 'This is no longer available.';
+
+  @override
+  String get queuedOffline => 'Will be sent when you\'re back online';
+
+  @override
+  String notSent(String reason) {
+    return 'Not sent: $reason';
+  }
+
+  @override
+  String get voiceHold => 'Hold to record';
+
+  @override
+  String get voiceRecording => 'Recording… lift your finger to send';
+
+  @override
+  String get voiceTooShort => 'Press and hold the microphone to record.';
+
+  @override
+  String get voicePlay => 'Play';
+
+  @override
+  String get voicePause => 'Pause';
+
+  @override
+  String get photoCamera => 'Camera';
+
+  @override
+  String get photoGallery => 'Gallery';
+
+  @override
+  String get pullToRefresh => 'Pull to refresh';
+
+  @override
+  String get actionOpen => 'Open';
 }

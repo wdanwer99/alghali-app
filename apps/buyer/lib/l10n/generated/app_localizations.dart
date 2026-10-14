@@ -2108,6 +2108,684 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تصفّح بدون حساب'**
   String get continueAsGuest;
+
+  /// Opening hours: a day the shop is closed
+  ///
+  /// In ar, this message translates to:
+  /// **'مغلق'**
+  String get shopClosedDay;
+
+  /// Listing without a shown price
+  ///
+  /// In ar, this message translates to:
+  /// **'السعر عند الطلب'**
+  String get priceOnRequest;
+
+  /// Home before the first catalogue sync
+  ///
+  /// In ar, this message translates to:
+  /// **'نحمّل الأقسام والمحلات… تحتاج اتصالًا بالإنترنت أول مرة.'**
+  String get homeCatalogueLoading;
+
+  /// Home: newer APK exists
+  ///
+  /// In ar, this message translates to:
+  /// **'نسخة جديدة من التطبيق متاحة.'**
+  String get updateAvailable;
+
+  /// Home: this build is no longer supported
+  ///
+  /// In ar, this message translates to:
+  /// **'هذه النسخة قديمة. حمّل النسخة الجديدة لتواصل الشراء.'**
+  String get updateRequired;
+
+  /// Download the new APK
+  ///
+  /// In ar, this message translates to:
+  /// **'تحميل'**
+  String get updateDownload;
+
+  /// Part page: unverified part
+  ///
+  /// In ar, this message translates to:
+  /// **'قطعة أضافها المحل ولم يراجعها فريقنا بعد.'**
+  String get partUnverified;
+
+  /// Part page: no listings
+  ///
+  /// In ar, this message translates to:
+  /// **'لا يوجد محل يبيع هذه القطعة الآن.'**
+  String get partNoOffers;
+
+  /// Part page: fitting banner
+  ///
+  /// In ar, this message translates to:
+  /// **'احجز فنيًا موثوقًا ليركّبها لك في ورشة بالشارع أو في مكانك. أضف القطعة للسلة ثم اختر «إضافة تركيب».'**
+  String get partFittingBodyLive;
+
+  /// Part page: chat for a price-on-request listing
+  ///
+  /// In ar, this message translates to:
+  /// **'اسأل عن السعر'**
+  String get partAskPrice;
+
+  /// Part page: chat about an out-of-stock listing
+  ///
+  /// In ar, this message translates to:
+  /// **'اسأل المحل'**
+  String get partAskStock;
+
+  /// Part page: listing without stock
+  ///
+  /// In ar, this message translates to:
+  /// **'غير متوفر الآن'**
+  String get partOutOfStock;
+
+  /// Shop page: open directions in Maps
+  ///
+  /// In ar, this message translates to:
+  /// **'الاتجاهات'**
+  String get shopDirections;
+
+  /// Shop page: no listings
+  ///
+  /// In ar, this message translates to:
+  /// **'لا توجد قطع معروضة بعد.'**
+  String get shopNoParts;
+
+  /// Cart: removing a fitted part
+  ///
+  /// In ar, this message translates to:
+  /// **'أُلغي حجز التركيب لأن القطعة حُذفت. أضفه مرة أخرى إن احتجته.'**
+  String get cartFittingDropped;
+
+  /// Cart: line covered by the fitting
+  ///
+  /// In ar, this message translates to:
+  /// **'ضمن التركيب المحجوز'**
+  String get cartInFitting;
+
+  /// Cart: add this part to the existing fitting
+  ///
+  /// In ar, this message translates to:
+  /// **'أضفها للتركيب'**
+  String get cartAddToFitting;
+
+  /// Booking: address beyond the travel bands
+  ///
+  /// In ar, this message translates to:
+  /// **'بعيد جدًا'**
+  String get bookTooFar;
+
+  /// Booking: nobody suits the job
+  ///
+  /// In ar, this message translates to:
+  /// **'لا يوجد فني متاح لهذا العمل في هذا المكان خلال الأيام القادمة. جرّب الورشة في الشارع أو عنوانًا آخر.'**
+  String get bookNoTechsBody;
+
+  /// Booking: technician fully booked
+  ///
+  /// In ar, this message translates to:
+  /// **'لا مواعيد متاحة في الأيام القادمة'**
+  String get bookNoFreeTime;
+
+  /// Booking: technician next free time
+  ///
+  /// In ar, this message translates to:
+  /// **'أقرب موعد: {when}'**
+  String bookNextFree(String when);
+
+  /// Address sheet title
+  ///
+  /// In ar, this message translates to:
+  /// **'عنوان جديد'**
+  String get addressNew;
+
+  /// Address sheet hint
+  ///
+  /// In ar, this message translates to:
+  /// **'قف في المكان نفسه واستخدم موقعك الحالي، ثم اكتب وصفًا يساعد الفني أو المندوب.'**
+  String get addressNewBody;
+
+  /// Address sheet: GPS point taken
+  ///
+  /// In ar, this message translates to:
+  /// **'تم تحديد موقعك'**
+  String get addressLocated;
+
+  /// Address sheet: distance
+  ///
+  /// In ar, this message translates to:
+  /// **'على بعد {distance} من الشارع'**
+  String addressFromStreet(String distance);
+
+  /// Address sheet: retake GPS
+  ///
+  /// In ar, this message translates to:
+  /// **'تحديد مرة أخرى'**
+  String get addressLocateAgain;
+
+  /// Address label suggestion
+  ///
+  /// In ar, this message translates to:
+  /// **'المنزل'**
+  String get addressHome;
+
+  /// Address label suggestion
+  ///
+  /// In ar, this message translates to:
+  /// **'العمل'**
+  String get addressWork;
+
+  /// Address field: label
+  ///
+  /// In ar, this message translates to:
+  /// **'اسم العنوان'**
+  String get addressLabel;
+
+  /// Address field: written directions
+  ///
+  /// In ar, this message translates to:
+  /// **'وصف المكان'**
+  String get addressDirections;
+
+  /// Address field hint
+  ///
+  /// In ar, this message translates to:
+  /// **'مثال: الحي، الشارع، رقم المنزل، علامة قريبة'**
+  String get addressDirectionsHint;
+
+  /// Address sheet button
+  ///
+  /// In ar, this message translates to:
+  /// **'حفظ العنوان'**
+  String get addressSave;
+
+  /// Profile sheet title
+  ///
+  /// In ar, this message translates to:
+  /// **'بياناتي'**
+  String get profileTitle;
+
+  /// Profile sheet button
+  ///
+  /// In ar, this message translates to:
+  /// **'حفظ'**
+  String get profileSave;
+
+  /// Checkout: no saved address yet
+  ///
+  /// In ar, this message translates to:
+  /// **'أضف عنوانًا للتوصيل'**
+  String get checkoutAddAddress;
+
+  /// Checkout: Bankak payment window
+  ///
+  /// In ar, this message translates to:
+  /// **'حوّل المبلغ خلال {minutes} دقيقة، وإلا يُلغى الطلب تلقائيًا.'**
+  String checkoutPayWithinMinutes(int minutes);
+
+  /// Bankak: receipt rejected
+  ///
+  /// In ar, this message translates to:
+  /// **'لم نقبل الإيصال'**
+  String get bankakRejected;
+
+  /// Bankak: rejection with reason
+  ///
+  /// In ar, this message translates to:
+  /// **'{reason} أرسله مرة أخرى قبل انتهاء المهلة.'**
+  String bankakRejectedBody(String reason);
+
+  /// Bankak: cash order deposit
+  ///
+  /// In ar, this message translates to:
+  /// **'حوّل العربون بالضبط'**
+  String get bankakDepositAmount;
+
+  /// Receipt rejection reason
+  ///
+  /// In ar, this message translates to:
+  /// **'المبلغ المحوَّل لا يطابق المطلوب.'**
+  String get rejectAmount;
+
+  /// Receipt rejection reason
+  ///
+  /// In ar, this message translates to:
+  /// **'لم نجد التحويل في كشف الحساب.'**
+  String get rejectNotFound;
+
+  /// Receipt rejection reason
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا الإيصال استُخدم لطلب آخر.'**
+  String get rejectDuplicate;
+
+  /// Receipt rejection reason
+  ///
+  /// In ar, this message translates to:
+  /// **'الإيصال غير واضح.'**
+  String get rejectUnreadable;
+
+  /// Receipt rejection reason
+  ///
+  /// In ar, this message translates to:
+  /// **'راجع تفاصيل التحويل.'**
+  String get rejectOther;
+
+  /// Order: refunds section
+  ///
+  /// In ar, this message translates to:
+  /// **'المبالغ المستردة'**
+  String get orderRefunds;
+
+  /// Order: refund paid
+  ///
+  /// In ar, this message translates to:
+  /// **'أُرسل إليك'**
+  String get refundSent;
+
+  /// Order: refund waiting
+  ///
+  /// In ar, this message translates to:
+  /// **'سيُرسل قريبًا'**
+  String get refundPending;
+
+  /// Order: how refunds are paid
+  ///
+  /// In ar, this message translates to:
+  /// **'نرسل المبالغ المستردة عبر بنكك إلى حسابك المسجّل في «حسابي».'**
+  String get refundBody;
+
+  /// Return reason field
+  ///
+  /// In ar, this message translates to:
+  /// **'سبب الإرجاع'**
+  String get orderReturnReason;
+
+  /// Return sheet button
+  ///
+  /// In ar, this message translates to:
+  /// **'إرسال طلب الإرجاع'**
+  String get orderReturnSend;
+
+  /// Return state
+  ///
+  /// In ar, this message translates to:
+  /// **'طلبت الإرجاع — بانتظار قرار الإدارة'**
+  String get returnRequested;
+
+  /// Return state
+  ///
+  /// In ar, this message translates to:
+  /// **'وافقنا على الإرجاع'**
+  String get returnApproved;
+
+  /// Return state
+  ///
+  /// In ar, this message translates to:
+  /// **'لم نوافق على الإرجاع'**
+  String get returnDeclined;
+
+  /// Order: confirm the part was received
+  ///
+  /// In ar, this message translates to:
+  /// **'استلمت القطعة'**
+  String get orderGotIt;
+
+  /// Order: book a fitting for a received part
+  ///
+  /// In ar, this message translates to:
+  /// **'احجز تركيب: {part}'**
+  String orderBookFitting(String part);
+
+  /// Open a dispute
+  ///
+  /// In ar, this message translates to:
+  /// **'الإبلاغ عن مشكلة'**
+  String get complaintReport;
+
+  /// Complaint sheet intro
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر نوع المشكلة واشرح ما حدث. يرد فريقنا عادةً خلال يوم عمل.'**
+  String get complaintIntro;
+
+  /// Complaint description field
+  ///
+  /// In ar, this message translates to:
+  /// **'ماذا حدث؟'**
+  String get complaintDescribe;
+
+  /// Complaint sheet button
+  ///
+  /// In ar, this message translates to:
+  /// **'إرسال'**
+  String get complaintSend;
+
+  /// Complaint category
+  ///
+  /// In ar, this message translates to:
+  /// **'لم أستلم القطعة'**
+  String get complaintNotReceived;
+
+  /// Complaint category
+  ///
+  /// In ar, this message translates to:
+  /// **'قطعة خاطئة'**
+  String get complaintWrongPart;
+
+  /// Complaint category
+  ///
+  /// In ar, this message translates to:
+  /// **'تالفة أو لا تعمل'**
+  String get complaintDamaged;
+
+  /// Complaint category
+  ///
+  /// In ar, this message translates to:
+  /// **'التركيب لم يتم كما يجب'**
+  String get complaintNotFitted;
+
+  /// Complaint category
+  ///
+  /// In ar, this message translates to:
+  /// **'مشكلة في الدفع'**
+  String get complaintPayment;
+
+  /// Complaint category
+  ///
+  /// In ar, this message translates to:
+  /// **'سوء معاملة'**
+  String get complaintBehaviour;
+
+  /// Complaint category
+  ///
+  /// In ar, this message translates to:
+  /// **'أخرى'**
+  String get complaintOther;
+
+  /// Complaint status
+  ///
+  /// In ar, this message translates to:
+  /// **'مفتوحة'**
+  String get complaintOpen;
+
+  /// Complaint status
+  ///
+  /// In ar, this message translates to:
+  /// **'قيد المراجعة'**
+  String get complaintInReview;
+
+  /// Complaint status
+  ///
+  /// In ar, this message translates to:
+  /// **'تم الحل'**
+  String get complaintResolved;
+
+  /// Complaint status
+  ///
+  /// In ar, this message translates to:
+  /// **'مغلقة'**
+  String get complaintRejected;
+
+  /// Complaints screen title
+  ///
+  /// In ar, this message translates to:
+  /// **'شكاواي'**
+  String get complaintsTitle;
+
+  /// Complaints empty
+  ///
+  /// In ar, this message translates to:
+  /// **'لا توجد شكاوى'**
+  String get complaintsEmpty;
+
+  /// Complaints empty hint
+  ///
+  /// In ar, this message translates to:
+  /// **'إن واجهتك مشكلة في طلب أو تركيب، افتحه واختر «الإبلاغ عن مشكلة».'**
+  String get complaintsEmptyBody;
+
+  /// Complaint screen title
+  ///
+  /// In ar, this message translates to:
+  /// **'الشكوى'**
+  String get complaintTitle;
+
+  /// Complaint resolution
+  ///
+  /// In ar, this message translates to:
+  /// **'القرار'**
+  String get complaintOutcome;
+
+  /// Complaint message from the buyer
+  ///
+  /// In ar, this message translates to:
+  /// **'أنت'**
+  String get complaintYou;
+
+  /// Complaint message from admins
+  ///
+  /// In ar, this message translates to:
+  /// **'فريق شارع الغالي'**
+  String get complaintTeam;
+
+  /// Complaint reply field
+  ///
+  /// In ar, this message translates to:
+  /// **'اكتب ردًا'**
+  String get complaintReply;
+
+  /// Booking: waiting for payment
+  ///
+  /// In ar, this message translates to:
+  /// **'ادفع الطلب ليصل الحجز إلى الفني.'**
+  String get bookingPayFirst;
+
+  /// Booking: NEEDS_RESCHEDULE
+  ///
+  /// In ar, this message translates to:
+  /// **'لم يتمكن أي فني من هذا الموعد. اختر موعدًا جديدًا أو ألغِ الحجز واسترد المبلغ كاملًا.'**
+  String get bookingNeedsTime;
+
+  /// Booking: reschedule button
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر موعدًا جديدًا'**
+  String get bookingPickNewTime;
+
+  /// Booking: PART_DOES_NOT_FIT
+  ///
+  /// In ar, this message translates to:
+  /// **'تبيّن أن القطعة لا تناسب السيارة. تدفع رسوم المشوار فقط، وفتحنا طلب إرجاع للقطعة.'**
+  String get bookingNotFit;
+
+  /// Booking: cancelled
+  ///
+  /// In ar, this message translates to:
+  /// **'أُلغي هذا الحجز.'**
+  String get bookingCancelledBody;
+
+  /// Booking: job code locked
+  ///
+  /// In ar, this message translates to:
+  /// **'أُدخل الرمز خطأ عدة مرات. سيكمل فريقنا الحجز بعد التأكد.'**
+  String get bookingCodeLocked;
+
+  /// Booking: live location card
+  ///
+  /// In ar, this message translates to:
+  /// **'الفني في الطريق إليك'**
+  String get bookingLiveTitle;
+
+  /// Booking: technician distance
+  ///
+  /// In ar, this message translates to:
+  /// **'على بعد {distance} تقريبًا'**
+  String bookingLiveAway(String distance);
+
+  /// Booking: location age
+  ///
+  /// In ar, this message translates to:
+  /// **'آخر تحديث {ago}'**
+  String bookingLiveUpdated(String ago);
+
+  /// Booking: no location yet
+  ///
+  /// In ar, this message translates to:
+  /// **'ننتظر أول تحديث لموقع الفني…'**
+  String get bookingLiveWaiting;
+
+  /// Booking: open technician location in Maps
+  ///
+  /// In ar, this message translates to:
+  /// **'عرض على الخريطة'**
+  String get bookingLiveMap;
+
+  /// Booking: photos section
+  ///
+  /// In ar, this message translates to:
+  /// **'صور العمل'**
+  String get bookingPhotos;
+
+  /// Booking photo label
+  ///
+  /// In ar, this message translates to:
+  /// **'قبل'**
+  String get bookingPhotoBefore;
+
+  /// Booking photo label
+  ///
+  /// In ar, this message translates to:
+  /// **'بعد'**
+  String get bookingPhotoAfter;
+
+  /// Booking: late cancellation rule
+  ///
+  /// In ar, this message translates to:
+  /// **'بعد {when} يُحتفظ برسوم الحجز ورسوم المشوار، ويُرد لك أجر التركيب.'**
+  String bookingCancelLate(String when);
+
+  /// Booking: cancelling late
+  ///
+  /// In ar, this message translates to:
+  /// **'فات وقت الإلغاء المجاني: يُحتفظ برسوم الحجز ورسوم المشوار، ويُرد لك أجر التركيب.'**
+  String get bookingCancelLateNow;
+
+  /// Booking: rescheduled
+  ///
+  /// In ar, this message translates to:
+  /// **'تم تغيير الموعد'**
+  String get bookingRescheduled;
+
+  /// Booking: waiting for acceptance
+  ///
+  /// In ar, this message translates to:
+  /// **'أرسلنا الطلب للفني، وننتظر قبوله قبل {time}. إن لم يقبل نرسله لفني آخر متاح.'**
+  String bookingWaitingTechUntil(String time);
+
+  /// Photo request: offer no longer live
+  ///
+  /// In ar, this message translates to:
+  /// **'انتهى العرض'**
+  String get requestOfferClosed;
+
+  /// Chat: guest
+  ///
+  /// In ar, this message translates to:
+  /// **'سجّل الدخول لتراسل المحل'**
+  String get chatSignIn;
+
+  /// Chats list title
+  ///
+  /// In ar, this message translates to:
+  /// **'المحادثات'**
+  String get chatsTitle;
+
+  /// Chats list empty
+  ///
+  /// In ar, this message translates to:
+  /// **'لا توجد محادثات'**
+  String get chatsEmpty;
+
+  /// Chats list empty hint
+  ///
+  /// In ar, this message translates to:
+  /// **'افتح صفحة أي محل واضغط «محادثة» لتسأله عن قطعة.'**
+  String get chatsEmptyBody;
+
+  /// Chats list: last message was a voice note
+  ///
+  /// In ar, this message translates to:
+  /// **'رسالة صوتية'**
+  String get chatVoiceNote;
+
+  /// Inbox: alert without wording
+  ///
+  /// In ar, this message translates to:
+  /// **'تحديث جديد'**
+  String get notificationsGeneric;
+
+  /// Account: Bankak account for refunds
+  ///
+  /// In ar, this message translates to:
+  /// **'حساب الاسترداد'**
+  String get accountRefundAccount;
+
+  /// Refund account field
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم حسابك في بنكك'**
+  String get accountRefundAccountLabel;
+
+  /// Refund account hint
+  ///
+  /// In ar, this message translates to:
+  /// **'نرسل إليه أي مبلغ مسترد'**
+  String get accountRefundAccountHint;
+
+  /// Account: saved
+  ///
+  /// In ar, this message translates to:
+  /// **'تم الحفظ'**
+  String get accountSaved;
+
+  /// Help sheet text
+  ///
+  /// In ar, this message translates to:
+  /// **'تواصل مع فريق شارع الغالي لأي سؤال عن طلب أو دفع أو تركيب.'**
+  String get accountHelpBody;
+
+  /// Help sheet without support numbers
+  ///
+  /// In ar, this message translates to:
+  /// **'أرقام الدعم ستُضاف قريبًا. استخدم «الإبلاغ عن مشكلة» في الطلب أو الحجز.'**
+  String get accountHelpSoon;
+
+  /// Account: no phone yet
+  ///
+  /// In ar, this message translates to:
+  /// **'أضف رقم هاتفك'**
+  String get accountNoPhone;
+
+  /// Account: outbox not empty
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{تغيير واحد ينتظر الاتصال} =2{تغييران ينتظران الاتصال} few{{count} تغييرات تنتظر الاتصال} other{{count} تغيير ينتظر الاتصال}}'**
+  String accountPending(int count);
+
+  /// Sign out with a non-empty outbox
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{تغيير واحد لم يُرسل بعد وسيضيع.} other{{count} تغييرات لم تُرسل بعد وستضيع.}}'**
+  String accountSignOutPending(int count);
+
+  /// Addresses: empty
+  ///
+  /// In ar, this message translates to:
+  /// **'لا توجد عناوين محفوظة'**
+  String get addressesEmpty;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

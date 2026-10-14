@@ -1185,4 +1185,387 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get continueAsGuest => 'تصفّح بدون حساب';
+
+  @override
+  String get shopClosedDay => 'مغلق';
+
+  @override
+  String get priceOnRequest => 'السعر عند الطلب';
+
+  @override
+  String get homeCatalogueLoading => 'نحمّل الأقسام والمحلات… تحتاج اتصالًا بالإنترنت أول مرة.';
+
+  @override
+  String get updateAvailable => 'نسخة جديدة من التطبيق متاحة.';
+
+  @override
+  String get updateRequired => 'هذه النسخة قديمة. حمّل النسخة الجديدة لتواصل الشراء.';
+
+  @override
+  String get updateDownload => 'تحميل';
+
+  @override
+  String get partUnverified => 'قطعة أضافها المحل ولم يراجعها فريقنا بعد.';
+
+  @override
+  String get partNoOffers => 'لا يوجد محل يبيع هذه القطعة الآن.';
+
+  @override
+  String get partFittingBodyLive =>
+      'احجز فنيًا موثوقًا ليركّبها لك في ورشة بالشارع أو في مكانك. أضف القطعة للسلة ثم اختر «إضافة تركيب».';
+
+  @override
+  String get partAskPrice => 'اسأل عن السعر';
+
+  @override
+  String get partAskStock => 'اسأل المحل';
+
+  @override
+  String get partOutOfStock => 'غير متوفر الآن';
+
+  @override
+  String get shopDirections => 'الاتجاهات';
+
+  @override
+  String get shopNoParts => 'لا توجد قطع معروضة بعد.';
+
+  @override
+  String get cartFittingDropped => 'أُلغي حجز التركيب لأن القطعة حُذفت. أضفه مرة أخرى إن احتجته.';
+
+  @override
+  String get cartInFitting => 'ضمن التركيب المحجوز';
+
+  @override
+  String get cartAddToFitting => 'أضفها للتركيب';
+
+  @override
+  String get bookTooFar => 'بعيد جدًا';
+
+  @override
+  String get bookNoTechsBody =>
+      'لا يوجد فني متاح لهذا العمل في هذا المكان خلال الأيام القادمة. جرّب الورشة في الشارع أو عنوانًا آخر.';
+
+  @override
+  String get bookNoFreeTime => 'لا مواعيد متاحة في الأيام القادمة';
+
+  @override
+  String bookNextFree(String when) {
+    return 'أقرب موعد: $when';
+  }
+
+  @override
+  String get addressNew => 'عنوان جديد';
+
+  @override
+  String get addressNewBody =>
+      'قف في المكان نفسه واستخدم موقعك الحالي، ثم اكتب وصفًا يساعد الفني أو المندوب.';
+
+  @override
+  String get addressLocated => 'تم تحديد موقعك';
+
+  @override
+  String addressFromStreet(String distance) {
+    return 'على بعد $distance من الشارع';
+  }
+
+  @override
+  String get addressLocateAgain => 'تحديد مرة أخرى';
+
+  @override
+  String get addressHome => 'المنزل';
+
+  @override
+  String get addressWork => 'العمل';
+
+  @override
+  String get addressLabel => 'اسم العنوان';
+
+  @override
+  String get addressDirections => 'وصف المكان';
+
+  @override
+  String get addressDirectionsHint => 'مثال: الحي، الشارع، رقم المنزل، علامة قريبة';
+
+  @override
+  String get addressSave => 'حفظ العنوان';
+
+  @override
+  String get profileTitle => 'بياناتي';
+
+  @override
+  String get profileSave => 'حفظ';
+
+  @override
+  String get checkoutAddAddress => 'أضف عنوانًا للتوصيل';
+
+  @override
+  String checkoutPayWithinMinutes(int minutes) {
+    return 'حوّل المبلغ خلال $minutes دقيقة، وإلا يُلغى الطلب تلقائيًا.';
+  }
+
+  @override
+  String get bankakRejected => 'لم نقبل الإيصال';
+
+  @override
+  String bankakRejectedBody(String reason) {
+    return '$reason أرسله مرة أخرى قبل انتهاء المهلة.';
+  }
+
+  @override
+  String get bankakDepositAmount => 'حوّل العربون بالضبط';
+
+  @override
+  String get rejectAmount => 'المبلغ المحوَّل لا يطابق المطلوب.';
+
+  @override
+  String get rejectNotFound => 'لم نجد التحويل في كشف الحساب.';
+
+  @override
+  String get rejectDuplicate => 'هذا الإيصال استُخدم لطلب آخر.';
+
+  @override
+  String get rejectUnreadable => 'الإيصال غير واضح.';
+
+  @override
+  String get rejectOther => 'راجع تفاصيل التحويل.';
+
+  @override
+  String get orderRefunds => 'المبالغ المستردة';
+
+  @override
+  String get refundSent => 'أُرسل إليك';
+
+  @override
+  String get refundPending => 'سيُرسل قريبًا';
+
+  @override
+  String get refundBody => 'نرسل المبالغ المستردة عبر بنكك إلى حسابك المسجّل في «حسابي».';
+
+  @override
+  String get orderReturnReason => 'سبب الإرجاع';
+
+  @override
+  String get orderReturnSend => 'إرسال طلب الإرجاع';
+
+  @override
+  String get returnRequested => 'طلبت الإرجاع — بانتظار قرار الإدارة';
+
+  @override
+  String get returnApproved => 'وافقنا على الإرجاع';
+
+  @override
+  String get returnDeclined => 'لم نوافق على الإرجاع';
+
+  @override
+  String get orderGotIt => 'استلمت القطعة';
+
+  @override
+  String orderBookFitting(String part) {
+    return 'احجز تركيب: $part';
+  }
+
+  @override
+  String get complaintReport => 'الإبلاغ عن مشكلة';
+
+  @override
+  String get complaintIntro => 'اختر نوع المشكلة واشرح ما حدث. يرد فريقنا عادةً خلال يوم عمل.';
+
+  @override
+  String get complaintDescribe => 'ماذا حدث؟';
+
+  @override
+  String get complaintSend => 'إرسال';
+
+  @override
+  String get complaintNotReceived => 'لم أستلم القطعة';
+
+  @override
+  String get complaintWrongPart => 'قطعة خاطئة';
+
+  @override
+  String get complaintDamaged => 'تالفة أو لا تعمل';
+
+  @override
+  String get complaintNotFitted => 'التركيب لم يتم كما يجب';
+
+  @override
+  String get complaintPayment => 'مشكلة في الدفع';
+
+  @override
+  String get complaintBehaviour => 'سوء معاملة';
+
+  @override
+  String get complaintOther => 'أخرى';
+
+  @override
+  String get complaintOpen => 'مفتوحة';
+
+  @override
+  String get complaintInReview => 'قيد المراجعة';
+
+  @override
+  String get complaintResolved => 'تم الحل';
+
+  @override
+  String get complaintRejected => 'مغلقة';
+
+  @override
+  String get complaintsTitle => 'شكاواي';
+
+  @override
+  String get complaintsEmpty => 'لا توجد شكاوى';
+
+  @override
+  String get complaintsEmptyBody =>
+      'إن واجهتك مشكلة في طلب أو تركيب، افتحه واختر «الإبلاغ عن مشكلة».';
+
+  @override
+  String get complaintTitle => 'الشكوى';
+
+  @override
+  String get complaintOutcome => 'القرار';
+
+  @override
+  String get complaintYou => 'أنت';
+
+  @override
+  String get complaintTeam => 'فريق شارع الغالي';
+
+  @override
+  String get complaintReply => 'اكتب ردًا';
+
+  @override
+  String get bookingPayFirst => 'ادفع الطلب ليصل الحجز إلى الفني.';
+
+  @override
+  String get bookingNeedsTime =>
+      'لم يتمكن أي فني من هذا الموعد. اختر موعدًا جديدًا أو ألغِ الحجز واسترد المبلغ كاملًا.';
+
+  @override
+  String get bookingPickNewTime => 'اختر موعدًا جديدًا';
+
+  @override
+  String get bookingNotFit =>
+      'تبيّن أن القطعة لا تناسب السيارة. تدفع رسوم المشوار فقط، وفتحنا طلب إرجاع للقطعة.';
+
+  @override
+  String get bookingCancelledBody => 'أُلغي هذا الحجز.';
+
+  @override
+  String get bookingCodeLocked => 'أُدخل الرمز خطأ عدة مرات. سيكمل فريقنا الحجز بعد التأكد.';
+
+  @override
+  String get bookingLiveTitle => 'الفني في الطريق إليك';
+
+  @override
+  String bookingLiveAway(String distance) {
+    return 'على بعد $distance تقريبًا';
+  }
+
+  @override
+  String bookingLiveUpdated(String ago) {
+    return 'آخر تحديث $ago';
+  }
+
+  @override
+  String get bookingLiveWaiting => 'ننتظر أول تحديث لموقع الفني…';
+
+  @override
+  String get bookingLiveMap => 'عرض على الخريطة';
+
+  @override
+  String get bookingPhotos => 'صور العمل';
+
+  @override
+  String get bookingPhotoBefore => 'قبل';
+
+  @override
+  String get bookingPhotoAfter => 'بعد';
+
+  @override
+  String bookingCancelLate(String when) {
+    return 'بعد $when يُحتفظ برسوم الحجز ورسوم المشوار، ويُرد لك أجر التركيب.';
+  }
+
+  @override
+  String get bookingCancelLateNow =>
+      'فات وقت الإلغاء المجاني: يُحتفظ برسوم الحجز ورسوم المشوار، ويُرد لك أجر التركيب.';
+
+  @override
+  String get bookingRescheduled => 'تم تغيير الموعد';
+
+  @override
+  String bookingWaitingTechUntil(String time) {
+    return 'أرسلنا الطلب للفني، وننتظر قبوله قبل $time. إن لم يقبل نرسله لفني آخر متاح.';
+  }
+
+  @override
+  String get requestOfferClosed => 'انتهى العرض';
+
+  @override
+  String get chatSignIn => 'سجّل الدخول لتراسل المحل';
+
+  @override
+  String get chatsTitle => 'المحادثات';
+
+  @override
+  String get chatsEmpty => 'لا توجد محادثات';
+
+  @override
+  String get chatsEmptyBody => 'افتح صفحة أي محل واضغط «محادثة» لتسأله عن قطعة.';
+
+  @override
+  String get chatVoiceNote => 'رسالة صوتية';
+
+  @override
+  String get notificationsGeneric => 'تحديث جديد';
+
+  @override
+  String get accountRefundAccount => 'حساب الاسترداد';
+
+  @override
+  String get accountRefundAccountLabel => 'رقم حسابك في بنكك';
+
+  @override
+  String get accountRefundAccountHint => 'نرسل إليه أي مبلغ مسترد';
+
+  @override
+  String get accountSaved => 'تم الحفظ';
+
+  @override
+  String get accountHelpBody => 'تواصل مع فريق شارع الغالي لأي سؤال عن طلب أو دفع أو تركيب.';
+
+  @override
+  String get accountHelpSoon =>
+      'أرقام الدعم ستُضاف قريبًا. استخدم «الإبلاغ عن مشكلة» في الطلب أو الحجز.';
+
+  @override
+  String get accountNoPhone => 'أضف رقم هاتفك';
+
+  @override
+  String accountPending(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count تغيير ينتظر الاتصال',
+      few: '$count تغييرات تنتظر الاتصال',
+      two: 'تغييران ينتظران الاتصال',
+      one: 'تغيير واحد ينتظر الاتصال',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String accountSignOutPending(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count تغييرات لم تُرسل بعد وستضيع.',
+      one: 'تغيير واحد لم يُرسل بعد وسيضيع.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get addressesEmpty => 'لا توجد عناوين محفوظة';
 }

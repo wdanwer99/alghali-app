@@ -21,13 +21,16 @@ Where the project stands and the rules every change follows. Read this before wr
 | M1 Foundation: identity, catalogue, street and shops, stock, search, storage | Done 2026-10-13 | `911ca7b` |
 | Admin console on real data (M6 pulled forward) | Done 2026-10-14 | `fee1db2` |
 | M2 Commerce: cart, checkout, payments, fulfilment, returns, ledger, payouts, photo requests, chat | Done 2026-10-14 | `a0a2d74` |
-| M3 Installation: technicians, slots, bookings, notifications, reviews, disputes | Done 2026-10-14 | see `git log` |
-| M4 Buyer app on the real backend · M5 Partner app · M6 Admin rest · M7 Hardening and launch | Not started | — |
+| M3 Installation: technicians, slots, bookings, notifications, reviews, disputes | Done 2026-10-14 | `921e149` |
+| Push through Firebase (project `alghali-street`) | Done 2026-10-14 | `173979a` |
+| M4 Buyer app on the real backend, offline cache and outbox, push | Done 2026-10-14 | see `git log` |
+| M5 Partner app · M6 Admin rest · M7 Hardening and launch | Not started | — |
 
 **Working state of each part:**
 - **Backend (Supabase):** everything up to M3 is applied to `alghali-dev` and `alghali-test`, with the Edge Functions deployed and the alert dispatcher wired (`pnpm notify:setup`) with real Firebase push (D-109); phones receive pushes once the apps register their devices (M4/M5).
 - **Admin console:** every page reads the real database (D-106); no sample data is left.
-- **Buyer and partner apps:** every screen exists, on sample data (`packages/core/lib/src/demo`). `packages/core` already has typed repositories for everything up to M3; M4/M5 wire the screens to them **without redesigning** (the sample screens are the reference, D-051).
+- **Buyer app:** every screen runs on the real backend (D-110), works offline for reading and queues safe changes (D-112), and receives push (D-113). Build `0.4.0+4`.
+- **Partner app:** every screen exists, on sample data (`packages/core/lib/src/demo`); M5 wires it to the repositories the same way, **without redesigning** (the sample screens are the reference, D-051).
 
 **Waiting on the owner before launch:** the street's city, GPS starting point and real zone names (D-077), the platform Bankak account, real fee amounts (D-034), and a sender mailbox for password-reset emails (D-064). The owner can enter the street, zones, Bankak account and fees in the admin console.
 
@@ -93,6 +96,10 @@ Where the project stands and the rules every change follows. Read this before wr
 - Parsers are tested against real responses saved in `test/fixtures/*.json` (captured from `alghali-dev`); repositories against the fake server in `test/support/fake_server.dart`, so function and parameter names can't drift from the SQL.
 - Generated code (gen-l10n, Drift) is committed. Don't run `dart format` over `lib/src/db/app_database.g.dart`; use `pnpm flutter:format`, which skips it.
 - Core class names must not clash with app classes: the core uses `CheckoutLine` and `ShopSubOrder` because the apps' sample state already has `CartLine` and `ShopOrder`.
+- **Reads** go through repositories that mix in `CachedReads` (`cachedRead('@key', fetch, parse)`): keys starting `@` are per user. App lists are `AsyncNotifier`s with the `CachedList` mixin (saved copy first, then the server) or a family provider per item; screens show them with `AsyncBody` (skeleton, error with retry, pull-to-refresh, offline banner).
+- **Writes** that can wait go through the app's outbox (`queue(ref, BuyerOps.x, payload)` or `ref.read(queueProvider)`): add an op and its handler in `state/outbox.dart`, pick an id on the phone for inserts and treat `BackendException.duplicate` as done. Anything that must be checked now calls the repository directly and shows `context.core.error(e)`.
+- Every backend error code a user can meet needs a line in `ErrorLabels.errorCode` (core `labels.dart`) and its Arabic and English text.
+- The apps' catalogue is `catalogueProvider` overridden with `liveCatalogueProvider` (`liveDataOverrides`); lookups never throw, so check `hasShop` / `hasVariant` where an empty placeholder would look wrong.
 
 ## 6. Tests
 
@@ -101,7 +108,9 @@ Where the project stands and the rules every change follows. Read this before wr
 | `tests/db/*.test.ts` | Each case in `withRollback`, switching identity with `asUser` / `asAnon` / `asSystem`. Expected failures through `failure(tx, sp => …)`, which uses a savepoint so the transaction survives. Use `must(x)` instead of `!`. Helpers in `tests/support/fixtures.ts` and `commerce.ts` |
 | `tests/db/security.test.ts` | **Allow-lists**: every table writable by apps and every function callable by `anon` / `authenticated` is listed. Adding one means adding it here on purpose |
 | `tests/api/*.test.ts` | Over HTTP like the apps, creating real users on `alghali-test` and cleaning up with `Fixtures` |
-| `packages/core/test` | Parsers on fixtures, repositories on the fake server |
+| `packages/core/test` | Parsers on fixtures, repositories on the fake server, outbox and cache on in-memory SQLite |
+| `apps/buyer/test` | `FakeBackend` (test/support/backend.dart) answers from fixtures captured on dev (`pnpm fixtures:buyer`). New screens join `screens_test.dart` (Arabic and English at 360 dp); flows go in `journey_test.dart`. |
+| `apps/buyer/integration_test` | `pnpm buyer:e2e` with an emulator running: the happy path against dev, cleaning up after itself |
 | `apps/admin` | Dictionary parity, locale |
 
 Each milestone's exit criteria in PLAN §2 must have a test. Before committing, `pnpm check` must pass (lint, Prettier, typecheck, TypeScript tests including DB and API, Dart format, `flutter analyze`, Flutter tests).
@@ -110,7 +119,7 @@ Each milestone's exit criteria in PLAN §2 must have a test. Before committing, 
 
 - `alghali-dev` (`mhnftcntnaqarzugwvhz`): the apps and admin during development, with demo data. `alghali-test` (`enyqkvordmzauxwbfwif`): automated tests only. CI runs its own local Supabase.
 - **Secrets live only in the root `.env`**, and key files in the root `secrets/` folder (ignored by Git). `pnpm env:sync` copies client-safe values into the apps. Never print keys, never put them in commits or chat.
-- **Firebase** (D-109): one project, `alghali-street`, for every environment. Its service account key is `secrets/firebase-service-account.json`, installed with `pnpm notify:setup <dev|test> --fcm secrets/firebase-service-account.json` (re-run after replacing the key). The apps' `google-services.json` (both Android apps, `sd.alghali.buyer` and `sd.alghali.partner`) waits in `secrets/` until M4/M5 add push registration.
+- **Firebase** (D-109): one project, `alghali-street`, for every environment. Its service account key is `secrets/firebase-service-account.json`, installed with `pnpm notify:setup <dev|test> --fcm secrets/firebase-service-account.json` (re-run after replacing the key). `secrets/google-services.json` (both Android apps, `sd.alghali.buyer` and `sd.alghali.partner`) is read by `pnpm env:sync`, which puts each app's Firebase values in its `env/dev.json` (D-113); no Gradle plugin.
 - **Demo data never reaches a live project.** `pnpm db:seed:dev` refuses any target except dev. The starter catalogue is a migration and goes everywhere (D-071).
 - Hosted auth settings are changed only through `infra/hosted/supabase/config.toml` and `pnpm hosted:push` (D-073). Don't push the repo's `supabase/config.toml` to a hosted project.
 - Edge Functions deploy with `pnpm functions:deploy:<dev|test>` (bundled by Supabase, no Docker).
@@ -127,6 +136,12 @@ Each milestone's exit criteria in PLAN §2 must have a test. Before committing, 
 - Run Prettier from the repo root (or with `--list-different` there): from `apps/admin` it misses the root `.prettierignore` and rewrites the vendored `components/ui` files.
 - `pnpm db:seed:dev` only targets dev or a `127.0.0.1` stack, on purpose.
 - In plpgsql, a `record` variable that was never assigned can't be read, even inside a `case`; use plain variables when a branch may skip the `select … into`.
+- The Supabase Dart client applies `postgrestOptions` (retries, timeout) to `rpc()` only, not to `from()` table queries; `CachedReads` sets them per query (`ReadPolicy`). Tests set `ReadPolicy.retries = 0`, or a retry timer outlives the test.
+- In the bash tool, heredocs lose backslashes (`\n` becomes a newline): write Python edit scripts to a file first when the text has backslashes.
+- Widget tests only build what is on screen: a `ListView` item below the fold isn't found. Order numbers are wrapped in invisible direction marks (`formatRef`), so match on part of the digits.
+- Plugins that touch the platform at construction (the microphone recorder) must be created on first use, or widget tests fail with `MissingPluginException`.
+- An order for a fitting alone has no sub-orders: never take `subOrders.first` unguarded.
+- Device tests (`integration_test`): `tester.pageBack()` can't see the `material_ui` back button, so use `tester.binding.handlePopRoute()`; parts of a page load a moment later and push items out of the built part of a list, so wait for them before `scrollUntilVisible`; the run leaves the demo buyer's garage changed, and cancels the order it places (if a run stops half-way, cancel what it left as that demo buyer).
 
 - Prettier treats `[lang]` in a path as a glob; target those files with `apps/admin/src/app/**/<page>/page.tsx`.
 - A `.catch()` inside a test transaction leaves Postgres in an aborted state; use `failure()`.
@@ -137,6 +152,5 @@ Each milestone's exit criteria in PLAN §2 must have a test. Before committing, 
 
 ## 10. What comes next
 
-- **M4 Buyer app** on the real backend: sign-in, garage, search, cart and checkout (with fittings), Bankak receipts, orders and bookings tracking, requests, chat, reviews, disputes, the offline cache and outbox, push registration (FCM), the street strip.
-- **M5 Partner app:** the shop and technician screens on the real backend (orders, stock, requests, chat, statements; offers, job day, hours, earnings).
+- **M5 Partner app:** the shop and technician screens on the real backend (orders, stock, requests, chat, statements; offers, job day, hours, earnings), the same way as the buyer app: `liveDataOverrides`, `CachedReads`, an outbox with the partner's handlers (offline listing drafts), push registration with `app: 'partner'`, an `alerts` channel and icon in its Android project, fixtures captured from dev and screen tests in both languages. The technician's en-route location (`tech_update_location`) and job photos (`booking-photos`) are new device work.
 - **M6:** the remaining admin work and Playwright smoke tests. **M7:** the acceptance journey end to end, low-end phone profiling, security review, release signing, the APK download page, and the live project.

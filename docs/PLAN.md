@@ -1,6 +1,6 @@
 # Alghali Street Platform — Plan
 
-**Status:** v1.2 · approved by owner 2026-10-10 (with change: email login for everyone, phone OTP deferred) · M0 done · UI pass on sample data done 2026-10-11 · 2026-10-13: owner asked for a production launch with every feature (D-056–D-064: Android only, download link, free plan, push only, no domain) · M1 done 2026-10-13 · M2 done 2026-10-14 · M3 done 2026-10-14 · Rules for building on it: [BRIEF.md](BRIEF.md)
+**Status:** v1.2 · approved by owner 2026-10-10 (with change: email login for everyone, phone OTP deferred) · M0 done · UI pass on sample data done 2026-10-11 · 2026-10-13: owner asked for a production launch with every feature (D-056–D-064: Android only, download link, free plan, push only, no domain) · M1 done 2026-10-13 · M2 done 2026-10-14 · M3 done 2026-10-14 · M4 done 2026-10-14 · Rules for building on it: [BRIEF.md](BRIEF.md)
 **Source brief:** [`claude-code-prompt-alghali.md`](../claude-code-prompt-alghali.md) · **Decisions log:** [`DECISIONS.md`](DECISIONS.md)
 
 ---
@@ -139,6 +139,14 @@ Every milestone ends with: lint + tests green, docs updated, a commit, and a sho
   - **Changes from this plan:** the hold is an RPC, not an Edge Function (D-096); a fitting waits for payment from checkout, not from the receipt (D-097, amends D-023); the alert queue is a table, not pgmq (D-101, amends D-007); a technician dropping out is reassigned, not `CANCELLED_BY_TECH` (D-102).
   - **Not in M3:** real push needs the owner's Firebase project (then `pnpm notify:setup <env> --fcm key.json`); SMS/WhatsApp stay stubs (D-061). Shifting the earliest slot to admin working hours for unconfirmed Bankak orders (D-027) and opening hours in the 30-minute alert (D-020) are left out. Declining a part-does-not-fit return on a cash order needs a manual adjustment (D-098).
   - **Owner input still needed before launch:** as before (street city, GPS starting point and zone names, Bankak account, real fees). The Firebase project was set up the same day (D-109). Fittings at the buyer's place can't be booked until the street's starting point is set.
+
+- **M4 — done 2026-10-14** (D-110–D-118):
+  - **Buyer app on the real backend:** sign-in and sign-up, profile and phone, My Garage synced with the account, the live catalogue (cached snapshot plus daily changes), search, part and shop pages with real photos, the street strip, cart (kept on the phone, mirrored to the account), fittings from the slot engine (place → technician → free time → hold), checkout with fittings, deposits and delivery estimates, Bankak receipts with a photo or the transaction number, order and fitting tracking with the technician's live distance, job code, job photos, cancelling with the fee rules and picking a new time, returns, "I got it", ratings, complaints, photo requests with real photos and offers, chat with voice notes, the inbox worded from the admins' templates, addresses by GPS, refund account, help contacts, update notice.
+  - **Offline:** saved reads for everything the buyer looks at, a banner when offline, and an outbox that replays cart, garage, chat, read marks, ratings and profile changes in order with their idempotency keys (D-112). Reads retry once and give up after 20 s (D-115).
+  - **Push:** Firebase registration, alerts while the app is open, taps that open the right screen, an Android `alerts` channel and icon (D-113).
+  - **Tests:** 106 core, 58 buyer and 11 partner Flutter tests. Exit criteria met: every screen tested in Arabic (RTL) and English (LTR) at 360 dp on answers captured from dev; outbox replay tests (order, back-off, refusals, a duplicate replay counted as done); the happy path on an Android emulator against dev (`pnpm buyer:e2e`).
+  - **Changes from this plan:** one fitting per order covering several parts, not one per part (D-111); the technician's position as distance plus a Google Maps link, not an in-app map (D-117).
+  - **Not in M4:** SMS and WhatsApp stay stubs (D-061); password-reset emails wait for the owner's mailbox (D-064). Fittings at the buyer's place and delivery need the street's starting point (D-077).
 
 | # | Scope | Exit criteria |
 |---|---|---|

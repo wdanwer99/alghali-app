@@ -1,6 +1,8 @@
 /// Shared code for the Alghali buyer and partner apps.
 library;
 
+export 'src/backend/addresses_repository.dart';
+export 'src/backend/alerts.dart';
 export 'src/backend/auth_repository.dart';
 export 'src/backend/backend.dart';
 export 'src/backend/backend_error.dart';
@@ -9,6 +11,7 @@ export 'src/backend/catalogue_repository.dart';
 export 'src/backend/chat_repository.dart';
 export 'src/backend/garage_repository.dart';
 export 'src/backend/orders_repository.dart';
+export 'src/backend/read_cache.dart';
 export 'src/backend/repositories.dart';
 export 'src/backend/requests_repository.dart';
 export 'src/backend/shop_repository.dart';
@@ -34,7 +37,11 @@ export 'src/models/catalogue.dart';
 export 'src/models/commerce.dart';
 export 'src/models/installation.dart';
 export 'src/models/partner.dart';
+export 'src/platform/device.dart';
+export 'src/push/push.dart';
 export 'src/settings/app_settings.dart';
+export 'src/sync/live_catalogue.dart';
+export 'src/sync/outbox.dart';
 export 'src/theme/app_colors.dart';
 export 'src/theme/app_palette.dart';
 export 'src/theme/app_theme.dart';
@@ -45,3 +52,4 @@ export 'src/widgets/brand.dart';
 export 'src/widgets/common.dart';
 export 'src/widgets/countdown.dart';
 export 'src/widgets/language_picker.dart';
+export 'src/widgets/voice.dart';

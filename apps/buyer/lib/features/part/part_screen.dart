@@ -6,11 +6,12 @@ import 'package:material_ui/material_ui.dart';
 import '../../app.dart';
 import '../../router.dart';
 import '../../state/cart.dart';
+import '../../state/catalogue.dart';
 import '../../state/garage.dart';
 import '../../widgets/buyer_widgets.dart';
 
-/// One part, every shop that sells it (cheapest first), and the fit verdict
-/// for the buyer's car.
+/// One part, every shop that sells it (in stock first, then cheapest), and the fit
+/// verdict for the buyer's car.
 class PartScreen extends ConsumerWidget {
   const PartScreen({super.key, required this.partId});
 
@@ -18,112 +19,184 @@ class PartScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final variantId = ref.watch(selectedVariantProvider);
+    final key = (partId: partId, variantId: variantId);
+    final detail = ref.watch(partDetailProvider(key));
+    final catalogue = ref.watch(catalogueProvider);
+    final title = detail.value == null
+        ? ''
+        : catalogue.category(detail.value!.part.categoryId).name.tr(context);
+    return Scaffold(
+      appBar: AppBar(title: Text(title)),
+      body: AsyncBody(
+        value: detail,
+        onRefresh: () => ref.refresh(partDetailProvider(key).future),
+        data: (d) => _PartBody(detail: d, variantId: variantId),
+      ),
+    );
+  }
+}
+
+class _PartBody extends ConsumerWidget {
+  const _PartBody({required this.detail, required this.variantId});
+
+  final PartDetail detail;
+  final String? variantId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     final t = context.t;
     final core = context.core;
     final theme = Theme.of(context);
     final catalogue = ref.watch(catalogueProvider);
-    final variantId = ref.watch(selectedVariantProvider);
-    final part = catalogue.part(partId);
+    final dataSaver = ref.watch(dataSaverProvider);
+    final part = detail.part;
     final category = catalogue.category(part.categoryId);
-    final fit = catalogue.fitOf(part, variantId);
-    final listings = catalogue.listingsOf(partId).where((l) => l.inStock).toList();
-    final minLabour = _minLabour(catalogue, category.jobType);
-    final car = variantId == null ? null : carLabel(context, catalogue, variantId, engine: false);
+    final offers = detail.offers;
+    final inStock = offers.where((o) => o.listing.inStock && !o.listing.priceOnRequest).toList();
+    final car = variantId == null ? null : carLabel(context, catalogue, variantId!, engine: false);
+    final image = offers.expand((o) => o.images).firstOrNull;
+    final installable = part.installable && (detail.jobType ?? category.jobType) != null;
 
-    return Scaffold(
-      appBar: AppBar(title: Text(category.name.tr(context))),
-      body: ListView(
-        padding: const EdgeInsets.only(bottom: Space.xxl),
-        children: [
-          Container(
-            color: theme.colorScheme.surface,
-            padding: const EdgeInsets.all(Space.page),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Center(child: PartThumb(icon: category.icon, size: 168)),
-                const SizedBox(height: Space.lg),
-                Text(part.name.tr(context), style: theme.textTheme.headlineSmall),
-                const SizedBox(height: Space.sm),
-                if (listings.isNotEmpty)
-                  Text(
-                    core.moneyFrom(context.sdg(listings.first.priceSdg)),
-                    style: theme.textTheme.titleLarge?.copyWith(
-                      fontFeatures: AppTypography.tabular,
-                    ),
+    return ListView(
+      padding: const EdgeInsets.only(bottom: Space.xxl),
+      children: [
+        Container(
+          color: theme.colorScheme.surface,
+          padding: const EdgeInsets.all(Space.page),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Center(
+                child: GestureDetector(
+                  onTap: image == null ? null : () => _showPhoto(context, ref, image),
+                  child: PartThumb(
+                    icon: category.icon,
+                    size: 168,
+                    imageUrl: thumbUrl(ref, image, size: dataSaver ? 'thumb' : 'medium'),
                   ),
-                const SizedBox(height: Space.md),
-                switch (fit) {
-                  Fit.fits => InfoBanner(tone: Tone.success, message: t.partFits(car!)),
-                  Fit.check => InfoBanner(tone: Tone.warning, message: t.partCheck),
-                  Fit.noFit => InfoBanner(tone: Tone.danger, message: t.partNoFit(car!)),
-                  null => InfoBanner(
-                    tone: Tone.info,
-                    icon: Icons.directions_car_outlined,
-                    message: t.partNoCar,
-                    action: OutlinedButton(
-                      onPressed: () => context.push(Routes.addCar),
-                      child: Text(t.garageAdd),
-                    ),
-                  ),
-                },
-                if (part.oemNumbers.isNotEmpty) ...[
-                  const SizedBox(height: Space.md),
-                  Text(t.partOem, style: theme.textTheme.bodySmall),
-                  Wrap(
-                    spacing: Space.sm,
-                    children: [
-                      for (final n in part.oemNumbers)
-                        Chip(
-                          label: Text(n, textDirection: TextDirection.ltr),
-                          visualDensity: VisualDensity.compact,
-                        ),
-                    ],
-                  ),
-                ],
+                ),
+              ),
+              const SizedBox(height: Space.lg),
+              Text(part.name.tr(context), style: theme.textTheme.headlineSmall),
+              if (!part.verified) ...[
+                const SizedBox(height: Space.xs),
+                Text(t.partUnverified, style: theme.textTheme.bodySmall),
               ],
+              const SizedBox(height: Space.sm),
+              if (inStock.isNotEmpty)
+                Text(
+                  core.moneyFrom(
+                    context.sdg(
+                      inStock.map((o) => o.listing.priceSdg).reduce((a, b) => a < b ? a : b),
+                    ),
+                  ),
+                  style: theme.textTheme.titleLarge?.copyWith(fontFeatures: AppTypography.tabular),
+                ),
+              const SizedBox(height: Space.md),
+              switch (detail.fit) {
+                Fit.fits => InfoBanner(tone: Tone.success, message: t.partFits(car ?? '')),
+                Fit.check => InfoBanner(tone: Tone.warning, message: t.partCheck),
+                Fit.noFit => InfoBanner(tone: Tone.danger, message: t.partNoFit(car ?? '')),
+                null when variantId != null => InfoBanner(tone: Tone.warning, message: t.partCheck),
+                null => InfoBanner(
+                  tone: Tone.info,
+                  icon: Icons.directions_car_outlined,
+                  message: t.partNoCar,
+                  action: OutlinedButton(
+                    onPressed: () => context.push(Routes.addCar),
+                    child: Text(t.garageAdd),
+                  ),
+                ),
+              },
+              if (detail.fitmentNote != null) ...[
+                const SizedBox(height: Space.sm),
+                Text(detail.fitmentNote!.tr(context), style: theme.textTheme.bodySmall),
+              ],
+              if (part.oemNumbers.isNotEmpty) ...[
+                const SizedBox(height: Space.md),
+                Text(t.partOem, style: theme.textTheme.bodySmall),
+                Wrap(
+                  spacing: Space.sm,
+                  children: [
+                    for (final n in part.oemNumbers)
+                      Chip(
+                        label: Text(n, textDirection: TextDirection.ltr),
+                        visualDensity: VisualDensity.compact,
+                      ),
+                  ],
+                ),
+              ],
+            ],
+          ),
+        ),
+        SectionHeader(title: t.partCompare(offers.length)),
+        if (offers.isEmpty)
+          EmptyState(
+            icon: Icons.storefront_outlined,
+            title: t.partNoOffers,
+            compact: true,
+            action: OutlinedButton.icon(
+              onPressed: () => context.push(Routes.newRequest),
+              icon: const Icon(Icons.add_a_photo_outlined),
+              label: Text(t.searchSendPhoto),
             ),
           ),
-          SectionHeader(title: t.partCompare(listings.length)),
-          for (final (i, l) in listings.indexed)
-            Padding(
-              padding: const EdgeInsets.fromLTRB(Space.page, 0, Space.page, Space.sm),
-              child: _OfferCard(listing: l, part: part, best: i == 0),
+        for (final (i, o) in offers.indexed)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(Space.page, 0, Space.page, Space.sm),
+            child: _OfferCard(offer: o, part: part, best: i == 0 && inStock.contains(o)),
+          ),
+        if (installable)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(Space.page, Space.md, Space.page, 0),
+            child: InfoBanner(
+              tone: Tone.neutral,
+              icon: Icons.handyman_outlined,
+              title: t.partFittingTitle,
+              message: t.partFittingBodyLive,
             ),
-          if (part.installable && minLabour != null)
-            Padding(
-              padding: const EdgeInsets.fromLTRB(Space.page, Space.md, Space.page, 0),
-              child: InfoBanner(
-                tone: Tone.neutral,
-                icon: Icons.handyman_outlined,
-                title: t.partFittingTitle,
-                message: t.partFittingBody(context.sdg(minLabour)),
-              ),
+          ),
+        if (part.description != null)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(Space.page, Space.lg, Space.page, 0),
+            child: SectionCard(
+              title: t.partAbout,
+              child: Text(part.description!.tr(context), style: theme.textTheme.bodyLarge),
             ),
-          if (part.description != null)
-            Padding(
-              padding: const EdgeInsets.fromLTRB(Space.page, Space.lg, Space.page, 0),
-              child: SectionCard(
-                title: t.partAbout,
-                child: Text(part.description!.tr(context), style: theme.textTheme.bodyLarge),
-              ),
-            ),
-        ],
-      ),
+          ),
+      ],
     );
   }
 
-  static int? _minLabour(CatalogueData c, JobType? job) {
-    if (job == null) return null;
-    final prices = [for (final tech in c.technicians) ?tech.labourSdg[job]];
-    return prices.isEmpty ? null : prices.reduce((a, b) => a < b ? a : b);
+  /// The full photo, loaded only when tapped (data saver, brief §1).
+  static void _showPhoto(BuildContext context, WidgetRef ref, String key) {
+    final url = thumbUrl(ref, key, size: 'large');
+    if (url == null) return;
+    showDialog<void>(
+      context: context,
+      builder: (context) => Dialog(
+        clipBehavior: Clip.antiAlias,
+        child: InteractiveViewer(
+          child: Image.network(
+            url,
+            fit: BoxFit.contain,
+            loadingBuilder: (_, child, progress) => progress == null
+                ? child
+                : const SizedBox(height: 240, child: Center(child: CircularProgressIndicator())),
+            errorBuilder: (_, _, _) =>
+                const SizedBox(height: 240, child: Icon(Icons.broken_image_outlined)),
+          ),
+        ),
+      ),
+    );
   }
 }
 
 class _OfferCard extends ConsumerWidget {
-  const _OfferCard({required this.listing, required this.part, required this.best});
+  const _OfferCard({required this.offer, required this.part, required this.best});
 
-  final Listing listing;
+  final ShopOffer offer;
   final Part part;
   final bool best;
 
@@ -133,10 +206,12 @@ class _OfferCard extends ConsumerWidget {
     final core = context.core;
     final theme = Theme.of(context);
     final catalogue = ref.watch(catalogueProvider);
-    final shop = catalogue.shop(listing.shopId);
+    final listing = offer.listing;
+    final shop = catalogue.hasShop(offer.shop.id) ? catalogue.shop(offer.shop.id) : offer.shop;
+    final canBuy = listing.inStock && !listing.priceOnRequest;
 
     void add() {
-      ref.read(cartProvider.notifier).addListing(listing, part);
+      ref.read(cartProvider.notifier).addListing(listing, part, imageKey: offer.images.firstOrNull);
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
         ..showSnackBar(
@@ -146,6 +221,24 @@ class _OfferCard extends ConsumerWidget {
           ),
         );
     }
+
+    final button = !canBuy
+        ? OutlinedButton.icon(
+            onPressed: () => context.push(Routes.chat(shop.id)),
+            icon: const Icon(Icons.chat_bubble_outline, size: 20),
+            label: Text(listing.priceOnRequest ? t.partAskPrice : t.partAskStock),
+          )
+        : best
+        ? FilledButton.icon(
+            onPressed: add,
+            icon: const Icon(Icons.add_shopping_cart, size: 20),
+            label: Text(t.partAddToCart),
+          )
+        : OutlinedButton.icon(
+            onPressed: add,
+            icon: const Icon(Icons.add_shopping_cart, size: 20),
+            label: Text(t.partAddToCart),
+          );
 
     return Card(
       shape: RoundedRectangleBorder(
@@ -214,6 +307,10 @@ class _OfferCard extends ConsumerWidget {
                 if (listing.brand != null) StatusPill(label: listing.brand!),
               ],
             ),
+            if (offer.note != null && offer.note!.isNotEmpty) ...[
+              const SizedBox(height: Space.sm),
+              Text(offer.note!, style: theme.textTheme.bodySmall),
+            ],
             const SizedBox(height: Space.md),
             Row(
               children: [
@@ -221,13 +318,16 @@ class _OfferCard extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      PriceText(
-                        text: context.sdg(listing.priceSdg),
-                        was: listing.wasSdg == null ? null : context.sdg(listing.wasSdg!),
-                        large: true,
-                      ),
+                      if (listing.priceOnRequest)
+                        Text(t.priceOnRequest, style: theme.textTheme.titleMedium)
+                      else
+                        PriceText(
+                          text: context.sdg(listing.priceSdg),
+                          was: listing.wasSdg == null ? null : context.sdg(listing.wasSdg!),
+                          large: true,
+                        ),
                       Text(
-                        core.inStock(listing.stockQty),
+                        listing.inStock ? core.inStock(listing.stockQty) : t.partOutOfStock,
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: listing.stockQty <= 3 ? AppColors.of(context).warning : null,
                         ),
@@ -235,17 +335,7 @@ class _OfferCard extends ConsumerWidget {
                     ],
                   ),
                 ),
-                best
-                    ? FilledButton.icon(
-                        onPressed: add,
-                        icon: const Icon(Icons.add_shopping_cart, size: 20),
-                        label: Text(t.partAddToCart),
-                      )
-                    : OutlinedButton.icon(
-                        onPressed: add,
-                        icon: const Icon(Icons.add_shopping_cart, size: 20),
-                        label: Text(t.partAddToCart),
-                      ),
+                button,
               ],
             ),
           ],

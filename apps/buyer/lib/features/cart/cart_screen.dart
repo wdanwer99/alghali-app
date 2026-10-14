@@ -15,7 +15,8 @@ class CartScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = context.t;
-    final lines = ref.watch(cartProvider);
+    final cart = ref.watch(cartProvider);
+    final lines = cart.lines;
     final catalogue = ref.watch(catalogueProvider);
     final shops = <String>{for (final l in lines) l.shopId};
 
@@ -40,6 +41,10 @@ class CartScreen extends ConsumerWidget {
                     shop: catalogue.shop(shopId),
                     lines: lines.where((l) => l.shopId == shopId).toList(),
                   ),
+                  const SizedBox(height: Space.md),
+                ],
+                if (cart.fitting != null) ...[
+                  _FittingBlock(fitting: cart.fitting!),
                   const SizedBox(height: Space.md),
                 ],
                 const _Summary(),
@@ -107,13 +112,19 @@ class _LineTile extends ConsumerWidget {
     final core = context.core;
     final theme = Theme.of(context);
     final catalogue = ref.watch(catalogueProvider);
-    final cart = ref.read(cartProvider.notifier);
+    final cart = ref.watch(cartProvider);
+    final notifier = ref.read(cartProvider.notifier);
     final category = catalogue.category(line.categoryId);
-    final job = category.jobType;
-    final minLabour = job == null
-        ? null
-        : [for (final tech in catalogue.technicians) ?tech.labourSdg[job]]
-              .fold<int?>(null, (m, p) => m == null || p < m ? p : m);
+    final fittable = line.installable && category.jobType != null;
+    final fitted = cart.fitted(line.id);
+
+    void remove() {
+      if (notifier.remove(line.id)) {
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(SnackBar(content: Text(t.cartFittingDropped)));
+      }
+    }
 
     return Padding(
       padding: const EdgeInsets.all(Space.md),
@@ -123,7 +134,7 @@ class _LineTile extends ConsumerWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              PartThumb(icon: category.icon, size: 60),
+              PartThumb(icon: category.icon, size: 60, imageUrl: thumbUrl(ref, line.imageKey)),
               const SizedBox(width: Space.md),
               Expanded(
                 child: Column(
@@ -150,38 +161,34 @@ class _LineTile extends ConsumerWidget {
           const SizedBox(height: Space.sm),
           Row(
             children: [
-              QuantityStepper(value: line.qty, onChanged: (q) => cart.setQty(line.id, q)),
+              if (line.offerId == null)
+                QuantityStepper(value: line.qty, onChanged: (q) => notifier.setQty(line.id, q)),
               const Spacer(),
               IconButton(
                 tooltip: t.cartRemoveItem,
-                onPressed: () => cart.remove(line.id),
+                onPressed: remove,
                 icon: const Icon(Icons.delete_outline),
               ),
             ],
           ),
-          if (line.installable && job != null) ...[
-            const SizedBox(height: Space.sm),
-            line.fitting == null
-                ? Row(
-                    children: [
-                      OutlinedButton.icon(
-                        style: OutlinedButton.styleFrom(minimumSize: const Size(0, Hit.min)),
-                        onPressed: () => context.push(Routes.bookLine(line.id)),
-                        icon: const Icon(Icons.handyman_outlined, size: 20),
-                        label: Text(t.cartAddFitting),
-                      ),
-                      const SizedBox(width: Space.md),
-                      if (minLabour != null)
-                        Expanded(
-                          child: Text(
-                            t.cartFittingFrom(context.sdg(minLabour)),
-                            style: theme.textTheme.bodySmall,
-                          ),
-                        ),
-                    ],
-                  )
-                : _FittingBlock(line: line),
-          ],
+          if (fitted)
+            Row(
+              children: [
+                Icon(Icons.handyman_outlined, size: 18, color: AppColors.of(context).success),
+                const SizedBox(width: Space.sm),
+                Expanded(child: Text(t.cartInFitting, style: theme.textTheme.bodySmall)),
+              ],
+            )
+          else if (fittable)
+            Align(
+              alignment: AlignmentDirectional.centerStart,
+              child: OutlinedButton.icon(
+                style: OutlinedButton.styleFrom(minimumSize: const Size(0, Hit.min)),
+                onPressed: () => context.push(Routes.bookLine(line.id)),
+                icon: const Icon(Icons.handyman_outlined, size: 20),
+                label: Text(cart.fitting == null ? t.cartAddFitting : t.cartAddToFitting),
+              ),
+            ),
         ],
       ),
     );
@@ -189,53 +196,41 @@ class _LineTile extends ConsumerWidget {
 }
 
 class _FittingBlock extends ConsumerWidget {
-  const _FittingBlock({required this.line});
+  const _FittingBlock({required this.fitting});
 
-  final CartLine line;
+  final FittingDraft fitting;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = context.t;
     final theme = Theme.of(context);
-    final f = line.fitting!;
-    final catalogue = ref.watch(catalogueProvider);
-    final tech = catalogue.technician(f.technicianId);
     final colors = AppColors.of(context);
+    final now = ref.watch(clockProvider)();
+    final b = fitting.booking;
+    final where = b.place == BookingPlace.bay
+        ? t.bookAtBay(b.bayName?.tr(context) ?? '')
+        : b.address?.label.tr(context) ?? t.placeHome;
 
-    return Container(
-      padding: const EdgeInsets.all(Space.md),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainer,
-        borderRadius: Radii.mdAll,
-      ),
+    return SectionCard(
+      title: t.cartFitting,
+      trailing: const Icon(Icons.handyman_outlined),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Row(
-            children: [
-              const Icon(Icons.handyman_outlined, size: 20),
-              const SizedBox(width: Space.sm),
-              Expanded(
-                child: Text(
-                  '${t.cartFitting}: ${f.anyTechnician ? t.cartAnyTech : tech.name.tr(context)}',
-                  style: theme.textTheme.titleSmall,
-                ),
-              ),
-            ],
+          Text(
+            fitting.anyTechnician ? '${t.cartAnyTech} · ${b.technicianName}' : b.technicianName,
+            style: theme.textTheme.titleSmall,
           ),
           const SizedBox(height: Space.xs),
+          Text('${context.dayTime(b.startAt)} · $where', style: theme.textTheme.bodyMedium),
           Text(
-            '${context.dayTime(f.slot.start)} · ${f.place == BookingPlace.bay ? t.placeBay : t.placeHome}',
-            style: theme.textTheme.bodyMedium,
-          ),
-          Text(
-            '${t.costLabour}: ${context.sdg(f.labourSdg)}'
-            '${f.travelFeeSdg > 0 ? ' · ${t.costTravel}: ${context.sdg(f.travelFeeSdg)}' : ''}',
+            '${t.costLabour}: ${context.sdg(b.labourSdg)}'
+            '${b.travelFeeSdg > 0 ? ' · ${t.costTravel}: ${context.sdg(b.travelFeeSdg)}' : ''}',
             style: theme.textTheme.bodySmall,
           ),
           const SizedBox(height: Space.xs),
           Countdown(
-            until: f.heldUntil,
+            until: fitting.heldUntil(now),
             builder: (context, left) => left == Duration.zero
                 ? Text(
                     t.cartHoldExpired,
@@ -258,11 +253,11 @@ class _FittingBlock extends ConsumerWidget {
           Row(
             children: [
               TextButton(
-                onPressed: () => context.push(Routes.bookLine(line.id)),
+                onPressed: () => context.push(Routes.bookLine(fitting.lineIds.first)),
                 child: Text(t.cartChange),
               ),
               TextButton(
-                onPressed: () => ref.read(cartProvider.notifier).removeFitting(line.id),
+                onPressed: () => ref.read(cartProvider.notifier).releaseFitting(),
                 child: Text(t.cartRemoveFitting),
               ),
             ],
@@ -308,10 +303,10 @@ class _CheckoutBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = context.t;
-    final lines = ref.watch(cartProvider);
+    final cart = ref.watch(cartProvider);
     final totals = ref.watch(cartTotalsProvider);
     final signedIn = ref.watch(sessionProvider.select((s) => s.signedIn));
-    final holds = [for (final l in lines) ?l.fitting?.heldUntil]..sort();
+    final now = ref.watch(clockProvider)();
 
     Widget bar(bool expired) => BottomActionBar(
       top: Row(
@@ -332,7 +327,11 @@ class _CheckoutBar extends ConsumerWidget {
       ),
     );
 
-    if (holds.isEmpty) return bar(false);
-    return Countdown(until: holds.first, builder: (context, left) => bar(left == Duration.zero));
+    final f = cart.fitting;
+    if (f == null) return bar(false);
+    return Countdown(
+      until: f.heldUntil(now),
+      builder: (context, left) => bar(left == Duration.zero),
+    );
   }
 }

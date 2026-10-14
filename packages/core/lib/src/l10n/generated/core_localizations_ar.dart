@@ -475,4 +475,130 @@ class CoreLocalizationsAr extends CoreLocalizations {
   String thousands(String value) {
     return '$value ألف';
   }
+
+  @override
+  String get errOffline => 'لا يوجد اتصال بالإنترنت. حاول مرة أخرى بعد قليل.';
+
+  @override
+  String get errGeneric => 'حدث خطأ. حاول مرة أخرى.';
+
+  @override
+  String get errSessionExpired => 'انتهت جلستك. سجّل الدخول مرة أخرى.';
+
+  @override
+  String get errInvalidCredentials => 'البريد أو كلمة المرور غير صحيحة.';
+
+  @override
+  String get errEmailTaken => 'هذا البريد له حساب من قبل. سجّل الدخول بدلًا من ذلك.';
+
+  @override
+  String get errTooManyAttempts => 'محاولات كثيرة. انتظر قليلًا ثم حاول مرة أخرى.';
+
+  @override
+  String get errPhoneRequired => 'أضف رقم هاتفك في حسابك أولًا، ليتصل بك المحل أو الفني.';
+
+  @override
+  String get errSlotTaken => 'حجز أحدهم هذا الموعد للتو. اختر موعدًا آخر.';
+
+  @override
+  String get errHoldExpired => 'انتهت مدة حجز الموعد. اختر الموعد مرة أخرى.';
+
+  @override
+  String get errTechnicianUnavailable =>
+      'هذا الفني لم يعد متاحًا في هذا الموعد. اختر موعدًا أو فنيًا آخر.';
+
+  @override
+  String get errTooEarly => 'هذا الموعد قريب جدًا. اختر موعدًا لاحقًا.';
+
+  @override
+  String get errOutOfRange => 'هذا الموقع خارج منطقة الخدمة.';
+
+  @override
+  String get errTravelUnavailable => 'التركيب في موقعك غير متاح بعد. اختر ورشة في الشارع.';
+
+  @override
+  String get errDeliveryUnavailable => 'التوصيل غير متاح لهذا العنوان بعد. اختر الاستلام من المحل.';
+
+  @override
+  String get errDuplicateTxn => 'رقم العملية هذا استُخدم من قبل. تأكد منه.';
+
+  @override
+  String get errPaymentExpired => 'انتهت مهلة الدفع لهذا الطلب.';
+
+  @override
+  String get errCannotCancel => 'لم يعد ممكنًا إلغاء هذا.';
+
+  @override
+  String get errTooManyRequests => 'لديك طلبات صور مفتوحة كثيرة. أغلق بعضها أولًا.';
+
+  @override
+  String get errGarageFull => 'يمكنك حفظ 10 سيارات كحد أقصى.';
+
+  @override
+  String get errFileTooLarge => 'الملف كبير جدًا (5 ميجابايت كحد أقصى).';
+
+  @override
+  String get errFileType => 'نوع الملف غير مدعوم.';
+
+  @override
+  String get errNotFound => 'لم نجد هذا. ربما حُذف.';
+
+  @override
+  String get errForbidden => 'لا يمكنك القيام بهذا.';
+
+  @override
+  String get errCartChanged => 'تغيّرت بعض الأسعار أو الكميات. راجع السلة ثم أكّد.';
+
+  @override
+  String get errAddressRequired => 'اختر عنوانًا أو أضف عنوانًا جديدًا.';
+
+  @override
+  String get errLocationOff => 'شغّل الموقع (GPS) في هاتفك ثم حاول مرة أخرى.';
+
+  @override
+  String get errLocationDenied => 'اسمح للتطبيق باستخدام الموقع من إعدادات الهاتف.';
+
+  @override
+  String get errMicDenied => 'اسمح للتطبيق باستخدام الميكروفون من إعدادات الهاتف.';
+
+  @override
+  String get errCannotOpen => 'تعذّر فتح هذا على هاتفك.';
+
+  @override
+  String get errUnavailable => 'هذا لم يعد متاحًا.';
+
+  @override
+  String get queuedOffline => 'سيُرسل عند عودة الاتصال';
+
+  @override
+  String notSent(String reason) {
+    return 'لم يُرسل: $reason';
+  }
+
+  @override
+  String get voiceHold => 'اضغط مطولًا للتسجيل';
+
+  @override
+  String get voiceRecording => 'جارٍ التسجيل… ارفع إصبعك للإرسال';
+
+  @override
+  String get voiceTooShort => 'اضغط مطولًا على الميكروفون لتسجيل رسالة صوتية.';
+
+  @override
+  String get voicePlay => 'تشغيل';
+
+  @override
+  String get voicePause => 'إيقاف مؤقت';
+
+  @override
+  String get photoCamera => 'الكاميرا';
+
+  @override
+  String get photoGallery => 'المعرض';
+
+  @override
+  String get pullToRefresh => 'اسحب للتحديث';
+
+  @override
+  String get actionOpen => 'فتح';
 }

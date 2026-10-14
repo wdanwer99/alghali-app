@@ -6,6 +6,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../app.dart';
 import '../../router.dart';
 import '../../state/session.dart';
+import '../../widgets/buyer_widgets.dart';
 
 /// After signing in: continue to [next] if given, otherwise go back.
 void _leave(BuildContext context, String? next) {
@@ -44,12 +45,35 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
   Future<void> _submit() async {
     if (!_form.currentState!.validate()) return;
     setState(() => _busy = true);
-    await ref.read(sessionProvider.notifier).signIn(email: _email.text, password: _password.text);
-    if (!mounted) return;
-    final name = ref.read(sessionProvider).name ?? '';
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(context.t.signInWelcome(name))));
-    _leave(context, widget.next);
+    try {
+      await ref.read(sessionProvider.notifier).signIn(email: _email.text, password: _password.text);
+      if (!mounted) return;
+      final name = ref.read(sessionProvider).name ?? '';
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(context.t.signInWelcome(name))));
+      _leave(context, widget.next);
+    } on BackendException catch (e) {
+      if (mounted) showError(context, e);
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  /// Sends a reset link to the email typed (or asks for it).
+  Future<void> _forgot() async {
+    final t = context.t;
+    final email = isEmail(_email.text)
+        ? _email.text.trim()
+        : await askText(context, title: t.signInForgot, label: t.fieldEmail, maxLines: 1);
+    if (email == null || !mounted) return;
+    try {
+      await ref.read(sessionProvider.notifier).sendPasswordReset(email);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.signInForgotSent)));
+      }
+    } on BackendException catch (e) {
+      if (mounted) showError(context, e);
+    }
   }
 
   @override
@@ -120,12 +144,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
               ),
               Align(
                 alignment: AlignmentDirectional.centerEnd,
-                child: TextButton(
-                  onPressed: () =>
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(SnackBar(content: Text(t.signInForgotSent))),
-                  child: Text(t.signInForgot),
-                ),
+                child: TextButton(onPressed: _forgot, child: Text(t.signInForgot)),
               ),
               const SizedBox(height: Space.md),
               FilledButton(
@@ -149,12 +168,6 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                     child: Text(t.signInCreate),
                   ),
                 ],
-              ),
-              const SizedBox(height: Space.lg),
-              InfoBanner(
-                tone: Tone.neutral,
-                icon: Icons.science_outlined,
-                message: t.signInDemoHint,
               ),
             ],
           ),
@@ -193,13 +206,24 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   Future<void> _submit() async {
     if (!_form.currentState!.validate()) return;
     setState(() => _busy = true);
-    await ref
-        .read(sessionProvider.notifier)
-        .signUp(name: _name.text, email: _email.text, phone: _phone.text, password: _password.text);
-    if (!mounted) return;
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(context.t.signInWelcome(_name.text.trim()))));
-    _leave(context, widget.next);
+    try {
+      await ref
+          .read(sessionProvider.notifier)
+          .signUp(
+            name: _name.text,
+            email: _email.text,
+            phone: _phone.text.replaceAll(' ', ''),
+            password: _password.text,
+          );
+      if (!mounted) return;
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(context.t.signInWelcome(_name.text.trim()))));
+      _leave(context, widget.next);
+    } on BackendException catch (e) {
+      if (mounted) showError(context, e);
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
   }
 
   @override

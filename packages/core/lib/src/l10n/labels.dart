@@ -1,3 +1,4 @@
+import '../backend/backend_error.dart';
 import '../models/catalogue.dart';
 import '../models/commerce.dart';
 import 'generated/core_localizations.dart';
@@ -109,4 +110,45 @@ extension CoreLabels on CoreLocalizations {
   }
 
   String distance(double km) => this.km(km < 10 ? km.toStringAsFixed(1) : km.round().toString());
+}
+
+/// The message for a failed backend call, from its error code (docs/API.md).
+extension ErrorLabels on CoreLocalizations {
+  String error(Object e) => errorCode(e is BackendException ? e.code : 'UNKNOWN');
+
+  String errorCode(String code) => switch (code) {
+    BackendException.offlineCode => errOffline,
+    'SESSION_EXPIRED' || 'NOT_AUTHENTICATED' => errSessionExpired,
+    'INVALID_CREDENTIALS' => errInvalidCredentials,
+    'USER_ALREADY_EXISTS' || 'EMAIL_EXISTS' => errEmailTaken,
+    'WEAK_PASSWORD' => fieldPasswordWeak,
+    'EMAIL_ADDRESS_INVALID' || 'VALIDATION_FAILED' => fieldEmailInvalid,
+    'OVER_REQUEST_RATE_LIMIT' ||
+    'OVER_EMAIL_SEND_RATE_LIMIT' ||
+    'RATE_LIMITED' => errTooManyAttempts,
+    'INVALID_PHONE' => fieldPhoneInvalid,
+    'PHONE_REQUIRED' => errPhoneRequired,
+    'SLOT_TAKEN' => errSlotTaken,
+    'HOLD_EXPIRED' || 'BOOKING_NOT_FOUND' => errHoldExpired,
+    'TECHNICIAN_UNSUITABLE' || 'TECHNICIAN_NOT_ASSIGNED' => errTechnicianUnavailable,
+    'TOO_EARLY' || 'INVALID_START' => errTooEarly,
+    'TRAVEL_OUT_OF_RANGE' || 'DELIVERY_OUT_OF_RANGE' || 'INVALID_LOCATION' => errOutOfRange,
+    'TRAVEL_UNAVAILABLE' => errTravelUnavailable,
+    'DELIVERY_UNAVAILABLE' => errDeliveryUnavailable,
+    'DUPLICATE_TXN' => errDuplicateTxn,
+    'PAYMENT_EXPIRED' => errPaymentExpired,
+    'CANNOT_CANCEL' || 'INVALID_TRANSITION' => errCannotCancel,
+    'TOO_MANY_REQUESTS' => errTooManyRequests,
+    'GARAGE_FULL' => errGarageFull,
+    'FILE_TOO_LARGE' => errFileTooLarge,
+    'INVALID_FILE_TYPE' => errFileType,
+    'NOT_FOUND' || 'ORDER_NOT_FOUND' || 'ITEM_NOT_FOUND' => errNotFound,
+    'FORBIDDEN' => errForbidden,
+    'CART_CHANGED' => errCartChanged,
+    'ADDRESS_REQUIRED' || 'ADDRESS_NOT_FOUND' => errAddressRequired,
+    'LOCATION_OFF' => errLocationOff,
+    'LOCATION_DENIED' => errLocationDenied,
+    'OFFER_CLOSED' || 'OFFER_NOT_FOUND' || 'UNAVAILABLE' || 'NOT_INSTALLABLE' => errUnavailable,
+    _ => errGeneric,
+  };
 }

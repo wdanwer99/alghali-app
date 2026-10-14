@@ -1571,5 +1571,512 @@
   "continueAsGuest": "تصفّح بدون حساب",
   "@continueAsGuest": {
     "description": "Skip sign-in"
+  },
+  "shopClosedDay": "مغلق",
+  "@shopClosedDay": {
+    "description": "Opening hours: a day the shop is closed"
+  },
+  "priceOnRequest": "السعر عند الطلب",
+  "@priceOnRequest": {
+    "description": "Listing without a shown price"
+  },
+  "homeCatalogueLoading": "نحمّل الأقسام والمحلات… تحتاج اتصالًا بالإنترنت أول مرة.",
+  "@homeCatalogueLoading": {
+    "description": "Home before the first catalogue sync"
+  },
+  "updateAvailable": "نسخة جديدة من التطبيق متاحة.",
+  "@updateAvailable": {
+    "description": "Home: newer APK exists"
+  },
+  "updateRequired": "هذه النسخة قديمة. حمّل النسخة الجديدة لتواصل الشراء.",
+  "@updateRequired": {
+    "description": "Home: this build is no longer supported"
+  },
+  "updateDownload": "تحميل",
+  "@updateDownload": {
+    "description": "Download the new APK"
+  },
+  "partUnverified": "قطعة أضافها المحل ولم يراجعها فريقنا بعد.",
+  "@partUnverified": {
+    "description": "Part page: unverified part"
+  },
+  "partNoOffers": "لا يوجد محل يبيع هذه القطعة الآن.",
+  "@partNoOffers": {
+    "description": "Part page: no listings"
+  },
+  "partFittingBodyLive": "احجز فنيًا موثوقًا ليركّبها لك في ورشة بالشارع أو في مكانك. أضف القطعة للسلة ثم اختر «إضافة تركيب».",
+  "@partFittingBodyLive": {
+    "description": "Part page: fitting banner"
+  },
+  "partAskPrice": "اسأل عن السعر",
+  "@partAskPrice": {
+    "description": "Part page: chat for a price-on-request listing"
+  },
+  "partAskStock": "اسأل المحل",
+  "@partAskStock": {
+    "description": "Part page: chat about an out-of-stock listing"
+  },
+  "partOutOfStock": "غير متوفر الآن",
+  "@partOutOfStock": {
+    "description": "Part page: listing without stock"
+  },
+  "shopDirections": "الاتجاهات",
+  "@shopDirections": {
+    "description": "Shop page: open directions in Maps"
+  },
+  "shopNoParts": "لا توجد قطع معروضة بعد.",
+  "@shopNoParts": {
+    "description": "Shop page: no listings"
+  },
+  "cartFittingDropped": "أُلغي حجز التركيب لأن القطعة حُذفت. أضفه مرة أخرى إن احتجته.",
+  "@cartFittingDropped": {
+    "description": "Cart: removing a fitted part"
+  },
+  "cartInFitting": "ضمن التركيب المحجوز",
+  "@cartInFitting": {
+    "description": "Cart: line covered by the fitting"
+  },
+  "cartAddToFitting": "أضفها للتركيب",
+  "@cartAddToFitting": {
+    "description": "Cart: add this part to the existing fitting"
+  },
+  "bookTooFar": "بعيد جدًا",
+  "@bookTooFar": {
+    "description": "Booking: address beyond the travel bands"
+  },
+  "bookNoTechsBody": "لا يوجد فني متاح لهذا العمل في هذا المكان خلال الأيام القادمة. جرّب الورشة في الشارع أو عنوانًا آخر.",
+  "@bookNoTechsBody": {
+    "description": "Booking: nobody suits the job"
+  },
+  "bookNoFreeTime": "لا مواعيد متاحة في الأيام القادمة",
+  "@bookNoFreeTime": {
+    "description": "Booking: technician fully booked"
+  },
+  "bookNextFree": "أقرب موعد: {when}",
+  "@bookNextFree": {
+    "description": "Booking: technician next free time",
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "addressNew": "عنوان جديد",
+  "@addressNew": {
+    "description": "Address sheet title"
+  },
+  "addressNewBody": "قف في المكان نفسه واستخدم موقعك الحالي، ثم اكتب وصفًا يساعد الفني أو المندوب.",
+  "@addressNewBody": {
+    "description": "Address sheet hint"
+  },
+  "addressLocated": "تم تحديد موقعك",
+  "@addressLocated": {
+    "description": "Address sheet: GPS point taken"
+  },
+  "addressFromStreet": "على بعد {distance} من الشارع",
+  "@addressFromStreet": {
+    "description": "Address sheet: distance",
+    "placeholders": {
+      "distance": {
+        "type": "String"
+      }
+    }
+  },
+  "addressLocateAgain": "تحديد مرة أخرى",
+  "@addressLocateAgain": {
+    "description": "Address sheet: retake GPS"
+  },
+  "addressHome": "المنزل",
+  "@addressHome": {
+    "description": "Address label suggestion"
+  },
+  "addressWork": "العمل",
+  "@addressWork": {
+    "description": "Address label suggestion"
+  },
+  "addressLabel": "اسم العنوان",
+  "@addressLabel": {
+    "description": "Address field: label"
+  },
+  "addressDirections": "وصف المكان",
+  "@addressDirections": {
+    "description": "Address field: written directions"
+  },
+  "addressDirectionsHint": "مثال: الحي، الشارع، رقم المنزل، علامة قريبة",
+  "@addressDirectionsHint": {
+    "description": "Address field hint"
+  },
+  "addressSave": "حفظ العنوان",
+  "@addressSave": {
+    "description": "Address sheet button"
+  },
+  "profileTitle": "بياناتي",
+  "@profileTitle": {
+    "description": "Profile sheet title"
+  },
+  "profileSave": "حفظ",
+  "@profileSave": {
+    "description": "Profile sheet button"
+  },
+  "checkoutAddAddress": "أضف عنوانًا للتوصيل",
+  "@checkoutAddAddress": {
+    "description": "Checkout: no saved address yet"
+  },
+  "checkoutPayWithinMinutes": "حوّل المبلغ خلال {minutes} دقيقة، وإلا يُلغى الطلب تلقائيًا.",
+  "@checkoutPayWithinMinutes": {
+    "description": "Checkout: Bankak payment window",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "bankakRejected": "لم نقبل الإيصال",
+  "@bankakRejected": {
+    "description": "Bankak: receipt rejected"
+  },
+  "bankakRejectedBody": "{reason} أرسله مرة أخرى قبل انتهاء المهلة.",
+  "@bankakRejectedBody": {
+    "description": "Bankak: rejection with reason",
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "bankakDepositAmount": "حوّل العربون بالضبط",
+  "@bankakDepositAmount": {
+    "description": "Bankak: cash order deposit"
+  },
+  "rejectAmount": "المبلغ المحوَّل لا يطابق المطلوب.",
+  "@rejectAmount": {
+    "description": "Receipt rejection reason"
+  },
+  "rejectNotFound": "لم نجد التحويل في كشف الحساب.",
+  "@rejectNotFound": {
+    "description": "Receipt rejection reason"
+  },
+  "rejectDuplicate": "هذا الإيصال استُخدم لطلب آخر.",
+  "@rejectDuplicate": {
+    "description": "Receipt rejection reason"
+  },
+  "rejectUnreadable": "الإيصال غير واضح.",
+  "@rejectUnreadable": {
+    "description": "Receipt rejection reason"
+  },
+  "rejectOther": "راجع تفاصيل التحويل.",
+  "@rejectOther": {
+    "description": "Receipt rejection reason"
+  },
+  "orderRefunds": "المبالغ المستردة",
+  "@orderRefunds": {
+    "description": "Order: refunds section"
+  },
+  "refundSent": "أُرسل إليك",
+  "@refundSent": {
+    "description": "Order: refund paid"
+  },
+  "refundPending": "سيُرسل قريبًا",
+  "@refundPending": {
+    "description": "Order: refund waiting"
+  },
+  "refundBody": "نرسل المبالغ المستردة عبر بنكك إلى حسابك المسجّل في «حسابي».",
+  "@refundBody": {
+    "description": "Order: how refunds are paid"
+  },
+  "orderReturnReason": "سبب الإرجاع",
+  "@orderReturnReason": {
+    "description": "Return reason field"
+  },
+  "orderReturnSend": "إرسال طلب الإرجاع",
+  "@orderReturnSend": {
+    "description": "Return sheet button"
+  },
+  "returnRequested": "طلبت الإرجاع — بانتظار قرار الإدارة",
+  "@returnRequested": {
+    "description": "Return state"
+  },
+  "returnApproved": "وافقنا على الإرجاع",
+  "@returnApproved": {
+    "description": "Return state"
+  },
+  "returnDeclined": "لم نوافق على الإرجاع",
+  "@returnDeclined": {
+    "description": "Return state"
+  },
+  "orderGotIt": "استلمت القطعة",
+  "@orderGotIt": {
+    "description": "Order: confirm the part was received"
+  },
+  "orderBookFitting": "احجز تركيب: {part}",
+  "@orderBookFitting": {
+    "description": "Order: book a fitting for a received part",
+    "placeholders": {
+      "part": {
+        "type": "String"
+      }
+    }
+  },
+  "complaintReport": "الإبلاغ عن مشكلة",
+  "@complaintReport": {
+    "description": "Open a dispute"
+  },
+  "complaintIntro": "اختر نوع المشكلة واشرح ما حدث. يرد فريقنا عادةً خلال يوم عمل.",
+  "@complaintIntro": {
+    "description": "Complaint sheet intro"
+  },
+  "complaintDescribe": "ماذا حدث؟",
+  "@complaintDescribe": {
+    "description": "Complaint description field"
+  },
+  "complaintSend": "إرسال",
+  "@complaintSend": {
+    "description": "Complaint sheet button"
+  },
+  "complaintNotReceived": "لم أستلم القطعة",
+  "@complaintNotReceived": {
+    "description": "Complaint category"
+  },
+  "complaintWrongPart": "قطعة خاطئة",
+  "@complaintWrongPart": {
+    "description": "Complaint category"
+  },
+  "complaintDamaged": "تالفة أو لا تعمل",
+  "@complaintDamaged": {
+    "description": "Complaint category"
+  },
+  "complaintNotFitted": "التركيب لم يتم كما يجب",
+  "@complaintNotFitted": {
+    "description": "Complaint category"
+  },
+  "complaintPayment": "مشكلة في الدفع",
+  "@complaintPayment": {
+    "description": "Complaint category"
+  },
+  "complaintBehaviour": "سوء معاملة",
+  "@complaintBehaviour": {
+    "description": "Complaint category"
+  },
+  "complaintOther": "أخرى",
+  "@complaintOther": {
+    "description": "Complaint category"
+  },
+  "complaintOpen": "مفتوحة",
+  "@complaintOpen": {
+    "description": "Complaint status"
+  },
+  "complaintInReview": "قيد المراجعة",
+  "@complaintInReview": {
+    "description": "Complaint status"
+  },
+  "complaintResolved": "تم الحل",
+  "@complaintResolved": {
+    "description": "Complaint status"
+  },
+  "complaintRejected": "مغلقة",
+  "@complaintRejected": {
+    "description": "Complaint status"
+  },
+  "complaintsTitle": "شكاواي",
+  "@complaintsTitle": {
+    "description": "Complaints screen title"
+  },
+  "complaintsEmpty": "لا توجد شكاوى",
+  "@complaintsEmpty": {
+    "description": "Complaints empty"
+  },
+  "complaintsEmptyBody": "إن واجهتك مشكلة في طلب أو تركيب، افتحه واختر «الإبلاغ عن مشكلة».",
+  "@complaintsEmptyBody": {
+    "description": "Complaints empty hint"
+  },
+  "complaintTitle": "الشكوى",
+  "@complaintTitle": {
+    "description": "Complaint screen title"
+  },
+  "complaintOutcome": "القرار",
+  "@complaintOutcome": {
+    "description": "Complaint resolution"
+  },
+  "complaintYou": "أنت",
+  "@complaintYou": {
+    "description": "Complaint message from the buyer"
+  },
+  "complaintTeam": "فريق شارع الغالي",
+  "@complaintTeam": {
+    "description": "Complaint message from admins"
+  },
+  "complaintReply": "اكتب ردًا",
+  "@complaintReply": {
+    "description": "Complaint reply field"
+  },
+  "bookingPayFirst": "ادفع الطلب ليصل الحجز إلى الفني.",
+  "@bookingPayFirst": {
+    "description": "Booking: waiting for payment"
+  },
+  "bookingNeedsTime": "لم يتمكن أي فني من هذا الموعد. اختر موعدًا جديدًا أو ألغِ الحجز واسترد المبلغ كاملًا.",
+  "@bookingNeedsTime": {
+    "description": "Booking: NEEDS_RESCHEDULE"
+  },
+  "bookingPickNewTime": "اختر موعدًا جديدًا",
+  "@bookingPickNewTime": {
+    "description": "Booking: reschedule button"
+  },
+  "bookingNotFit": "تبيّن أن القطعة لا تناسب السيارة. تدفع رسوم المشوار فقط، وفتحنا طلب إرجاع للقطعة.",
+  "@bookingNotFit": {
+    "description": "Booking: PART_DOES_NOT_FIT"
+  },
+  "bookingCancelledBody": "أُلغي هذا الحجز.",
+  "@bookingCancelledBody": {
+    "description": "Booking: cancelled"
+  },
+  "bookingCodeLocked": "أُدخل الرمز خطأ عدة مرات. سيكمل فريقنا الحجز بعد التأكد.",
+  "@bookingCodeLocked": {
+    "description": "Booking: job code locked"
+  },
+  "bookingLiveTitle": "الفني في الطريق إليك",
+  "@bookingLiveTitle": {
+    "description": "Booking: live location card"
+  },
+  "bookingLiveAway": "على بعد {distance} تقريبًا",
+  "@bookingLiveAway": {
+    "description": "Booking: technician distance",
+    "placeholders": {
+      "distance": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingLiveUpdated": "آخر تحديث {ago}",
+  "@bookingLiveUpdated": {
+    "description": "Booking: location age",
+    "placeholders": {
+      "ago": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingLiveWaiting": "ننتظر أول تحديث لموقع الفني…",
+  "@bookingLiveWaiting": {
+    "description": "Booking: no location yet"
+  },
+  "bookingLiveMap": "عرض على الخريطة",
+  "@bookingLiveMap": {
+    "description": "Booking: open technician location in Maps"
+  },
+  "bookingPhotos": "صور العمل",
+  "@bookingPhotos": {
+    "description": "Booking: photos section"
+  },
+  "bookingPhotoBefore": "قبل",
+  "@bookingPhotoBefore": {
+    "description": "Booking photo label"
+  },
+  "bookingPhotoAfter": "بعد",
+  "@bookingPhotoAfter": {
+    "description": "Booking photo label"
+  },
+  "bookingCancelLate": "بعد {when} يُحتفظ برسوم الحجز ورسوم المشوار، ويُرد لك أجر التركيب.",
+  "@bookingCancelLate": {
+    "description": "Booking: late cancellation rule",
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingCancelLateNow": "فات وقت الإلغاء المجاني: يُحتفظ برسوم الحجز ورسوم المشوار، ويُرد لك أجر التركيب.",
+  "@bookingCancelLateNow": {
+    "description": "Booking: cancelling late"
+  },
+  "bookingRescheduled": "تم تغيير الموعد",
+  "@bookingRescheduled": {
+    "description": "Booking: rescheduled"
+  },
+  "bookingWaitingTechUntil": "أرسلنا الطلب للفني، وننتظر قبوله قبل {time}. إن لم يقبل نرسله لفني آخر متاح.",
+  "@bookingWaitingTechUntil": {
+    "description": "Booking: waiting for acceptance",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "requestOfferClosed": "انتهى العرض",
+  "@requestOfferClosed": {
+    "description": "Photo request: offer no longer live"
+  },
+  "chatSignIn": "سجّل الدخول لتراسل المحل",
+  "@chatSignIn": {
+    "description": "Chat: guest"
+  },
+  "chatsTitle": "المحادثات",
+  "@chatsTitle": {
+    "description": "Chats list title"
+  },
+  "chatsEmpty": "لا توجد محادثات",
+  "@chatsEmpty": {
+    "description": "Chats list empty"
+  },
+  "chatsEmptyBody": "افتح صفحة أي محل واضغط «محادثة» لتسأله عن قطعة.",
+  "@chatsEmptyBody": {
+    "description": "Chats list empty hint"
+  },
+  "chatVoiceNote": "رسالة صوتية",
+  "@chatVoiceNote": {
+    "description": "Chats list: last message was a voice note"
+  },
+  "notificationsGeneric": "تحديث جديد",
+  "@notificationsGeneric": {
+    "description": "Inbox: alert without wording"
+  },
+  "accountRefundAccount": "حساب الاسترداد",
+  "@accountRefundAccount": {
+    "description": "Account: Bankak account for refunds"
+  },
+  "accountRefundAccountLabel": "رقم حسابك في بنكك",
+  "@accountRefundAccountLabel": {
+    "description": "Refund account field"
+  },
+  "accountRefundAccountHint": "نرسل إليه أي مبلغ مسترد",
+  "@accountRefundAccountHint": {
+    "description": "Refund account hint"
+  },
+  "accountSaved": "تم الحفظ",
+  "@accountSaved": {
+    "description": "Account: saved"
+  },
+  "accountHelpBody": "تواصل مع فريق شارع الغالي لأي سؤال عن طلب أو دفع أو تركيب.",
+  "@accountHelpBody": {
+    "description": "Help sheet text"
+  },
+  "accountHelpSoon": "أرقام الدعم ستُضاف قريبًا. استخدم «الإبلاغ عن مشكلة» في الطلب أو الحجز.",
+  "@accountHelpSoon": {
+    "description": "Help sheet without support numbers"
+  },
+  "accountNoPhone": "أضف رقم هاتفك",
+  "@accountNoPhone": {
+    "description": "Account: no phone yet"
+  },
+  "accountPending": "{count, plural, =1{تغيير واحد ينتظر الاتصال} =2{تغييران ينتظران الاتصال} few{{count} تغييرات تنتظر الاتصال} other{{count} تغيير ينتظر الاتصال}}",
+  "@accountPending": {
+    "description": "Account: outbox not empty",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "accountSignOutPending": "{count, plural, =1{تغيير واحد لم يُرسل بعد وسيضيع.} other{{count} تغييرات لم تُرسل بعد وستضيع.}}",
+  "@accountSignOutPending": {
+    "description": "Sign out with a non-empty outbox",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "addressesEmpty": "لا توجد عناوين محفوظة",
+  "@addressesEmpty": {
+    "description": "Addresses: empty"
   }
 }

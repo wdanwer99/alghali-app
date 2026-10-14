@@ -58,12 +58,43 @@ class AppDatabase extends _$AppDatabase {
   Future<List<OutboxEntry>> pending() =>
       (select(outboxEntries)..orderBy([(e) => OrderingTerm.asc(e.id)])).get();
 
+  Future<void> removeOutbox(int id) => (delete(outboxEntries)..where((e) => e.id.equals(id))).go();
+
+  /// Records a failed attempt; the entry waits until [nextAttemptAt].
+  Future<void> retryOutboxLater(OutboxEntry e, {required String error, required DateTime at}) =>
+      (update(outboxEntries)..where((x) => x.id.equals(e.id))).write(
+        OutboxEntriesCompanion(
+          attempts: Value(e.attempts + 1),
+          lastError: Value(error),
+          nextAttemptAt: Value(at),
+        ),
+      );
+
   Future<void> putCache(String key, String json) => into(cacheEntries).insertOnConflictUpdate(
     CacheEntriesCompanion.insert(key: key, json: json, updatedAt: DateTime.now().toUtc()),
   );
 
   Future<CacheEntry?> getCache(String key) =>
       (select(cacheEntries)..where((c) => c.key.equals(key))).getSingleOrNull();
+
+  /// Forgets cached answers not refreshed since [before], except keys starting with
+  /// one of [keep] (the catalogue).
+  Future<int> pruneCache(DateTime before, {List<String> keep = const []}) =>
+      (delete(cacheEntries)..where((c) {
+            var cond = c.updatedAt.isSmallerThanValue(before);
+            for (final k in keep) {
+              cond = cond & c.key.like('$k%').not();
+            }
+            return cond;
+          }))
+          .go();
+
+  /// Drops cached answers under [prefix] (e.g. a signed-out user's orders).
+  Future<int> clearCache(String prefix) =>
+      (delete(cacheEntries)..where((c) => c.key.like('$prefix%'))).go();
+
+  /// Empties the outbox (signing out: queued changes belong to the old account).
+  Future<int> clearOutbox() => delete(outboxEntries).go();
 }
 
 final appDatabaseProvider = Provider<AppDatabase>(

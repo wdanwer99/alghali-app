@@ -1181,4 +1181,390 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get continueAsGuest => 'Browse without an account';
+
+  @override
+  String get shopClosedDay => 'Closed';
+
+  @override
+  String get priceOnRequest => 'Price on request';
+
+  @override
+  String get homeCatalogueLoading =>
+      'Loading categories and shops… the first time needs a connection.';
+
+  @override
+  String get updateAvailable => 'A new version of the app is available.';
+
+  @override
+  String get updateRequired => 'This version is too old. Download the new one to keep buying.';
+
+  @override
+  String get updateDownload => 'Download';
+
+  @override
+  String get partUnverified => 'Added by the shop; our team hasn\'t checked it yet.';
+
+  @override
+  String get partNoOffers => 'No shop sells this part right now.';
+
+  @override
+  String get partFittingBodyLive =>
+      'Book a vetted technician to fit it at a workshop on the street or at your place. Add it to the cart, then choose \"Add fitting\".';
+
+  @override
+  String get partAskPrice => 'Ask the price';
+
+  @override
+  String get partAskStock => 'Ask the shop';
+
+  @override
+  String get partOutOfStock => 'Out of stock';
+
+  @override
+  String get shopDirections => 'Directions';
+
+  @override
+  String get shopNoParts => 'No parts listed yet.';
+
+  @override
+  String get cartFittingDropped =>
+      'The fitting was dropped because that part was removed. Add it again if you need it.';
+
+  @override
+  String get cartInFitting => 'Included in the booked fitting';
+
+  @override
+  String get cartAddToFitting => 'Add to the fitting';
+
+  @override
+  String get bookTooFar => 'Too far';
+
+  @override
+  String get bookNoTechsBody =>
+      'No technician is free for this job there in the coming days. Try a workshop on the street or another address.';
+
+  @override
+  String get bookNoFreeTime => 'No free times in the coming days';
+
+  @override
+  String bookNextFree(String when) {
+    return 'Next free: $when';
+  }
+
+  @override
+  String get addressNew => 'New address';
+
+  @override
+  String get addressNewBody =>
+      'Stand at the place, use your current location, then add directions for the technician or courier.';
+
+  @override
+  String get addressLocated => 'Location found';
+
+  @override
+  String addressFromStreet(String distance) {
+    return '$distance from the street';
+  }
+
+  @override
+  String get addressLocateAgain => 'Locate again';
+
+  @override
+  String get addressHome => 'Home';
+
+  @override
+  String get addressWork => 'Work';
+
+  @override
+  String get addressLabel => 'Name of the place';
+
+  @override
+  String get addressDirections => 'Directions';
+
+  @override
+  String get addressDirectionsHint => 'e.g. district, street, house number, a nearby landmark';
+
+  @override
+  String get addressSave => 'Save address';
+
+  @override
+  String get profileTitle => 'My details';
+
+  @override
+  String get profileSave => 'Save';
+
+  @override
+  String get checkoutAddAddress => 'Add an address for delivery';
+
+  @override
+  String checkoutPayWithinMinutes(int minutes) {
+    return 'Transfer within $minutes minutes, or the order is cancelled automatically.';
+  }
+
+  @override
+  String get bankakRejected => 'We could not accept the receipt';
+
+  @override
+  String bankakRejectedBody(String reason) {
+    return '$reason Send it again before the time runs out.';
+  }
+
+  @override
+  String get bankakDepositAmount => 'Transfer exactly this deposit';
+
+  @override
+  String get rejectAmount => 'The amount transferred doesn\'t match.';
+
+  @override
+  String get rejectNotFound => 'We couldn\'t find the transfer on the statement.';
+
+  @override
+  String get rejectDuplicate => 'This receipt was used for another order.';
+
+  @override
+  String get rejectUnreadable => 'The receipt is not readable.';
+
+  @override
+  String get rejectOther => 'Check the transfer details.';
+
+  @override
+  String get orderRefunds => 'Refunds';
+
+  @override
+  String get refundSent => 'Sent to you';
+
+  @override
+  String get refundPending => 'Being sent';
+
+  @override
+  String get refundBody => 'Refunds go by Bankak to the account saved in \"Account\".';
+
+  @override
+  String get orderReturnReason => 'Why are you returning it?';
+
+  @override
+  String get orderReturnSend => 'Send return request';
+
+  @override
+  String get returnRequested => 'Return asked — waiting for our team';
+
+  @override
+  String get returnApproved => 'Return approved';
+
+  @override
+  String get returnDeclined => 'Return declined';
+
+  @override
+  String get orderGotIt => 'I got it';
+
+  @override
+  String orderBookFitting(String part) {
+    return 'Book fitting: $part';
+  }
+
+  @override
+  String get complaintReport => 'Report a problem';
+
+  @override
+  String get complaintIntro =>
+      'Pick what went wrong and tell us what happened. Our team usually replies within a working day.';
+
+  @override
+  String get complaintDescribe => 'What happened?';
+
+  @override
+  String get complaintSend => 'Send';
+
+  @override
+  String get complaintNotReceived => 'I didn\'t get the part';
+
+  @override
+  String get complaintWrongPart => 'Wrong part';
+
+  @override
+  String get complaintDamaged => 'Damaged or doesn\'t work';
+
+  @override
+  String get complaintNotFitted => 'The fitting wasn\'t done right';
+
+  @override
+  String get complaintPayment => 'Payment problem';
+
+  @override
+  String get complaintBehaviour => 'Bad behaviour';
+
+  @override
+  String get complaintOther => 'Something else';
+
+  @override
+  String get complaintOpen => 'Open';
+
+  @override
+  String get complaintInReview => 'Being reviewed';
+
+  @override
+  String get complaintResolved => 'Resolved';
+
+  @override
+  String get complaintRejected => 'Closed';
+
+  @override
+  String get complaintsTitle => 'My complaints';
+
+  @override
+  String get complaintsEmpty => 'No complaints';
+
+  @override
+  String get complaintsEmptyBody =>
+      'If something goes wrong with an order or a fitting, open it and choose \"Report a problem\".';
+
+  @override
+  String get complaintTitle => 'Complaint';
+
+  @override
+  String get complaintOutcome => 'Outcome';
+
+  @override
+  String get complaintYou => 'You';
+
+  @override
+  String get complaintTeam => 'Alghali Street team';
+
+  @override
+  String get complaintReply => 'Write a reply';
+
+  @override
+  String get bookingPayFirst => 'Pay for the order so the booking goes to the technician.';
+
+  @override
+  String get bookingNeedsTime =>
+      'No technician could take this time. Pick a new time, or cancel for a full refund.';
+
+  @override
+  String get bookingPickNewTime => 'Pick a new time';
+
+  @override
+  String get bookingNotFit =>
+      'The part turned out not to fit. You pay the travel fee only, and we opened a return for the part.';
+
+  @override
+  String get bookingCancelledBody => 'This booking was cancelled.';
+
+  @override
+  String get bookingCodeLocked =>
+      'The code was entered wrong too many times. Our team will close the job after checking.';
+
+  @override
+  String get bookingLiveTitle => 'Your technician is on the way';
+
+  @override
+  String bookingLiveAway(String distance) {
+    return 'About $distance away';
+  }
+
+  @override
+  String bookingLiveUpdated(String ago) {
+    return 'Updated $ago';
+  }
+
+  @override
+  String get bookingLiveWaiting => 'Waiting for the technician\'s first location…';
+
+  @override
+  String get bookingLiveMap => 'See on the map';
+
+  @override
+  String get bookingPhotos => 'Job photos';
+
+  @override
+  String get bookingPhotoBefore => 'Before';
+
+  @override
+  String get bookingPhotoAfter => 'After';
+
+  @override
+  String bookingCancelLate(String when) {
+    return 'After $when, the booking fee and travel fee are kept and the labour is refunded.';
+  }
+
+  @override
+  String get bookingCancelLateNow =>
+      'Free cancellation has passed: the booking fee and travel fee are kept, and the labour is refunded.';
+
+  @override
+  String get bookingRescheduled => 'Time changed';
+
+  @override
+  String bookingWaitingTechUntil(String time) {
+    return 'We sent it to the technician and are waiting for them to accept by $time. If they don\'t, it goes to another free technician.';
+  }
+
+  @override
+  String get requestOfferClosed => 'Offer closed';
+
+  @override
+  String get chatSignIn => 'Sign in to message the shop';
+
+  @override
+  String get chatsTitle => 'Messages';
+
+  @override
+  String get chatsEmpty => 'No messages yet';
+
+  @override
+  String get chatsEmptyBody => 'Open any shop and tap \"Chat\" to ask about a part.';
+
+  @override
+  String get chatVoiceNote => 'Voice note';
+
+  @override
+  String get notificationsGeneric => 'New update';
+
+  @override
+  String get accountRefundAccount => 'Refund account';
+
+  @override
+  String get accountRefundAccountLabel => 'Your Bankak account number';
+
+  @override
+  String get accountRefundAccountHint => 'We send any refund here';
+
+  @override
+  String get accountSaved => 'Saved';
+
+  @override
+  String get accountHelpBody =>
+      'Contact the Alghali Street team about any order, payment or fitting.';
+
+  @override
+  String get accountHelpSoon =>
+      'Support numbers are coming soon. Use \"Report a problem\" on the order or booking.';
+
+  @override
+  String get accountNoPhone => 'Add your phone number';
+
+  @override
+  String accountPending(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count changes waiting for a connection',
+      one: '1 change waiting for a connection',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String accountSignOutPending(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count changes haven\'t been sent yet and will be lost.',
+      one: '1 change hasn\'t been sent yet and will be lost.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get addressesEmpty => 'No saved addresses';
 }

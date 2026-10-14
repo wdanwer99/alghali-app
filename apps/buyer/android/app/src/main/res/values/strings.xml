@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Alghali Street</string>
+    <string name="alerts_channel">Orders and fittings</string>
+    <string name="alerts_channel_description">Payments, orders, fittings and messages</string>
+</resources>

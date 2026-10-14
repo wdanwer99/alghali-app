@@ -553,5 +553,174 @@
         "type": "String"
       }
     }
+  },
+  "errOffline": "لا يوجد اتصال بالإنترنت. حاول مرة أخرى بعد قليل.",
+  "@errOffline": {
+    "description": "Error: no network"
+  },
+  "errGeneric": "حدث خطأ. حاول مرة أخرى.",
+  "@errGeneric": {
+    "description": "Error: anything not listed"
+  },
+  "errSessionExpired": "انتهت جلستك. سجّل الدخول مرة أخرى.",
+  "@errSessionExpired": {
+    "description": "Error: signed out"
+  },
+  "errInvalidCredentials": "البريد أو كلمة المرور غير صحيحة.",
+  "@errInvalidCredentials": {
+    "description": "Error: sign-in failed"
+  },
+  "errEmailTaken": "هذا البريد له حساب من قبل. سجّل الدخول بدلًا من ذلك.",
+  "@errEmailTaken": {
+    "description": "Error: sign-up with a used email"
+  },
+  "errTooManyAttempts": "محاولات كثيرة. انتظر قليلًا ثم حاول مرة أخرى.",
+  "@errTooManyAttempts": {
+    "description": "Error: rate limited"
+  },
+  "errPhoneRequired": "أضف رقم هاتفك في حسابك أولًا، ليتصل بك المحل أو الفني.",
+  "@errPhoneRequired": {
+    "description": "Error: checkout without a phone"
+  },
+  "errSlotTaken": "حجز أحدهم هذا الموعد للتو. اختر موعدًا آخر.",
+  "@errSlotTaken": {
+    "description": "Error: booking slot taken"
+  },
+  "errHoldExpired": "انتهت مدة حجز الموعد. اختر الموعد مرة أخرى.",
+  "@errHoldExpired": {
+    "description": "Error: held slot expired"
+  },
+  "errTechnicianUnavailable": "هذا الفني لم يعد متاحًا في هذا الموعد. اختر موعدًا أو فنيًا آخر.",
+  "@errTechnicianUnavailable": {
+    "description": "Error: technician unsuitable or busy"
+  },
+  "errTooEarly": "هذا الموعد قريب جدًا. اختر موعدًا لاحقًا.",
+  "@errTooEarly": {
+    "description": "Error: slot before the earliest start"
+  },
+  "errOutOfRange": "هذا الموقع خارج منطقة الخدمة.",
+  "@errOutOfRange": {
+    "description": "Error: travel or delivery distance too far"
+  },
+  "errTravelUnavailable": "التركيب في موقعك غير متاح بعد. اختر ورشة في الشارع.",
+  "@errTravelUnavailable": {
+    "description": "Error: street origin not set"
+  },
+  "errDeliveryUnavailable": "التوصيل غير متاح لهذا العنوان بعد. اختر الاستلام من المحل.",
+  "@errDeliveryUnavailable": {
+    "description": "Error: delivery not possible"
+  },
+  "errDuplicateTxn": "رقم العملية هذا استُخدم من قبل. تأكد منه.",
+  "@errDuplicateTxn": {
+    "description": "Error: Bankak number reused"
+  },
+  "errPaymentExpired": "انتهت مهلة الدفع لهذا الطلب.",
+  "@errPaymentExpired": {
+    "description": "Error: pay-by passed"
+  },
+  "errCannotCancel": "لم يعد ممكنًا إلغاء هذا.",
+  "@errCannotCancel": {
+    "description": "Error: cancel not allowed"
+  },
+  "errTooManyRequests": "لديك طلبات صور مفتوحة كثيرة. أغلق بعضها أولًا.",
+  "@errTooManyRequests": {
+    "description": "Error: open request limit"
+  },
+  "errGarageFull": "يمكنك حفظ 10 سيارات كحد أقصى.",
+  "@errGarageFull": {
+    "description": "Error: garage limit"
+  },
+  "errFileTooLarge": "الملف كبير جدًا (5 ميجابايت كحد أقصى).",
+  "@errFileTooLarge": {
+    "description": "Error: upload too large"
+  },
+  "errFileType": "نوع الملف غير مدعوم.",
+  "@errFileType": {
+    "description": "Error: upload type"
+  },
+  "errNotFound": "لم نجد هذا. ربما حُذف.",
+  "@errNotFound": {
+    "description": "Error: not found"
+  },
+  "errForbidden": "لا يمكنك القيام بهذا.",
+  "@errForbidden": {
+    "description": "Error: not allowed"
+  },
+  "errCartChanged": "تغيّرت بعض الأسعار أو الكميات. راجع السلة ثم أكّد.",
+  "@errCartChanged": {
+    "description": "Error: checkout found changes"
+  },
+  "errAddressRequired": "اختر عنوانًا أو أضف عنوانًا جديدًا.",
+  "@errAddressRequired": {
+    "description": "Error: address missing"
+  },
+  "errLocationOff": "شغّل الموقع (GPS) في هاتفك ثم حاول مرة أخرى.",
+  "@errLocationOff": {
+    "description": "Error: GPS off"
+  },
+  "errLocationDenied": "اسمح للتطبيق باستخدام الموقع من إعدادات الهاتف.",
+  "@errLocationDenied": {
+    "description": "Error: location permission refused"
+  },
+  "errMicDenied": "اسمح للتطبيق باستخدام الميكروفون من إعدادات الهاتف.",
+  "@errMicDenied": {
+    "description": "Error: microphone permission refused"
+  },
+  "errCannotOpen": "تعذّر فتح هذا على هاتفك.",
+  "@errCannotOpen": {
+    "description": "Error: no app for a link"
+  },
+  "errUnavailable": "هذا لم يعد متاحًا.",
+  "@errUnavailable": {
+    "description": "Error: offer or listing gone"
+  },
+  "queuedOffline": "سيُرسل عند عودة الاتصال",
+  "@queuedOffline": {
+    "description": "A change waiting in the outbox"
+  },
+  "notSent": "لم يُرسل: {reason}",
+  "@notSent": {
+    "description": "A queued change the server refused",
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "voiceHold": "اضغط مطولًا للتسجيل",
+  "@voiceHold": {
+    "description": "Voice note button tooltip"
+  },
+  "voiceRecording": "جارٍ التسجيل… ارفع إصبعك للإرسال",
+  "@voiceRecording": {
+    "description": "While recording a voice note"
+  },
+  "voiceTooShort": "اضغط مطولًا على الميكروفون لتسجيل رسالة صوتية.",
+  "@voiceTooShort": {
+    "description": "Voice note shorter than a second"
+  },
+  "voicePlay": "تشغيل",
+  "@voicePlay": {
+    "description": "Play a voice note"
+  },
+  "voicePause": "إيقاف مؤقت",
+  "@voicePause": {
+    "description": "Pause a voice note"
+  },
+  "photoCamera": "الكاميرا",
+  "@photoCamera": {
+    "description": "Take a photo"
+  },
+  "photoGallery": "المعرض",
+  "@photoGallery": {
+    "description": "Pick a photo from the gallery"
+  },
+  "pullToRefresh": "اسحب للتحديث",
+  "@pullToRefresh": {
+    "description": "Hint under lists"
+  },
+  "actionOpen": "فتح",
+  "@actionOpen": {
+    "description": "Open what an alert is about"
   }
 }

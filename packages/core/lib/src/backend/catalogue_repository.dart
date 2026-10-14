@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -6,6 +8,7 @@ import '../data/catalogue_snapshot.dart';
 import '../data/platform_settings.dart';
 import '../models/catalogue.dart';
 import 'backend_error.dart';
+import 'read_cache.dart';
 
 @immutable
 class SearchPage {
@@ -68,19 +71,25 @@ class PartDetail {
   final List<ShopOffer> offers;
 }
 
-/// Reads the public catalogue: offline snapshot, search, part pages, settings.
-class CatalogueRepository {
-  CatalogueRepository(this._client);
+/// Reads the public catalogue: offline snapshot, search, part pages, settings. Search
+/// results and part pages are kept in [cache] for browsing without a connection.
+class CatalogueRepository with CachedReads {
+  CatalogueRepository(this._client, {this.cache});
 
   final SupabaseClient _client;
+  @override
+  final ReadCache? cache;
 
-  Future<CatalogueSnapshot> snapshot({DateTime? since}) => guard(() async {
-    final json = await _client.rpc<Json>(
+  Future<CatalogueSnapshot> snapshot({DateTime? since}) =>
+      snapshotJson(since: since).then(CatalogueSnapshot.fromJson);
+
+  /// The raw answer, for the offline cache to merge (`LiveCatalogue`).
+  Future<Json> snapshotJson({DateTime? since}) => guard(
+    () => _client.rpc<Json>(
       'catalogue_snapshot',
       params: {'p_since': since?.toUtc().toIso8601String()},
-    );
-    return CatalogueSnapshot.fromJson(json);
-  });
+    ),
+  );
 
   Future<SearchPage> search(
     SearchQuery q, {
@@ -88,39 +97,43 @@ class CatalogueRepository {
     int offset = 0,
     String? shopId,
     bool dealsOnly = false,
-  }) => guard(() async {
-    final rows = await _client.rpc<List<dynamic>>(
-      'search_parts',
-      params: {
-        'p_q': q.text,
-        'p_variant_id': q.variantId,
-        'p_category_id': q.categoryId,
-        'p_only_fits': q.onlyFits,
-        'p_conditions': q.conditions.isEmpty ? null : [for (final c in q.conditions) c.code],
-        'p_price_max': q.maxPriceSdg,
-        'p_shop_id': shopId,
-        'p_in_stock_only': q.inStockOnly,
-        'p_deals_only': dealsOnly,
-        'p_sort': dealsOnly && q.sort == SearchSort.relevance ? 'discount' : _sort(q.sort),
-        'p_limit': limit,
-        'p_offset': offset,
+  }) {
+    final params = {
+      'p_q': q.text,
+      'p_variant_id': q.variantId,
+      'p_category_id': q.categoryId,
+      'p_only_fits': q.onlyFits,
+      'p_conditions': q.conditions.isEmpty ? null : [for (final c in q.conditions) c.code],
+      'p_price_max': q.maxPriceSdg,
+      'p_shop_id': shopId,
+      'p_in_stock_only': q.inStockOnly,
+      'p_deals_only': dealsOnly,
+      'p_sort': dealsOnly && q.sort == SearchSort.relevance ? 'discount' : _sort(q.sort),
+      'p_limit': limit,
+      'p_offset': offset,
+    };
+    return cachedRead(
+      'search:${jsonEncode(params)}',
+      () => _client.rpc<List<dynamic>>('search_parts', params: params),
+      (raw) {
+        final rows = (raw! as List).cast<Json>();
+        final results = [for (final r in rows) PartResult.fromJson(r)];
+        final total = rows.isEmpty ? 0 : rows.first['total_count'] as int;
+        return SearchPage(results, total);
       },
     );
-    final results = [for (final r in rows.cast<Json>()) PartResult.fromJson(r)];
-    final total = rows.isEmpty ? 0 : (rows.first as Json)['total_count'] as int;
-    return SearchPage(results, total);
-  });
+  }
 
-  Future<PartDetail> partDetail(String partId, {String? variantId}) => guard(() async {
-    final json = await _client.rpc<Json>(
-      'part_detail',
-      params: {'p_part_id': partId, 'p_variant_id': variantId},
-    );
-    return PartDetail.fromJson(json);
-  });
+  Future<PartDetail> partDetail(String partId, {String? variantId}) => cachedRead(
+    'part:$partId:${variantId ?? ''}',
+    () =>
+        _client.rpc<Json>('part_detail', params: {'p_part_id': partId, 'p_variant_id': variantId}),
+    (raw) => PartDetail.fromJson(raw! as Json),
+  );
 
-  Future<PlatformSettings> settings() =>
-      guard(() async => PlatformSettings.fromJson(await _client.rpc<Json>('public_settings')));
+  Future<PlatformSettings> settings() => settingsJson().then(PlatformSettings.fromJson);
+
+  Future<Json> settingsJson() => guard(() => _client.rpc<Json>('public_settings'));
 
   static String _sort(SearchSort s) => switch (s) {
     SearchSort.relevance => 'relevance',

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">شارع الغالي</string>
+    <string name="alerts_channel">الطلبات والتركيب</string>
+    <string name="alerts_channel_description">الدفع والطلبات والتركيب والرسائل</string>
+</resources>

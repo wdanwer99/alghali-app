@@ -41,7 +41,8 @@ class StreetStrip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final rtl = Directionality.of(context) == TextDirection.rtl;
-    final length = catalogue.zones.fold(0, (m, z) => z.toM > m ? z.toM : m).toDouble();
+    // At least 100 m, so an empty street (first launch offline) still draws.
+    final length = catalogue.zones.fold(100, (m, z) => z.toM > m ? z.toM : m).toDouble();
 
     if (compact) {
       return LayoutBuilder(

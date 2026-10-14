@@ -3,21 +3,28 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../app.dart';
-import '../../state/orders.dart';
+import '../../state/account.dart';
 
-/// Stars, quick tags and an optional comment for a shop or technician.
-Future<void> showReviewSheet(BuildContext context, {required String name, required String key}) =>
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      builder: (_) => _ReviewSheet(name: name, reviewKey: key),
-    );
+/// Stars, quick tags and an optional comment for a shop (a received [subOrderId]) or a
+/// technician (a finished [bookingId]) (D-105). Sent through the outbox, so it also works
+/// offline; rating again within 30 days changes the review.
+Future<void> showReviewSheet(
+  BuildContext context, {
+  required String name,
+  String? subOrderId,
+  String? bookingId,
+}) => showModalBottomSheet<void>(
+  context: context,
+  isScrollControlled: true,
+  builder: (_) => _ReviewSheet(name: name, subOrderId: subOrderId, bookingId: bookingId),
+);
 
 class _ReviewSheet extends ConsumerStatefulWidget {
-  const _ReviewSheet({required this.name, required this.reviewKey});
+  const _ReviewSheet({required this.name, this.subOrderId, this.bookingId});
 
   final String name;
-  final String reviewKey;
+  final String? subOrderId;
+  final String? bookingId;
 
   @override
   ConsumerState<_ReviewSheet> createState() => _ReviewSheetState();
@@ -26,18 +33,37 @@ class _ReviewSheet extends ConsumerStatefulWidget {
 class _ReviewSheetState extends ConsumerState<_ReviewSheet> {
   var _stars = 0;
   final _tags = <String>{};
+  final _comment = TextEditingController();
+
+  @override
+  void dispose() {
+    _comment.dispose();
+    super.dispose();
+  }
+
+  Future<void> _submit() async {
+    final comment = [..._tags, _comment.text.trim()].where((s) => s.isNotEmpty).join(' · ');
+    final messenger = ScaffoldMessenger.of(context);
+    final thanks = context.t.reviewThanks;
+    Navigator.pop(context);
+    await ref
+        .read(reviewedProvider.notifier)
+        .rate(
+          stars: _stars,
+          comment: comment,
+          subOrderId: widget.subOrderId,
+          bookingId: widget.bookingId,
+        );
+    messenger.showSnackBar(SnackBar(content: Text(thanks)));
+  }
 
   @override
   Widget build(BuildContext context) {
     final t = context.t;
     final theme = Theme.of(context);
-    final tags = [
-      t.reviewTagGenuine,
-      t.reviewTagFast,
-      t.reviewTagPrice,
-      t.reviewTagPolite,
-      t.reviewTagOnTime,
-    ];
+    final tags = widget.bookingId != null
+        ? [t.reviewTagOnTime, t.reviewTagPolite, t.reviewTagPrice, t.reviewTagFast]
+        : [t.reviewTagGenuine, t.reviewTagFast, t.reviewTagPrice, t.reviewTagPolite];
     return Padding(
       padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
       child: SafeArea(
@@ -69,63 +95,17 @@ class _ReviewSheetState extends ConsumerState<_ReviewSheet> {
                 ],
               ),
               const SizedBox(height: Space.lg),
-              TextField(maxLines: 3, decoration: InputDecoration(labelText: t.reviewComment)),
-              const SizedBox(height: Space.lg),
-              FilledButton(
-                onPressed: _stars == 0
-                    ? null
-                    : () {
-                        ref.read(reviewedProvider.notifier).add(widget.reviewKey);
-                        Navigator.pop(context);
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(SnackBar(content: Text(t.reviewThanks)));
-                      },
-                child: Text(t.reviewSubmit),
+              TextField(
+                controller: _comment,
+                maxLines: 3,
+                maxLength: 500,
+                decoration: InputDecoration(labelText: t.reviewComment),
               ),
+              const SizedBox(height: Space.lg),
+              FilledButton(onPressed: _stars == 0 ? null : _submit, child: Text(t.reviewSubmit)),
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-/// "Demo controls" card: moves an order or booking one step forward.
-class DemoControls extends StatelessWidget {
-  const DemoControls({super.key, required this.onNext});
-
-  final VoidCallback onNext;
-
-  @override
-  Widget build(BuildContext context) {
-    final t = context.t;
-    final theme = Theme.of(context);
-    return Container(
-      padding: const EdgeInsets.all(Space.md),
-      decoration: BoxDecoration(
-        borderRadius: Radii.mdAll,
-        border: Border.all(color: theme.colorScheme.outline),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            children: [
-              const Icon(Icons.science_outlined, size: 20),
-              const SizedBox(width: Space.sm),
-              Expanded(child: Text(t.demoControls, style: theme.textTheme.titleSmall)),
-              const DemoBadge(),
-            ],
-          ),
-          const SizedBox(height: Space.xs),
-          Text(t.demoNextStepBody, style: theme.textTheme.bodySmall),
-          const SizedBox(height: Space.sm),
-          OutlinedButton.icon(
-            onPressed: onNext,
-            icon: const Icon(Icons.skip_next_outlined),
-            label: Text(t.demoNextStep),
-          ),
-        ],
       ),
     );
   }

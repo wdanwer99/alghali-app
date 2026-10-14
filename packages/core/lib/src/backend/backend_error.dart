@@ -10,7 +10,7 @@ import 'package:uuid/uuid.dart';
 /// (see docs/API.md); Auth, Storage and Edge Function errors are mapped to the same style.
 /// [offline] errors are the ones the outbox retries later.
 class BackendException implements Exception {
-  const BackendException(this.code, {this.status, this.detail});
+  const BackendException(this.code, {this.status, this.detail, this.sqlState});
 
   factory BackendException.from(Object error) => switch (error) {
     BackendException() => error,
@@ -18,6 +18,7 @@ class BackendException implements Exception {
       _isAppCode(message) ? message : _postgrestCode(code),
       status: _statusOfSqlState(code),
       detail: details?.toString(),
+      sqlState: code,
     ),
     AuthRetryableFetchException() => const BackendException(offlineCode),
     AuthException(:final code, :final message, :final statusCode) => BackendException(
@@ -42,7 +43,13 @@ class BackendException implements Exception {
   final int? status;
   final String? detail;
 
+  /// The Postgres error state for database errors, e.g. `23505` (already exists).
+  final String? sqlState;
+
   bool get offline => code == offlineCode;
+
+  /// The row was already there: a replayed insert that went through the first time.
+  bool get duplicate => sqlState == '23505';
 
   @override
   String toString() => 'BackendException($code${status == null ? '' : ', $status'})';
@@ -90,3 +97,7 @@ const _uuid = Uuid();
 /// A fresh idempotency key for one mutating call (PLAN §1 rule 5). The outbox keeps the
 /// key with the queued call, so a replay after a dropped connection doesn't repeat it.
 String newIdempotencyKey() => _uuid.v4();
+
+/// A fresh row id chosen on the phone (garage cars, chat messages), so a replayed insert
+/// is recognised as already done.
+String newId() => _uuid.v4();

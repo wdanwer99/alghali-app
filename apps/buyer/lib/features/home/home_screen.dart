@@ -6,8 +6,12 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../app.dart';
 import '../../router.dart';
+import '../../state/bookings.dart';
+import '../../state/catalogue.dart';
 import '../../state/garage.dart';
+import '../../state/inbox.dart';
 import '../../state/orders.dart';
+import '../../state/push.dart';
 import '../../widgets/buyer_widgets.dart';
 import '../shops/street_strip.dart';
 
@@ -20,131 +24,180 @@ class HomeScreen extends ConsumerWidget {
     final catalogue = ref.watch(catalogueProvider);
     final variantId = ref.watch(selectedVariantProvider);
     final settings = ref.watch(platformSettingsProvider);
-    final deals = catalogue.deals(variantId);
+    final deals = ref.watch(dealsProvider(variantId)).value ?? const <PartResult>[];
+    final release = settings.buyerRelease;
+
+    Future<void> refresh() async {
+      await Future.wait([
+        ref.read(liveCatalogueProvider.notifier).refresh(),
+        ref.read(liveSettingsProvider.notifier).refresh(),
+        ref.read(ordersProvider.notifier).refresh(),
+        ref.read(bookingsProvider.notifier).refresh(),
+        ref.read(inboxProvider.notifier).refresh(),
+      ]);
+      ref.invalidate(dealsProvider(variantId));
+    }
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
-        body: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(child: _Header(variantId: variantId)),
-            const SliverToBoxAdapter(child: _ActiveCard()),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(Space.page, Space.lg, Space.page, 0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: _QuickAction(
-                        icon: Icons.add_a_photo_outlined,
-                        title: t.homeQuickPhotoTitle,
-                        body: t.homeQuickPhotoBody,
-                        onTap: () => context.push(Routes.newRequest),
+        body: RefreshIndicator(
+          onRefresh: refresh,
+          child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(child: _Header(variantId: variantId)),
+              const SliverToBoxAdapter(child: OfflineBanner()),
+              if (release.updateAvailable(buyerBuild))
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(Space.page, Space.lg, Space.page, 0),
+                    child: InfoBanner(
+                      tone: release.updateRequired(buyerBuild) ? Tone.warning : Tone.info,
+                      icon: Icons.system_update_outlined,
+                      message: release.updateRequired(buyerBuild)
+                          ? t.updateRequired
+                          : t.updateAvailable,
+                      action: FilledButton(
+                        onPressed: () => Launch.open(release.apkUrl!),
+                        child: Text(t.updateDownload),
                       ),
                     ),
-                    const SizedBox(width: Space.md),
-                    Expanded(
-                      child: _QuickAction(
-                        icon: Icons.handyman_outlined,
-                        title: t.homeQuickBookTitle,
-                        body: t.homeQuickBookBody,
-                        onTap: () => context.push(Routes.bookExternal),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-            SliverToBoxAdapter(child: SectionHeader(title: t.homeCategories)),
-            SliverToBoxAdapter(child: _CategoryGrid(categories: catalogue.categories)),
-            if (deals.isNotEmpty) ...[
+              const SliverToBoxAdapter(child: _ActiveCard()),
               SliverToBoxAdapter(
-                child: SectionHeader(
-                  title: variantId == null
-                      ? t.homeDeals
-                      : t.homeDealsFor(catalogue.modelOfVariant(variantId).name.tr(context)),
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.symmetric(horizontal: Space.page),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(Space.page, Space.lg, Space.page, 0),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      for (final (i, l) in deals.indexed) ...[
-                        if (i > 0) const SizedBox(width: Space.md),
-                        DealCard(
-                          listing: l,
-                          fit: catalogue.fitOf(catalogue.part(l.partId), variantId),
-                          onTap: () => context.push(Routes.part(l.partId)),
+                      Expanded(
+                        child: _QuickAction(
+                          icon: Icons.add_a_photo_outlined,
+                          title: t.homeQuickPhotoTitle,
+                          body: t.homeQuickPhotoBody,
+                          onTap: () => context.push(Routes.newRequest),
                         ),
-                      ],
+                      ),
+                      const SizedBox(width: Space.md),
+                      Expanded(
+                        child: _QuickAction(
+                          icon: Icons.handyman_outlined,
+                          title: t.homeQuickBookTitle,
+                          body: t.homeQuickBookBody,
+                          onTap: () => context.push(Routes.bookExternal),
+                        ),
+                      ),
                     ],
+                  ),
+                ),
+              ),
+              SliverToBoxAdapter(child: SectionHeader(title: t.homeCategories)),
+              SliverToBoxAdapter(
+                child: catalogue.categories.isEmpty
+                    ? Padding(
+                        padding: Space.pageHorizontal,
+                        child: InfoBanner(
+                          tone: Tone.neutral,
+                          icon: Icons.cloud_off_outlined,
+                          message: t.homeCatalogueLoading,
+                          action: OutlinedButton(
+                            onPressed: () => ref.read(liveCatalogueProvider.notifier).refresh(),
+                            child: Text(context.core.actionRetry),
+                          ),
+                        ),
+                      )
+                    : _CategoryGrid(categories: catalogue.categories),
+              ),
+              if (deals.isNotEmpty) ...[
+                SliverToBoxAdapter(
+                  child: SectionHeader(
+                    title: variantId == null
+                        ? t.homeDeals
+                        : t.homeDealsFor(catalogue.modelOfVariant(variantId).name.tr(context)),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.symmetric(horizontal: Space.page),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        for (final (i, r) in deals.indexed) ...[
+                          if (i > 0) const SizedBox(width: Space.md),
+                          DealCard(result: r, onTap: () => context.push(Routes.part(r.part.id))),
+                        ],
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+              if (catalogue.shops.isNotEmpty) ...[
+                SliverToBoxAdapter(child: SectionHeader(title: t.homeStreetTitle)),
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: Space.pageHorizontal,
+                    child: TapCard(
+                      onTap: () => context.go(Routes.street),
+                      padding: const EdgeInsets.all(Space.md),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          SizedBox(
+                            height: 72,
+                            child: StreetStrip(catalogue: catalogue, compact: true),
+                          ),
+                          const SizedBox(height: Space.md),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  t.homeStreetBody(catalogue.shops.length),
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                              ),
+                              Text(
+                                t.homeStreetOpen,
+                                style: Theme.of(context).textTheme.labelLarge
+                                    ?.copyWith(color: Theme.of(context).colorScheme.primary),
+                              ),
+                              Icon(
+                                Directionality.of(context) == TextDirection.rtl
+                                    ? Icons.chevron_left
+                                    : Icons.chevron_right,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(Space.page, Space.xl, Space.page, Space.xxl),
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: Space.sm),
+                      child: Column(
+                        children: [
+                          _TrustRow(Icons.payments_outlined, t.homeTrustPay),
+                          _TrustRow(Icons.verified_outlined, t.homeTrustTech),
+                          _TrustRow(
+                            Icons.assignment_return_outlined,
+                            t.homeTrustReturns(settings.returnWindowDays),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ),
             ],
-            SliverToBoxAdapter(child: SectionHeader(title: t.homeStreetTitle)),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: Space.pageHorizontal,
-                child: TapCard(
-                  onTap: () => context.go(Routes.street),
-                  padding: const EdgeInsets.all(Space.md),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      SizedBox(height: 72, child: StreetStrip(catalogue: catalogue, compact: true)),
-                      const SizedBox(height: Space.md),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              t.homeStreetBody(catalogue.shops.length),
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                          ),
-                          Text(
-                            t.homeStreetOpen,
-                            style: Theme.of(context).textTheme.labelLarge
-                                ?.copyWith(color: Theme.of(context).colorScheme.primary),
-                          ),
-                          Icon(
-                            Directionality.of(context) == TextDirection.rtl
-                                ? Icons.chevron_left
-                                : Icons.chevron_right,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(Space.page, Space.xl, Space.page, Space.xxl),
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: Space.sm),
-                    child: Column(
-                      children: [
-                        _TrustRow(Icons.payments_outlined, t.homeTrustPay),
-                        _TrustRow(Icons.verified_outlined, t.homeTrustTech),
-                        _TrustRow(
-                          Icons.assignment_return_outlined,
-                          t.homeTrustReturns(settings.returnWindowDays),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
@@ -177,7 +230,6 @@ class _Header extends ConsumerWidget {
               Row(
                 children: [
                   Expanded(child: AlghaliLogo(markSize: 36, color: fg)),
-                  const DemoBadge(onDark: true),
                   IconButton(
                     tooltip: t.notificationsTitle,
                     onPressed: () => context.push(Routes.notifications),
@@ -295,10 +347,11 @@ class _ActiveCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final t = context.t;
     final core = context.core;
-    final catalogue = ref.watch(catalogueProvider);
-    final bookings = ref.watch(bookingsProvider).where((b) => b.isActive).toList()
+    final bookings = [...?ref.watch(bookingsProvider).value?.where((b) => b.isActive)]
       ..sort((a, b) => a.startAt.compareTo(b.startAt));
-    final orders = ref.watch(ordersProvider).where((o) => o.isActive).toList();
+    final orders = [
+      ...?ref.watch(ordersProvider).value?.where((o) => o.isActive && o.subOrders.isNotEmpty),
+    ];
 
     Widget card({
       required IconData icon,
@@ -341,8 +394,7 @@ class _ActiveCard extends ConsumerWidget {
       return card(
         icon: Icons.handyman_outlined,
         title: t.homeNextFitting,
-        body:
-            '${context.dayTime(b.startAt)}\n${catalogue.technician(b.technicianId).name.tr(context)}',
+        body: '${context.dayTime(b.startAt)}\n${b.technicianName}',
         pill: core.bookingStatus(b.status),
         tone: bookingTone(b.status),
         onTap: () => context.push(Routes.booking(b.id)),

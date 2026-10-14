@@ -336,6 +336,8 @@ class Shop {
     this.phone,
     this.whatsapp,
     this.storefrontKey,
+    this.lat,
+    this.lng,
   });
 
   /// From `shop_json()` (catalogue snapshot, shop RPCs). [hours] is left empty: the UI
@@ -361,6 +363,8 @@ class Shop {
     phone: j['phone'] as String?,
     whatsapp: j['whatsapp'] as String?,
     storefrontKey: j['storefront_key'] as String?,
+    lat: (j['lat'] as num?)?.toDouble(),
+    lng: (j['lng'] as num?)?.toDouble(),
   );
 
   final String id;
@@ -385,6 +389,11 @@ class Shop {
   final String? phone;
   final String? whatsapp;
   final String? storefrontKey;
+
+  /// The shop's map pin; delivery is measured from here (D-087), else from the street's
+  /// starting point.
+  final double? lat;
+  final double? lng;
 }
 
 enum ListingCondition {
@@ -512,7 +521,26 @@ class Address {
     required this.label,
     required this.description,
     required this.distanceKm,
+    this.lat,
+    this.lng,
+    this.isDefault = false,
   });
+
+  /// A row of `addresses`. [distanceKm] is measured by the caller from the street's
+  /// starting point (0 when it isn't set yet).
+  factory Address.fromJson(Json j, {double distanceKm = 0}) {
+    final label = j['label'] as String? ?? '';
+    final description = j['description_ar'] as String? ?? '';
+    return Address(
+      id: j['id'] as String,
+      label: LocalizedText(label, label),
+      description: LocalizedText(description, description),
+      distanceKm: distanceKm,
+      lat: (j['lat'] as num?)?.toDouble(),
+      lng: (j['lng'] as num?)?.toDouble(),
+      isDefault: j['is_default'] as bool? ?? false,
+    );
+  }
 
   final String id;
   final LocalizedText label;
@@ -520,6 +548,9 @@ class Address {
 
   /// Distance from the street's origin, used for travel and delivery fee bands.
   final double distanceKm;
+  final double? lat;
+  final double? lng;
+  final bool isDefault;
 }
 
 @immutable

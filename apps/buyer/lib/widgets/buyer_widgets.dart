@@ -1,5 +1,9 @@
 import 'package:alghali_core/alghali_core.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
+
+import '../app.dart';
+import '../state/connection.dart';
 
 /// "Toyota Hilux" for a variant.
 String carName(BuildContext context, CatalogueData c, String variantId) =>
@@ -9,12 +13,142 @@ String carName(BuildContext context, CatalogueData c, String variantId) =>
 String carLabel(BuildContext context, CatalogueData c, String variantId, {bool engine = true}) {
   final v = c.variant(variantId);
   final base = '${carName(context, c, variantId)} ${v.years}';
-  return engine ? '$base · ${v.engine.tr(context)}' : base;
+  return engine && v.engine.tr(context).isNotEmpty ? '$base · ${v.engine.tr(context)}' : base;
 }
 
 /// "Zone 1 North entrance · Plot 12".
-String shopPlace(BuildContext context, CatalogueData c, Shop shop) =>
-    '${c.zone(shop.zoneId).name.tr(context)} · ${context.core.plot(shop.plotNo)}';
+String shopPlace(BuildContext context, CatalogueData c, Shop shop) {
+  final zone = c.zone(shop.zoneId).name.tr(context);
+  final plot = shop.plotNo.isEmpty ? '' : context.core.plot(shop.plotNo);
+  return [zone, plot].where((s) => s.isNotEmpty).join(' · ');
+}
+
+/// A shop's name: from the cached street, else as the order recorded it.
+String shopName(BuildContext context, CatalogueData c, String shopId, {LocalizedText? fallback}) {
+  final name = c.shop(shopId).name.tr(context);
+  return name.isNotEmpty ? name : fallback?.tr(context) ?? '';
+}
+
+/// The shop's weekly hours in Khartoum time, Saturday first, with days that share the
+/// same hours grouped: "السبت – الخميس: 8:00 ص – 8:00 م".
+List<String> openingHoursLines(BuildContext context, OpeningHours hours) {
+  if (hours.isEmpty) return const [];
+  String day(int wd) => context.weekday(DateTime.utc(2026, 10, 11 + wd, 10));
+  String clock(int minutes) => context.time(
+    DateTime.utc(2026, 1, 1).add(Duration(minutes: minutes)).subtract(khartoumOffset),
+  );
+  String windows(int wd) {
+    final w = hours[wd];
+    if (w == null || w.isEmpty) return context.t.shopClosedDay;
+    return w.map((x) => ltr('${clock(x.$1)} – ${clock(x.$2)}')).join('، ');
+  }
+
+  const order = [6, 0, 1, 2, 3, 4, 5];
+  final lines = <String>[];
+  var start = 0;
+  for (var i = 1; i <= order.length; i++) {
+    if (i < order.length && windows(order[i]) == windows(order[start])) continue;
+    final from = day(order[start]);
+    final to = day(order[i - 1]);
+    lines.add('${i - 1 == start ? from : '$from – $to'}: ${windows(order[start])}');
+    start = i;
+  }
+  return lines;
+}
+
+/// The thumbnail link for a photo in `media-public` (null when there is none).
+String? thumbUrl(WidgetRef ref, String? baseKey, {String size = 'thumb'}) {
+  if (baseKey == null || baseKey.isEmpty) return null;
+  final env = ref.watch(appEnvProvider);
+  return env.isConfigured ? env.mediaUrl(baseKey, size: size) : null;
+}
+
+/// Shows why a backend call failed.
+void showError(BuildContext context, Object error) {
+  ScaffoldMessenger.of(context)
+    ..hideCurrentSnackBar()
+    ..showSnackBar(SnackBar(content: Text(context.core.error(error))));
+}
+
+/// The usual body for a list or page from the server: skeleton while loading, the
+/// error with "try again" when nothing could be loaded, otherwise [data] under a
+/// pull-to-refresh, with the offline banner when the phone has no connection.
+class AsyncBody<T> extends ConsumerWidget {
+  const AsyncBody({super.key, required this.value, required this.data, required this.onRefresh});
+
+  final AsyncValue<T> value;
+  final Widget Function(T value) data;
+  final Future<void> Function() onRefresh;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final body = switch (value) {
+      AsyncValue(:final value?, hasValue: true) => data(value),
+      AsyncError(:final error) => ListView(
+        children: [
+          EmptyState(
+            icon: error is BackendException && error.offline
+                ? Icons.cloud_off_outlined
+                : Icons.error_outline,
+            title: context.core.error(error),
+            action: OutlinedButton.icon(
+              onPressed: onRefresh,
+              icon: const Icon(Icons.refresh),
+              label: Text(context.core.actionRetry),
+            ),
+          ),
+        ],
+      ),
+      _ => const SkeletonList(),
+    };
+    return Column(
+      children: [
+        const OfflineBanner(),
+        Expanded(
+          child: RefreshIndicator(onRefresh: onRefresh, child: body),
+        ),
+      ],
+    );
+  }
+}
+
+/// "You're offline — showing saved data", while the last read found no connection.
+class OfflineBanner extends ConsumerWidget {
+  const OfflineBanner({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final online = ref.watch(onlineProvider);
+    return AnimatedSize(
+      duration: Motion.medium,
+      child: online
+          ? const SizedBox(width: double.infinity)
+          : Material(
+              color: AppColors.of(context).warningContainer,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: Space.page, vertical: Space.sm),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.cloud_off_outlined,
+                      size: 18,
+                      color: AppColors.of(context).onWarningContainer,
+                    ),
+                    const SizedBox(width: Space.sm),
+                    Expanded(
+                      child: Text(
+                        context.core.offlineBanner,
+                        style: Theme.of(context).textTheme.bodySmall
+                            ?.copyWith(color: AppColors.of(context).onWarningContainer),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+    );
+  }
+}
 
 class FitBadge extends StatelessWidget {
   const FitBadge(this.fit, {super.key});
@@ -71,7 +205,7 @@ Tone bookingTone(BookingStatus s) => switch (s) {
 };
 
 /// A part in search results: thumbnail, name, fit, "from" price and shop count.
-class PartResultTile extends StatelessWidget {
+class PartResultTile extends ConsumerWidget {
   const PartResultTile({
     super.key,
     required this.result,
@@ -84,11 +218,14 @@ class PartResultTile extends StatelessWidget {
   final String shopsLabel;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final c = context.core;
-    final category = _category(context);
+    final category = CatalogueScope.of(context).category(result.part.categoryId);
     final best = result.listings.first;
+    final discount = result.listings
+        .map((l) => l.discountPercent ?? 0)
+        .fold(0, (a, b) => a > b ? a : b);
     return TapCard(
       onTap: onTap,
       child: Row(
@@ -97,7 +234,8 @@ class PartResultTile extends StatelessWidget {
           PartThumb(
             icon: category.icon,
             size: 84,
-            badge: best.discountPercent == null ? null : '-${best.discountPercent}%',
+            badge: discount == 0 ? null : '-$discount%',
+            imageUrl: thumbUrl(ref, result.imageKey ?? best.imageKey),
           ),
           const SizedBox(width: Space.md),
           Expanded(
@@ -116,7 +254,9 @@ class PartResultTile extends StatelessWidget {
                   const SizedBox(height: Space.xs),
                 ],
                 Text(
-                  c.moneyFrom(context.sdg(result.fromSdg)),
+                  best.priceOnRequest
+                      ? context.t.priceOnRequest
+                      : c.moneyFrom(context.sdg(result.fromSdg)),
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w700,
                     fontFeatures: AppTypography.tabular,
@@ -135,9 +275,6 @@ class PartResultTile extends StatelessWidget {
       ),
     );
   }
-
-  PartCategory _category(BuildContext context) =>
-      CatalogueScope.of(context).category(result.part.categoryId);
 }
 
 /// Gives widgets synchronous access to the catalogue without Riverpod.
@@ -153,20 +290,21 @@ class CatalogueScope extends InheritedWidget {
   bool updateShouldNotify(CatalogueScope old) => old.catalogue != catalogue;
 }
 
-/// Compact card for horizontal deal lists.
-class DealCard extends StatelessWidget {
-  const DealCard({super.key, required this.listing, required this.onTap, this.fit});
+/// Compact card for horizontal deal lists: the part's cheapest discounted offer.
+class DealCard extends ConsumerWidget {
+  const DealCard({super.key, required this.result, required this.onTap});
 
-  final Listing listing;
+  final PartResult result;
   final VoidCallback onTap;
-  final Fit? fit;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final catalogue = CatalogueScope.of(context);
-    final part = catalogue.part(listing.partId);
-    final shop = catalogue.shop(listing.shopId);
+    final deal =
+        result.listings.where((l) => l.discountPercent != null).firstOrNull ??
+        result.listings.first;
+    final shop = catalogue.shop(deal.shopId);
     return SizedBox(
       width: 172,
       child: TapCard(
@@ -177,24 +315,25 @@ class DealCard extends StatelessWidget {
           children: [
             Center(
               child: PartThumb(
-                icon: catalogue.category(part.categoryId).icon,
+                icon: catalogue.category(result.part.categoryId).icon,
                 size: 104,
-                badge: listing.discountPercent == null ? null : '-${listing.discountPercent}%',
+                badge: deal.discountPercent == null ? null : '-${deal.discountPercent}%',
+                imageUrl: thumbUrl(ref, deal.imageKey ?? result.imageKey),
               ),
             ),
             const SizedBox(height: Space.sm),
             SizedBox(
               height: 44,
               child: Text(
-                part.name.tr(context),
+                result.part.name.tr(context),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: theme.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w600),
               ),
             ),
             PriceText(
-              text: context.sdg(listing.priceSdg),
-              was: listing.wasSdg == null ? null : context.sdg(listing.wasSdg!),
+              text: context.sdg(deal.priceSdg),
+              was: deal.wasSdg == null ? null : context.sdg(deal.wasSdg!),
             ),
             Text(
               shop.name.tr(context),
@@ -202,7 +341,10 @@ class DealCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: theme.textTheme.bodySmall,
             ),
-            if (fit == Fit.fits) ...[const SizedBox(height: Space.xs), FitBadge(fit!)],
+            if (result.fit == Fit.fits) ...[
+              const SizedBox(height: Space.xs),
+              FitBadge(result.fit!),
+            ],
           ],
         ),
       ),
@@ -210,11 +352,24 @@ class DealCard extends StatelessWidget {
   }
 }
 
-/// A technician with rating, jobs, price and where they work.
+/// A technician with rating, jobs and a line about where they work.
 class TechnicianSummary extends StatelessWidget {
-  const TechnicianSummary({super.key, required this.tech, this.trailing, this.subtitle});
+  const TechnicianSummary({
+    super.key,
+    required this.name,
+    required this.rating,
+    required this.ratingCount,
+    this.completedJobs,
+    this.verified = false,
+    this.trailing,
+    this.subtitle,
+  });
 
-  final Technician tech;
+  final String name;
+  final double rating;
+  final int ratingCount;
+  final int? completedJobs;
+  final bool verified;
   final Widget? trailing;
   final String? subtitle;
 
@@ -224,7 +379,7 @@ class TechnicianSummary extends StatelessWidget {
     final c = context.core;
     return Row(
       children: [
-        InitialsAvatar(name: tech.name.tr(context), size: 48, tone: Tone.info),
+        InitialsAvatar(name: name, size: 48, tone: Tone.info),
         const SizedBox(width: Space.md),
         Expanded(
           child: Column(
@@ -234,13 +389,13 @@ class TechnicianSummary extends StatelessWidget {
                 children: [
                   Flexible(
                     child: Text(
-                      tech.name.tr(context),
+                      name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.titleSmall,
                     ),
                   ),
-                  if (tech.verified) ...[
+                  if (verified) ...[
                     const SizedBox(width: Space.xs),
                     Tooltip(
                       message: c.verifiedTechnician,
@@ -253,8 +408,9 @@ class TechnicianSummary extends StatelessWidget {
                 spacing: Space.sm,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  RatingLine(rating: tech.rating, count: tech.ratingCount, dense: true),
-                  Text(c.jobsDone(tech.completedJobs), style: theme.textTheme.bodySmall),
+                  RatingLine(rating: rating, count: ratingCount, dense: true),
+                  if (completedJobs != null)
+                    Text(c.jobsDone(completedJobs!), style: theme.textTheme.bodySmall),
                 ],
               ),
               if (subtitle != null) Text(subtitle!, style: theme.textTheme.bodySmall),
@@ -342,4 +498,81 @@ class BigDigits extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Asks for a short text (a reason, a reply) in a bottom sheet; null when dismissed.
+Future<String?> askText(
+  BuildContext context, {
+  required String title,
+  required String label,
+  String? hint,
+  String? submit,
+  int maxLines = 3,
+}) => showModalBottomSheet<String>(
+  context: context,
+  isScrollControlled: true,
+  builder: (context) =>
+      _TextSheet(title: title, label: label, hint: hint, submit: submit, maxLines: maxLines),
+);
+
+class _TextSheet extends StatefulWidget {
+  const _TextSheet({
+    required this.title,
+    required this.label,
+    this.hint,
+    this.submit,
+    this.maxLines = 3,
+  });
+
+  final String title;
+  final String label;
+  final String? hint;
+  final String? submit;
+  final int maxLines;
+
+  @override
+  State<_TextSheet> createState() => _TextSheetState();
+}
+
+class _TextSheetState extends State<_TextSheet> {
+  final _text = TextEditingController();
+
+  @override
+  void dispose() {
+    _text.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
+    child: SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(Space.page, 0, Space.page, Space.lg),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(widget.title, style: Theme.of(context).textTheme.titleLarge),
+            const SizedBox(height: Space.lg),
+            TextField(
+              controller: _text,
+              autofocus: true,
+              minLines: 1,
+              maxLines: widget.maxLines,
+              onChanged: (_) => setState(() {}),
+              decoration: InputDecoration(labelText: widget.label, hintText: widget.hint),
+            ),
+            const SizedBox(height: Space.lg),
+            FilledButton(
+              onPressed: _text.text.trim().isEmpty
+                  ? null
+                  : () => Navigator.pop(context, _text.text.trim()),
+              child: Text(widget.submit ?? context.core.actionNext),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 }

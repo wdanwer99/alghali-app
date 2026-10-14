@@ -10,6 +10,8 @@
     "dev": "pnpm env:sync && pnpm --filter @alghali/admin dev",
     "buyer": "pnpm env:sync && node infra/scripts/flutter-run.mjs buyer",
     "partner": "pnpm env:sync && node infra/scripts/flutter-run.mjs partner",
+    "buyer:e2e": "pnpm env:sync && node infra/scripts/buyer-e2e.mjs",
+    "fixtures:buyer": "node infra/scripts/capture-fixtures.mjs",
     "build": "pnpm -r build",
     "lint": "pnpm -r lint && eslint infra eslint.config.mjs && prettier --check .",
     "typecheck": "pnpm -r typecheck",

@@ -5,10 +5,13 @@ import 'package:material_ui/material_ui.dart';
 
 import 'app.dart';
 import 'features/account/account_screen.dart';
+import 'features/account/addresses_screen.dart';
+import 'features/account/complaints_screens.dart';
 import 'features/auth/auth_screens.dart';
 import 'features/booking/booking_flow_screen.dart';
 import 'features/cart/cart_screen.dart';
 import 'features/chat/chat_screen.dart';
+import 'features/chat/chats_screen.dart';
 import 'features/checkout/bankak_screen.dart';
 import 'features/checkout/checkout_screen.dart';
 import 'features/garage/garage_screens.dart';
@@ -40,6 +43,9 @@ abstract final class Routes {
   static const checkout = '/checkout';
   static const newRequest = '/request/new';
   static const notifications = '/notifications';
+  static const complaints = '/complaints';
+  static const chats = '/chats';
+  static const addresses = '/addresses';
 
   static String part(String id) => '/part/$id';
   static String shop(String id) => '/shop/$id';
@@ -50,6 +56,11 @@ abstract final class Routes {
   static String booking(String id) => '/booking/$id';
   static String request(String id) => '/request/$id';
   static String chat(String shopId) => '/chat/$shopId';
+  static String complaint(String id) => '/complaints/$id';
+
+  /// A fitting for a part from one of the buyer's earlier orders.
+  static String bookOrderItem(String orderItemId, String title) =>
+      Uri(path: '/book/order-item/$orderItemId', queryParameters: {'title': title}).toString();
 
   static String searchFor({String? q, String? categoryId}) =>
       Uri(path: search, queryParameters: {'q': ?q, 'cat': ?categoryId}).toString();
@@ -140,6 +151,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/book/line/:id',
         builder: (_, state) => BookingFlowScreen(lineId: state.pathParameters['id']),
       ),
+      GoRoute(
+        path: '/book/order-item/:id',
+        builder: (_, state) => BookingFlowScreen(
+          orderItemId: state.pathParameters['id'],
+          orderItemTitle: state.uri.queryParameters['title'],
+        ),
+      ),
       GoRoute(path: Routes.checkout, builder: (_, _) => const CheckoutScreen()),
       GoRoute(
         path: '/pay/:kind/:id',
@@ -166,6 +184,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (_, state) => ChatScreen(shopId: state.pathParameters['shopId']!),
       ),
       GoRoute(path: Routes.notifications, builder: (_, _) => const NotificationsScreen()),
+      GoRoute(path: Routes.chats, builder: (_, _) => const ChatsScreen()),
+      GoRoute(path: Routes.addresses, builder: (_, _) => const AddressesScreen()),
+      GoRoute(path: Routes.complaints, builder: (_, _) => const ComplaintsScreen()),
+      GoRoute(
+        path: '/complaints/:id',
+        builder: (_, state) => ComplaintScreen(disputeId: state.pathParameters['id']!),
+      ),
     ],
   );
 });

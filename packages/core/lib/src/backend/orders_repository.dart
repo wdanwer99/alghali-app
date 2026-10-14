@@ -7,6 +7,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/catalogue.dart';
 import '../models/commerce.dart';
 import 'backend_error.dart';
+import 'read_cache.dart';
 import 'uploads.dart';
 
 /// One line the buyer is about to buy: a listing (any quantity) or a shop's offer on
@@ -44,10 +45,12 @@ class CartChangedException extends BackendException {
 
 /// The buyer's orders: checkout, Bankak receipts, cancelling, confirming receipt and
 /// returns. Order lists are read directly (row level security shows only the buyer's own).
-class OrdersRepository {
-  OrdersRepository(this._client);
+class OrdersRepository with CachedReads {
+  OrdersRepository(this._client, {this.cache});
 
   final SupabaseClient _client;
+  @override
+  final ReadCache? cache;
 
   static const _orderSelect =
       '*, payments(*), refunds(*), sub_orders(*, shop:shops(id, name_ar, name_en, phone, whatsapp, '
@@ -106,21 +109,30 @@ class OrdersRepository {
     }
   }
 
-  /// Newest first.
-  Future<List<Order>> list({int limit = 30, int offset = 0}) => guard(() async {
-    final rows = await _client
+  /// Newest first. The first page is kept for offline use.
+  Future<List<Order>> list({int limit = 30, int offset = 0}) => cachedRead(
+    offset == 0 ? '@orders' : '@orders:$offset',
+    () => _client
         .from('orders')
         .select(_orderSelect)
         .order('created_at', ascending: false)
-        .range(offset, offset + limit - 1);
-    return [for (final r in rows) Order.fromJson(r)];
-  });
+        .range(offset, offset + limit - 1),
+    _orders,
+  );
+
+  /// The saved first page, without asking the network.
+  Future<List<Order>?> peek() => cachedPeek('@orders', _orders);
+
+  static List<Order> _orders(Object? raw) => [
+    for (final r in (raw! as List).cast<Json>()) Order.fromJson(r),
+  ];
 
   /// Null when it isn't the buyer's order.
-  Future<Order?> get(String orderId) => guard(() async {
-    final row = await _client.from('orders').select(_orderSelect).eq('id', orderId).maybeSingle();
-    return row == null ? null : Order.fromJson(row);
-  });
+  Future<Order?> get(String orderId) => cachedRead(
+    '@order:$orderId',
+    () => _client.from('orders').select(_orderSelect).eq('id', orderId).maybeSingle(),
+    (raw) => raw == null ? null : Order.fromJson(raw as Json),
+  );
 
   /// Sends the Bankak transfer: the transaction number, a screenshot or PDF of the
   /// receipt, or both (one is required). Can be sent again after a rejection.
@@ -175,6 +187,22 @@ class OrdersRepository {
       params: {'p_sub_order_id': subOrderId, 'p_reason': reason},
     );
     return Order.fromJson(row);
+  });
+
+  /// The account's cart (`cart_items`), each line with its listing and part, or its
+  /// photo-request offer, so the app can show it after signing in on another phone.
+  Future<List<Json>> accountCart() => guard(() async {
+    final rows = await _client
+        .from('cart_items')
+        .select(
+          'listing_id, offer_id, qty, seen_price_sdg, '
+          'listing:listings(id, shop_id, condition, warranty_days, listing_images(base_key), '
+          'part:parts(id, category_id, name_ar, name_en, installable)), '
+          'offer:part_offers(id, shop_id, title_ar, title_en, condition, warranty_days, image_key, '
+          'request:part_requests(category_id))',
+        )
+        .order('created_at');
+    return rows.cast<Json>();
   });
 
   /// The Bankak account refunds are sent to.

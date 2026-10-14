@@ -163,11 +163,13 @@ class OrderItem {
     required this.unitPriceSdg,
     required this.qty,
     this.warrantyDays = 0,
+    this.id,
   });
 
   /// A row of `order_items`. [listingId] holds the offer id for an item bought from a
   /// photo-request offer.
   factory OrderItem.fromJson(Json j) => OrderItem(
+    id: j['id'] as String?,
     listingId: (j['listing_id'] ?? j['offer_id']) as String,
     partId: j['part_id'] as String? ?? '',
     title: LocalizedText.fromJson(j, 'title'),
@@ -184,6 +186,9 @@ class OrderItem {
   final int unitPriceSdg;
   final int qty;
   final int warrantyDays;
+
+  /// The `order_items` id, for booking a fitting of a part bought earlier.
+  final String? id;
 
   int get lineSdg => unitPriceSdg * qty;
 }
@@ -215,12 +220,16 @@ class SubOrder {
     this.acknowledgedAt,
     this.returnRequest,
     this.cancelReason,
+    this.shopName,
+    this.shopPhone,
+    this.shopWhatsapp,
   });
 
   /// From the order RPCs (`items`, `events`, `return`) or a direct select
-  /// (`order_items`, `suborder_events`, `returns`).
+  /// (`order_items`, `suborder_events`, `returns`), with the shop nested as `shop`.
   factory SubOrder.fromJson(Json j) {
     final ret = j['return'] ?? j['returns'];
+    final shop = j['shop'] as Json?;
     return SubOrder(
       id: j['id'] as String,
       shopId: j['shop_id'] as String,
@@ -233,8 +242,15 @@ class SubOrder {
       events: _events(j['events'] ?? j['suborder_events']),
       deliveryFeeSdg: j['delivery_fee_sdg'] as int? ?? 0,
       acknowledgedAt: DateTime.tryParse(j['shop_ack_at'] as String? ?? ''),
-      returnRequest: ret is Json ? ReturnRequest.fromJson(ret) : null,
+      returnRequest: ret is Json
+          ? ReturnRequest.fromJson(ret)
+          : ret is List && ret.isNotEmpty
+          ? ReturnRequest.fromJson(ret.first as Json)
+          : null,
       cancelReason: j['cancel_reason'] as String?,
+      shopName: shop == null ? null : LocalizedText.fromJson(shop, 'name'),
+      shopPhone: shop?['phone'] as String?,
+      shopWhatsapp: shop?['whatsapp'] as String?,
     );
   }
 
@@ -253,6 +269,11 @@ class SubOrder {
   /// Why the shop declined, or the order was cancelled.
   final String? cancelReason;
 
+  /// The shop as the order saw it, for shops the cached catalogue no longer lists.
+  final LocalizedText? shopName;
+  final String? shopPhone;
+  final String? shopWhatsapp;
+
   int get itemsSdg => items.fold(0, (sum, i) => sum + i.lineSdg);
 
   SubOrder copyWith({SubOrderStatus? status, DateTime? at, DateTime? acknowledgedAt}) => SubOrder(
@@ -265,6 +286,9 @@ class SubOrder {
     acknowledgedAt: acknowledgedAt ?? this.acknowledgedAt,
     returnRequest: returnRequest,
     cancelReason: cancelReason,
+    shopName: shopName,
+    shopPhone: shopPhone,
+    shopWhatsapp: shopWhatsapp,
     events: status == null || status == this.status
         ? events
         : [...events, StatusEvent(status, at ?? DateTime.now())],
@@ -289,6 +313,8 @@ class Order {
     this.buyerName = '',
     this.txnNo,
     this.refunds = const <Refund>[],
+    this.depositStatus,
+    this.rejectReason,
   });
 
   /// From `order_json()` (checkout and order RPCs) or a direct select with nested
@@ -300,6 +326,7 @@ class Order {
     final bankak = payments.where(
       (p) => p['method'] == 'BANKAK' && p['purpose'] != 'BOOKING_DEPOSIT',
     );
+    final deposit = payments.where((p) => p['purpose'] == 'BOOKING_DEPOSIT').firstOrNull;
     final cash = payments.where((p) => p['method'] == 'CASH').map((p) => p['status'] as String);
     final createdAt = DateTime.parse(j['created_at'] as String);
     return Order(
@@ -320,6 +347,9 @@ class Order {
       bookingFeeSdg: j['booking_fee_sdg'] as int? ?? 0,
       labourSdg: j['labour_sdg'] as int? ?? 0,
       travelFeeSdg: j['travel_sdg'] as int? ?? 0,
+      depositSdg: deposit?['amount_sdg'] as int? ?? 0,
+      depositStatus: deposit == null ? null : PaymentStatus.fromCode(deposit['status'] as String),
+      rejectReason: (bankak.firstOrNull ?? deposit)?['reject_reason'] as String?,
       refunds: [
         for (final r in [...?(j['refunds'] as List?)?.cast<Json>()]) Refund.fromJson(r),
       ],
@@ -348,6 +378,17 @@ class Order {
   final String? txnNo;
   final List<Refund> refunds;
 
+  /// The Bankak deposit of a cash order with a fitting at the buyer's place (D-019).
+  final PaymentStatus? depositStatus;
+
+  /// Why an admin didn't accept the receipt: AMOUNT_WRONG, NOT_ON_STATEMENT, DUPLICATE,
+  /// UNREADABLE or OTHER.
+  final String? rejectReason;
+
+  /// The Bankak payment the buyer acts on: the order's own, or the deposit of a cash order.
+  PaymentStatus get bankakStatus =>
+      method == PaymentMethod.bankak ? paymentStatus : depositStatus ?? paymentStatus;
+
   int get itemsSdg => subOrders.fold(0, (sum, s) => sum + s.itemsSdg);
   int get deliverySdg => subOrders.fold(0, (sum, s) => sum + s.deliveryFeeSdg);
   int get totalSdg => itemsSdg + deliverySdg + bookingFeeSdg + labourSdg + travelFeeSdg;
@@ -373,6 +414,8 @@ class Order {
     buyerName: buyerName,
     txnNo: txnNo ?? this.txnNo,
     refunds: refunds,
+    depositStatus: depositStatus,
+    rejectReason: rejectReason,
   );
 }
 
@@ -416,6 +459,10 @@ class BookingItem {
     required this.minutes,
     this.description,
     this.orderItemId,
+    this.listingId,
+    this.offerId,
+    this.partId,
+    this.categoryId,
   });
 
   /// An item of `booking_json`. A job type this app version doesn't know reads as SERVICE.
@@ -425,6 +472,10 @@ class BookingItem {
     minutes: j['minutes'] as int,
     description: j['description'] as String?,
     orderItemId: j['order_item_id'] as String?,
+    listingId: j['listing_id'] as String?,
+    offerId: j['offer_id'] as String?,
+    partId: j['part_id'] as String?,
+    categoryId: j['category_id'] as String?,
   );
 
   final LocalizedText title;
@@ -434,6 +485,10 @@ class BookingItem {
   /// What the buyer wrote about a part bought elsewhere.
   final String? description;
   final String? orderItemId;
+  final String? listingId;
+  final String? offerId;
+  final String? partId;
+  final String? categoryId;
 }
 
 /// The technician's current offer on a booking (D-024).
@@ -514,6 +569,13 @@ class Booking {
     this.cancelReason,
     this.locationNote,
     this.bayName,
+    this.holdExpiresAt,
+    this.technicianRating = 0,
+    this.technicianRatingCount = 0,
+    this.technicianVerified = false,
+    this.lat,
+    this.lng,
+    this.paymentRejectReason,
   });
 
   /// From `booking_json` (booking RPCs, my_bookings, tech_bookings). The job code is there
@@ -584,6 +646,13 @@ class Booking {
       cancelReason: j['cancel_reason'] as String?,
       locationNote: j['location_note'] as String?,
       bayName: bay == null ? null : LocalizedText.fromJson(bay, 'name'),
+      holdExpiresAt: DateTime.tryParse(j['hold_expires_at'] as String? ?? ''),
+      technicianRating: (tech['rating_avg'] as num?)?.toDouble() ?? 0,
+      technicianRatingCount: tech['rating_count'] as int? ?? 0,
+      technicianVerified: tech['verified'] as bool? ?? false,
+      lat: (j['lat'] as num?)?.toDouble(),
+      lng: (j['lng'] as num?)?.toDouble(),
+      paymentRejectReason: bankak.isEmpty ? null : bankak.first['reject_reason'] as String?,
     );
   }
 
@@ -636,6 +705,17 @@ class Booking {
   final String? cancelReason;
   final String? locationNote;
   final LocalizedText? bayName;
+
+  /// A HELD booking lapses at this time unless checkout takes it (D-022).
+  final DateTime? holdExpiresAt;
+  final double technicianRating;
+  final int technicianRatingCount;
+  final bool technicianVerified;
+
+  /// Where the job is, for a fitting at the buyer's place.
+  final double? lat;
+  final double? lng;
+  final String? paymentRejectReason;
 
   DateTime get endAt => startAt.add(Duration(minutes: durationMin));
 
@@ -690,6 +770,13 @@ class Booking {
     cancelReason: cancelReason,
     locationNote: locationNote,
     bayName: bayName,
+    holdExpiresAt: holdExpiresAt,
+    technicianRating: technicianRating,
+    technicianRatingCount: technicianRatingCount,
+    technicianVerified: technicianVerified,
+    lat: lat,
+    lng: lng,
+    paymentRejectReason: paymentRejectReason,
   );
 }
 

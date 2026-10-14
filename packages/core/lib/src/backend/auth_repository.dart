@@ -16,6 +16,9 @@ class AuthRepository {
   String? get userId => _client.auth.currentUser?.id;
   Stream<AuthState> get changes => _client.auth.onAuthStateChange;
 
+  /// The signed-in user's id after every auth change; null once signed out.
+  Stream<String?> get userChanges => changes.map((c) => c.session?.user.id);
+
   /// Creates the account and signs in (email confirmation is off until launch SMTP, D-031).
   /// The phone is saved unverified; the server normalises it to +249….
   Future<void> signUp({

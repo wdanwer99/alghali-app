@@ -5,16 +5,20 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../models/catalogue.dart';
 import '../models/commerce.dart';
+import 'alerts.dart';
 import 'backend_error.dart';
+import 'read_cache.dart';
 import 'uploads.dart';
 
 /// Chat between a buyer and a shop: text and voice notes (up to 60 s), delivered live.
 /// Messages are written directly; row level security keeps each conversation to its
 /// buyer and the shop's staff.
-class ChatRepository {
-  ChatRepository(this._client);
+class ChatRepository with CachedReads {
+  ChatRepository(this._client, {this.cache});
 
   final SupabaseClient _client;
+  @override
+  final ReadCache? cache;
 
   static const _voiceBucket = 'voice-notes';
 
@@ -40,21 +44,24 @@ class ChatRepository {
   });
 
   /// The buyer's chats, latest activity first.
-  Future<List<Conversation>> buyerInbox({int limit = 50}) => guard(() async {
+  Future<List<Conversation>> buyerInbox({int limit = 50}) {
     final me = _me;
-    final rows = await _client
-        .from('conversations')
-        .select(
-          '*, shop:shops(name_ar, name_en), sub_order:sub_orders(order:orders(ref)), messages(*)',
-        )
-        .eq('buyer_id', me)
-        .not('last_message_at', 'is', null)
-        .order('last_message_at', ascending: false)
-        .order('created_at', referencedTable: 'messages', ascending: false)
-        .limit(1, referencedTable: 'messages')
-        .limit(limit);
-    return [for (final r in rows) Conversation.forBuyer(r, myId: me)];
-  });
+    return cachedRead(
+      '@chats',
+      () => _client
+          .from('conversations')
+          .select(
+            '*, shop:shops(name_ar, name_en), sub_order:sub_orders(order:orders(ref)), messages(*)',
+          )
+          .eq('buyer_id', me)
+          .not('last_message_at', 'is', null)
+          .order('last_message_at', ascending: false)
+          .order('created_at', referencedTable: 'messages', ascending: false)
+          .limit(1, referencedTable: 'messages')
+          .limit(limit),
+      (raw) => [for (final r in (raw! as List).cast<Json>()) Conversation.forBuyer(r, myId: me)],
+    );
+  }
 
   /// A shop's chats, latest activity first.
   Future<List<Conversation>> shopInbox(String shopId, {int limit = 50}) => guard(() async {
@@ -66,19 +73,37 @@ class ChatRepository {
   });
 
   /// Up to [limit] messages before [before] (the newest when null), oldest first.
-  Future<List<ChatMessage>> messages(String conversationId, {DateTime? before, int limit = 50}) =>
-      guard(() async {
-        final me = _me;
-        var query = _client.from('messages').select().eq('conversation_id', conversationId);
-        if (before != null) query = query.lt('created_at', before.toUtc().toIso8601String());
-        final rows = await query.order('created_at', ascending: false).limit(limit);
-        return [for (final r in rows.reversed) ChatMessage.fromJson(r, myId: me)];
-      });
+  Future<List<ChatMessage>> messages(String conversationId, {DateTime? before, int limit = 50}) {
+    final me = _me;
+    var query = _client.from('messages').select().eq('conversation_id', conversationId);
+    if (before != null) query = query.lt('created_at', before.toUtc().toIso8601String());
+    return cachedRead(
+      before == null
+          ? '@chat:$conversationId'
+          : '@chat:$conversationId:${before.toIso8601String()}',
+      () => query.order('created_at', ascending: false).limit(limit),
+      (raw) => [
+        for (final r in (raw! as List).cast<Json>().reversed) ChatMessage.fromJson(r, myId: me),
+      ],
+    );
+  }
 
-  Future<ChatMessage> send(String conversationId, String text) => guard(() async {
+  /// The saved latest messages, without asking the network.
+  Future<List<ChatMessage>?> peekMessages(String conversationId) {
+    final me = _me;
+    return cachedPeek(
+      '@chat:$conversationId',
+      (raw) => [
+        for (final r in (raw! as List).cast<Json>().reversed) ChatMessage.fromJson(r, myId: me),
+      ],
+    );
+  }
+
+  /// [id] may be chosen by the app, so a replay from the outbox can't send it twice.
+  Future<ChatMessage> send(String conversationId, String text, {String? id}) => guard(() async {
     final row = await _client
         .from('messages')
-        .insert({'conversation_id': conversationId, 'body': text})
+        .insert({'id': ?id, 'conversation_id': conversationId, 'body': text})
         .select()
         .single();
     return ChatMessage.fromJson(row, myId: _me);
@@ -144,19 +169,29 @@ class ChatRepository {
 
 /// The in-app inbox (`notifications`), newest first. The app words each entry from its
 /// code and payload in the reader's language.
-class NotificationsRepository {
-  NotificationsRepository(this._client);
+class NotificationsRepository with CachedReads {
+  NotificationsRepository(this._client, {this.cache});
 
   final SupabaseClient _client;
+  @override
+  final ReadCache? cache;
 
-  Future<List<InboxItem>> list({int limit = 50}) => guard(() async {
-    final rows = await _client
-        .from('notifications')
-        .select()
-        .order('created_at', ascending: false)
-        .limit(limit);
-    return [for (final r in rows) InboxItem.fromJson(r)];
-  });
+  Future<List<InboxItem>> list({int limit = 50}) => cachedRead(
+    '@inbox',
+    () => _client.from('notifications').select().order('created_at', ascending: false).limit(limit),
+    (raw) => [for (final r in (raw! as List).cast<Json>()) InboxItem.fromJson(r)],
+  );
+
+  /// Arabic and English wording of every alert code for [app] (`buyer` or `partner`):
+  /// the templates the push dispatcher uses too.
+  Future<AlertTemplates> templates(String app) => cachedRead(
+    'templates:$app',
+    () => _client
+        .from('notification_templates')
+        .select('code, locale, title, body, notification_codes!inner(app)')
+        .eq('notification_codes.app', app),
+    (raw) => AlertTemplates.fromRows((raw! as List).cast<Json>()),
+  );
 
   /// Marks [ids] read, or all of them when null. Returns how many changed.
   Future<int> markRead([List<String>? ids]) =>

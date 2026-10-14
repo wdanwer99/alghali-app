@@ -818,6 +818,252 @@ abstract class CoreLocalizations {
   /// In ar, this message translates to:
   /// **'{value} ألف'**
   String thousands(String value);
+
+  /// Error: no network
+  ///
+  /// In ar, this message translates to:
+  /// **'لا يوجد اتصال بالإنترنت. حاول مرة أخرى بعد قليل.'**
+  String get errOffline;
+
+  /// Error: anything not listed
+  ///
+  /// In ar, this message translates to:
+  /// **'حدث خطأ. حاول مرة أخرى.'**
+  String get errGeneric;
+
+  /// Error: signed out
+  ///
+  /// In ar, this message translates to:
+  /// **'انتهت جلستك. سجّل الدخول مرة أخرى.'**
+  String get errSessionExpired;
+
+  /// Error: sign-in failed
+  ///
+  /// In ar, this message translates to:
+  /// **'البريد أو كلمة المرور غير صحيحة.'**
+  String get errInvalidCredentials;
+
+  /// Error: sign-up with a used email
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا البريد له حساب من قبل. سجّل الدخول بدلًا من ذلك.'**
+  String get errEmailTaken;
+
+  /// Error: rate limited
+  ///
+  /// In ar, this message translates to:
+  /// **'محاولات كثيرة. انتظر قليلًا ثم حاول مرة أخرى.'**
+  String get errTooManyAttempts;
+
+  /// Error: checkout without a phone
+  ///
+  /// In ar, this message translates to:
+  /// **'أضف رقم هاتفك في حسابك أولًا، ليتصل بك المحل أو الفني.'**
+  String get errPhoneRequired;
+
+  /// Error: booking slot taken
+  ///
+  /// In ar, this message translates to:
+  /// **'حجز أحدهم هذا الموعد للتو. اختر موعدًا آخر.'**
+  String get errSlotTaken;
+
+  /// Error: held slot expired
+  ///
+  /// In ar, this message translates to:
+  /// **'انتهت مدة حجز الموعد. اختر الموعد مرة أخرى.'**
+  String get errHoldExpired;
+
+  /// Error: technician unsuitable or busy
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا الفني لم يعد متاحًا في هذا الموعد. اختر موعدًا أو فنيًا آخر.'**
+  String get errTechnicianUnavailable;
+
+  /// Error: slot before the earliest start
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا الموعد قريب جدًا. اختر موعدًا لاحقًا.'**
+  String get errTooEarly;
+
+  /// Error: travel or delivery distance too far
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا الموقع خارج منطقة الخدمة.'**
+  String get errOutOfRange;
+
+  /// Error: street origin not set
+  ///
+  /// In ar, this message translates to:
+  /// **'التركيب في موقعك غير متاح بعد. اختر ورشة في الشارع.'**
+  String get errTravelUnavailable;
+
+  /// Error: delivery not possible
+  ///
+  /// In ar, this message translates to:
+  /// **'التوصيل غير متاح لهذا العنوان بعد. اختر الاستلام من المحل.'**
+  String get errDeliveryUnavailable;
+
+  /// Error: Bankak number reused
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم العملية هذا استُخدم من قبل. تأكد منه.'**
+  String get errDuplicateTxn;
+
+  /// Error: pay-by passed
+  ///
+  /// In ar, this message translates to:
+  /// **'انتهت مهلة الدفع لهذا الطلب.'**
+  String get errPaymentExpired;
+
+  /// Error: cancel not allowed
+  ///
+  /// In ar, this message translates to:
+  /// **'لم يعد ممكنًا إلغاء هذا.'**
+  String get errCannotCancel;
+
+  /// Error: open request limit
+  ///
+  /// In ar, this message translates to:
+  /// **'لديك طلبات صور مفتوحة كثيرة. أغلق بعضها أولًا.'**
+  String get errTooManyRequests;
+
+  /// Error: garage limit
+  ///
+  /// In ar, this message translates to:
+  /// **'يمكنك حفظ 10 سيارات كحد أقصى.'**
+  String get errGarageFull;
+
+  /// Error: upload too large
+  ///
+  /// In ar, this message translates to:
+  /// **'الملف كبير جدًا (5 ميجابايت كحد أقصى).'**
+  String get errFileTooLarge;
+
+  /// Error: upload type
+  ///
+  /// In ar, this message translates to:
+  /// **'نوع الملف غير مدعوم.'**
+  String get errFileType;
+
+  /// Error: not found
+  ///
+  /// In ar, this message translates to:
+  /// **'لم نجد هذا. ربما حُذف.'**
+  String get errNotFound;
+
+  /// Error: not allowed
+  ///
+  /// In ar, this message translates to:
+  /// **'لا يمكنك القيام بهذا.'**
+  String get errForbidden;
+
+  /// Error: checkout found changes
+  ///
+  /// In ar, this message translates to:
+  /// **'تغيّرت بعض الأسعار أو الكميات. راجع السلة ثم أكّد.'**
+  String get errCartChanged;
+
+  /// Error: address missing
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر عنوانًا أو أضف عنوانًا جديدًا.'**
+  String get errAddressRequired;
+
+  /// Error: GPS off
+  ///
+  /// In ar, this message translates to:
+  /// **'شغّل الموقع (GPS) في هاتفك ثم حاول مرة أخرى.'**
+  String get errLocationOff;
+
+  /// Error: location permission refused
+  ///
+  /// In ar, this message translates to:
+  /// **'اسمح للتطبيق باستخدام الموقع من إعدادات الهاتف.'**
+  String get errLocationDenied;
+
+  /// Error: microphone permission refused
+  ///
+  /// In ar, this message translates to:
+  /// **'اسمح للتطبيق باستخدام الميكروفون من إعدادات الهاتف.'**
+  String get errMicDenied;
+
+  /// Error: no app for a link
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذّر فتح هذا على هاتفك.'**
+  String get errCannotOpen;
+
+  /// Error: offer or listing gone
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا لم يعد متاحًا.'**
+  String get errUnavailable;
+
+  /// A change waiting in the outbox
+  ///
+  /// In ar, this message translates to:
+  /// **'سيُرسل عند عودة الاتصال'**
+  String get queuedOffline;
+
+  /// A queued change the server refused
+  ///
+  /// In ar, this message translates to:
+  /// **'لم يُرسل: {reason}'**
+  String notSent(String reason);
+
+  /// Voice note button tooltip
+  ///
+  /// In ar, this message translates to:
+  /// **'اضغط مطولًا للتسجيل'**
+  String get voiceHold;
+
+  /// While recording a voice note
+  ///
+  /// In ar, this message translates to:
+  /// **'جارٍ التسجيل… ارفع إصبعك للإرسال'**
+  String get voiceRecording;
+
+  /// Voice note shorter than a second
+  ///
+  /// In ar, this message translates to:
+  /// **'اضغط مطولًا على الميكروفون لتسجيل رسالة صوتية.'**
+  String get voiceTooShort;
+
+  /// Play a voice note
+  ///
+  /// In ar, this message translates to:
+  /// **'تشغيل'**
+  String get voicePlay;
+
+  /// Pause a voice note
+  ///
+  /// In ar, this message translates to:
+  /// **'إيقاف مؤقت'**
+  String get voicePause;
+
+  /// Take a photo
+  ///
+  /// In ar, this message translates to:
+  /// **'الكاميرا'**
+  String get photoCamera;
+
+  /// Pick a photo from the gallery
+  ///
+  /// In ar, this message translates to:
+  /// **'المعرض'**
+  String get photoGallery;
+
+  /// Hint under lists
+  ///
+  /// In ar, this message translates to:
+  /// **'اسحب للتحديث'**
+  String get pullToRefresh;
+
+  /// Open what an alert is about
+  ///
+  /// In ar, this message translates to:
+  /// **'فتح'**
+  String get actionOpen;
 }
 
 class _CoreLocalizationsDelegate extends LocalizationsDelegate<CoreLocalizations> {

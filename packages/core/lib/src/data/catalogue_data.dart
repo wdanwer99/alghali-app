@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart' show immutable;
 
 import '../models/catalogue.dart';
 import 'arabic.dart';
+import 'catalogue_snapshot.dart';
 
 enum SearchSort { relevance, priceLow, priceHigh, rating }
 
@@ -84,6 +85,7 @@ class PartResult {
     required this.fit,
     required this.listings,
     this._shopCount,
+    this.imageKey,
   });
 
   /// A `search_parts` row. The server sends at most 5 offers per part, so the
@@ -97,6 +99,7 @@ class PartResult {
         for (final l in (j['listings'] as List).cast<Json>()) Listing.fromJson(l, partId: part.id),
       ],
       shopCount: j['shop_count'] as int?,
+      imageKey: j['image_key'] as String?,
     );
   }
 
@@ -105,6 +108,9 @@ class PartResult {
   final List<Listing> listings;
   final int? _shopCount;
 
+  /// The first photo of the cheapest offer that has one (`media-public` prefix).
+  final String? imageKey;
+
   int get fromSdg => listings.first.priceSdg;
   int get shopCount => _shopCount ?? listings.map((l) => l.shopId).toSet().length;
   Set<ListingCondition> get conditions => listings.map((l) => l.condition).toSet();
@@ -112,8 +118,14 @@ class PartResult {
 }
 
 /// Everything the apps show from the catalogue: cars, categories, parts,
-/// the street and its shops, listings and technicians. In the real app this
-/// is the cached `catalogue_snapshot` plus search RPCs; today it is sample data.
+/// the street and its shops, listings and technicians.
+///
+/// The buyer app builds it from the cached `catalogue_snapshot` ([CatalogueData.fromSnapshot]):
+/// cars, categories, zones and shops only; parts, offers and technicians come from the
+/// search and booking calls. The sample data (`buildDemoCatalogue`) fills every list.
+///
+/// Lookups by id never throw: an id the cache doesn't know (a shop no longer approved,
+/// a car retired from the catalogue) gives an empty placeholder.
 class CatalogueData {
   CatalogueData({
     required this.makes,
@@ -127,6 +139,8 @@ class CatalogueData {
     required this.technicians,
     required this.reviews,
     required List<List<String>> synonyms,
+    this.streetOrigin,
+    this.streetLengthM,
   }) : _synonyms = [
          for (final group in synonyms) {for (final w in group) ...searchTerms(w)},
        ];
@@ -143,6 +157,42 @@ class CatalogueData {
   final List<Review> reviews;
   final List<Set<String>> _synonyms;
 
+  /// Where delivery and travel distances are measured from (D-077); null until set.
+  final ({double lat, double lng})? streetOrigin;
+  final int? streetLengthM;
+
+  factory CatalogueData.fromSnapshot(CatalogueSnapshot s) => CatalogueData(
+    makes: s.makes,
+    models: s.models,
+    variants: s.variants,
+    categories: s.categories,
+    parts: const [],
+    zones: s.zones,
+    shops: s.shops,
+    listings: const [],
+    technicians: const [],
+    reviews: const [],
+    synonyms: const [],
+    streetOrigin: s.streetOrigin,
+    streetLengthM: s.streetLengthM,
+  );
+
+  static final empty = CatalogueData(
+    makes: const [],
+    models: const [],
+    variants: const [],
+    categories: const [],
+    parts: const [],
+    zones: const [],
+    shops: const [],
+    listings: const [],
+    technicians: const [],
+    reviews: const [],
+    synonyms: const [],
+  );
+
+  static const _blank = LocalizedText('', '');
+
   late final _makes = {for (final x in makes) x.id: x};
   late final _models = {for (final x in models) x.id: x};
   late final _variants = {for (final x in variants) x.id: x};
@@ -153,13 +203,31 @@ class CatalogueData {
   late final _listings = {for (final x in listings) x.id: x};
   late final _technicians = {for (final x in technicians) x.id: x};
 
-  VehicleMake make(String id) => _makes[id]!;
-  VehicleModel model(String id) => _models[id]!;
-  VehicleVariant variant(String id) => _variants[id]!;
-  PartCategory category(String id) => _categories[id]!;
+  VehicleMake make(String id) => _makes[id] ?? VehicleMake(id: id, name: _blank);
+  VehicleModel model(String id) => _models[id] ?? VehicleModel(id: id, makeId: '', name: _blank);
+  VehicleVariant variant(String id) =>
+      _variants[id] ?? VehicleVariant(id: id, modelId: '', yearFrom: 0, yearTo: 0, engine: _blank);
+  PartCategory category(String id) =>
+      _categories[id] ?? PartCategory(id: id, name: _blank, icon: CategoryIcon.accessories);
   Part part(String id) => _parts[id]!;
-  Zone zone(String id) => _zones[id]!;
-  Shop shop(String id) => _shops[id]!;
+  Zone zone(String id) => _zones[id] ?? Zone(id: id, seq: 0, name: _blank, fromM: 0, toM: 0);
+  Shop shop(String id) =>
+      _shops[id] ??
+      Shop(
+        id: id,
+        zoneId: '',
+        name: _blank,
+        plotNo: '',
+        side: StreetSide.a,
+        landmark: _blank,
+        posM: 0,
+        rating: 0,
+        ratingCount: 0,
+        hours: _blank,
+        about: _blank,
+      );
+  bool hasShop(String id) => _shops.containsKey(id);
+  bool hasVariant(String id) => _variants.containsKey(id);
   Listing listing(String id) => _listings[id]!;
   Technician technician(String id) => _technicians[id]!;
 

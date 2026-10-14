@@ -1,0 +1,181 @@
+[
+  {
+    "id": "8e4925ad-ab79-488e-9315-7190bfd4602c",
+    "user_id": "ae1c3ed8-de20-40c0-b775-5707881d9ec0",
+    "code": "BOOKING_REMINDER_DAY",
+    "payload": {
+      "ref": "60047982",
+      "start_at": "2026-10-15T14:00:00+00:00",
+      "booking_id": "b5835683-04f6-4981-87e5-6f1d2e00919f"
+    },
+    "created_at": "2026-10-14T14:00:00.053665+00:00",
+    "read_at": null,
+    "app": "buyer"
+  },
+  {
+    "id": "82066268-1bf3-4cdc-8709-fb3b8bbf899e",
+    "user_id": "ae1c3ed8-de20-40c0-b775-5707881d9ec0",
+    "code": "ORDER_PLACED",
+    "payload": {
+      "ref": "81593139",
+      "order_id": "c3aeb5f7-a706-4411-a72a-95a5dc18bf3a"
+    },
+    "created_at": "2026-10-14T01:00:49.231998+00:00",
+    "read_at": null,
+    "app": "buyer"
+  },
+  {
+    "id": "5958eaea-8114-46f6-97a1-8ce04c2e2275",
+    "user_id": "ae1c3ed8-de20-40c0-b775-5707881d9ec0",
+    "code": "ORDER_READY",
+    "payload": {
+      "ref": "72491962",
+      "status": "READY",
+      "order_id": "b3f82059-f1c9-4b89-9568-26e9c36c4975",
+      "sub_order_id": "de8c30bd-4eec-4b96-95f9-4cb266ed74cd"
+    },
+    "created_at": "2026-10-14T01:00:43.467415+00:00",
+    "read_at": null,
+    "app": "buyer"
+  },
+  {
+    "id": "cce0ded8-bfd3-4992-8401-a416565103be",
+    "user_id": "ae1c3ed8-de20-40c0-b775-5707881d9ec0",
+    "code": "BOOKING_ACCEPTED",
+    "payload": {
+      "ref": "60047982",
+      "status": "ACCEPTED",
+      "start_at": "2026-10-15T14:00:00+00:00",
+      "booking_id": "b5835683-04f6-4981-87e5-6f1d2e00919f"
+    },
+    "created_at": "2026-10-14T01:00:43.035591+00:00",
+    "read_at": null,
+    "app": "buyer"
+  },
+  {
+    "id": "7c7f4f7d-9ec8-4ba2-8291-f838ab4f82c2",
+    "user_id": "ae1c3ed8-de20-40c0-b775-5707881d9ec0",
+    "code": "PAYMENT_CONFIRMED",
+    "payload": {
+      "ref": "72491962",
+      "order_id": "b3f82059-f1c9-4b89-9568-26e9c36c4975"
+    },
+    "created_at": "2026-10-14T01:00:42.470583+00:00",
+    "read_at": null,
+    "app": "buyer"
+  },
+  {
+    "id": "0d79dbad-71aa-4b3d-aaf9-2f0ce96ef216",
+    "user_id": "ae1c3ed8-de20-40c0-b775-5707881d9ec0",
+    "code": "ORDER_PLACED",
+    "payload": {
+      "ref": "72491962",
+      "order_id": "b3f82059-f1c9-4b89-9568-26e9c36c4975"
+    },
+    "created_at": "2026-10-14T01:00:41.600568+00:00",
+    "read_at": null,
+    "app": "buyer"
+  },
+  {
+    "id": "bb4a4c95-c15a-4020-a557-174cc6367035",
+    "user_id": "ae1c3ed8-de20-40c0-b775-5707881d9ec0",
+    "code": "ORDER_HANDED_OVER",
+    "payload": {
+      "ref": "58156415",
+      "status": "PICKED_UP",
+      "order_id": "bb867a41-7ec1-459d-87b3-8ae82f0c3caa",
+      "sub_order_id": "b3fc3a26-3ebc-4cf9-b35f-3d183af8995e"
+    },
+    "created_at": "2026-10-13T22:48:48.757576+00:00",
+    "read_at": null,
+    "app": null
+  },
+  {
+    "id": "efbfaf88-0f26-4785-9263-358cfd3b172e",
+    "user_id": "ae1c3ed8-de20-40c0-b775-5707881d9ec0",
+    "code": "ORDER_READY",
+    "payload": {
+      "ref": "58156415",
+      "status": "READY",
+      "order_id": "bb867a41-7ec1-459d-87b3-8ae82f0c3caa",
+      "sub_order_id": "b3fc3a26-3ebc-4cf9-b35f-3d183af8995e"
+    },
+    "created_at": "2026-10-13T22:48:48.311307+00:00",
+    "read_at": null,
+    "app": null
+  },
+  {
+    "id": "be2a7768-f6fb-498b-984c-fc28fe72b7a9",
+    "user_id": "ae1c3ed8-de20-40c0-b775-5707881d9ec0",
+    "code": "PAYMENT_CONFIRMED",
+    "payload": {
+      "ref": "58156415",
+      "order_id": "bb867a41-7ec1-459d-87b3-8ae82f0c3caa"
+    },
+    "created_at": "2026-10-13T22:48:47.903559+00:00",
+    "read_at": null,
+    "app": null
+  },
+  {
+    "id": "baee16ca-c876-4305-af3f-c3203451bb63",
+    "user_id": "ae1c3ed8-de20-40c0-b775-5707881d9ec0",
+    "code": "ORDER_PLACED",
+    "payload": {
+      "ref": "58156415",
+      "order_id": "bb867a41-7ec1-459d-87b3-8ae82f0c3caa"
+    },
+    "created_at": "2026-10-13T22:48:47.211884+00:00",
+    "read_at": null,
+    "app": null
+  },
+  {
+    "id": "69b7f1eb-f70d-45f7-bd02-017af2017fd7",
+    "user_id": "ae1c3ed8-de20-40c0-b775-5707881d9ec0",
+    "code": "ORDER_READY",
+    "payload": {
+      "ref": "53733739",
+      "status": "READY",
+      "order_id": "ee64fe36-05ee-4758-91a5-d27a042d00c6",
+      "sub_order_id": "30758e9c-5cd9-4c46-ae28-cc1adb331c62"
+    },
+    "created_at": "2026-10-13T22:48:43.682879+00:00",
+    "read_at": null,
+    "app": null
+  },
+  {
+    "id": "44225dfe-e87e-4ce0-afef-880d8b67604f",
+    "user_id": "ae1c3ed8-de20-40c0-b775-5707881d9ec0",
+    "code": "PAYMENT_CONFIRMED",
+    "payload": {
+      "ref": "53733739",
+      "order_id": "ee64fe36-05ee-4758-91a5-d27a042d00c6"
+    },
+    "created_at": "2026-10-13T22:48:43.262074+00:00",
+    "read_at": null,
+    "app": null
+  },
+  {
+    "id": "a9f02498-aad3-43df-be2a-948ae40966e3",
+    "user_id": "ae1c3ed8-de20-40c0-b775-5707881d9ec0",
+    "code": "ORDER_PLACED",
+    "payload": {
+      "ref": "53733739",
+      "order_id": "ee64fe36-05ee-4758-91a5-d27a042d00c6"
+    },
+    "created_at": "2026-10-13T22:48:42.58493+00:00",
+    "read_at": null,
+    "app": null
+  },
+  {
+    "id": "499efada-5efc-4209-b073-af2fbac4c612",
+    "user_id": "ae1c3ed8-de20-40c0-b775-5707881d9ec0",
+    "code": "ORDER_PLACED",
+    "payload": {
+      "ref": "51054344",
+      "order_id": "60b5e74f-b09c-47c1-8b85-85924da0731f"
+    },
+    "created_at": "2026-10-13T22:48:39.768293+00:00",
+    "read_at": null,
+    "app": null
+  }
+]

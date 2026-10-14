@@ -1,0 +1,470 @@
+[
+  {
+    "code": "ORDER_PLACED",
+    "locale": "ar",
+    "title": "تم استلام طلبك",
+    "body": "رقم الطلب {ref}. سنُبلغك بكل خطوة.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "ORDER_PLACED",
+    "locale": "en",
+    "title": "Order received",
+    "body": "Order {ref}. We'll keep you posted.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "PAYMENT_CONFIRMED",
+    "locale": "ar",
+    "title": "تم تأكيد الدفع",
+    "body": "وصل تحويلك للطلب {ref}، والمحلات تجهّزه الآن.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "PAYMENT_CONFIRMED",
+    "locale": "en",
+    "title": "Payment confirmed",
+    "body": "Your transfer for order {ref} arrived; the shops are preparing it.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "PAYMENT_REJECTED",
+    "locale": "ar",
+    "title": "لم نتمكن من تأكيد الدفع",
+    "body": "راجع إيصال الطلب {ref} وأرسله مرة أخرى قبل {pay_by}.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "PAYMENT_REJECTED",
+    "locale": "en",
+    "title": "Payment not confirmed",
+    "body": "Check the receipt for order {ref} and send it again before {pay_by}.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "ORDER_READY",
+    "locale": "ar",
+    "title": "طلبك جاهز",
+    "body": "الطلب {ref} جاهز في المحل.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "ORDER_READY",
+    "locale": "en",
+    "title": "Your order is ready",
+    "body": "Order {ref} is ready at the shop.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "ORDER_HANDED_OVER",
+    "locale": "ar",
+    "title": "تم تسليم الطلب",
+    "body": "خرج الطلب {ref} من المحل.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "ORDER_HANDED_OVER",
+    "locale": "en",
+    "title": "Order handed over",
+    "body": "Order {ref} has left the shop.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "ORDER_DELIVERED",
+    "locale": "ar",
+    "title": "تم التوصيل",
+    "body": "وصل الطلب {ref}. نتمنى أن يعجبك.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "ORDER_DELIVERED",
+    "locale": "en",
+    "title": "Delivered",
+    "body": "Order {ref} was delivered.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "ORDER_CANCELLED",
+    "locale": "ar",
+    "title": "أُلغي الطلب",
+    "body": "أُلغي الطلب {ref}.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "ORDER_CANCELLED",
+    "locale": "en",
+    "title": "Order cancelled",
+    "body": "Order {ref} was cancelled.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "ORDER_REJECTED_BY_SHOP",
+    "locale": "ar",
+    "title": "المحل لا يستطيع توفير القطعة",
+    "body": "اعتذر المحل عن جزء من الطلب {ref}، وسنعيد لك المبلغ.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "ORDER_REJECTED_BY_SHOP",
+    "locale": "en",
+    "title": "The shop can't supply it",
+    "body": "A shop declined part of order {ref}; you'll get that money back.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "RETURN_APPROVED",
+    "locale": "ar",
+    "title": "تمت الموافقة على الإرجاع",
+    "body": "وافقنا على إرجاع جزء من الطلب {ref}.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "RETURN_APPROVED",
+    "locale": "en",
+    "title": "Return approved",
+    "body": "The return on order {ref} was approved.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "RETURN_DECLINED",
+    "locale": "ar",
+    "title": "لم تتم الموافقة على الإرجاع",
+    "body": "لم نوافق على إرجاع جزء من الطلب {ref}: {reason}",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "RETURN_DECLINED",
+    "locale": "en",
+    "title": "Return declined",
+    "body": "The return on order {ref} was declined: {reason}",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "REFUND_CREATED",
+    "locale": "ar",
+    "title": "سنعيد لك مبلغًا",
+    "body": "سنحوّل لك {amount_sdg} عبر بنكك قريبًا.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "REFUND_CREATED",
+    "locale": "en",
+    "title": "Refund on its way",
+    "body": "We'll send you {amount_sdg} by Bankak soon.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "REFUND_PAID",
+    "locale": "ar",
+    "title": "تم تحويل المبلغ",
+    "body": "حوّلنا لك {amount_sdg} عبر بنكك. رقم العملية {txn}.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "REFUND_PAID",
+    "locale": "en",
+    "title": "Refund sent",
+    "body": "We sent you {amount_sdg} by Bankak, transaction {txn}.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "NEW_OFFER",
+    "locale": "ar",
+    "title": "عرض جديد على طلبك",
+    "body": "وصلك عرض بسعر {price_sdg}.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "NEW_OFFER",
+    "locale": "en",
+    "title": "New offer on your request",
+    "body": "A shop offered it for {price_sdg}.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "NEW_MESSAGE",
+    "locale": "ar",
+    "title": "رسالة جديدة",
+    "body": "لديك رسالة جديدة.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "NEW_MESSAGE",
+    "locale": "en",
+    "title": "New message",
+    "body": "You have a new message.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "BOOKING_ACCEPTED",
+    "locale": "ar",
+    "title": "تم تأكيد موعد التركيب",
+    "body": "الفني قبل موعد التركيب {ref} يوم {start_at}.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "BOOKING_ACCEPTED",
+    "locale": "en",
+    "title": "Fitting confirmed",
+    "body": "The technician accepted fitting {ref} for {start_at}.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "BOOKING_REASSIGNED",
+    "locale": "ar",
+    "title": "فني آخر لموعدك",
+    "body": "نعرض موعد التركيب {ref} على فني آخر في نفس الوقت.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "BOOKING_REASSIGNED",
+    "locale": "en",
+    "title": "Another technician",
+    "body": "We're offering fitting {ref} to another technician at the same time.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "BOOKING_NEEDS_RESCHEDULE",
+    "locale": "ar",
+    "title": "اختر موعدًا جديدًا",
+    "body": "لا يوجد فني متاح لموعد التركيب {ref}. اختر وقتًا آخر أو ألغِ واسترد المبلغ كاملًا.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "BOOKING_NEEDS_RESCHEDULE",
+    "locale": "en",
+    "title": "Pick a new time",
+    "body": "No technician is free for fitting {ref}. Pick another time, or cancel for a full refund.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "BOOKING_CANCELLED",
+    "locale": "ar",
+    "title": "أُلغي موعد التركيب",
+    "body": "أُلغي موعد التركيب {ref}.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "BOOKING_CANCELLED",
+    "locale": "en",
+    "title": "Fitting cancelled",
+    "body": "Fitting {ref} was cancelled.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "BOOKING_COMPLETED",
+    "locale": "ar",
+    "title": "تم التركيب",
+    "body": "انتهى التركيب {ref}. قيّم الفني والمحل.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "BOOKING_COMPLETED",
+    "locale": "en",
+    "title": "Fitting done",
+    "body": "Fitting {ref} is done. Rate the technician and the shop.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "TECH_EN_ROUTE",
+    "locale": "ar",
+    "title": "الفني في الطريق",
+    "body": "الفني في طريقه إليك لموعد التركيب {ref}.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "TECH_EN_ROUTE",
+    "locale": "en",
+    "title": "Technician on the way",
+    "body": "Your technician is on the way for fitting {ref}.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "TECH_ARRIVED",
+    "locale": "ar",
+    "title": "بدأ التركيب",
+    "body": "بدأ الفني العمل على التركيب {ref}.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "TECH_ARRIVED",
+    "locale": "en",
+    "title": "Work started",
+    "body": "The technician started fitting {ref}.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "PART_DOES_NOT_FIT",
+    "locale": "ar",
+    "title": "القطعة لا تناسب السيارة",
+    "body": "لم يركّب الفني القطعة في الموعد {ref}. تدفع رسوم المشوار فقط، وفتحنا طلب إرجاع.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "PART_DOES_NOT_FIT",
+    "locale": "en",
+    "title": "The part doesn't fit",
+    "body": "The part couldn't be fitted ({ref}). You pay the travel fee only; we opened a return.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "BOOKING_REMINDER_DAY",
+    "locale": "ar",
+    "title": "تذكير بموعد التركيب",
+    "body": "موعد التركيب {ref} غدًا {start_at}.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "BOOKING_REMINDER_DAY",
+    "locale": "en",
+    "title": "Fitting tomorrow",
+    "body": "Fitting {ref} is at {start_at}.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "BOOKING_REMINDER_HOUR",
+    "locale": "ar",
+    "title": "موعد التركيب بعد ساعة",
+    "body": "موعد التركيب {ref} الساعة {start_at}.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "BOOKING_REMINDER_HOUR",
+    "locale": "en",
+    "title": "Fitting in an hour",
+    "body": "Fitting {ref} starts at {start_at}.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "DISPUTE_REPLY",
+    "locale": "ar",
+    "title": "رد على الشكوى",
+    "body": "هناك رد جديد على الشكوى.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "DISPUTE_REPLY",
+    "locale": "en",
+    "title": "Reply on your complaint",
+    "body": "There's a new reply on the complaint.",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "DISPUTE_RESOLVED",
+    "locale": "ar",
+    "title": "أُغلقت الشكوى",
+    "body": "تم البت في الشكوى: {resolution}",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  },
+  {
+    "code": "DISPUTE_RESOLVED",
+    "locale": "en",
+    "title": "Complaint closed",
+    "body": "The complaint was decided: {resolution}",
+    "notification_codes": {
+      "app": "buyer"
+    }
+  }
+]

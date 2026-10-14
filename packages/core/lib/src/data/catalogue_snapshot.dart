@@ -22,11 +22,14 @@ class CatalogueSnapshot {
     required this.shops,
     this.removedShopIds = const <String>{},
     this.inactiveIds = const <String>{},
+    this.streetOrigin,
+    this.streetLengthM,
   });
 
   factory CatalogueSnapshot.fromJson(Json j) {
-    List<Json> rows(String key) => (j[key] as List).cast<Json>();
+    List<Json> rows(String key) => [...?(j[key] as List?)?.cast<Json>()];
     bool active(Json r) => r['is_active'] as bool? ?? true;
+    int by(Json a, Json b, String key) => ((a[key] as num?) ?? 0).compareTo((b[key] as num?) ?? 0);
 
     final jobTypes = <String, JobType>{
       for (final r in rows('job_types')) r['id'] as String: ?JobType.fromCode(r['code'] as String?),
@@ -36,7 +39,10 @@ class CatalogueSnapshot {
         for (final r in rows(key))
           if (!active(r)) r['id'] as String,
     };
-    final shops = rows('shops');
+    final shops = rows('shops')..sort((a, b) => by(a, b, 'pos_m'));
+    final street = rows('streets').where(active).firstOrNull;
+    final originLat = (street?['origin_lat'] as num?)?.toDouble();
+    final originLng = (street?['origin_lng'] as num?)?.toDouble();
     return CatalogueSnapshot(
       serverTime: DateTime.parse(j['server_time'] as String),
       full: j['full'] as bool,
@@ -45,9 +51,13 @@ class CatalogueSnapshot {
       variants: [for (final r in rows('variants').where(active)) VehicleVariant.fromJson(r)],
       jobTypes: jobTypes,
       categories: [
-        for (final r in rows('categories').where(active)) PartCategory.fromJson(r, jobTypes),
+        for (final r in rows('categories').where(active).toList()..sort((a, b) => by(a, b, 'sort')))
+          PartCategory.fromJson(r, jobTypes),
       ],
-      zones: [for (final r in rows('zones').where(active)) Zone.fromJson(r)],
+      zones: [
+        for (final r in rows('zones').where(active).toList()..sort((a, b) => by(a, b, 'seq')))
+          Zone.fromJson(r),
+      ],
       shops: [
         for (final s in shops)
           if (s['status'] == 'APPROVED') Shop.fromJson(s),
@@ -57,6 +67,10 @@ class CatalogueSnapshot {
           if (s['status'] != 'APPROVED') s['id'] as String,
       },
       inactiveIds: inactive,
+      streetOrigin: originLat == null || originLng == null
+          ? null
+          : (lat: originLat, lng: originLng),
+      streetLengthM: street?['length_m'] as int?,
     );
   }
 
@@ -74,4 +88,9 @@ class CatalogueSnapshot {
   final List<Shop> shops;
   final Set<String> removedShopIds;
   final Set<String> inactiveIds;
+
+  /// Where delivery and travel distances are measured from; null until an admin sets it
+  /// (D-077).
+  final ({double lat, double lng})? streetOrigin;
+  final int? streetLengthM;
 }

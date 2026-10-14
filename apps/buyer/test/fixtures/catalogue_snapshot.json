@@ -1,0 +1,3803 @@
+{
+  "full": true,
+  "makes": [
+    {
+      "id": "07cb622a-167c-4e0f-b227-cce39df9efc0",
+      "slug": "toyota",
+      "sort": 1,
+      "name_ar": "تويوتا",
+      "name_en": "Toyota",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "8aab21e4-093d-481b-8d64-3ac9cec5f7ef",
+      "slug": "hyundai",
+      "sort": 2,
+      "name_ar": "هيونداي",
+      "name_en": "Hyundai",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "afeace3f-8924-41e2-b1cb-07d6bcea06fb",
+      "slug": "kia",
+      "sort": 3,
+      "name_ar": "كيا",
+      "name_en": "Kia",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "a9b70bae-8927-4847-b7c6-e3fa42f7abed",
+      "slug": "nissan",
+      "sort": 4,
+      "name_ar": "نيسان",
+      "name_en": "Nissan",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "7fe45181-201d-4a8e-afb7-e69e7747da4a",
+      "slug": "mitsubishi",
+      "sort": 5,
+      "name_ar": "ميتسوبيشي",
+      "name_en": "Mitsubishi",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "579eaf4d-7144-4559-b0d4-eb0cd5d9f1ce",
+      "slug": "isuzu",
+      "sort": 6,
+      "name_ar": "إيسوزو",
+      "name_en": "Isuzu",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "4df89a11-f513-4f7a-a5bb-d3f61f31cfb1",
+      "slug": "suzuki",
+      "sort": 7,
+      "name_ar": "سوزوكي",
+      "name_en": "Suzuki",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "e9365773-0ed0-43f5-8a6d-bd600072c38c",
+      "slug": "honda",
+      "sort": 8,
+      "name_ar": "هوندا",
+      "name_en": "Honda",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "a7dbc1d7-6e2b-46f8-9534-7eb9219459a2",
+      "slug": "mercedes",
+      "sort": 9,
+      "name_ar": "مرسيدس بنز",
+      "name_en": "Mercedes-Benz",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "c2972416-d244-4f71-9d06-9f9ca652286b",
+      "slug": "ford",
+      "sort": 10,
+      "name_ar": "فورد",
+      "name_en": "Ford",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "53ab399e-dcfa-42ce-a444-fac2488bed2e",
+      "slug": "geely",
+      "sort": 11,
+      "name_ar": "جيلي",
+      "name_en": "Geely",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "bb3c9212-b6ef-41b6-854a-9ddb36a8b963",
+      "slug": "chery",
+      "sort": 12,
+      "name_ar": "شيري",
+      "name_en": "Chery",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "75bdb346-3c5d-4d38-aaae-0daeb0133668",
+      "slug": "great-wall",
+      "sort": 13,
+      "name_ar": "جريت وول",
+      "name_en": "Great Wall",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    }
+  ],
+  "shops": [
+    {
+      "id": "6c910581-25e5-46e3-9b54-d80a0c972047",
+      "lat": null,
+      "lng": null,
+      "side": "A",
+      "phone": "+249912345678",
+      "pos_m": 80,
+      "status": "APPROVED",
+      "name_ar": "النور لقطع الغيار",
+      "name_en": "Al-Nour Auto Parts",
+      "plot_no": "12",
+      "zone_id": "35514f34-ec61-49ea-97fe-8871a9c55c0f",
+      "about_ar": "إضاءة وكهرباء وبطاريات لكل السيارات منذ 2009.",
+      "about_en": "Lighting, electrics and batteries for every car since 2009.",
+      "make_ids": [],
+      "open_now": true,
+      "verified": true,
+      "whatsapp": null,
+      "created_at": "2026-10-13T14:43:47.294465+00:00",
+      "rating_avg": 0,
+      "updated_at": "2026-10-13T21:37:42.28363+00:00",
+      "approved_at": "2026-10-13T14:43:47.815568+00:00",
+      "landmark_ar": "مقابل محطة الوقود",
+      "landmark_en": "Opposite the fuel station",
+      "category_ids": [
+        "91a081bf-d3f0-4766-984d-17d98d17cff4",
+        "154c6a0e-e88b-4d6e-a846-08a3b8e9926a",
+        "baff08f4-1388-47f0-abc2-af2d770823a9"
+      ],
+      "rating_count": 0,
+      "opening_hours": {
+        "0": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "1": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "2": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "3": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "4": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "6": [
+          [
+            480,
+            1200
+          ]
+        ]
+      },
+      "status_reason": null,
+      "storefront_key": null
+    },
+    {
+      "id": "2dc23957-7c6d-479b-92ea-7f9ccb693eff",
+      "lat": null,
+      "lng": null,
+      "side": "B",
+      "phone": "+249912345678",
+      "pos_m": 190,
+      "status": "APPROVED",
+      "name_ar": "الأمين للإسبيرات",
+      "name_en": "Al-Amin Spares",
+      "plot_no": "27",
+      "zone_id": "35514f34-ec61-49ea-97fe-8871a9c55c0f",
+      "about_ar": "إسبيرات تويوتا أصلية وتجارية.",
+      "about_en": "Genuine and aftermarket Toyota spares.",
+      "make_ids": [
+        "07cb622a-167c-4e0f-b227-cce39df9efc0"
+      ],
+      "open_now": true,
+      "verified": true,
+      "whatsapp": null,
+      "created_at": "2026-10-13T14:43:49.503408+00:00",
+      "rating_avg": 0,
+      "updated_at": "2026-10-13T14:43:50.507838+00:00",
+      "approved_at": "2026-10-13T14:43:49.839421+00:00",
+      "landmark_ar": "بجوار البنك",
+      "landmark_en": "Next to the bank",
+      "category_ids": [
+        "7d601158-e82c-4d71-b942-15e178627d8a",
+        "6059b1e4-e6c8-4c6c-8482-0b27719c751b",
+        "c56f2151-1923-40ca-9c27-39ffd20c4f2b"
+      ],
+      "rating_count": 0,
+      "opening_hours": {
+        "0": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "1": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "2": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "3": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "4": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "6": [
+          [
+            480,
+            1200
+          ]
+        ]
+      },
+      "status_reason": null,
+      "storefront_key": null
+    },
+    {
+      "id": "4dbfaa41-22da-468b-ba90-b42a6fc4ed3f",
+      "lat": null,
+      "lng": null,
+      "side": "A",
+      "phone": "+249912345678",
+      "pos_m": 340,
+      "status": "APPROVED",
+      "name_ar": "الفاروق لقطع تويوتا",
+      "name_en": "Al-Farouq Toyota Parts",
+      "plot_no": "41",
+      "zone_id": "f3ebeb01-2265-42d9-96c0-ab928407c27a",
+      "about_ar": "قطع تويوتا الأصلية، ضمان على كل القطع.",
+      "about_en": "Genuine Toyota parts, with a warranty on every part.",
+      "make_ids": [
+        "07cb622a-167c-4e0f-b227-cce39df9efc0"
+      ],
+      "open_now": true,
+      "verified": true,
+      "whatsapp": null,
+      "created_at": "2026-10-13T14:43:51.231908+00:00",
+      "rating_avg": 0,
+      "updated_at": "2026-10-13T14:43:52.23557+00:00",
+      "approved_at": "2026-10-13T14:43:51.567159+00:00",
+      "landmark_ar": "عمارة السلام، الطابق الأرضي",
+      "landmark_en": "Al-Salam building, ground floor",
+      "category_ids": [
+        "7d601158-e82c-4d71-b942-15e178627d8a",
+        "6059b1e4-e6c8-4c6c-8482-0b27719c751b",
+        "41ebde77-bb34-4b40-9e25-a48bd0286f94",
+        "c56f2151-1923-40ca-9c27-39ffd20c4f2b"
+      ],
+      "rating_count": 0,
+      "opening_hours": {
+        "0": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "1": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "2": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "3": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "4": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "6": [
+          [
+            480,
+            1200
+          ]
+        ]
+      },
+      "status_reason": null,
+      "storefront_key": null
+    },
+    {
+      "id": "64bcc15f-339a-41ad-8ca7-e86b564faa41",
+      "lat": null,
+      "lng": null,
+      "side": "B",
+      "phone": "+249912345678",
+      "pos_m": 420,
+      "status": "APPROVED",
+      "name_ar": "دار القطع الكورية",
+      "name_en": "Korean Parts House",
+      "plot_no": "52",
+      "zone_id": "f3ebeb01-2265-42d9-96c0-ab928407c27a",
+      "about_ar": "قطع هيونداي وكيا.",
+      "about_en": "Hyundai and Kia parts.",
+      "make_ids": [
+        "8aab21e4-093d-481b-8d64-3ac9cec5f7ef",
+        "afeace3f-8924-41e2-b1cb-07d6bcea06fb"
+      ],
+      "open_now": true,
+      "verified": true,
+      "whatsapp": null,
+      "created_at": "2026-10-13T14:43:52.98073+00:00",
+      "rating_avg": 0,
+      "updated_at": "2026-10-13T14:43:54.192888+00:00",
+      "approved_at": "2026-10-13T14:43:53.333658+00:00",
+      "landmark_ar": "خلف صيدلية الشفاء",
+      "landmark_en": "Behind Al-Shifa pharmacy",
+      "category_ids": [],
+      "rating_count": 0,
+      "opening_hours": {
+        "0": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "1": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "2": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "3": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "4": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "6": [
+          [
+            480,
+            1200
+          ]
+        ]
+      },
+      "status_reason": null,
+      "storefront_key": null
+    },
+    {
+      "id": "9e01b74a-70be-467a-85ef-8351786fdf84",
+      "lat": null,
+      "lng": null,
+      "side": "A",
+      "phone": "+249912345678",
+      "pos_m": 510,
+      "status": "APPROVED",
+      "name_ar": "البركة للبطاريات",
+      "name_en": "Al-Baraka Batteries",
+      "plot_no": "58",
+      "zone_id": "f3ebeb01-2265-42d9-96c0-ab928407c27a",
+      "about_ar": "بطاريات بضمان سنة وفحص مجاني.",
+      "about_en": "Batteries with a 1-year warranty and free tests.",
+      "make_ids": [],
+      "open_now": true,
+      "verified": true,
+      "whatsapp": null,
+      "created_at": "2026-10-13T14:43:54.960705+00:00",
+      "rating_avg": 0,
+      "updated_at": "2026-10-13T14:43:55.989239+00:00",
+      "approved_at": "2026-10-13T14:43:55.312707+00:00",
+      "landmark_ar": "على الناصية",
+      "landmark_en": "On the corner",
+      "category_ids": [
+        "154c6a0e-e88b-4d6e-a846-08a3b8e9926a"
+      ],
+      "rating_count": 0,
+      "opening_hours": {
+        "0": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "1": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "2": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "3": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "4": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "6": [
+          [
+            480,
+            1200
+          ]
+        ]
+      },
+      "status_reason": null,
+      "storefront_key": null
+    },
+    {
+      "id": "849b0f01-25bd-426b-a46b-fee874482a90",
+      "lat": null,
+      "lng": null,
+      "side": "B",
+      "phone": "+249912345678",
+      "pos_m": 640,
+      "status": "APPROVED",
+      "name_ar": "النيل لكهرباء السيارات",
+      "name_en": "Nile Auto Electric",
+      "plot_no": "66",
+      "zone_id": "9cda2964-dc5c-4633-83f1-33e3361e3f25",
+      "about_ar": "كهرباء ودينمو ومارش.",
+      "about_en": "Electrics, alternators and starters.",
+      "make_ids": [],
+      "open_now": true,
+      "verified": false,
+      "whatsapp": null,
+      "created_at": "2026-10-13T14:43:56.704114+00:00",
+      "rating_avg": 0,
+      "updated_at": "2026-10-13T14:43:57.371565+00:00",
+      "approved_at": "2026-10-13T14:43:57.038529+00:00",
+      "landmark_ar": "أمام الجامع الكبير",
+      "landmark_en": "In front of the big mosque",
+      "category_ids": [
+        "91a081bf-d3f0-4766-984d-17d98d17cff4",
+        "baff08f4-1388-47f0-abc2-af2d770823a9"
+      ],
+      "rating_count": 0,
+      "opening_hours": {
+        "0": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "1": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "2": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "3": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "4": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "6": [
+          [
+            480,
+            1200
+          ]
+        ]
+      },
+      "status_reason": null,
+      "storefront_key": null
+    },
+    {
+      "id": "bffcb014-8ef0-4ba8-b06e-293b769731c4",
+      "lat": null,
+      "lng": null,
+      "side": "A",
+      "phone": "+249912345678",
+      "pos_m": 700,
+      "status": "APPROVED",
+      "name_ar": "التوفيق للفرامل والعفشة",
+      "name_en": "Al-Tawfiq Brakes & Suspension",
+      "plot_no": "73",
+      "zone_id": "9cda2964-dc5c-4633-83f1-33e3361e3f25",
+      "about_ar": "فرامل وعفشة لكل الموديلات.",
+      "about_en": "Brakes and suspension for every model.",
+      "make_ids": [],
+      "open_now": true,
+      "verified": true,
+      "whatsapp": null,
+      "created_at": "2026-10-13T14:43:58.13356+00:00",
+      "rating_avg": 4,
+      "updated_at": "2026-10-14T01:00:48.259134+00:00",
+      "approved_at": "2026-10-13T14:43:58.471189+00:00",
+      "landmark_ar": "بجوار ورشة الأمانة",
+      "landmark_en": "Next to Al-Amana workshop",
+      "category_ids": [
+        "7d601158-e82c-4d71-b942-15e178627d8a",
+        "41ebde77-bb34-4b40-9e25-a48bd0286f94"
+      ],
+      "rating_count": 1,
+      "opening_hours": {
+        "0": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "1": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "2": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "3": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "4": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "6": [
+          [
+            480,
+            1200
+          ]
+        ]
+      },
+      "status_reason": null,
+      "storefront_key": null
+    },
+    {
+      "id": "01423546-604c-4334-b9c5-6a2de4105531",
+      "lat": null,
+      "lng": null,
+      "side": "B",
+      "phone": "+249912345678",
+      "pos_m": 780,
+      "status": "APPROVED",
+      "name_ar": "الهدى لتكييف السيارات",
+      "name_en": "Al-Huda Car AC",
+      "plot_no": "81",
+      "zone_id": "9cda2964-dc5c-4633-83f1-33e3361e3f25",
+      "about_ar": "صيانة وتعبئة مكيفات.",
+      "about_en": "AC repair and refills.",
+      "make_ids": [],
+      "open_now": true,
+      "verified": false,
+      "whatsapp": null,
+      "created_at": "2026-10-13T14:43:59.855221+00:00",
+      "rating_avg": 0,
+      "updated_at": "2026-10-13T14:44:00.7108+00:00",
+      "approved_at": "2026-10-13T14:44:00.232848+00:00",
+      "landmark_ar": "الشارع الجانبي",
+      "landmark_en": "Side road",
+      "category_ids": [
+        "4db4e6cb-43bd-4018-acb7-15027d3d8d13"
+      ],
+      "rating_count": 0,
+      "opening_hours": {
+        "0": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "1": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "2": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "3": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "4": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "6": [
+          [
+            480,
+            1200
+          ]
+        ]
+      },
+      "status_reason": null,
+      "storefront_key": null
+    },
+    {
+      "id": "65cbffca-56a5-42a1-b7b4-1d7bdb22aae6",
+      "lat": null,
+      "lng": null,
+      "side": "A",
+      "phone": "+249912345678",
+      "pos_m": 930,
+      "status": "APPROVED",
+      "name_ar": "إطارات الخرطوم",
+      "name_en": "Khartoum Tyres",
+      "plot_no": "90",
+      "zone_id": "237f7fdb-07f6-485c-a7b5-ac99ad76e1a3",
+      "about_ar": "إطارات جديدة وترصيص.",
+      "about_en": "New tyres and wheel balancing.",
+      "make_ids": [],
+      "open_now": true,
+      "verified": true,
+      "whatsapp": null,
+      "created_at": "2026-10-13T14:44:01.73934+00:00",
+      "rating_avg": 0,
+      "updated_at": "2026-10-13T14:44:03.103664+00:00",
+      "approved_at": "2026-10-13T14:44:02.154539+00:00",
+      "landmark_ar": "بجوار موقف الحافلات",
+      "landmark_en": "Next to the bus stop",
+      "category_ids": [
+        "13c4480b-87c4-4ab6-9e87-060ea179f908"
+      ],
+      "rating_count": 0,
+      "opening_hours": {
+        "0": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "1": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "2": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "3": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "4": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "6": [
+          [
+            480,
+            1200
+          ]
+        ]
+      },
+      "status_reason": null,
+      "storefront_key": null
+    },
+    {
+      "id": "6810aed0-c3e9-41d4-a107-0dc8faa2956b",
+      "lat": null,
+      "lng": null,
+      "side": "B",
+      "phone": "+249912345678",
+      "pos_m": 1010,
+      "status": "APPROVED",
+      "name_ar": "الزين للإكسسوارات",
+      "name_en": "Al-Zain Accessories",
+      "plot_no": "97",
+      "zone_id": "237f7fdb-07f6-485c-a7b5-ac99ad76e1a3",
+      "about_ar": "إكسسوارات وإضاءة LED.",
+      "about_en": "Accessories and LED lighting.",
+      "make_ids": [],
+      "open_now": true,
+      "verified": false,
+      "whatsapp": null,
+      "created_at": "2026-10-13T14:44:04.131065+00:00",
+      "rating_avg": 0,
+      "updated_at": "2026-10-13T14:44:05.10359+00:00",
+      "approved_at": "2026-10-13T14:44:04.633101+00:00",
+      "landmark_ar": "محل الواجهة الزجاجية",
+      "landmark_en": "The shop with the glass front",
+      "category_ids": [
+        "91a081bf-d3f0-4766-984d-17d98d17cff4",
+        "ec407eda-71e3-47c0-9014-bcb0114f63f2"
+      ],
+      "rating_count": 0,
+      "opening_hours": {
+        "0": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "1": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "2": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "3": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "4": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "6": [
+          [
+            480,
+            1200
+          ]
+        ]
+      },
+      "status_reason": null,
+      "storefront_key": null
+    },
+    {
+      "id": "b7b82767-0bfa-4c0e-8ac6-5fbec62afffa",
+      "lat": null,
+      "lng": null,
+      "side": "A",
+      "phone": "+249912345678",
+      "pos_m": 1080,
+      "status": "APPROVED",
+      "name_ar": "زيوت الشمالية",
+      "name_en": "Northern Oils",
+      "plot_no": "104",
+      "zone_id": "237f7fdb-07f6-485c-a7b5-ac99ad76e1a3",
+      "about_ar": "زيوت وفلاتر بأسعار الجملة.",
+      "about_en": "Oils and filters at wholesale prices.",
+      "make_ids": [],
+      "open_now": true,
+      "verified": true,
+      "whatsapp": null,
+      "created_at": "2026-10-13T14:44:05.947355+00:00",
+      "rating_avg": 0,
+      "updated_at": "2026-10-13T14:44:07.32211+00:00",
+      "approved_at": "2026-10-13T14:44:06.434008+00:00",
+      "landmark_ar": "بجوار المغسلة",
+      "landmark_en": "Next to the car wash",
+      "category_ids": [
+        "6059b1e4-e6c8-4c6c-8482-0b27719c751b"
+      ],
+      "rating_count": 0,
+      "opening_hours": {
+        "0": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "1": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "2": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "3": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "4": [
+          [
+            480,
+            1200
+          ]
+        ],
+        "6": [
+          [
+            480,
+            1200
+          ]
+        ]
+      },
+      "status_reason": null,
+      "storefront_key": null
+    },
+    {
+      "id": "1286f3d1-a9f4-4900-a5cc-dd58da3e74a6",
+      "lat": null,
+      "lng": null,
+      "side": "B",
+      "phone": "+249912345678",
+      "pos_m": 1160,
+      "status": "APPROVED",
+      "name_ar": "الصافي للمستعمل",
+      "name_en": "Al-Safi Used Parts",
+      "plot_no": "112",
+      "zone_id": "237f7fdb-07f6-485c-a7b5-ac99ad76e1a3",
+      "about_ar": "قطع مستعملة مفحوصة.",
+      "about_en": "Tested used parts.",
+      "make_ids": [],
+      "open_now": true,
+      "verified": false,
+      "whatsapp": null,
+      "created_at": "2026-10-13T14:44:08.342329+00:00",
+      "rating_avg": 0,
+      "updated_at": "2026-10-13T14:44:09.170969+00:00",
+      "approved_at": "2026-10-13T14:44:08.789863+00:00",
+      "landmark_ar": "نهاية الشارع",
+      "landmark_en": "End of the street",
+      "category_ids": [],
+      "rating_count": 0,
+      "opening_hours": {
+        "0": [
+          [
+            540,
+            1080
+          ]
+        ],
+        "1": [
+          [
+            540,
+            1080
+          ]
+        ],
+        "2": [
+          [
+            540,
+            1080
+          ]
+        ],
+        "3": [
+          [
+            540,
+            1080
+          ]
+        ],
+        "4": [
+          [
+            540,
+            1080
+          ]
+        ],
+        "6": [
+          [
+            540,
+            1080
+          ]
+        ]
+      },
+      "status_reason": null,
+      "storefront_key": null
+    }
+  ],
+  "zones": [
+    {
+      "id": "35514f34-ec61-49ea-97fe-8871a9c55c0f",
+      "seq": 1,
+      "to_m": 300,
+      "from_m": 0,
+      "name_ar": "القطاع 1",
+      "name_en": "Section 1",
+      "is_active": true,
+      "street_id": "44e77acd-7bb0-4a04-9af7-a2f294a5fbbd",
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "f3ebeb01-2265-42d9-96c0-ab928407c27a",
+      "seq": 2,
+      "to_m": 600,
+      "from_m": 300,
+      "name_ar": "القطاع 2",
+      "name_en": "Section 2",
+      "is_active": true,
+      "street_id": "44e77acd-7bb0-4a04-9af7-a2f294a5fbbd",
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "9cda2964-dc5c-4633-83f1-33e3361e3f25",
+      "seq": 3,
+      "to_m": 900,
+      "from_m": 600,
+      "name_ar": "القطاع 3",
+      "name_en": "Section 3",
+      "is_active": true,
+      "street_id": "44e77acd-7bb0-4a04-9af7-a2f294a5fbbd",
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "237f7fdb-07f6-485c-a7b5-ac99ad76e1a3",
+      "seq": 4,
+      "to_m": 1200,
+      "from_m": 900,
+      "name_ar": "القطاع 4",
+      "name_en": "Section 4",
+      "is_active": true,
+      "street_id": "44e77acd-7bb0-4a04-9af7-a2f294a5fbbd",
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    }
+  ],
+  "models": [
+    {
+      "id": "c2a5322e-91ac-47b7-84ea-b47d1569496e",
+      "slug": "accent",
+      "sort": 1,
+      "make_id": "8aab21e4-093d-481b-8d64-3ac9cec5f7ef",
+      "name_ar": "أكسنت",
+      "name_en": "Accent",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "d812f3f5-84d7-4507-a9af-f8d56b702065",
+      "slug": "alto",
+      "sort": 1,
+      "make_id": "4df89a11-f513-4f7a-a5bb-d3f61f31cfb1",
+      "name_ar": "ألتو",
+      "name_en": "Alto",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "14f8d502-6915-42f8-b7cc-36bfc3a093e3",
+      "slug": "civic",
+      "sort": 1,
+      "make_id": "e9365773-0ed0-43f5-8a6d-bd600072c38c",
+      "name_ar": "سيفيك",
+      "name_en": "Civic",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "18931b52-55a8-400f-84b9-3a17d8e25139",
+      "slug": "d-max",
+      "sort": 1,
+      "make_id": "579eaf4d-7144-4559-b0d4-eb0cd5d9f1ce",
+      "name_ar": "دي ماكس",
+      "name_en": "D-Max",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "2afdbcc8-b349-42e1-8b6c-eddc82140584",
+      "slug": "e-class",
+      "sort": 1,
+      "make_id": "a7dbc1d7-6e2b-46f8-9534-7eb9219459a2",
+      "name_ar": "الفئة E",
+      "name_en": "E-Class",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "cb5a9831-2a28-4465-938c-bea6ba27dd50",
+      "slug": "emgrand",
+      "sort": 1,
+      "make_id": "53ab399e-dcfa-42ce-a444-fac2488bed2e",
+      "name_ar": "إمجراند",
+      "name_en": "Emgrand",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "7610be06-7050-41b9-b2fa-5d7e1c2d985a",
+      "slug": "hilux",
+      "sort": 1,
+      "make_id": "07cb622a-167c-4e0f-b227-cce39df9efc0",
+      "name_ar": "هايلكس",
+      "name_en": "Hilux",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "711356d8-7ac0-479d-9328-582a9cebae8b",
+      "slug": "l200",
+      "sort": 1,
+      "make_id": "7fe45181-201d-4a8e-afb7-e69e7747da4a",
+      "name_ar": "L200",
+      "name_en": "L200",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "ef5416d4-289b-4932-b035-e8b151657f5f",
+      "slug": "picanto",
+      "sort": 1,
+      "make_id": "afeace3f-8924-41e2-b1cb-07d6bcea06fb",
+      "name_ar": "بيكانتو",
+      "name_en": "Picanto",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "73f6c174-4cb1-4634-b91f-adb375ef0a49",
+      "slug": "ranger",
+      "sort": 1,
+      "make_id": "c2972416-d244-4f71-9d06-9f9ca652286b",
+      "name_ar": "رينجر",
+      "name_en": "Ranger",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "acdad2bb-88d4-494c-84aa-4697887a5dfa",
+      "slug": "sunny",
+      "sort": 1,
+      "make_id": "a9b70bae-8927-4847-b7c6-e3fa42f7abed",
+      "name_ar": "صني",
+      "name_en": "Sunny",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "4eea06bb-7d47-4cc2-9f09-e832e98de7ee",
+      "slug": "tiggo-2",
+      "sort": 1,
+      "make_id": "bb3c9212-b6ef-41b6-854a-9ddb36a8b963",
+      "name_ar": "تيجو 2",
+      "name_en": "Tiggo 2",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "063df34a-7046-4a0b-83d0-718c34f683a6",
+      "slug": "wingle",
+      "sort": 1,
+      "make_id": "75bdb346-3c5d-4d38-aaae-0daeb0133668",
+      "name_ar": "وينجل",
+      "name_en": "Wingle",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "d3e8c419-36db-4105-a943-2987d8b4f908",
+      "slug": "accord",
+      "sort": 2,
+      "make_id": "e9365773-0ed0-43f5-8a6d-bd600072c38c",
+      "name_ar": "أكورد",
+      "name_en": "Accord",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "cc0e1567-7883-428e-944f-79da4e8ff06d",
+      "slug": "c-class",
+      "sort": 2,
+      "make_id": "a7dbc1d7-6e2b-46f8-9534-7eb9219459a2",
+      "name_ar": "الفئة C",
+      "name_en": "C-Class",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "ff355938-655f-4043-a5c0-888415cfd108",
+      "slug": "elantra",
+      "sort": 2,
+      "make_id": "8aab21e4-093d-481b-8d64-3ac9cec5f7ef",
+      "name_ar": "إلنترا",
+      "name_en": "Elantra",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "0aea9a7c-2562-4898-a00e-6a76d95c54a0",
+      "slug": "land-cruiser",
+      "sort": 2,
+      "make_id": "07cb622a-167c-4e0f-b227-cce39df9efc0",
+      "name_ar": "لاندكروزر",
+      "name_en": "Land Cruiser",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "72d8c60e-5f96-4512-bc77-a94dfa80ded4",
+      "slug": "pajero",
+      "sort": 2,
+      "make_id": "7fe45181-201d-4a8e-afb7-e69e7747da4a",
+      "name_ar": "باجيرو",
+      "name_en": "Pajero",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "d2a02c7d-6bfd-4582-8732-3112bb87731b",
+      "slug": "patrol",
+      "sort": 2,
+      "make_id": "a9b70bae-8927-4847-b7c6-e3fa42f7abed",
+      "name_ar": "باترول",
+      "name_en": "Patrol",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "857430a3-5bf0-4ac0-b345-d8d10eee690f",
+      "slug": "rio",
+      "sort": 2,
+      "make_id": "afeace3f-8924-41e2-b1cb-07d6bcea06fb",
+      "name_ar": "ريو",
+      "name_en": "Rio",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "384b1f1f-40f1-4652-808d-e9c74c6d624e",
+      "slug": "swift",
+      "sort": 2,
+      "make_id": "4df89a11-f513-4f7a-a5bb-d3f61f31cfb1",
+      "name_ar": "سويفت",
+      "name_en": "Swift",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "b7a55840-076d-4c9b-8511-0bc499731c76",
+      "slug": "tiggo-7",
+      "sort": 2,
+      "make_id": "bb3c9212-b6ef-41b6-854a-9ddb36a8b963",
+      "name_ar": "تيجو 7",
+      "name_en": "Tiggo 7",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "6d48c51e-1698-4b91-ba0b-a8287fcae996",
+      "slug": "cerato",
+      "sort": 3,
+      "make_id": "afeace3f-8924-41e2-b1cb-07d6bcea06fb",
+      "name_ar": "سيراتو",
+      "name_en": "Cerato",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "2b220958-0fbb-48c9-bd10-5b6cc8127c35",
+      "slug": "cr-v",
+      "sort": 3,
+      "make_id": "e9365773-0ed0-43f5-8a6d-bd600072c38c",
+      "name_ar": "سي آر في",
+      "name_en": "CR-V",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "f19d1fab-7ee2-4740-987c-bc9e867e506d",
+      "slug": "grand-vitara",
+      "sort": 3,
+      "make_id": "4df89a11-f513-4f7a-a5bb-d3f61f31cfb1",
+      "name_ar": "جراند فيتارا",
+      "name_en": "Grand Vitara",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "6b940a54-7261-4e1e-a85d-70fd47d688d5",
+      "slug": "lancer",
+      "sort": 3,
+      "make_id": "7fe45181-201d-4a8e-afb7-e69e7747da4a",
+      "name_ar": "لانسر",
+      "name_en": "Lancer",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "cc2323e2-cb86-4103-a0f0-47b16c1dc633",
+      "slug": "land-cruiser-70",
+      "sort": 3,
+      "make_id": "07cb622a-167c-4e0f-b227-cce39df9efc0",
+      "name_ar": "لاندكروزر 70 (بكب)",
+      "name_en": "Land Cruiser 70",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "2bb121a4-9dcd-46b3-be6b-84bd956f4625",
+      "slug": "navara",
+      "sort": 3,
+      "make_id": "a9b70bae-8927-4847-b7c6-e3fa42f7abed",
+      "name_ar": "نافارا",
+      "name_en": "Navara",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "f827b9c9-1523-4daa-bbce-bee290a32f84",
+      "slug": "sonata",
+      "sort": 3,
+      "make_id": "8aab21e4-093d-481b-8d64-3ac9cec5f7ef",
+      "name_ar": "سوناتا",
+      "name_en": "Sonata",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "d9db6728-fae7-4865-8ed8-3bab61ca8aa3",
+      "slug": "pickup-d22",
+      "sort": 4,
+      "make_id": "a9b70bae-8927-4847-b7c6-e3fa42f7abed",
+      "name_ar": "نيسان بكب (D22)",
+      "name_en": "Pickup (D22)",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "6d5dbca8-6c7a-4b48-ba2d-de933cd211cb",
+      "slug": "prado",
+      "sort": 4,
+      "make_id": "07cb622a-167c-4e0f-b227-cce39df9efc0",
+      "name_ar": "برادو",
+      "name_en": "Prado",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "6c326eb2-f052-47c2-9023-b83730ce3232",
+      "slug": "sportage",
+      "sort": 4,
+      "make_id": "afeace3f-8924-41e2-b1cb-07d6bcea06fb",
+      "name_ar": "سبورتاج",
+      "name_en": "Sportage",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "cdaef188-e304-4482-b415-9ddd0e397673",
+      "slug": "tucson",
+      "sort": 4,
+      "make_id": "8aab21e4-093d-481b-8d64-3ac9cec5f7ef",
+      "name_ar": "توسان",
+      "name_en": "Tucson",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "bcc36162-98fe-481f-a45f-2575cea7cca1",
+      "slug": "fortuner",
+      "sort": 5,
+      "make_id": "07cb622a-167c-4e0f-b227-cce39df9efc0",
+      "name_ar": "فورتشنر",
+      "name_en": "Fortuner",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "5b27d065-227e-4c78-9810-00fcdcc046b4",
+      "slug": "santa-fe",
+      "sort": 5,
+      "make_id": "8aab21e4-093d-481b-8d64-3ac9cec5f7ef",
+      "name_ar": "سنتافي",
+      "name_en": "Santa Fe",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "db7822f4-9bbc-4299-a85c-558b5cd8260f",
+      "slug": "sorento",
+      "sort": 5,
+      "make_id": "afeace3f-8924-41e2-b1cb-07d6bcea06fb",
+      "name_ar": "سورنتو",
+      "name_en": "Sorento",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "db660b49-5c74-4f60-b935-84d79ebb70c5",
+      "slug": "x-trail",
+      "sort": 5,
+      "make_id": "a9b70bae-8927-4847-b7c6-e3fa42f7abed",
+      "name_ar": "إكس تريل",
+      "name_en": "X-Trail",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "ad31a2c2-8e50-430e-bfbf-47b7024e0cf2",
+      "slug": "atos",
+      "sort": 6,
+      "make_id": "8aab21e4-093d-481b-8d64-3ac9cec5f7ef",
+      "name_ar": "أتوس",
+      "name_en": "Atos",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "57eda85c-7df1-4180-a10a-9afce0a35c18",
+      "slug": "corolla",
+      "sort": 6,
+      "make_id": "07cb622a-167c-4e0f-b227-cce39df9efc0",
+      "name_ar": "كورولا",
+      "name_en": "Corolla",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "0663439d-c020-4e39-8149-b6d2ae3b0b83",
+      "slug": "k2700",
+      "sort": 6,
+      "make_id": "afeace3f-8924-41e2-b1cb-07d6bcea06fb",
+      "name_ar": "K2700 (بونقو)",
+      "name_en": "K2700 (Bongo)",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "3c7943a8-8df0-4512-868d-afd9f1a8e685",
+      "slug": "urvan",
+      "sort": 6,
+      "make_id": "a9b70bae-8927-4847-b7c6-e3fa42f7abed",
+      "name_ar": "أورفان",
+      "name_en": "Urvan",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "5c0a8244-db69-4d2e-82df-2d1cf0204c92",
+      "slug": "camry",
+      "sort": 7,
+      "make_id": "07cb622a-167c-4e0f-b227-cce39df9efc0",
+      "name_ar": "كامري",
+      "name_en": "Camry",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "7e44592a-4105-43e2-b4f2-b71196858bd1",
+      "slug": "i10",
+      "sort": 7,
+      "make_id": "8aab21e4-093d-481b-8d64-3ac9cec5f7ef",
+      "name_ar": "i10",
+      "name_en": "i10",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "ca98578b-3c42-49dc-bf0f-87670593c114",
+      "slug": "h1",
+      "sort": 8,
+      "make_id": "8aab21e4-093d-481b-8d64-3ac9cec5f7ef",
+      "name_ar": "H1 (ستاركس)",
+      "name_en": "H1 (Starex)",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "a403aa21-f9d3-43a4-ba84-7b8e5d5fe444",
+      "slug": "yaris",
+      "sort": 8,
+      "make_id": "07cb622a-167c-4e0f-b227-cce39df9efc0",
+      "name_ar": "ياريس",
+      "name_en": "Yaris",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "0bfd0e26-133f-42f8-9b91-4b929c3e233a",
+      "slug": "hiace",
+      "sort": 9,
+      "make_id": "07cb622a-167c-4e0f-b227-cce39df9efc0",
+      "name_ar": "هايس",
+      "name_en": "Hiace",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "1c7bd515-7111-481e-870c-d4f278fcd344",
+      "slug": "porter",
+      "sort": 9,
+      "make_id": "8aab21e4-093d-481b-8d64-3ac9cec5f7ef",
+      "name_ar": "بورتر (H100)",
+      "name_en": "Porter (H100)",
+      "is_active": true,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    }
+  ],
+  "markets": [
+    {
+      "id": "627b2517-03a8-4081-9e5b-7e1865e11867",
+      "tz": "Africa/Khartoum",
+      "slug": "alghali",
+      "city_ar": "",
+      "city_en": "",
+      "name_ar": "سوق شارع الغالي",
+      "name_en": "Alghali Street market",
+      "is_active": true,
+      "updated_at": "2026-10-13T21:55:20.038106+00:00"
+    }
+  ],
+  "streets": [
+    {
+      "id": "44e77acd-7bb0-4a04-9af7-a2f294a5fbbd",
+      "slug": "alghali",
+      "name_ar": "شارع الغالي",
+      "name_en": "Alghali Street",
+      "length_m": 1200,
+      "is_active": true,
+      "market_id": "627b2517-03a8-4081-9e5b-7e1865e11867",
+      "origin_lat": null,
+      "origin_lng": null,
+      "updated_at": "2026-10-13T21:55:20.550774+00:00"
+    }
+  ],
+  "variants": [
+    {
+      "id": "6c4da0d6-9d43-4fe7-b8a3-2dbea8848a0e",
+      "fuel": "PETROL",
+      "slug": "1985-1997-w124-petrol",
+      "sort": 1,
+      "year_to": 1997,
+      "model_id": "2afdbcc8-b349-42e1-8b6c-eddc82140584",
+      "engine_ar": "W124 · بنزين",
+      "engine_en": "W124 · petrol",
+      "is_active": true,
+      "year_from": 1985,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "W124"
+    },
+    {
+      "id": "0b41c1c5-2089-4f67-b699-1789ac1f6003",
+      "fuel": "DIESEL",
+      "slug": "1990-2023-4-2-diesel",
+      "sort": 1,
+      "year_to": 2023,
+      "model_id": "cc2323e2-cb86-4103-a0f0-47b16c1dc633",
+      "engine_ar": "4.2 ديزل",
+      "engine_en": "4.2 diesel",
+      "is_active": true,
+      "year_from": 1990,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "1HZ"
+    },
+    {
+      "id": "40a9586e-4ed0-4b8d-b6bf-44cc8d21f231",
+      "fuel": "PETROL",
+      "slug": "1993-2000-w202-petrol",
+      "sort": 1,
+      "year_to": 2000,
+      "model_id": "cc0e1567-7883-428e-944f-79da4e8ff06d",
+      "engine_ar": "W202 · بنزين",
+      "engine_en": "W202 · petrol",
+      "is_active": true,
+      "year_from": 1993,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "W202"
+    },
+    {
+      "id": "52f860c2-d6dc-47ec-8ae8-2eab4b0a1b0d",
+      "fuel": "PETROL",
+      "slug": "1998-2004-2-4-petrol",
+      "sort": 1,
+      "year_to": 2004,
+      "model_id": "7610be06-7050-41b9-b2fa-5d7e1c2d985a",
+      "engine_ar": "2.4 بنزين",
+      "engine_en": "2.4 petrol",
+      "is_active": true,
+      "year_from": 1998,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "2RZ-FE"
+    },
+    {
+      "id": "0773d385-3e9d-4f14-9f4c-990ed165f043",
+      "fuel": "PETROL",
+      "slug": "1998-2015-2-4-petrol",
+      "sort": 1,
+      "year_to": 2015,
+      "model_id": "d9db6728-fae7-4865-8ed8-3bab61ca8aa3",
+      "engine_ar": "2.4 بنزين",
+      "engine_en": "2.4 petrol",
+      "is_active": true,
+      "year_from": 1998,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "KA24DE"
+    },
+    {
+      "id": "122acecf-efd2-49ed-b688-228598126080",
+      "fuel": "PETROL",
+      "slug": "1998-2007-4-5-petrol",
+      "sort": 1,
+      "year_to": 2007,
+      "model_id": "0aea9a7c-2562-4898-a00e-6a76d95c54a0",
+      "engine_ar": "4.5 بنزين",
+      "engine_en": "4.5 petrol",
+      "is_active": true,
+      "year_from": 1998,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "1FZ-FE"
+    },
+    {
+      "id": "f31ac109-1890-490e-afe7-0a7f244e31d8",
+      "fuel": "PETROL",
+      "slug": "1998-2010-4-8-petrol",
+      "sort": 1,
+      "year_to": 2010,
+      "model_id": "d2a02c7d-6bfd-4582-8732-3112bb87731b",
+      "engine_ar": "4.8 بنزين",
+      "engine_en": "4.8 petrol",
+      "is_active": true,
+      "year_from": 1998,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "TB48DE"
+    },
+    {
+      "id": "fda2b499-8142-419e-be26-78179983c2eb",
+      "fuel": "PETROL",
+      "slug": "1998-2014-1-1-petrol",
+      "sort": 1,
+      "year_to": 2014,
+      "model_id": "ad31a2c2-8e50-430e-bfbf-47b7024e0cf2",
+      "engine_ar": "1.1 بنزين",
+      "engine_en": "1.1 petrol",
+      "is_active": true,
+      "year_from": 1998,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "e97580a0-593b-45b7-967b-c6938284964f",
+      "fuel": "PETROL",
+      "slug": "2001-2012-2-4-petrol",
+      "sort": 1,
+      "year_to": 2012,
+      "model_id": "3c7943a8-8df0-4512-868d-afd9f1a8e685",
+      "engine_ar": "2.4 بنزين",
+      "engine_en": "2.4 petrol",
+      "is_active": true,
+      "year_from": 2001,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "KA24DE"
+    },
+    {
+      "id": "5122984e-80b2-4eb4-9ce4-f4d22a571e05",
+      "fuel": "PETROL",
+      "slug": "2003-2009-2-7-petrol",
+      "sort": 1,
+      "year_to": 2009,
+      "model_id": "6d5dbca8-6c7a-4b48-ba2d-de933cd211cb",
+      "engine_ar": "2.7 بنزين",
+      "engine_en": "2.7 petrol",
+      "is_active": true,
+      "year_from": 2003,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "2TR-FE"
+    },
+    {
+      "id": "ee1fc0cb-f28e-4487-a35d-56e89c6c325b",
+      "fuel": "DIESEL",
+      "slug": "2004-2026-2-5-diesel",
+      "sort": 1,
+      "year_to": 2026,
+      "model_id": "1c7bd515-7111-481e-870c-d4f278fcd344",
+      "engine_ar": "2.5 ديزل",
+      "engine_en": "2.5 diesel",
+      "is_active": true,
+      "year_from": 2004,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "72863f48-ce15-4dbb-87e1-167ee0ce2b96",
+      "fuel": "DIESEL",
+      "slug": "2004-2026-2-7-diesel",
+      "sort": 1,
+      "year_to": 2026,
+      "model_id": "0663439d-c020-4e39-8149-b6d2ae3b0b83",
+      "engine_ar": "2.7 ديزل",
+      "engine_en": "2.7 diesel",
+      "is_active": true,
+      "year_from": 2004,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "262b0658-5327-4931-bd64-2d04eaf6bbf3",
+      "fuel": "DIESEL",
+      "slug": "2005-2015-2-5-diesel",
+      "sort": 1,
+      "year_to": 2015,
+      "model_id": "2bb121a4-9dcd-46b3-be6b-84bd956f4625",
+      "engine_ar": "2.5 ديزل",
+      "engine_en": "2.5 diesel",
+      "is_active": true,
+      "year_from": 2005,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "YD25DDTi"
+    },
+    {
+      "id": "ab0998ae-f404-4470-b156-fa9bab4eef58",
+      "fuel": "PETROL",
+      "slug": "2005-2018-2-7-petrol",
+      "sort": 1,
+      "year_to": 2018,
+      "model_id": "0bfd0e26-133f-42f8-9b91-4b929c3e233a",
+      "engine_ar": "2.7 بنزين",
+      "engine_en": "2.7 petrol",
+      "is_active": true,
+      "year_from": 2005,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "2TR-FE"
+    },
+    {
+      "id": "58f4a60f-d738-4616-803c-3f4fa8b5bf50",
+      "fuel": "PETROL",
+      "slug": "2005-2015-2-7-petrol",
+      "sort": 1,
+      "year_to": 2015,
+      "model_id": "bcc36162-98fe-481f-a45f-2575cea7cca1",
+      "engine_ar": "2.7 بنزين",
+      "engine_en": "2.7 petrol",
+      "is_active": true,
+      "year_from": 2005,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "2TR-FE"
+    },
+    {
+      "id": "c9cbaa91-20f9-452a-915f-20c34b62630d",
+      "fuel": "PETROL",
+      "slug": "2006-2013-1-3-petrol",
+      "sort": 1,
+      "year_to": 2013,
+      "model_id": "a403aa21-f9d3-43a4-ba84-7b8e5d5fe444",
+      "engine_ar": "1.3 بنزين",
+      "engine_en": "1.3 petrol",
+      "is_active": true,
+      "year_from": 2006,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "2NZ-FE"
+    },
+    {
+      "id": "dc429c6f-dd62-47c6-af7c-16fdf2205e4d",
+      "fuel": "PETROL",
+      "slug": "2006-2021-3-0-petrol-v6",
+      "sort": 1,
+      "year_to": 2021,
+      "model_id": "72d8c60e-5f96-4512-bc77-a94dfa80ded4",
+      "engine_ar": "3.0 بنزين V6",
+      "engine_en": "3.0 petrol V6",
+      "is_active": true,
+      "year_from": 2006,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "6G72"
+    },
+    {
+      "id": "169b9dff-dd1b-498d-8800-fa636d1f8885",
+      "fuel": "PETROL",
+      "slug": "2006-2015-2-4-petrol",
+      "sort": 1,
+      "year_to": 2015,
+      "model_id": "711356d8-7ac0-479d-9328-582a9cebae8b",
+      "engine_ar": "2.4 بنزين",
+      "engine_en": "2.4 petrol",
+      "is_active": true,
+      "year_from": 2006,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "4G64"
+    },
+    {
+      "id": "08f11724-d9fc-41c6-8af9-a71d701faf3f",
+      "fuel": "PETROL",
+      "slug": "2006-2015-2-0-petrol",
+      "sort": 1,
+      "year_to": 2015,
+      "model_id": "f19d1fab-7ee2-4740-987c-bc9e867e506d",
+      "engine_ar": "2.0 بنزين",
+      "engine_en": "2.0 petrol",
+      "is_active": true,
+      "year_from": 2006,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "J20A"
+    },
+    {
+      "id": "9652e629-abe1-4434-8ca1-5172894026ee",
+      "fuel": "PETROL",
+      "slug": "2006-2010-1-6-petrol",
+      "sort": 1,
+      "year_to": 2010,
+      "model_id": "c2a5322e-91ac-47b7-84ea-b47d1569496e",
+      "engine_ar": "1.6 بنزين",
+      "engine_en": "1.6 petrol",
+      "is_active": true,
+      "year_from": 2006,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "484c6d3e-62fb-4eb1-8907-98b13708c72d",
+      "fuel": "PETROL",
+      "slug": "2007-2017-1-6-petrol",
+      "sort": 1,
+      "year_to": 2017,
+      "model_id": "6b940a54-7261-4e1e-a85d-70fd47d688d5",
+      "engine_ar": "1.6 بنزين",
+      "engine_en": "1.6 petrol",
+      "is_active": true,
+      "year_from": 2007,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "9ee3bd45-11ff-44e2-b49a-b9290d842f0b",
+      "fuel": "PETROL",
+      "slug": "2008-2021-2-4-petrol",
+      "sort": 1,
+      "year_to": 2021,
+      "model_id": "ca98578b-3c42-49dc-bf0f-87670593c114",
+      "engine_ar": "2.4 بنزين",
+      "engine_en": "2.4 petrol",
+      "is_active": true,
+      "year_from": 2008,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "590955d8-1b07-48b3-890a-1da8b7e9d9d1",
+      "fuel": "PETROL",
+      "slug": "2008-2013-1-6-petrol",
+      "sort": 1,
+      "year_to": 2013,
+      "model_id": "57eda85c-7df1-4180-a10a-9afce0a35c18",
+      "engine_ar": "1.6 بنزين",
+      "engine_en": "1.6 petrol",
+      "is_active": true,
+      "year_from": 2008,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "1ZR-FE"
+    },
+    {
+      "id": "039d1cb7-dfeb-43f5-834e-ee17ff2515f6",
+      "fuel": "PETROL",
+      "slug": "2008-2013-1-1-petrol",
+      "sort": 1,
+      "year_to": 2013,
+      "model_id": "7e44592a-4105-43e2-b4f2-b71196858bd1",
+      "engine_ar": "1.1 بنزين",
+      "engine_en": "1.1 petrol",
+      "is_active": true,
+      "year_from": 2008,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "9844ac2a-780b-4570-9972-1cc7cd42b790",
+      "fuel": "PETROL",
+      "slug": "2009-2023-1-0-petrol",
+      "sort": 1,
+      "year_to": 2023,
+      "model_id": "d812f3f5-84d7-4507-a9af-f8d56b702065",
+      "engine_ar": "1.0 بنزين",
+      "engine_en": "1.0 petrol",
+      "is_active": true,
+      "year_from": 2009,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "K10B"
+    },
+    {
+      "id": "3337e10f-5abc-4751-afb2-02a85e1e7a2e",
+      "fuel": "PETROL",
+      "slug": "2009-2018-1-5-petrol",
+      "sort": 1,
+      "year_to": 2018,
+      "model_id": "cb5a9831-2a28-4465-938c-bea6ba27dd50",
+      "engine_ar": "1.5 بنزين",
+      "engine_en": "1.5 petrol",
+      "is_active": true,
+      "year_from": 2009,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "c409a017-3911-4b44-be86-57536351608e",
+      "fuel": "PETROL",
+      "slug": "2009-2013-1-6-petrol",
+      "sort": 1,
+      "year_to": 2013,
+      "model_id": "6d48c51e-1698-4b91-ba0b-a8287fcae996",
+      "engine_ar": "1.6 بنزين",
+      "engine_en": "1.6 petrol",
+      "is_active": true,
+      "year_from": 2009,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "c137f0c1-5ef5-4d91-9233-e0991849b0e2",
+      "fuel": "PETROL",
+      "slug": "2010-2015-2-0-petrol",
+      "sort": 1,
+      "year_to": 2015,
+      "model_id": "cdaef188-e304-4482-b415-9ddd0e397673",
+      "engine_ar": "2.0 بنزين",
+      "engine_en": "2.0 petrol",
+      "is_active": true,
+      "year_from": 2010,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "9cb76ceb-1248-4a73-8daa-82d2d33d1f4f",
+      "fuel": "DIESEL",
+      "slug": "2010-2026-2-0-diesel",
+      "sort": 1,
+      "year_to": 2026,
+      "model_id": "063df34a-7046-4a0b-83d0-718c34f683a6",
+      "engine_ar": "2.0 ديزل",
+      "engine_en": "2.0 diesel",
+      "is_active": true,
+      "year_from": 2010,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "21a03747-136c-4b1e-8141-19b1b2e95667",
+      "fuel": "PETROL",
+      "slug": "2011-2017-1-4-petrol",
+      "sort": 1,
+      "year_to": 2017,
+      "model_id": "384b1f1f-40f1-4652-808d-e9c74c6d624e",
+      "engine_ar": "1.4 بنزين",
+      "engine_en": "1.4 petrol",
+      "is_active": true,
+      "year_from": 2011,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "0a487b8d-ffb3-4bc2-a47e-3c2caf025188",
+      "fuel": "PETROL",
+      "slug": "2011-2017-1-2-petrol",
+      "sort": 1,
+      "year_to": 2017,
+      "model_id": "ef5416d4-289b-4932-b035-e8b151657f5f",
+      "engine_ar": "1.2 بنزين",
+      "engine_en": "1.2 petrol",
+      "is_active": true,
+      "year_from": 2011,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "7bf6d1a4-4364-4e56-99eb-4e41e1b91374",
+      "fuel": "PETROL",
+      "slug": "2011-2015-1-8-petrol",
+      "sort": 1,
+      "year_to": 2015,
+      "model_id": "ff355938-655f-4043-a5c0-888415cfd108",
+      "engine_ar": "1.8 بنزين",
+      "engine_en": "1.8 petrol",
+      "is_active": true,
+      "year_from": 2011,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "c34f69fa-8d6c-4aef-abdd-5d9208f2690d",
+      "fuel": "PETROL",
+      "slug": "2011-2014-2-4-petrol",
+      "sort": 1,
+      "year_to": 2014,
+      "model_id": "f827b9c9-1523-4daa-bbce-bee290a32f84",
+      "engine_ar": "2.4 بنزين",
+      "engine_en": "2.4 petrol",
+      "is_active": true,
+      "year_from": 2011,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "347c9e26-7791-4bd3-9acc-a478d752e3e0",
+      "fuel": "PETROL",
+      "slug": "2011-2015-2-0-petrol",
+      "sort": 1,
+      "year_to": 2015,
+      "model_id": "6c326eb2-f052-47c2-9023-b83730ce3232",
+      "engine_ar": "2.0 بنزين",
+      "engine_en": "2.0 petrol",
+      "is_active": true,
+      "year_from": 2011,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "737cef1f-efd0-4162-88fc-abd839cd9854",
+      "fuel": "PETROL",
+      "slug": "2012-2015-1-8-petrol",
+      "sort": 1,
+      "year_to": 2015,
+      "model_id": "14f8d502-6915-42f8-b7cc-36bfc3a093e3",
+      "engine_ar": "1.8 بنزين",
+      "engine_en": "1.8 petrol",
+      "is_active": true,
+      "year_from": 2012,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "R18"
+    },
+    {
+      "id": "ec6ca550-1226-4ffe-80ef-0d0d78108622",
+      "fuel": "PETROL",
+      "slug": "2012-2017-2-5-petrol",
+      "sort": 1,
+      "year_to": 2017,
+      "model_id": "5c0a8244-db69-4d2e-82df-2d1cf0204c92",
+      "engine_ar": "2.5 بنزين",
+      "engine_en": "2.5 petrol",
+      "is_active": true,
+      "year_from": 2012,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "2AR-FE"
+    },
+    {
+      "id": "3099fc28-2c6f-4e50-a4a5-26c7d8d11ffa",
+      "fuel": "PETROL",
+      "slug": "2012-2017-1-4-petrol",
+      "sort": 1,
+      "year_to": 2017,
+      "model_id": "857430a3-5bf0-4ac0-b345-d8d10eee690f",
+      "engine_ar": "1.4 بنزين",
+      "engine_en": "1.4 petrol",
+      "is_active": true,
+      "year_from": 2012,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "40bbb8c0-5efe-4309-a321-9b4fd0b906c0",
+      "fuel": "PETROL",
+      "slug": "2012-2019-1-5-petrol",
+      "sort": 1,
+      "year_to": 2019,
+      "model_id": "acdad2bb-88d4-494c-84aa-4697887a5dfa",
+      "engine_ar": "1.5 بنزين",
+      "engine_en": "1.5 petrol",
+      "is_active": true,
+      "year_from": 2012,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "HR15DE"
+    },
+    {
+      "id": "c58167b3-7c6d-4452-b662-da1d3275e228",
+      "fuel": "DIESEL",
+      "slug": "2012-2019-2-5-diesel",
+      "sort": 1,
+      "year_to": 2019,
+      "model_id": "18931b52-55a8-400f-84b9-3a17d8e25139",
+      "engine_ar": "2.5 ديزل",
+      "engine_en": "2.5 diesel",
+      "is_active": true,
+      "year_from": 2012,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "4JK1"
+    },
+    {
+      "id": "e728a0bc-8e1b-4b5f-a7ca-f157faca3a17",
+      "fuel": "PETROL",
+      "slug": "2012-2016-2-4-petrol",
+      "sort": 1,
+      "year_to": 2016,
+      "model_id": "2b220958-0fbb-48c9-bd10-5b6cc8127c35",
+      "engine_ar": "2.4 بنزين",
+      "engine_en": "2.4 petrol",
+      "is_active": true,
+      "year_from": 2012,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "K24"
+    },
+    {
+      "id": "acc9d024-7709-4392-b88c-ff4fa9cd53e2",
+      "fuel": "DIESEL",
+      "slug": "2012-2022-2-2-diesel",
+      "sort": 1,
+      "year_to": 2022,
+      "model_id": "73f6c174-4cb1-4634-b91f-adb375ef0a49",
+      "engine_ar": "2.2 ديزل",
+      "engine_en": "2.2 diesel",
+      "is_active": true,
+      "year_from": 2012,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "c891d1d9-31bf-4535-b268-e544c2b2fdd6",
+      "fuel": "PETROL",
+      "slug": "2013-2018-2-4-petrol",
+      "sort": 1,
+      "year_to": 2018,
+      "model_id": "5b27d065-227e-4c78-9810-00fcdcc046b4",
+      "engine_ar": "2.4 بنزين",
+      "engine_en": "2.4 petrol",
+      "is_active": true,
+      "year_from": 2013,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "3753135d-94ed-41f9-b783-e1b74805adbf",
+      "fuel": "PETROL",
+      "slug": "2013-2017-2-4-petrol",
+      "sort": 1,
+      "year_to": 2017,
+      "model_id": "d3e8c419-36db-4105-a943-2987d8b4f908",
+      "engine_ar": "2.4 بنزين",
+      "engine_en": "2.4 petrol",
+      "is_active": true,
+      "year_from": 2013,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "K24"
+    },
+    {
+      "id": "9816da41-19f8-433f-bdec-fa6a6fcf5726",
+      "fuel": "PETROL",
+      "slug": "2014-2021-2-5-petrol",
+      "sort": 1,
+      "year_to": 2021,
+      "model_id": "db660b49-5c74-4f60-b935-84d79ebb70c5",
+      "engine_ar": "2.5 بنزين",
+      "engine_en": "2.5 petrol",
+      "is_active": true,
+      "year_from": 2014,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "QR25DE"
+    },
+    {
+      "id": "ff277ef6-1375-46d7-ab55-868ea20d6b99",
+      "fuel": "PETROL",
+      "slug": "2015-2020-2-4-petrol",
+      "sort": 1,
+      "year_to": 2020,
+      "model_id": "db7822f4-9bbc-4299-a85c-558b5cd8260f",
+      "engine_ar": "2.4 بنزين",
+      "engine_en": "2.4 petrol",
+      "is_active": true,
+      "year_from": 2015,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "15e7c3e3-f3fe-42b6-9e98-1fe557cc6450",
+      "fuel": "PETROL",
+      "slug": "2017-2026-1-5-petrol",
+      "sort": 1,
+      "year_to": 2026,
+      "model_id": "4eea06bb-7d47-4cc2-9f09-e832e98de7ee",
+      "engine_ar": "1.5 بنزين",
+      "engine_en": "1.5 petrol",
+      "is_active": true,
+      "year_from": 2017,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "c7d1a76e-e140-47bd-8b88-77b1da01fb58",
+      "fuel": "PETROL",
+      "slug": "2019-2026-1-5-petrol-turbo",
+      "sort": 1,
+      "year_to": 2026,
+      "model_id": "b7a55840-076d-4c9b-8511-0bc499731c76",
+      "engine_ar": "1.5 بنزين تيربو",
+      "engine_en": "1.5 petrol turbo",
+      "is_active": true,
+      "year_from": 2019,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "a8dbbf95-5a8a-46cf-b530-c75389047e41",
+      "fuel": "PETROL",
+      "slug": "1995-2002-w210-petrol",
+      "sort": 2,
+      "year_to": 2002,
+      "model_id": "2afdbcc8-b349-42e1-8b6c-eddc82140584",
+      "engine_ar": "W210 · بنزين",
+      "engine_en": "W210 · petrol",
+      "is_active": true,
+      "year_from": 1995,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "W210"
+    },
+    {
+      "id": "34d3bf22-cb4b-4782-8290-3a5220fe7054",
+      "fuel": "PETROL",
+      "slug": "1998-2007-4-7-petrol-v8",
+      "sort": 2,
+      "year_to": 2007,
+      "model_id": "0aea9a7c-2562-4898-a00e-6a76d95c54a0",
+      "engine_ar": "4.7 بنزين V8",
+      "engine_en": "4.7 petrol V8",
+      "is_active": true,
+      "year_from": 1998,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "2UZ-FE"
+    },
+    {
+      "id": "df8cc381-5838-4aec-a43c-2bbb83cf0abe",
+      "fuel": "DIESEL",
+      "slug": "1998-2015-2-5-diesel",
+      "sort": 2,
+      "year_to": 2015,
+      "model_id": "d9db6728-fae7-4865-8ed8-3bab61ca8aa3",
+      "engine_ar": "2.5 ديزل",
+      "engine_en": "2.5 diesel",
+      "is_active": true,
+      "year_from": 1998,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "c6060a6c-3119-4ae1-bb93-40bba9a21148",
+      "fuel": "DIESEL",
+      "slug": "1998-2004-3-0-diesel",
+      "sort": 2,
+      "year_to": 2004,
+      "model_id": "7610be06-7050-41b9-b2fa-5d7e1c2d985a",
+      "engine_ar": "3.0 ديزل",
+      "engine_en": "3.0 diesel",
+      "is_active": true,
+      "year_from": 1998,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "5L"
+    },
+    {
+      "id": "aa2fcc89-4e6f-4e76-a576-2c1fd7f8c451",
+      "fuel": "DIESEL",
+      "slug": "1998-2010-4-2-diesel",
+      "sort": 2,
+      "year_to": 2010,
+      "model_id": "d2a02c7d-6bfd-4582-8732-3112bb87731b",
+      "engine_ar": "4.2 ديزل",
+      "engine_en": "4.2 diesel",
+      "is_active": true,
+      "year_from": 1998,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "TD42"
+    },
+    {
+      "id": "420963fb-e403-436b-ba46-97b9f6a32319",
+      "fuel": "PETROL",
+      "slug": "2000-2007-w203-petrol",
+      "sort": 2,
+      "year_to": 2007,
+      "model_id": "cc0e1567-7883-428e-944f-79da4e8ff06d",
+      "engine_ar": "W203 · بنزين",
+      "engine_en": "W203 · petrol",
+      "is_active": true,
+      "year_from": 2000,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "W203"
+    },
+    {
+      "id": "c55f0fd4-5c77-47e7-a391-795d300e1ab7",
+      "fuel": "DIESEL",
+      "slug": "2001-2012-3-0-diesel",
+      "sort": 2,
+      "year_to": 2012,
+      "model_id": "3c7943a8-8df0-4512-868d-afd9f1a8e685",
+      "engine_ar": "3.0 ديزل",
+      "engine_en": "3.0 diesel",
+      "is_active": true,
+      "year_from": 2001,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "ZD30"
+    },
+    {
+      "id": "892db78c-5cac-4796-97c7-671e5dd021e7",
+      "fuel": "PETROL",
+      "slug": "2003-2009-4-0-petrol-v6",
+      "sort": 2,
+      "year_to": 2009,
+      "model_id": "6d5dbca8-6c7a-4b48-ba2d-de933cd211cb",
+      "engine_ar": "4.0 بنزين V6",
+      "engine_en": "4.0 petrol V6",
+      "is_active": true,
+      "year_from": 2003,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "1GR-FE"
+    },
+    {
+      "id": "688e978a-c5d5-4abf-91bd-216f7266e6ad",
+      "fuel": "PETROL",
+      "slug": "2005-2015-4-0-petrol-v6",
+      "sort": 2,
+      "year_to": 2015,
+      "model_id": "bcc36162-98fe-481f-a45f-2575cea7cca1",
+      "engine_ar": "4.0 بنزين V6",
+      "engine_en": "4.0 petrol V6",
+      "is_active": true,
+      "year_from": 2005,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "1GR-FE"
+    },
+    {
+      "id": "7afa136f-fd39-49bf-a9ff-0f78ef3174e5",
+      "fuel": "DIESEL",
+      "slug": "2005-2018-2-5-diesel",
+      "sort": 2,
+      "year_to": 2018,
+      "model_id": "0bfd0e26-133f-42f8-9b91-4b929c3e233a",
+      "engine_ar": "2.5 ديزل",
+      "engine_en": "2.5 diesel",
+      "is_active": true,
+      "year_from": 2005,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "2KD-FTV"
+    },
+    {
+      "id": "a7edb907-ff8c-4036-be6b-ec6177b53432",
+      "fuel": "PETROL",
+      "slug": "2006-2021-3-8-petrol-v6",
+      "sort": 2,
+      "year_to": 2021,
+      "model_id": "72d8c60e-5f96-4512-bc77-a94dfa80ded4",
+      "engine_ar": "3.8 بنزين V6",
+      "engine_en": "3.8 petrol V6",
+      "is_active": true,
+      "year_from": 2006,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "6G75"
+    },
+    {
+      "id": "26557ce8-1f1e-49f0-a12f-f68baaa54e8f",
+      "fuel": "DIESEL",
+      "slug": "2006-2015-2-5-diesel",
+      "sort": 2,
+      "year_to": 2015,
+      "model_id": "711356d8-7ac0-479d-9328-582a9cebae8b",
+      "engine_ar": "2.5 ديزل",
+      "engine_en": "2.5 diesel",
+      "is_active": true,
+      "year_from": 2006,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "4D56"
+    },
+    {
+      "id": "80e2aa8d-e4e2-4b98-8777-7b455c1da70a",
+      "fuel": "PETROL",
+      "slug": "2006-2015-2-4-petrol",
+      "sort": 2,
+      "year_to": 2015,
+      "model_id": "f19d1fab-7ee2-4740-987c-bc9e867e506d",
+      "engine_ar": "2.4 بنزين",
+      "engine_en": "2.4 petrol",
+      "is_active": true,
+      "year_from": 2006,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "J24B"
+    },
+    {
+      "id": "4316d342-ae96-45cf-9bd2-14e4458f5aab",
+      "fuel": "PETROL",
+      "slug": "2007-2017-2-0-petrol",
+      "sort": 2,
+      "year_to": 2017,
+      "model_id": "6b940a54-7261-4e1e-a85d-70fd47d688d5",
+      "engine_ar": "2.0 بنزين",
+      "engine_en": "2.0 petrol",
+      "is_active": true,
+      "year_from": 2007,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "2d3fdd8c-68f6-4a20-a9c2-48ded4b1aeb4",
+      "fuel": "DIESEL",
+      "slug": "2007-2026-4-5-diesel-v8",
+      "sort": 2,
+      "year_to": 2026,
+      "model_id": "cc2323e2-cb86-4103-a0f0-47b16c1dc633",
+      "engine_ar": "4.5 ديزل V8",
+      "engine_en": "4.5 diesel V8",
+      "is_active": true,
+      "year_from": 2007,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "1VD-FTV"
+    },
+    {
+      "id": "1dab312a-3a80-4c86-af27-6c84dee190ea",
+      "fuel": "DIESEL",
+      "slug": "2008-2021-2-5-diesel",
+      "sort": 2,
+      "year_to": 2021,
+      "model_id": "ca98578b-3c42-49dc-bf0f-87670593c114",
+      "engine_ar": "2.5 ديزل",
+      "engine_en": "2.5 diesel",
+      "is_active": true,
+      "year_from": 2008,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "c82e8d28-e65e-4de3-9a8b-c4db840bfeed",
+      "fuel": "PETROL",
+      "slug": "2008-2013-1-8-petrol",
+      "sort": 2,
+      "year_to": 2013,
+      "model_id": "57eda85c-7df1-4180-a10a-9afce0a35c18",
+      "engine_ar": "1.8 بنزين",
+      "engine_en": "1.8 petrol",
+      "is_active": true,
+      "year_from": 2008,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "2ZR-FE"
+    },
+    {
+      "id": "d55f5eb1-e42c-4802-a250-105cc8537e11",
+      "fuel": "PETROL",
+      "slug": "2009-2013-2-0-petrol",
+      "sort": 2,
+      "year_to": 2013,
+      "model_id": "6d48c51e-1698-4b91-ba0b-a8287fcae996",
+      "engine_ar": "2.0 بنزين",
+      "engine_en": "2.0 petrol",
+      "is_active": true,
+      "year_from": 2009,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "c1f44b61-e381-43cd-aaa8-5ff6bbd3fd66",
+      "fuel": "PETROL",
+      "slug": "2009-2018-1-8-petrol",
+      "sort": 2,
+      "year_to": 2018,
+      "model_id": "cb5a9831-2a28-4465-938c-bea6ba27dd50",
+      "engine_ar": "1.8 بنزين",
+      "engine_en": "1.8 petrol",
+      "is_active": true,
+      "year_from": 2009,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "08fc9ef2-613c-4114-9099-738c01ebe059",
+      "fuel": "PETROL",
+      "slug": "2010-2015-2-4-petrol",
+      "sort": 2,
+      "year_to": 2015,
+      "model_id": "cdaef188-e304-4482-b415-9ddd0e397673",
+      "engine_ar": "2.4 بنزين",
+      "engine_en": "2.4 petrol",
+      "is_active": true,
+      "year_from": 2010,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "18553667-ef4b-435e-8686-4017a61b1252",
+      "fuel": "PETROL",
+      "slug": "2010-2026-2-2-petrol",
+      "sort": 2,
+      "year_to": 2026,
+      "model_id": "063df34a-7046-4a0b-83d0-718c34f683a6",
+      "engine_ar": "2.2 بنزين",
+      "engine_en": "2.2 petrol",
+      "is_active": true,
+      "year_from": 2010,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "aba35da2-cec3-496c-8913-ae79c0e68644",
+      "fuel": "PETROL",
+      "slug": "2011-2015-2-4-petrol",
+      "sort": 2,
+      "year_to": 2015,
+      "model_id": "6c326eb2-f052-47c2-9023-b83730ce3232",
+      "engine_ar": "2.4 بنزين",
+      "engine_en": "2.4 petrol",
+      "is_active": true,
+      "year_from": 2011,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "61564bed-2650-4ee7-96b8-c055a8510d32",
+      "fuel": "PETROL",
+      "slug": "2011-2017-1-4-petrol",
+      "sort": 2,
+      "year_to": 2017,
+      "model_id": "c2a5322e-91ac-47b7-84ea-b47d1569496e",
+      "engine_ar": "1.4 بنزين",
+      "engine_en": "1.4 petrol",
+      "is_active": true,
+      "year_from": 2011,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "3b72deeb-90d5-4d4b-b4ea-2e3faf43e290",
+      "fuel": "DIESEL",
+      "slug": "2012-2022-3-2-diesel",
+      "sort": 2,
+      "year_to": 2022,
+      "model_id": "73f6c174-4cb1-4634-b91f-adb375ef0a49",
+      "engine_ar": "3.2 ديزل",
+      "engine_en": "3.2 diesel",
+      "is_active": true,
+      "year_from": 2012,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "64916d8f-f43f-40aa-b706-1ae1b62cb5a2",
+      "fuel": "DIESEL",
+      "slug": "2012-2019-3-0-diesel",
+      "sort": 2,
+      "year_to": 2019,
+      "model_id": "18931b52-55a8-400f-84b9-3a17d8e25139",
+      "engine_ar": "3.0 ديزل",
+      "engine_en": "3.0 diesel",
+      "is_active": true,
+      "year_from": 2012,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "4JJ1"
+    },
+    {
+      "id": "a2af31ff-54fb-4655-886c-b87b090fa95b",
+      "fuel": "PETROL",
+      "slug": "2012-2017-1-6-petrol",
+      "sort": 2,
+      "year_to": 2017,
+      "model_id": "857430a3-5bf0-4ac0-b345-d8d10eee690f",
+      "engine_ar": "1.6 بنزين",
+      "engine_en": "1.6 petrol",
+      "is_active": true,
+      "year_from": 2012,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "9635740a-1d2e-4a34-b05b-d375f5a5a568",
+      "fuel": "PETROL",
+      "slug": "2013-2018-3-3-petrol-v6",
+      "sort": 2,
+      "year_to": 2018,
+      "model_id": "5b27d065-227e-4c78-9810-00fcdcc046b4",
+      "engine_ar": "3.3 بنزين V6",
+      "engine_en": "3.3 petrol V6",
+      "is_active": true,
+      "year_from": 2013,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "dc93e69b-b614-4f96-b06c-c9c7f3782af6",
+      "fuel": "PETROL",
+      "slug": "2014-2020-1-5-petrol",
+      "sort": 2,
+      "year_to": 2020,
+      "model_id": "a403aa21-f9d3-43a4-ba84-7b8e5d5fe444",
+      "engine_ar": "1.5 بنزين",
+      "engine_en": "1.5 petrol",
+      "is_active": true,
+      "year_from": 2014,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "2NR-FE"
+    },
+    {
+      "id": "ef3137d7-cbdf-48f8-9b4a-3508c2778662",
+      "fuel": "PETROL",
+      "slug": "2014-2019-1-2-petrol",
+      "sort": 2,
+      "year_to": 2019,
+      "model_id": "7e44592a-4105-43e2-b4f2-b71196858bd1",
+      "engine_ar": "1.2 بنزين",
+      "engine_en": "1.2 petrol",
+      "is_active": true,
+      "year_from": 2014,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "9d4cfe7c-19a3-4864-bc36-280c60f0928a",
+      "fuel": "PETROL",
+      "slug": "2015-2019-2-4-petrol",
+      "sort": 2,
+      "year_to": 2019,
+      "model_id": "f827b9c9-1523-4daa-bbce-bee290a32f84",
+      "engine_ar": "2.4 بنزين",
+      "engine_en": "2.4 petrol",
+      "is_active": true,
+      "year_from": 2015,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "6d9e31ca-c034-40d0-ba85-76779932cea4",
+      "fuel": "DIESEL",
+      "slug": "2015-2026-2-5-diesel",
+      "sort": 2,
+      "year_to": 2026,
+      "model_id": "2bb121a4-9dcd-46b3-be6b-84bd956f4625",
+      "engine_ar": "2.5 ديزل",
+      "engine_en": "2.5 diesel",
+      "is_active": true,
+      "year_from": 2015,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "YD25DDTi"
+    },
+    {
+      "id": "9ab8612d-234b-4ca8-aa8f-89ea5b554a25",
+      "fuel": "PETROL",
+      "slug": "2015-2020-3-3-petrol-v6",
+      "sort": 2,
+      "year_to": 2020,
+      "model_id": "db7822f4-9bbc-4299-a85c-558b5cd8260f",
+      "engine_ar": "3.3 بنزين V6",
+      "engine_en": "3.3 petrol V6",
+      "is_active": true,
+      "year_from": 2015,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "60da46cc-b1c3-4a81-a169-5cc2ae8fccaf",
+      "fuel": "PETROL",
+      "slug": "2016-2020-1-6-petrol",
+      "sort": 2,
+      "year_to": 2020,
+      "model_id": "ff355938-655f-4043-a5c0-888415cfd108",
+      "engine_ar": "1.6 بنزين",
+      "engine_en": "1.6 petrol",
+      "is_active": true,
+      "year_from": 2016,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "00361225-573a-4835-bdd1-a57ac24e73c3",
+      "fuel": "PETROL",
+      "slug": "2016-2021-1-6-petrol",
+      "sort": 2,
+      "year_to": 2021,
+      "model_id": "14f8d502-6915-42f8-b7cc-36bfc3a093e3",
+      "engine_ar": "1.6 بنزين",
+      "engine_en": "1.6 petrol",
+      "is_active": true,
+      "year_from": 2016,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "20bb5ae4-c37e-4591-bf6c-ee087da7a9ae",
+      "fuel": "PETROL",
+      "slug": "2017-2022-2-4-petrol",
+      "sort": 2,
+      "year_to": 2022,
+      "model_id": "2b220958-0fbb-48c9-bd10-5b6cc8127c35",
+      "engine_ar": "2.4 بنزين",
+      "engine_en": "2.4 petrol",
+      "is_active": true,
+      "year_from": 2017,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "K24"
+    },
+    {
+      "id": "aadf5e0a-a53d-4d1a-8a32-ba58f58b8891",
+      "fuel": "PETROL",
+      "slug": "2018-2024-1-2-petrol",
+      "sort": 2,
+      "year_to": 2024,
+      "model_id": "384b1f1f-40f1-4652-808d-e9c74c6d624e",
+      "engine_ar": "1.2 بنزين",
+      "engine_en": "1.2 petrol",
+      "is_active": true,
+      "year_from": 2018,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "5cd2f729-facb-4c09-8665-e8c811e8e295",
+      "fuel": "PETROL",
+      "slug": "2018-2024-2-5-petrol",
+      "sort": 2,
+      "year_to": 2024,
+      "model_id": "5c0a8244-db69-4d2e-82df-2d1cf0204c92",
+      "engine_ar": "2.5 بنزين",
+      "engine_en": "2.5 petrol",
+      "is_active": true,
+      "year_from": 2018,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "A25A-FKS"
+    },
+    {
+      "id": "0ebad6f6-f315-41b0-a5a6-3996d2b36365",
+      "fuel": "PETROL",
+      "slug": "2018-2026-1-2-petrol",
+      "sort": 2,
+      "year_to": 2026,
+      "model_id": "ef5416d4-289b-4932-b035-e8b151657f5f",
+      "engine_ar": "1.2 بنزين",
+      "engine_en": "1.2 petrol",
+      "is_active": true,
+      "year_from": 2018,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "6b5ec79b-4cda-4b87-a4e8-1851cac16355",
+      "fuel": "PETROL",
+      "slug": "2020-2026-1-6-petrol",
+      "sort": 2,
+      "year_to": 2026,
+      "model_id": "acdad2bb-88d4-494c-84aa-4697887a5dfa",
+      "engine_ar": "1.6 بنزين",
+      "engine_en": "1.6 petrol",
+      "is_active": true,
+      "year_from": 2020,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "HR16DE"
+    },
+    {
+      "id": "11320a4b-df3a-4e60-a066-c2e3a83ed359",
+      "fuel": "PETROL",
+      "slug": "2002-2009-w211-petrol",
+      "sort": 3,
+      "year_to": 2009,
+      "model_id": "2afdbcc8-b349-42e1-8b6c-eddc82140584",
+      "engine_ar": "W211 · بنزين",
+      "engine_en": "W211 · petrol",
+      "is_active": true,
+      "year_from": 2002,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "W211"
+    },
+    {
+      "id": "5e28f7a3-3853-4623-afd3-4a8ea16d9beb",
+      "fuel": "PETROL",
+      "slug": "2005-2015-2-7-petrol",
+      "sort": 3,
+      "year_to": 2015,
+      "model_id": "7610be06-7050-41b9-b2fa-5d7e1c2d985a",
+      "engine_ar": "2.7 بنزين",
+      "engine_en": "2.7 petrol",
+      "is_active": true,
+      "year_from": 2005,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "2TR-FE"
+    },
+    {
+      "id": "8def4fdf-a1d3-4ae9-b7e7-ce61c18eba2d",
+      "fuel": "DIESEL",
+      "slug": "2006-2021-3-2-diesel",
+      "sort": 3,
+      "year_to": 2021,
+      "model_id": "72d8c60e-5f96-4512-bc77-a94dfa80ded4",
+      "engine_ar": "3.2 ديزل",
+      "engine_en": "3.2 diesel",
+      "is_active": true,
+      "year_from": 2006,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "4M41"
+    },
+    {
+      "id": "2ff6655f-d5b8-448d-9e67-afcb861117ff",
+      "fuel": "PETROL",
+      "slug": "2007-2014-w204-petrol",
+      "sort": 3,
+      "year_to": 2014,
+      "model_id": "cc0e1567-7883-428e-944f-79da4e8ff06d",
+      "engine_ar": "W204 · بنزين",
+      "engine_en": "W204 · petrol",
+      "is_active": true,
+      "year_from": 2007,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "W204"
+    },
+    {
+      "id": "10c14718-f932-4097-a0fc-98def14a1167",
+      "fuel": "PETROL",
+      "slug": "2008-2021-4-0-petrol-v6",
+      "sort": 3,
+      "year_to": 2021,
+      "model_id": "0aea9a7c-2562-4898-a00e-6a76d95c54a0",
+      "engine_ar": "4.0 بنزين V6",
+      "engine_en": "4.0 petrol V6",
+      "is_active": true,
+      "year_from": 2008,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "1GR-FE"
+    },
+    {
+      "id": "659e1638-3d90-46fc-8393-1128fc9bb436",
+      "fuel": "PETROL",
+      "slug": "2009-2026-4-0-petrol-v6",
+      "sort": 3,
+      "year_to": 2026,
+      "model_id": "cc2323e2-cb86-4103-a0f0-47b16c1dc633",
+      "engine_ar": "4.0 بنزين V6",
+      "engine_en": "4.0 petrol V6",
+      "is_active": true,
+      "year_from": 2009,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "1GR-FE"
+    },
+    {
+      "id": "26f34d76-08f9-4b6c-a08f-b3c0d3b96a2a",
+      "fuel": "PETROL",
+      "slug": "2010-2023-2-7-petrol",
+      "sort": 3,
+      "year_to": 2023,
+      "model_id": "6d5dbca8-6c7a-4b48-ba2d-de933cd211cb",
+      "engine_ar": "2.7 بنزين",
+      "engine_en": "2.7 petrol",
+      "is_active": true,
+      "year_from": 2010,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "2TR-FE"
+    },
+    {
+      "id": "0a971d07-59fd-485e-86e3-6bc71a033492",
+      "fuel": "PETROL",
+      "slug": "2010-2026-4-0-petrol-v6",
+      "sort": 3,
+      "year_to": 2026,
+      "model_id": "d2a02c7d-6bfd-4582-8732-3112bb87731b",
+      "engine_ar": "4.0 بنزين V6",
+      "engine_en": "4.0 petrol V6",
+      "is_active": true,
+      "year_from": 2010,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "VQ40DE"
+    },
+    {
+      "id": "0534a34b-6777-4e3a-8e24-762de060e751",
+      "fuel": "PETROL",
+      "slug": "2011-2017-1-6-petrol",
+      "sort": 3,
+      "year_to": 2017,
+      "model_id": "c2a5322e-91ac-47b7-84ea-b47d1569496e",
+      "engine_ar": "1.6 بنزين",
+      "engine_en": "1.6 petrol",
+      "is_active": true,
+      "year_from": 2011,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "14195a48-dca6-4545-b74d-c4ef3bd3518f",
+      "fuel": "PETROL",
+      "slug": "2013-2026-2-5-petrol",
+      "sort": 3,
+      "year_to": 2026,
+      "model_id": "3c7943a8-8df0-4512-868d-afd9f1a8e685",
+      "engine_ar": "2.5 بنزين",
+      "engine_en": "2.5 petrol",
+      "is_active": true,
+      "year_from": 2013,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "QR25DE"
+    },
+    {
+      "id": "cdbe4e3c-679b-45f5-a003-a7c37b7d6b2c",
+      "fuel": "PETROL",
+      "slug": "2014-2019-1-6-petrol",
+      "sort": 3,
+      "year_to": 2019,
+      "model_id": "57eda85c-7df1-4180-a10a-9afce0a35c18",
+      "engine_ar": "1.6 بنزين",
+      "engine_en": "1.6 petrol",
+      "is_active": true,
+      "year_from": 2014,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "1ZR-FE"
+    },
+    {
+      "id": "29f470f1-1fde-4dea-a75b-50a195a164a1",
+      "fuel": "PETROL",
+      "slug": "2014-2018-1-6-petrol",
+      "sort": 3,
+      "year_to": 2018,
+      "model_id": "6d48c51e-1698-4b91-ba0b-a8287fcae996",
+      "engine_ar": "1.6 بنزين",
+      "engine_en": "1.6 petrol",
+      "is_active": true,
+      "year_from": 2014,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "a74cf556-f271-41b2-8977-3ec07febd9dc",
+      "fuel": "PETROL",
+      "slug": "2015-2026-2-5-petrol",
+      "sort": 3,
+      "year_to": 2026,
+      "model_id": "2bb121a4-9dcd-46b3-be6b-84bd956f4625",
+      "engine_ar": "2.5 بنزين",
+      "engine_en": "2.5 petrol",
+      "is_active": true,
+      "year_from": 2015,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "QR25DE"
+    },
+    {
+      "id": "96197073-a33b-4ad5-86cd-13acb7dd3c26",
+      "fuel": "PETROL",
+      "slug": "2015-2024-2-4-petrol",
+      "sort": 3,
+      "year_to": 2024,
+      "model_id": "711356d8-7ac0-479d-9328-582a9cebae8b",
+      "engine_ar": "2.4 بنزين",
+      "engine_en": "2.4 petrol",
+      "is_active": true,
+      "year_from": 2015,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "d437ae25-cac7-4630-9dfb-522a7722ff75",
+      "fuel": "PETROL",
+      "slug": "2016-2021-2-0-petrol",
+      "sort": 3,
+      "year_to": 2021,
+      "model_id": "cdaef188-e304-4482-b415-9ddd0e397673",
+      "engine_ar": "2.0 بنزين",
+      "engine_en": "2.0 petrol",
+      "is_active": true,
+      "year_from": 2016,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "48a69f48-3a5e-44c3-816c-ed0439dd681f",
+      "fuel": "PETROL",
+      "slug": "2016-2020-2-0-petrol",
+      "sort": 3,
+      "year_to": 2020,
+      "model_id": "ff355938-655f-4043-a5c0-888415cfd108",
+      "engine_ar": "2.0 بنزين",
+      "engine_en": "2.0 petrol",
+      "is_active": true,
+      "year_from": 2016,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "299a3ea9-2468-4d2c-9d15-48f9ab771c56",
+      "fuel": "PETROL",
+      "slug": "2016-2021-2-0-petrol",
+      "sort": 3,
+      "year_to": 2021,
+      "model_id": "6c326eb2-f052-47c2-9023-b83730ce3232",
+      "engine_ar": "2.0 بنزين",
+      "engine_en": "2.0 petrol",
+      "is_active": true,
+      "year_from": 2016,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "8dee3e99-4e4d-4e14-92a7-e71838c54355",
+      "fuel": "PETROL",
+      "slug": "2016-2026-2-7-petrol",
+      "sort": 3,
+      "year_to": 2026,
+      "model_id": "bcc36162-98fe-481f-a45f-2575cea7cca1",
+      "engine_ar": "2.7 بنزين",
+      "engine_en": "2.7 petrol",
+      "is_active": true,
+      "year_from": 2016,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "2TR-FE"
+    },
+    {
+      "id": "4e8b66bd-1d3c-44b4-857b-246c497297af",
+      "fuel": "PETROL",
+      "slug": "2016-2021-2-0-petrol",
+      "sort": 3,
+      "year_to": 2021,
+      "model_id": "14f8d502-6915-42f8-b7cc-36bfc3a093e3",
+      "engine_ar": "2.0 بنزين",
+      "engine_en": "2.0 petrol",
+      "is_active": true,
+      "year_from": 2016,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "f075e66c-5b78-4a6c-82c6-5bf787d29fa1",
+      "fuel": "PETROL",
+      "slug": "2018-2023-1-4-petrol",
+      "sort": 3,
+      "year_to": 2023,
+      "model_id": "857430a3-5bf0-4ac0-b345-d8d10eee690f",
+      "engine_ar": "1.4 بنزين",
+      "engine_en": "1.4 petrol",
+      "is_active": true,
+      "year_from": 2018,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "1bc3a202-7c5d-443d-bf19-fc945d9137fb",
+      "fuel": "PETROL",
+      "slug": "2019-2023-2-4-petrol",
+      "sort": 3,
+      "year_to": 2023,
+      "model_id": "5b27d065-227e-4c78-9810-00fcdcc046b4",
+      "engine_ar": "2.4 بنزين",
+      "engine_en": "2.4 petrol",
+      "is_active": true,
+      "year_from": 2019,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "d752f6cc-f9ef-4f13-9644-e3e6638ae00a",
+      "fuel": "PETROL",
+      "slug": "2019-2026-3-5-petrol-v6",
+      "sort": 3,
+      "year_to": 2026,
+      "model_id": "0bfd0e26-133f-42f8-9b91-4b929c3e233a",
+      "engine_ar": "3.5 بنزين V6",
+      "engine_en": "3.5 petrol V6",
+      "is_active": true,
+      "year_from": 2019,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "7GR-FKS"
+    },
+    {
+      "id": "05ce19ae-18a4-4c04-a966-70cf4a011cf8",
+      "fuel": "PETROL",
+      "slug": "2019-2026-1-5-petrol",
+      "sort": 3,
+      "year_to": 2026,
+      "model_id": "cb5a9831-2a28-4465-938c-bea6ba27dd50",
+      "engine_ar": "1.5 بنزين",
+      "engine_en": "1.5 petrol",
+      "is_active": true,
+      "year_from": 2019,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "99d7ac76-9d18-46fd-8d8d-9b03fe7acb3e",
+      "fuel": "PETROL",
+      "slug": "2020-2026-2-5-petrol",
+      "sort": 3,
+      "year_to": 2026,
+      "model_id": "f827b9c9-1523-4daa-bbce-bee290a32f84",
+      "engine_ar": "2.5 بنزين",
+      "engine_en": "2.5 petrol",
+      "is_active": true,
+      "year_from": 2020,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "ef451a7e-3222-495e-a79a-5576e0234ddf",
+      "fuel": "DIESEL",
+      "slug": "2020-2026-3-0-diesel",
+      "sort": 3,
+      "year_to": 2026,
+      "model_id": "18931b52-55a8-400f-84b9-3a17d8e25139",
+      "engine_ar": "3.0 ديزل",
+      "engine_en": "3.0 diesel",
+      "is_active": true,
+      "year_from": 2020,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "4JJ3"
+    },
+    {
+      "id": "a0515e06-c34c-4340-8611-07e609f89230",
+      "fuel": "DIESEL",
+      "slug": "2005-2015-2-5-diesel",
+      "sort": 4,
+      "year_to": 2015,
+      "model_id": "7610be06-7050-41b9-b2fa-5d7e1c2d985a",
+      "engine_ar": "2.5 ديزل",
+      "engine_en": "2.5 diesel",
+      "is_active": true,
+      "year_from": 2005,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "2KD-FTV"
+    },
+    {
+      "id": "e04a5e68-874c-408f-8ddb-60ec63c180d1",
+      "fuel": "PETROL",
+      "slug": "2008-2021-4-6-petrol-v8",
+      "sort": 4,
+      "year_to": 2021,
+      "model_id": "0aea9a7c-2562-4898-a00e-6a76d95c54a0",
+      "engine_ar": "4.6 بنزين V8",
+      "engine_en": "4.6 petrol V8",
+      "is_active": true,
+      "year_from": 2008,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "1UR-FE"
+    },
+    {
+      "id": "436fb51d-d5f2-44be-ad0d-5235ff150323",
+      "fuel": "PETROL",
+      "slug": "2009-2016-w212-petrol",
+      "sort": 4,
+      "year_to": 2016,
+      "model_id": "2afdbcc8-b349-42e1-8b6c-eddc82140584",
+      "engine_ar": "W212 · بنزين",
+      "engine_en": "W212 · petrol",
+      "is_active": true,
+      "year_from": 2009,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "W212"
+    },
+    {
+      "id": "d3cf1582-87e7-453a-9739-acea945a936e",
+      "fuel": "PETROL",
+      "slug": "2010-2023-4-0-petrol-v6",
+      "sort": 4,
+      "year_to": 2023,
+      "model_id": "6d5dbca8-6c7a-4b48-ba2d-de933cd211cb",
+      "engine_ar": "4.0 بنزين V6",
+      "engine_en": "4.0 petrol V6",
+      "is_active": true,
+      "year_from": 2010,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "1GR-FE"
+    },
+    {
+      "id": "0d27b879-25a2-46f6-966e-4af3d51900a3",
+      "fuel": "PETROL",
+      "slug": "2010-2026-5-6-petrol-v8",
+      "sort": 4,
+      "year_to": 2026,
+      "model_id": "d2a02c7d-6bfd-4582-8732-3112bb87731b",
+      "engine_ar": "5.6 بنزين V8",
+      "engine_en": "5.6 petrol V8",
+      "is_active": true,
+      "year_from": 2010,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "VK56VD"
+    },
+    {
+      "id": "d7cd8862-6335-4a26-91f0-2ff6a964c7c8",
+      "fuel": "DIESEL",
+      "slug": "2013-2026-2-5-diesel",
+      "sort": 4,
+      "year_to": 2026,
+      "model_id": "3c7943a8-8df0-4512-868d-afd9f1a8e685",
+      "engine_ar": "2.5 ديزل",
+      "engine_en": "2.5 diesel",
+      "is_active": true,
+      "year_from": 2013,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "YD25DDTi"
+    },
+    {
+      "id": "1c8708af-615d-4b65-a2df-58713d6046d6",
+      "fuel": "PETROL",
+      "slug": "2014-2018-2-0-petrol",
+      "sort": 4,
+      "year_to": 2018,
+      "model_id": "6d48c51e-1698-4b91-ba0b-a8287fcae996",
+      "engine_ar": "2.0 بنزين",
+      "engine_en": "2.0 petrol",
+      "is_active": true,
+      "year_from": 2014,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "edec373b-ab0d-4299-ad92-ac69561e8c7a",
+      "fuel": "PETROL",
+      "slug": "2014-2019-1-8-petrol",
+      "sort": 4,
+      "year_to": 2019,
+      "model_id": "57eda85c-7df1-4180-a10a-9afce0a35c18",
+      "engine_ar": "1.8 بنزين",
+      "engine_en": "1.8 petrol",
+      "is_active": true,
+      "year_from": 2014,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "2ZR-FE"
+    },
+    {
+      "id": "8a2c45af-315f-4386-937f-018cf2587214",
+      "fuel": "DIESEL",
+      "slug": "2015-2024-2-4-diesel",
+      "sort": 4,
+      "year_to": 2024,
+      "model_id": "711356d8-7ac0-479d-9328-582a9cebae8b",
+      "engine_ar": "2.4 ديزل",
+      "engine_en": "2.4 diesel",
+      "is_active": true,
+      "year_from": 2015,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "4N15"
+    },
+    {
+      "id": "056ef8de-cdd5-492f-8dcc-22d799cd7c55",
+      "fuel": "DIESEL",
+      "slug": "2016-2026-2-8-diesel",
+      "sort": 4,
+      "year_to": 2026,
+      "model_id": "bcc36162-98fe-481f-a45f-2575cea7cca1",
+      "engine_ar": "2.8 ديزل",
+      "engine_en": "2.8 diesel",
+      "is_active": true,
+      "year_from": 2016,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "1GD-FTV"
+    },
+    {
+      "id": "6fcc71ec-7c44-411f-8d4b-a4f60c3ff44c",
+      "fuel": "PETROL",
+      "slug": "2016-2021-2-4-petrol",
+      "sort": 4,
+      "year_to": 2021,
+      "model_id": "cdaef188-e304-4482-b415-9ddd0e397673",
+      "engine_ar": "2.4 بنزين",
+      "engine_en": "2.4 petrol",
+      "is_active": true,
+      "year_from": 2016,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "aa370c64-e095-4d7c-8aed-f2743cfd0230",
+      "fuel": "PETROL",
+      "slug": "2016-2021-2-4-petrol",
+      "sort": 4,
+      "year_to": 2021,
+      "model_id": "6c326eb2-f052-47c2-9023-b83730ce3232",
+      "engine_ar": "2.4 بنزين",
+      "engine_en": "2.4 petrol",
+      "is_active": true,
+      "year_from": 2016,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "97b5ef42-2ffa-44ce-9c94-4d35a7de2a6f",
+      "fuel": "PETROL",
+      "slug": "2018-2023-1-4-petrol",
+      "sort": 4,
+      "year_to": 2023,
+      "model_id": "c2a5322e-91ac-47b7-84ea-b47d1569496e",
+      "engine_ar": "1.4 بنزين",
+      "engine_en": "1.4 petrol",
+      "is_active": true,
+      "year_from": 2018,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "dec1b3c0-5d98-44a4-aef9-633f887e65be",
+      "fuel": "PETROL",
+      "slug": "2018-2023-1-6-petrol",
+      "sort": 4,
+      "year_to": 2023,
+      "model_id": "857430a3-5bf0-4ac0-b345-d8d10eee690f",
+      "engine_ar": "1.6 بنزين",
+      "engine_en": "1.6 petrol",
+      "is_active": true,
+      "year_from": 2018,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "98383370-59ea-4304-b23a-fd58620db84f",
+      "fuel": "PETROL",
+      "slug": "2019-2023-3-5-petrol-v6",
+      "sort": 4,
+      "year_to": 2023,
+      "model_id": "5b27d065-227e-4c78-9810-00fcdcc046b4",
+      "engine_ar": "3.5 بنزين V6",
+      "engine_en": "3.5 petrol V6",
+      "is_active": true,
+      "year_from": 2019,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "cee144d2-7f03-4df4-92a9-63a5d8993c2c",
+      "fuel": "DIESEL",
+      "slug": "2019-2026-2-8-diesel",
+      "sort": 4,
+      "year_to": 2026,
+      "model_id": "0bfd0e26-133f-42f8-9b91-4b929c3e233a",
+      "engine_ar": "2.8 ديزل",
+      "engine_en": "2.8 diesel",
+      "is_active": true,
+      "year_from": 2019,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "1GD-FTV"
+    },
+    {
+      "id": "647555d4-7635-416b-a3d0-6dbbf07a6adc",
+      "fuel": "PETROL",
+      "slug": "2021-2026-1-6-petrol",
+      "sort": 4,
+      "year_to": 2026,
+      "model_id": "ff355938-655f-4043-a5c0-888415cfd108",
+      "engine_ar": "1.6 بنزين",
+      "engine_en": "1.6 petrol",
+      "is_active": true,
+      "year_from": 2021,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "7f948eb2-4b00-4906-9ca1-7689bf506bb6",
+      "fuel": "DIESEL",
+      "slug": "2005-2015-3-0-diesel",
+      "sort": 5,
+      "year_to": 2015,
+      "model_id": "7610be06-7050-41b9-b2fa-5d7e1c2d985a",
+      "engine_ar": "3.0 ديزل",
+      "engine_en": "3.0 diesel",
+      "is_active": true,
+      "year_from": 2005,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "1KD-FTV"
+    },
+    {
+      "id": "974831bb-74b2-4984-b3b7-c327650d89eb",
+      "fuel": "PETROL",
+      "slug": "2008-2021-5-7-petrol-v8",
+      "sort": 5,
+      "year_to": 2021,
+      "model_id": "0aea9a7c-2562-4898-a00e-6a76d95c54a0",
+      "engine_ar": "5.7 بنزين V8",
+      "engine_en": "5.7 petrol V8",
+      "is_active": true,
+      "year_from": 2008,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "3UR-FE"
+    },
+    {
+      "id": "cde259d3-f6cf-458d-8b6d-78098029c561",
+      "fuel": "DIESEL",
+      "slug": "2015-2023-2-8-diesel",
+      "sort": 5,
+      "year_to": 2023,
+      "model_id": "6d5dbca8-6c7a-4b48-ba2d-de933cd211cb",
+      "engine_ar": "2.8 ديزل",
+      "engine_en": "2.8 diesel",
+      "is_active": true,
+      "year_from": 2015,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "1GD-FTV"
+    },
+    {
+      "id": "978dd1d6-1822-4882-863f-75ed2d376278",
+      "fuel": "PETROL",
+      "slug": "2018-2023-1-6-petrol",
+      "sort": 5,
+      "year_to": 2023,
+      "model_id": "c2a5322e-91ac-47b7-84ea-b47d1569496e",
+      "engine_ar": "1.6 بنزين",
+      "engine_en": "1.6 petrol",
+      "is_active": true,
+      "year_from": 2018,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "908a18fe-ffcb-4718-9064-b7bb6bd13029",
+      "fuel": "PETROL",
+      "slug": "2019-2024-1-6-petrol",
+      "sort": 5,
+      "year_to": 2024,
+      "model_id": "6d48c51e-1698-4b91-ba0b-a8287fcae996",
+      "engine_ar": "1.6 بنزين",
+      "engine_en": "1.6 petrol",
+      "is_active": true,
+      "year_from": 2019,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "77ed17f5-dd27-4546-af38-d418f16e45bb",
+      "fuel": "PETROL",
+      "slug": "2020-2026-1-6-petrol",
+      "sort": 5,
+      "year_to": 2026,
+      "model_id": "57eda85c-7df1-4180-a10a-9afce0a35c18",
+      "engine_ar": "1.6 بنزين",
+      "engine_en": "1.6 petrol",
+      "is_active": true,
+      "year_from": 2020,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "1ZR-FE"
+    },
+    {
+      "id": "f8472660-b06c-48b2-80fa-87cac75e6caa",
+      "fuel": "PETROL",
+      "slug": "2021-2026-2-0-petrol",
+      "sort": 5,
+      "year_to": 2026,
+      "model_id": "ff355938-655f-4043-a5c0-888415cfd108",
+      "engine_ar": "2.0 بنزين",
+      "engine_en": "2.0 petrol",
+      "is_active": true,
+      "year_from": 2021,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "f9a9edc0-8b8a-4895-bef5-840d4bc3cffc",
+      "fuel": "PETROL",
+      "slug": "2022-2026-2-0-petrol",
+      "sort": 5,
+      "year_to": 2026,
+      "model_id": "cdaef188-e304-4482-b415-9ddd0e397673",
+      "engine_ar": "2.0 بنزين",
+      "engine_en": "2.0 petrol",
+      "is_active": true,
+      "year_from": 2022,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "280db532-d4e9-4631-a939-3f1993217bac",
+      "fuel": "PETROL",
+      "slug": "2022-2026-2-0-petrol",
+      "sort": 5,
+      "year_to": 2026,
+      "model_id": "6c326eb2-f052-47c2-9023-b83730ce3232",
+      "engine_ar": "2.0 بنزين",
+      "engine_en": "2.0 petrol",
+      "is_active": true,
+      "year_from": 2022,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "15f61cd1-a0ee-4bed-b02d-bf75fc8d6566",
+      "fuel": "DIESEL",
+      "slug": "2008-2021-4-5-diesel-v8",
+      "sort": 6,
+      "year_to": 2021,
+      "model_id": "0aea9a7c-2562-4898-a00e-6a76d95c54a0",
+      "engine_ar": "4.5 ديزل V8",
+      "engine_en": "4.5 diesel V8",
+      "is_active": true,
+      "year_from": 2008,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "1VD-FTV"
+    },
+    {
+      "id": "df81509b-f4f4-4f34-a91b-3cc273e7cd6e",
+      "fuel": "PETROL",
+      "slug": "2016-2026-2-7-petrol",
+      "sort": 6,
+      "year_to": 2026,
+      "model_id": "7610be06-7050-41b9-b2fa-5d7e1c2d985a",
+      "engine_ar": "2.7 بنزين",
+      "engine_en": "2.7 petrol",
+      "is_active": true,
+      "year_from": 2016,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "2TR-FE"
+    },
+    {
+      "id": "2377a1d1-182a-4499-83c8-8a9b4b5da472",
+      "fuel": "PETROL",
+      "slug": "2019-2024-2-0-petrol",
+      "sort": 6,
+      "year_to": 2024,
+      "model_id": "6d48c51e-1698-4b91-ba0b-a8287fcae996",
+      "engine_ar": "2.0 بنزين",
+      "engine_en": "2.0 petrol",
+      "is_active": true,
+      "year_from": 2019,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "2461fb84-999e-4abf-9034-5e6ccfb99629",
+      "fuel": "PETROL",
+      "slug": "2020-2026-2-0-petrol",
+      "sort": 6,
+      "year_to": 2026,
+      "model_id": "57eda85c-7df1-4180-a10a-9afce0a35c18",
+      "engine_ar": "2.0 بنزين",
+      "engine_en": "2.0 petrol",
+      "is_active": true,
+      "year_from": 2020,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "M20A-FKS"
+    },
+    {
+      "id": "84c49db2-744b-43fa-827e-baee4aa3d4fe",
+      "fuel": "PETROL",
+      "slug": "2022-2026-2-5-petrol",
+      "sort": 6,
+      "year_to": 2026,
+      "model_id": "cdaef188-e304-4482-b415-9ddd0e397673",
+      "engine_ar": "2.5 بنزين",
+      "engine_en": "2.5 petrol",
+      "is_active": true,
+      "year_from": 2022,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "8634758f-459b-4f03-86ec-0ae0378598de",
+      "fuel": "PETROL",
+      "slug": "2022-2026-1-6-petrol-turbo",
+      "sort": 6,
+      "year_to": 2026,
+      "model_id": "6c326eb2-f052-47c2-9023-b83730ce3232",
+      "engine_ar": "1.6 بنزين تيربو",
+      "engine_en": "1.6 petrol turbo",
+      "is_active": true,
+      "year_from": 2022,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": null
+    },
+    {
+      "id": "945a5b72-b665-4688-bc5f-9f7b4b7347ff",
+      "fuel": "DIESEL",
+      "slug": "2016-2026-2-4-diesel",
+      "sort": 7,
+      "year_to": 2026,
+      "model_id": "7610be06-7050-41b9-b2fa-5d7e1c2d985a",
+      "engine_ar": "2.4 ديزل",
+      "engine_en": "2.4 diesel",
+      "is_active": true,
+      "year_from": 2016,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "2GD-FTV"
+    },
+    {
+      "id": "d77b1fbd-ca5e-4cbe-ac3f-22f96d188d7a",
+      "fuel": "PETROL",
+      "slug": "2022-2026-3-5-petrol-turbo",
+      "sort": 7,
+      "year_to": 2026,
+      "model_id": "0aea9a7c-2562-4898-a00e-6a76d95c54a0",
+      "engine_ar": "3.5 بنزين تيربو V6",
+      "engine_en": "3.5 petrol turbo V6",
+      "is_active": true,
+      "year_from": 2022,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "V35A-FTS"
+    },
+    {
+      "id": "181f3fa1-5179-43b6-8ff3-1441bd9afcae",
+      "fuel": "DIESEL",
+      "slug": "2016-2026-2-8-diesel",
+      "sort": 8,
+      "year_to": 2026,
+      "model_id": "7610be06-7050-41b9-b2fa-5d7e1c2d985a",
+      "engine_ar": "2.8 ديزل",
+      "engine_en": "2.8 diesel",
+      "is_active": true,
+      "year_from": 2016,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "1GD-FTV"
+    },
+    {
+      "id": "9d31c0b7-8510-4e70-8540-b6e50765ea4f",
+      "fuel": "DIESEL",
+      "slug": "2022-2026-3-3-diesel",
+      "sort": 8,
+      "year_to": 2026,
+      "model_id": "0aea9a7c-2562-4898-a00e-6a76d95c54a0",
+      "engine_ar": "3.3 ديزل V6",
+      "engine_en": "3.3 diesel V6",
+      "is_active": true,
+      "year_from": 2022,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "engine_code": "F33A-FTV"
+    }
+  ],
+  "job_types": [
+    {
+      "id": "fc0c736a-eb8b-4c9a-a2d6-4a5ce9d86c4e",
+      "code": "LIGHTING",
+      "sort": 1,
+      "name_ar": "إضاءة",
+      "name_en": "Lighting",
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "1cab0f3d-9e3b-4694-b448-41bbeb3bb031",
+      "code": "BRAKES",
+      "sort": 2,
+      "name_ar": "فرامل",
+      "name_en": "Brakes",
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "1fa96e41-dc5c-4e2e-ad22-ecb1fdee3c0e",
+      "code": "SERVICE",
+      "sort": 3,
+      "name_ar": "صيانة دورية",
+      "name_en": "Servicing",
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "6d9e0757-d64e-4dc8-b4c8-02cc2e651eeb",
+      "code": "BATTERY",
+      "sort": 4,
+      "name_ar": "بطاريات",
+      "name_en": "Batteries",
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "111f1f64-7b47-4a13-9f78-2521c9cc21c8",
+      "code": "ELECTRICAL",
+      "sort": 5,
+      "name_ar": "كهرباء",
+      "name_en": "Electrical",
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "c557109d-d1a0-4634-8028-9e807d691a72",
+      "code": "AC",
+      "sort": 6,
+      "name_ar": "تكييف",
+      "name_en": "Air conditioning",
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "5bd91b52-c736-4c65-b47e-f5024a51231b",
+      "code": "SUSPENSION",
+      "sort": 7,
+      "name_ar": "عفشة",
+      "name_en": "Suspension",
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "fdc9a64e-99ff-424a-b166-a34e4df40316",
+      "code": "TYRES",
+      "sort": 8,
+      "name_ar": "إطارات",
+      "name_en": "Tyres",
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    },
+    {
+      "id": "41eb1144-10c8-43f6-9d26-1fe4ba654013",
+      "code": "MECHANICAL",
+      "sort": 9,
+      "name_ar": "ميكانيكا",
+      "name_en": "Mechanical",
+      "updated_at": "2026-10-13T14:43:23.735479+00:00"
+    }
+  ],
+  "categories": [
+    {
+      "id": "91a081bf-d3f0-4766-984d-17d98d17cff4",
+      "icon": "lighting",
+      "slug": "lighting",
+      "sort": 1,
+      "name_ar": "الإضاءة",
+      "name_en": "Lighting",
+      "is_active": true,
+      "parent_id": null,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "job_type_id": "fc0c736a-eb8b-4c9a-a2d6-4a5ce9d86c4e",
+      "std_job_minutes": 30
+    },
+    {
+      "id": "7d601158-e82c-4d71-b942-15e178627d8a",
+      "icon": "brakes",
+      "slug": "brakes",
+      "sort": 2,
+      "name_ar": "الفرامل",
+      "name_en": "Brakes",
+      "is_active": true,
+      "parent_id": null,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "job_type_id": "1cab0f3d-9e3b-4694-b448-41bbeb3bb031",
+      "std_job_minutes": 60
+    },
+    {
+      "id": "6059b1e4-e6c8-4c6c-8482-0b27719c751b",
+      "icon": "oil",
+      "slug": "oil-filters",
+      "sort": 3,
+      "name_ar": "الزيوت والفلاتر",
+      "name_en": "Oils & filters",
+      "is_active": true,
+      "parent_id": null,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "job_type_id": "1fa96e41-dc5c-4e2e-ad22-ecb1fdee3c0e",
+      "std_job_minutes": 30
+    },
+    {
+      "id": "154c6a0e-e88b-4d6e-a846-08a3b8e9926a",
+      "icon": "battery",
+      "slug": "batteries",
+      "sort": 4,
+      "name_ar": "البطاريات",
+      "name_en": "Batteries",
+      "is_active": true,
+      "parent_id": null,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "job_type_id": "6d9e0757-d64e-4dc8-b4c8-02cc2e651eeb",
+      "std_job_minutes": 20
+    },
+    {
+      "id": "baff08f4-1388-47f0-abc2-af2d770823a9",
+      "icon": "electrical",
+      "slug": "electrical",
+      "sort": 5,
+      "name_ar": "الكهرباء",
+      "name_en": "Electrical",
+      "is_active": true,
+      "parent_id": null,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "job_type_id": "111f1f64-7b47-4a13-9f78-2521c9cc21c8",
+      "std_job_minutes": 60
+    },
+    {
+      "id": "4db4e6cb-43bd-4018-acb7-15027d3d8d13",
+      "icon": "ac",
+      "slug": "ac",
+      "sort": 6,
+      "name_ar": "التكييف",
+      "name_en": "Air conditioning",
+      "is_active": true,
+      "parent_id": null,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "job_type_id": "c557109d-d1a0-4634-8028-9e807d691a72",
+      "std_job_minutes": 90
+    },
+    {
+      "id": "41ebde77-bb34-4b40-9e25-a48bd0286f94",
+      "icon": "suspension",
+      "slug": "suspension",
+      "sort": 7,
+      "name_ar": "العفشة والتوجيه",
+      "name_en": "Suspension & steering",
+      "is_active": true,
+      "parent_id": null,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "job_type_id": "5bd91b52-c736-4c65-b47e-f5024a51231b",
+      "std_job_minutes": 90
+    },
+    {
+      "id": "13c4480b-87c4-4ab6-9e87-060ea179f908",
+      "icon": "tyres",
+      "slug": "tyres",
+      "sort": 8,
+      "name_ar": "الإطارات والجنوط",
+      "name_en": "Tyres & wheels",
+      "is_active": true,
+      "parent_id": null,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "job_type_id": "fdc9a64e-99ff-424a-b166-a34e4df40316",
+      "std_job_minutes": 30
+    },
+    {
+      "id": "c56f2151-1923-40ca-9c27-39ffd20c4f2b",
+      "icon": "engine",
+      "slug": "engine",
+      "sort": 9,
+      "name_ar": "المحرك والتبريد",
+      "name_en": "Engine & cooling",
+      "is_active": true,
+      "parent_id": null,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "job_type_id": "41eb1144-10c8-43f6-9d26-1fe4ba654013",
+      "std_job_minutes": 90
+    },
+    {
+      "id": "ccbf7964-4efa-46f0-96b1-35d8231a3ee4",
+      "icon": "transmission",
+      "slug": "transmission",
+      "sort": 10,
+      "name_ar": "القير والكلتش",
+      "name_en": "Gearbox & clutch",
+      "is_active": true,
+      "parent_id": null,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "job_type_id": "41eb1144-10c8-43f6-9d26-1fe4ba654013",
+      "std_job_minutes": 180
+    },
+    {
+      "id": "6459456d-1e89-4c11-8a56-f2fd1d7fbd09",
+      "icon": "body",
+      "slug": "body",
+      "sort": 11,
+      "name_ar": "البودي والزجاج",
+      "name_en": "Body & glass",
+      "is_active": true,
+      "parent_id": null,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "job_type_id": null,
+      "std_job_minutes": null
+    },
+    {
+      "id": "ec407eda-71e3-47c0-9014-bcb0114f63f2",
+      "icon": "accessories",
+      "slug": "accessories",
+      "sort": 12,
+      "name_ar": "الإكسسوارات",
+      "name_en": "Accessories",
+      "is_active": true,
+      "parent_id": null,
+      "updated_at": "2026-10-13T14:43:23.735479+00:00",
+      "job_type_id": null,
+      "std_job_minutes": null
+    }
+  ],
+  "server_time": "2026-10-14T15:38:10.707171+00:00"
+}
