@@ -6,7 +6,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/catalogue.dart';
 import '../models/commerce.dart';
 import '../models/partner.dart';
+import '../platform/media.dart';
 import 'backend_error.dart';
+import 'read_cache.dart';
 
 /// A part name suggestion while a shop types a quick listing.
 @immutable
@@ -34,10 +36,12 @@ class PartSuggestion {
 /// A shop's own data: applying, profile, staff, stock and Excel imports. Calls check on
 /// the server that the user works at the shop (FORBIDDEN otherwise). Mutations take an
 /// idempotency key so the offline outbox can replay them; one is made if none is given.
-class ShopRepository {
-  ShopRepository(this._client);
+class ShopRepository with CachedReads {
+  ShopRepository(this._client, {this.cache});
 
   final SupabaseClient _client;
+  @override
+  final ReadCache? cache;
 
   static const _xlsx = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 
@@ -59,10 +63,34 @@ class ShopRepository {
     return Shop.fromJson(row);
   });
 
-  Future<List<StaffMember>> staff(String shopId) => guard(() async {
-    final rows = await _client.rpc<List<dynamic>>('shop_staff', params: {'p_shop_id': shopId});
-    return [
-      for (final r in rows.cast<Json>())
+  /// The shop as its members see it, also while its application is waiting (D-120).
+  Future<Shop> detail(String shopId) => cachedRead(
+    '@shop:$shopId',
+    () => _client.rpc<Json>('shop_detail', params: {'p_shop_id': shopId}),
+    (raw) => Shop.fromJson(raw! as Json),
+  );
+
+  /// "Closed today" until [until]; null opens the shop again (D-119).
+  Future<Shop> setClosed(String shopId, DateTime? until) => guard(() async {
+    final row = await _client.rpc<Json>(
+      'shop_set_closed',
+      params: {'p_shop_id': shopId, 'p_until': until?.toUtc().toIso8601String()},
+    );
+    return Shop.fromJson(row);
+  });
+
+  /// Sales per day for the last [days] days and the best sellers.
+  Future<ShopInsights> insights(String shopId, {int days = 7}) => cachedRead(
+    '@shop.insights:$shopId',
+    () => _client.rpc<Json>('shop_insights', params: {'p_shop_id': shopId, 'p_days': days}),
+    (raw) => ShopInsights.fromJson(raw! as Json),
+  );
+
+  Future<List<StaffMember>> staff(String shopId) => cachedRead(
+    '@shop.staff:$shopId',
+    () => _client.rpc<List<dynamic>>('shop_staff', params: {'p_shop_id': shopId}),
+    (raw) => [
+      for (final r in (raw! as List).cast<Json>())
         StaffMember(
           id: r['user_id'] as String,
           name: r['display_name'] as String? ?? '',
@@ -70,8 +98,8 @@ class ShopRepository {
           role: r['role'] == 'OWNER' ? StaffRole.owner : StaffRole.staff,
           lastActive: DateTime.parse(r['added_at'] as String),
         ),
-    ];
-  });
+    ],
+  );
 
   /// The colleague signs up in the partner app first; then the owner adds them by email.
   Future<void> addStaff(String shopId, String email) => guard(
@@ -89,13 +117,14 @@ class ShopRepository {
     String query = '',
     int limit = 50,
     int offset = 0,
-  }) => guard(() async {
-    final rows = await _client.rpc<List<dynamic>>(
+  }) => cachedRead(
+    '@shop.stock:$shopId:$query:$offset',
+    () => _client.rpc<List<dynamic>>(
       'shop_listings',
       params: {'p_shop_id': shopId, 'p_q': query, 'p_limit': limit, 'p_offset': offset},
-    );
-    return [for (final r in rows.cast<Json>()) ShopListing.fromJson(r)];
-  });
+    ),
+    (raw) => [for (final r in (raw! as List).cast<Json>()) ShopListing.fromJson(r)],
+  );
 
   /// Creates or edits a listing. An edit with an old [ListingDraft.version] fails with
   /// VERSION_CONFLICT; reload the listing and ask the user.
@@ -129,6 +158,27 @@ class ShopRepository {
     ),
   );
 
+  /// Uploads one listing photo in every size under a new base key (or [id], so a replay
+  /// from the outbox writes the same files) and returns the key for [setListingImages].
+  Future<String> uploadListingPhoto(String shopId, MediaVariants photo, {String? id}) =>
+      guard(() async {
+        final base = 'shops/$shopId/listings/${id ?? newIdempotencyKey()}';
+        final bucket = _client.storage.from('media-public');
+        for (final (name, bytes, type) in [
+          ('thumb.webp', photo.thumb, 'image/webp'),
+          ('medium.webp', photo.medium, 'image/webp'),
+          ('large.webp', photo.large, 'image/webp'),
+          ('orig.jpg', photo.orig, 'image/jpeg'),
+        ]) {
+          await bucket.uploadBinary(
+            '$base/$name',
+            bytes,
+            fileOptions: FileOptions(contentType: type, upsert: true),
+          );
+        }
+        return base;
+      });
+
   /// [baseKeys] are photos already uploaded under shops/{shopId}/listings/… (at most 6).
   Future<ShopListing> setListingImages(String shopId, String listingId, List<String> baseKeys) =>
       guard(() async {
@@ -155,8 +205,9 @@ class ShopRepository {
     Set<SubOrderStatus>? statuses,
     int limit = 50,
     int offset = 0,
-  }) => guard(() async {
-    final rows = await _client.rpc<List<dynamic>>(
+  }) => cachedRead(
+    '@shop.orders:$shopId:${statuses?.map((s) => s.code).join(',') ?? ''}:$offset',
+    () => _client.rpc<List<dynamic>>(
       'shop_orders',
       params: {
         'p_shop_id': shopId,
@@ -164,9 +215,9 @@ class ShopRepository {
         'p_limit': limit,
         'p_offset': offset,
       },
-    );
-    return [for (final r in rows.cast<Json>()) ShopSubOrder.fromJson(r)];
-  });
+    ),
+    (raw) => [for (final r in (raw! as List).cast<Json>()) ShopSubOrder.fromJson(r)],
+  );
 
   Future<ShopSubOrder> _act(String fn, String subOrderId, [Json extra = const {}]) =>
       guard(() async {
@@ -191,17 +242,18 @@ class ShopRepository {
   Future<ShopSubOrder> markDelivered(String subOrderId) => _act('shop_mark_delivered', subOrderId);
 
   /// Ledger lines and payouts between [from] and [to] (the last 30 days by default).
-  Future<ShopStatement> statement(String shopId, {DateTime? from, DateTime? to}) => guard(() async {
-    final row = await _client.rpc<Json>(
+  Future<ShopStatement> statement(String shopId, {DateTime? from, DateTime? to}) => cachedRead(
+    '@shop.statement:$shopId:${from?.toIso8601String() ?? ''}:${to?.toIso8601String() ?? ''}',
+    () => _client.rpc<Json>(
       'shop_statement',
       params: {
         'p_shop_id': shopId,
         'p_from': from?.toUtc().toIso8601String(),
         'p_to': to?.toUtc().toIso8601String(),
       },
-    );
-    return ShopStatement.fromJson(row);
-  });
+    ),
+    (raw) => ShopStatement.fromJson(raw! as Json),
+  );
 
   /// Uploads a stock sheet (.xlsx or .csv) and imports it. With [dryRun] nothing is
   /// saved: the report shows what would happen.

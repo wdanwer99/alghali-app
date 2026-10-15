@@ -1,0 +1,57 @@
+{
+  "top": [
+    {
+      "qty": 1,
+      "part_id": "0573f167-cbf9-4d7f-a1db-888e16df9758",
+      "title_ar": "بطارية 55 أمبير",
+      "title_en": "55 Ah battery",
+      "sales_sdg": 145000
+    },
+    {
+      "qty": 1,
+      "part_id": "4824b834-7986-4062-9634-057d887582d7",
+      "title_ar": "لمبات أمامية LED مقاس H4 (زوج)",
+      "title_en": "H4 LED headlight bulbs (pair)",
+      "sales_sdg": 45000
+    }
+  ],
+  "days": [
+    {
+      "day": "2026-10-09",
+      "orders": 0,
+      "sales_sdg": 0
+    },
+    {
+      "day": "2026-10-10",
+      "orders": 0,
+      "sales_sdg": 0
+    },
+    {
+      "day": "2026-10-11",
+      "orders": 0,
+      "sales_sdg": 0
+    },
+    {
+      "day": "2026-10-12",
+      "orders": 0,
+      "sales_sdg": 0
+    },
+    {
+      "day": "2026-10-13",
+      "orders": 0,
+      "sales_sdg": 0
+    },
+    {
+      "day": "2026-10-14",
+      "orders": 2,
+      "sales_sdg": 190000
+    },
+    {
+      "day": "2026-10-15",
+      "orders": 0,
+      "sales_sdg": 0
+    }
+  ],
+  "rating_avg": 0,
+  "rating_count": 0
+}

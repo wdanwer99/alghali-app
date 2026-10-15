@@ -6,8 +6,9 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../app.dart';
 import '../../router.dart';
+import '../../state/inbox.dart';
 import '../../state/session.dart';
-import '../../state/tech_state.dart';
+import '../../state/tech.dart';
 import '../../widgets/partner_widgets.dart';
 
 class TechJobsScreen extends ConsumerWidget {
@@ -18,158 +19,252 @@ class TechJobsScreen extends ConsumerWidget {
     final t = context.t;
     final theme = Theme.of(context);
     final colors = AppColors.of(context);
-    final catalogue = ref.watch(catalogueProvider);
     final session = ref.watch(partnerSessionProvider);
-    final tech = catalogue.technician(session.technicianId);
-    final jobs = ref.watch(techJobsProvider);
-    final online = ref.watch(techOnlineProvider);
-    final schedule = ref.watch(scheduleProvider);
+    final status = session.technician?.status ?? PartnerStatus.pending;
+    final me = ref.watch(myTechnicianProvider).value;
+    final jobsValue = ref.watch(techJobsProvider);
+    final jobs = jobsValue.value ?? const TechJobs();
     final now = ref.watch(clockProvider)();
     final today = khartoumDay(now);
-    final active = jobs.jobs
-        .where((b) => b.isActive || b.status == BookingStatus.completed)
-        .toList();
-    final todays = active.where((b) => khartoumDay(b.startAt) == today).toList();
-    final upcoming = active.where((b) => khartoumDay(b.startAt).isAfter(today)).toList();
-    final blocked = schedule.blockedUntil != null && schedule.blockedUntil!.isAfter(now);
+    final busyUntil = me?.busyUntil(now);
+    final approved = status == PartnerStatus.approved;
+    final todays = [
+      ...jobs.upcoming.where((b) => khartoumDay(b.startAt) == today),
+      ...jobs.past.where(
+        (b) => b.status == BookingStatus.completed && khartoumDay(b.startAt) == today,
+      ),
+    ];
+    final upcoming = jobs.upcoming.where((b) => khartoumDay(b.startAt).isAfter(today)).toList();
+
+    Future<void> toggle(bool online) async {
+      final c = ref.read(myTechnicianProvider.notifier);
+      try {
+        online ? await c.goOnline() : await c.goOffline();
+      } on BackendException catch (e) {
+        if (context.mounted) showError(context, e);
+      }
+    }
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
-        body: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            Container(
-              color: colors.brandSurface,
-              child: SafeArea(
-                bottom: false,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(Space.page, Space.lg, Space.page, Space.xl),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          InitialsAvatar(name: tech.name.tr(context), size: 48, tone: Tone.info),
-                          const SizedBox(width: Space.md),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  tech.name.tr(context),
-                                  style: theme.textTheme.titleLarge?.copyWith(
-                                    color: colors.onBrandSurface,
-                                  ),
-                                ),
-                                Row(
-                                  children: [
-                                    Icon(Icons.star_rounded, size: 16, color: colors.star),
-                                    const SizedBox(width: Space.xxs),
-                                    Text(
-                                      '${tech.rating.toStringAsFixed(1)} · ${context.core.jobsDone(tech.completedJobs)}',
-                                      style: theme.textTheme.bodySmall?.copyWith(
-                                        color: colors.onBrandSurfaceMuted,
-                                      ),
+        body: RefreshIndicator(
+          onRefresh: () => Future.wait([
+            ref.read(techJobsProvider.notifier).refresh(),
+            ref.read(myTechnicianProvider.notifier).refresh(),
+            ref.read(inboxProvider.notifier).refresh(),
+            ref.read(partnerSessionProvider.notifier).refreshAccount(),
+          ]),
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              Container(
+                color: colors.brandSurface,
+                child: SafeArea(
+                  bottom: false,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(Space.page, Space.lg, Space.sm, Space.xl),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            InitialsAvatar(name: session.name ?? '', size: 48, tone: Tone.info),
+                            const SizedBox(width: Space.md),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    session.name ?? '',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: theme.textTheme.titleLarge?.copyWith(
+                                      color: colors.onBrandSurface,
                                     ),
-                                  ],
-                                ),
-                              ],
+                                  ),
+                                  if (me != null)
+                                    Row(
+                                      children: [
+                                        Icon(Icons.star_rounded, size: 16, color: colors.star),
+                                        const SizedBox(width: Space.xxs),
+                                        Text(
+                                          '${me.ratingCount == 0 ? '—' : me.rating.toStringAsFixed(1)} · ${context.core.jobsDone(me.completedJobs)}',
+                                          style: theme.textTheme.bodySmall?.copyWith(
+                                            color: colors.onBrandSurfaceMuted,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                ],
+                              ),
                             ),
+                            HeaderIconButton(
+                              icon: Icons.notifications_outlined,
+                              tooltip: t.notificationsTitle,
+                              badge: ref.watch(unreadCountProvider),
+                              onPressed: () => context.push(Routes.notifications),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: Space.lg),
+                        Padding(
+                          padding: const EdgeInsetsDirectional.only(end: Space.sm),
+                          child: HeaderSwitch(
+                            value: approved && busyUntil == null,
+                            onChanged: approved && me != null ? toggle : null,
+                            title: approved && busyUntil == null ? t.techOnline : t.techOffline,
+                            icon: busyUntil == null
+                                ? Icons.wifi_tethering
+                                : Icons.wifi_tethering_off,
                           ),
-                          const DemoBadge(onDark: true),
-                        ],
-                      ),
-                      const SizedBox(height: Space.lg),
-                      HeaderSwitch(
-                        value: online,
-                        onChanged: ref.read(techOnlineProvider.notifier).set,
-                        title: online ? t.techOnline : t.techOffline,
-                        icon: online ? Icons.wifi_tethering : Icons.wifi_tethering_off,
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(Space.page, 0, Space.page, Space.xxl),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  if (blocked) ...[
-                    const SizedBox(height: Space.lg),
-                    InfoBanner(
-                      tone: Tone.warning,
-                      icon: Icons.do_not_disturb_on_outlined,
-                      message: t.blockedUntil(context.time(schedule.blockedUntil!)),
-                      action: OutlinedButton(
-                        onPressed: ref.read(scheduleProvider.notifier).unblock,
-                        child: Text(t.unblock),
+              const OfflineBanner(),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(Space.page, 0, Space.page, Space.xxl),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    if (!approved) ...[
+                      const SizedBox(height: Space.lg),
+                      ReviewBanner(
+                        status: status,
+                        reason: session.technician?.statusReason,
+                        pendingBody: t.techPendingBody,
                       ),
-                    ),
-                  ],
-                  if (jobs.offers.isNotEmpty) ...[
+                    ],
+                    if (busyUntil != null) ...[
+                      const SizedBox(height: Space.lg),
+                      InfoBanner(
+                        tone: Tone.warning,
+                        icon: Icons.do_not_disturb_on_outlined,
+                        message: t.blockedUntil(context.time(busyUntil)),
+                        action: OutlinedButton(
+                          onPressed: () => toggle(true),
+                          child: Text(t.unblock),
+                        ),
+                      ),
+                    ],
+                    if (jobs.offers.isNotEmpty) ...[
+                      SectionHeader(
+                        title: t.newOffers,
+                        padding: const EdgeInsets.fromLTRB(Space.xs, Space.xl, 0, Space.sm),
+                      ),
+                      for (final o in jobs.offers) ...[
+                        OfferCard(key: ValueKey(o.id), job: o),
+                        const SizedBox(height: Space.sm),
+                      ],
+                    ],
                     SectionHeader(
-                      title: t.newOffers,
+                      title: t.todayJobs,
                       padding: const EdgeInsets.fromLTRB(Space.xs, Space.xl, 0, Space.sm),
                     ),
-                    for (final o in jobs.offers) ...[
-                      OfferCard(offer: o),
-                      const SizedBox(height: Space.sm),
+                    if (jobsValue.isLoading && !jobsValue.hasValue)
+                      const SizedBox(height: 240, child: SkeletonList(count: 2))
+                    else if (todays.isEmpty)
+                      EmptyState(
+                        icon: Icons.event_available_outlined,
+                        title: t.noJobsToday,
+                        message: t.noJobsTodayBody,
+                        compact: true,
+                      )
+                    else
+                      for (final b in todays) ...[
+                        JobCard(job: b),
+                        const SizedBox(height: Space.sm),
+                      ],
+                    if (upcoming.isNotEmpty) ...[
+                      SectionHeader(
+                        title: t.upcomingJobs,
+                        padding: const EdgeInsets.fromLTRB(Space.xs, Space.xl, 0, Space.sm),
+                      ),
+                      for (final b in upcoming) ...[
+                        JobCard(job: b),
+                        const SizedBox(height: Space.sm),
+                      ],
                     ],
                   ],
-                  SectionHeader(
-                    title: t.todayJobs,
-                    padding: const EdgeInsets.fromLTRB(Space.xs, Space.xl, 0, Space.sm),
-                  ),
-                  if (todays.isEmpty)
-                    EmptyState(
-                      icon: Icons.event_available_outlined,
-                      title: t.noJobsToday,
-                      message: t.noJobsTodayBody,
-                      compact: true,
-                    )
-                  else
-                    for (final b in todays) ...[JobCard(job: b), const SizedBox(height: Space.sm)],
-                  if (upcoming.isNotEmpty) ...[
-                    SectionHeader(
-                      title: t.upcomingJobs,
-                      padding: const EdgeInsets.fromLTRB(Space.xs, Space.xl, 0, Space.sm),
-                    ),
-                    for (final b in upcoming) ...[
-                      JobCard(job: b),
-                      const SizedBox(height: Space.sm),
-                    ],
-                  ],
-                  const SizedBox(height: Space.lg),
-                  DemoControls(
-                    label: t.demoNewOffer,
-                    onTap: () => ref.read(techJobsProvider.notifier).demoNewOffer(),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-/// A job offer with its response countdown and accept / decline.
-class OfferCard extends ConsumerWidget {
-  const OfferCard({super.key, required this.offer});
+/// Where the job is, in words: the bay, or the customer's place and how far from home.
+String jobPlace(BuildContext context, Booking b, MyTechnician? me) {
+  final t = context.t;
+  if (b.place == BookingPlace.bay) return t.atYourBay;
+  final lat = b.lat;
+  final lng = b.lng;
+  final homeLat = me?.homeLat;
+  final homeLng = me?.homeLng;
+  if (lat == null || lng == null || homeLat == null || homeLng == null) {
+    return t.atCustomerPlace;
+  }
+  return t.atCustomer(context.core.distance(distanceKm(homeLat, homeLng, lat, lng)));
+}
 
-  final JobOffer offer;
+/// A job offer with its response countdown and accept / decline.
+class OfferCard extends ConsumerStatefulWidget {
+  const OfferCard({super.key, required this.job});
+
+  final Booking job;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<OfferCard> createState() => _OfferCardState();
+}
+
+class _OfferCardState extends ConsumerState<OfferCard> {
+  var _busy = false;
+
+  Future<void> _respond({required bool accept}) async {
+    final t = context.t;
+    if (!accept) {
+      final ok = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(t.decline),
+          content: Text(t.declineBody),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(context.core.actionCancel),
+            ),
+            TextButton(onPressed: () => Navigator.pop(context, true), child: Text(t.decline)),
+          ],
+        ),
+      );
+      if (ok != true || !mounted) return;
+    }
+    setState(() => _busy = true);
+    try {
+      await ref.read(techJobsProvider.notifier).respond(widget.job, accept: accept);
+      if (mounted && accept) showSnack(context, t.jobAccepted);
+    } on BackendException catch (e) {
+      if (!mounted) return;
+      showError(context, e);
+      await ref.read(techJobsProvider.notifier).refresh();
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final t = context.t;
     final core = context.core;
     final theme = Theme.of(context);
-    final b = offer.booking;
+    final b = widget.job;
     final catalogue = ref.watch(catalogueProvider);
-    final jobs = ref.read(techJobsProvider.notifier);
+    final me = ref.watch(myTechnicianProvider).value;
 
     return Card(
       shape: RoundedRectangleBorder(
@@ -179,18 +274,13 @@ class OfferCard extends ConsumerWidget {
       child: Padding(
         padding: const EdgeInsets.all(Space.md),
         child: Countdown(
-          until: offer.expiresAt,
+          until: b.offer?.expiresAt ?? DateTime.fromMillisecondsSinceEpoch(0),
           builder: (context, left) => Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Row(
                 children: [
-                  Expanded(
-                    child: Text(
-                      b.items.first.title.tr(context),
-                      style: theme.textTheme.titleMedium,
-                    ),
-                  ),
+                  Expanded(child: Text(jobTitle(context, b), style: theme.textTheme.titleMedium)),
                   StatusPill(
                     label: left == Duration.zero ? t.offerExpired : t.respondIn(clockText(left)),
                     tone: left.inMinutes < 5 ? Tone.danger : Tone.warning,
@@ -203,13 +293,8 @@ class OfferCard extends ConsumerWidget {
                 '${context.dayTime(b.startAt)} · ${core.minutes(b.durationMin)}',
                 style: theme.textTheme.bodyMedium,
               ),
-              Text(
-                b.place == BookingPlace.bay
-                    ? t.atYourBay
-                    : t.atCustomer(core.distance(b.address?.distanceKm ?? 0)),
-                style: theme.textTheme.bodySmall,
-              ),
-              if (b.variantId != null)
+              Text(jobPlace(context, b, me), style: theme.textTheme.bodySmall),
+              if (b.variantId != null && catalogue.hasVariant(b.variantId!))
                 Text(carLabel(context, catalogue, b.variantId!), style: theme.textTheme.bodySmall),
               const SizedBox(height: Space.sm),
               Text(
@@ -221,7 +306,9 @@ class OfferCard extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: OutlinedButton(
-                      onPressed: left == Duration.zero ? null : () => jobs.decline(offer.id),
+                      onPressed: left == Duration.zero || _busy
+                          ? null
+                          : () => _respond(accept: false),
                       child: Text(t.decline),
                     ),
                   ),
@@ -229,13 +316,9 @@ class OfferCard extends ConsumerWidget {
                   Expanded(
                     flex: 2,
                     child: FilledButton(
-                      onPressed: left == Duration.zero
+                      onPressed: left == Duration.zero || _busy
                           ? null
-                          : () {
-                              jobs.accept(offer.id);
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(content: Text(t.jobAccepted)));
-                            },
+                          : () => _respond(accept: true),
                       child: Text(t.accept),
                     ),
                   ),
@@ -249,6 +332,12 @@ class OfferCard extends ConsumerWidget {
   }
 }
 
+/// What the job is: the first part (and how many more).
+String jobTitle(BuildContext context, Booking b) {
+  final first = b.items.firstOrNull?.title.tr(context) ?? '';
+  return b.items.length > 1 ? context.t.jobAndMore(first, b.items.length - 1) : first;
+}
+
 class JobCard extends ConsumerWidget {
   const JobCard({super.key, required this.job});
 
@@ -256,10 +345,13 @@ class JobCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final t = context.t;
     final core = context.core;
     final theme = Theme.of(context);
     final catalogue = ref.watch(catalogueProvider);
+    final me = ref.watch(myTechnicianProvider).value;
+    final car = job.variantId != null && catalogue.hasVariant(job.variantId!)
+        ? catalogue.modelOfVariant(job.variantId!).name.tr(context)
+        : '';
     return TapCard(
       onTap: () => context.push(Routes.techJob(job.id)),
       child: Row(
@@ -282,17 +374,12 @@ class JobCard extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(job.items.first.title.tr(context), style: theme.textTheme.titleSmall),
+                Text(jobTitle(context, job), style: theme.textTheme.titleSmall),
                 Text(
-                  '${isolate(job.buyerName)} · ${job.variantId == null ? '' : catalogue.modelOfVariant(job.variantId!).name.tr(context)}',
+                  [isolate(job.buyerName), car].where((s) => s.isNotEmpty).join(' · '),
                   style: theme.textTheme.bodySmall,
                 ),
-                Text(
-                  job.place == BookingPlace.bay
-                      ? t.atYourBay
-                      : t.atCustomer(core.distance(job.address?.distanceKm ?? 0)),
-                  style: theme.textTheme.bodySmall,
-                ),
+                Text(jobPlace(context, job, me), style: theme.textTheme.bodySmall),
                 const SizedBox(height: Space.xs),
                 StatusPill(label: core.bookingStatus(job.status), tone: jobTone(job.status)),
               ],

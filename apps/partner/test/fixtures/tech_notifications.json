@@ -1,0 +1,197 @@
+[
+  {
+    "id": "913fa606-70a0-48cb-9e24-991538b4b49d",
+    "user_id": "762ea9c3-1758-42ec-864d-a02b17c367a1",
+    "code": "NEW_JOB_OFFER",
+    "payload": {
+      "ref": "95977773",
+      "place": "BAY",
+      "start_at": "2026-10-17T08:00:00+00:00",
+      "booking_id": "f6fd3a1c-2510-4872-a674-6bbb08a5aa6e"
+    },
+    "created_at": "2026-10-14T23:03:00.092987+00:00",
+    "read_at": null,
+    "app": "partner"
+  },
+  {
+    "id": "8af34ca7-4dc4-4cb1-a4b0-5e25b819c372",
+    "user_id": "762ea9c3-1758-42ec-864d-a02b17c367a1",
+    "code": "BOOKING_CANCELLED",
+    "payload": {
+      "ref": "13860200",
+      "status": "CANCELLED_BY_BUYER",
+      "start_at": "2026-10-15T07:00:00+00:00",
+      "booking_id": "0cd32ff5-70ec-4a4e-bdbe-20b5e92c3646"
+    },
+    "created_at": "2026-10-14T20:49:44.388064+00:00",
+    "read_at": null,
+    "app": "partner"
+  },
+  {
+    "id": "13f0e646-897a-48de-b5bd-f4fd7bae46af",
+    "user_id": "762ea9c3-1758-42ec-864d-a02b17c367a1",
+    "code": "NEW_JOB_OFFER",
+    "payload": {
+      "ref": "13860200",
+      "place": "BAY",
+      "start_at": "2026-10-15T07:00:00+00:00",
+      "booking_id": "0cd32ff5-70ec-4a4e-bdbe-20b5e92c3646"
+    },
+    "created_at": "2026-10-14T20:49:41.084167+00:00",
+    "read_at": null,
+    "app": "partner"
+  },
+  {
+    "id": "ff3c89b4-21c0-43bb-bc9d-3309cb36a29d",
+    "user_id": "762ea9c3-1758-42ec-864d-a02b17c367a1",
+    "code": "BOOKING_CANCELLED",
+    "payload": {
+      "ref": "13671672",
+      "status": "CANCELLED_BY_BUYER",
+      "start_at": "2026-10-15T07:00:00+00:00",
+      "booking_id": "d3d28acf-7afc-4942-8a27-8121d73a9564"
+    },
+    "created_at": "2026-10-14T20:47:43.204677+00:00",
+    "read_at": null,
+    "app": "partner"
+  },
+  {
+    "id": "dd9208e3-b9d3-40df-a04e-e41930b14334",
+    "user_id": "762ea9c3-1758-42ec-864d-a02b17c367a1",
+    "code": "NEW_JOB_OFFER",
+    "payload": {
+      "ref": "13671672",
+      "place": "BAY",
+      "start_at": "2026-10-15T07:00:00+00:00",
+      "booking_id": "d3d28acf-7afc-4942-8a27-8121d73a9564"
+    },
+    "created_at": "2026-10-14T20:46:43.899683+00:00",
+    "read_at": null,
+    "app": "partner"
+  },
+  {
+    "id": "b80b5626-61e4-4685-8ba2-4418368ccc9a",
+    "user_id": "762ea9c3-1758-42ec-864d-a02b17c367a1",
+    "code": "BOOKING_CANCELLED",
+    "payload": {
+      "ref": "84856665",
+      "status": "CANCELLED_BY_BUYER",
+      "start_at": "2026-10-15T07:00:00+00:00",
+      "booking_id": "6bfbe6bb-a884-4636-bec3-0ea61bbb92de"
+    },
+    "created_at": "2026-10-14T20:44:19.45951+00:00",
+    "read_at": null,
+    "app": "partner"
+  },
+  {
+    "id": "c7f0204e-67ba-47f7-8906-01fea24d3d1c",
+    "user_id": "762ea9c3-1758-42ec-864d-a02b17c367a1",
+    "code": "NEW_JOB_OFFER",
+    "payload": {
+      "ref": "84856665",
+      "place": "BAY",
+      "start_at": "2026-10-15T07:00:00+00:00",
+      "booking_id": "6bfbe6bb-a884-4636-bec3-0ea61bbb92de"
+    },
+    "created_at": "2026-10-14T20:43:23.124085+00:00",
+    "read_at": null,
+    "app": "partner"
+  },
+  {
+    "id": "37165e62-91d8-4185-95f2-4f88650d53c3",
+    "user_id": "762ea9c3-1758-42ec-864d-a02b17c367a1",
+    "code": "BOOKING_CANCELLED",
+    "payload": {
+      "ref": "68023167",
+      "status": "CANCELLED_BY_BUYER",
+      "start_at": "2026-10-15T07:00:00+00:00",
+      "booking_id": "926e6427-fdb2-4369-8f03-0fe9864a5f89"
+    },
+    "created_at": "2026-10-14T20:41:01.242633+00:00",
+    "read_at": null,
+    "app": "partner"
+  },
+  {
+    "id": "58f4bb40-ae8d-44f7-9b46-99c4961d6870",
+    "user_id": "762ea9c3-1758-42ec-864d-a02b17c367a1",
+    "code": "NEW_JOB_OFFER",
+    "payload": {
+      "ref": "68023167",
+      "place": "BAY",
+      "start_at": "2026-10-15T07:00:00+00:00",
+      "booking_id": "926e6427-fdb2-4369-8f03-0fe9864a5f89"
+    },
+    "created_at": "2026-10-14T20:39:40.978997+00:00",
+    "read_at": null,
+    "app": "partner"
+  },
+  {
+    "id": "b6019c7b-7a96-4194-8973-f28d751bc89d",
+    "user_id": "762ea9c3-1758-42ec-864d-a02b17c367a1",
+    "code": "BOOKING_REMINDER_DAY",
+    "payload": {
+      "ref": "60047982",
+      "start_at": "2026-10-15T14:00:00+00:00",
+      "booking_id": "b5835683-04f6-4981-87e5-6f1d2e00919f"
+    },
+    "created_at": "2026-10-14T14:00:00.053665+00:00",
+    "read_at": null,
+    "app": "partner"
+  },
+  {
+    "id": "104154c9-9a2d-4ceb-93a0-401db7fb985e",
+    "user_id": "762ea9c3-1758-42ec-864d-a02b17c367a1",
+    "code": "NEW_JOB_OFFER",
+    "payload": {
+      "ref": "23763881",
+      "place": "BAY",
+      "start_at": "2026-10-15T15:00:00+00:00",
+      "booking_id": "cf364186-c142-4d64-aacb-b0f21478a08e"
+    },
+    "created_at": "2026-10-14T01:00:44.459071+00:00",
+    "read_at": null,
+    "app": "partner"
+  },
+  {
+    "id": "a2d9b81a-39f7-48df-9996-012dbd64f144",
+    "user_id": "762ea9c3-1758-42ec-864d-a02b17c367a1",
+    "code": "PARTS_READY",
+    "payload": {
+      "ref": "72491962",
+      "status": "READY",
+      "shop_id": "6c910581-25e5-46e3-9b54-d80a0c972047",
+      "order_id": "b3f82059-f1c9-4b89-9568-26e9c36c4975",
+      "booking_id": "b5835683-04f6-4981-87e5-6f1d2e00919f",
+      "sub_order_id": "de8c30bd-4eec-4b96-95f9-4cb266ed74cd"
+    },
+    "created_at": "2026-10-14T01:00:43.467415+00:00",
+    "read_at": null,
+    "app": "partner"
+  },
+  {
+    "id": "8b2a4a83-bb08-464e-80ec-13dbdf2d3e94",
+    "user_id": "762ea9c3-1758-42ec-864d-a02b17c367a1",
+    "code": "NEW_JOB_OFFER",
+    "payload": {
+      "ref": "60047982",
+      "place": "BAY",
+      "start_at": "2026-10-15T14:00:00+00:00",
+      "booking_id": "b5835683-04f6-4981-87e5-6f1d2e00919f"
+    },
+    "created_at": "2026-10-14T01:00:42.470583+00:00",
+    "read_at": null,
+    "app": "partner"
+  },
+  {
+    "id": "0cd1fa6c-4b12-4a4e-80e0-afa311856431",
+    "user_id": "762ea9c3-1758-42ec-864d-a02b17c367a1",
+    "code": "TECHNICIAN_STATUS",
+    "payload": {
+      "reason": null,
+      "status": "APPROVED"
+    },
+    "created_at": "2026-10-14T01:00:20.801757+00:00",
+    "read_at": null,
+    "app": "partner"
+  }
+]

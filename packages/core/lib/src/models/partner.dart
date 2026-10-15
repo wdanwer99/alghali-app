@@ -19,11 +19,13 @@ class ShopSubOrder {
     this.paymentStatus,
     this.address,
     this.commissionSdg = 0,
+    this.booking,
   });
 
   factory ShopSubOrder.fromJson(Json j) {
     final buyer = j['buyer'] as Json? ?? const {};
     final address = j['address'] as Json?;
+    final booking = j['booking'] as Json?;
     return ShopSubOrder(
       subOrder: SubOrder.fromJson(j),
       ref: j['ref'] as String,
@@ -43,6 +45,7 @@ class ShopSubOrder {
               lng: (address['lng'] as num?)?.toDouble(),
             ),
       commissionSdg: j['commission_sdg'] as int? ?? 0,
+      booking: booking == null ? null : ShopBooking.fromJson(booking),
     );
   }
 
@@ -57,6 +60,41 @@ class ShopSubOrder {
   final PaymentStatus? paymentStatus;
   final DeliveryAddress? address;
   final int commissionSdg;
+
+  /// The fitting this part goes to (TO_TECHNICIAN only).
+  final ShopBooking? booking;
+}
+
+/// The fitting a shop's part goes to: when, and the technician who collects it.
+@immutable
+class ShopBooking {
+  const ShopBooking({
+    required this.id,
+    required this.ref,
+    required this.status,
+    required this.startAt,
+    required this.technicianName,
+    this.technicianPhone,
+  });
+
+  factory ShopBooking.fromJson(Json j) {
+    final tech = j['technician'] as Json? ?? const {};
+    return ShopBooking(
+      id: j['id'] as String,
+      ref: j['ref'] as String,
+      status: BookingStatus.fromCode(j['status'] as String),
+      startAt: DateTime.parse(j['start_at'] as String),
+      technicianName: tech['name'] as String? ?? '',
+      technicianPhone: tech['phone'] as String?,
+    );
+  }
+
+  final String id;
+  final String ref;
+  final BookingStatus status;
+  final DateTime startAt;
+  final String technicianName;
+  final String? technicianPhone;
 }
 
 /// An open photo request as a shop sees it (`shop_open_requests`): the buyer's first
@@ -224,6 +262,34 @@ class ShopListing {
   final String? brand;
   final String? note;
   final int? wasSdg;
+
+  /// After an edit: the server raises [version] by one per change, so a second edit made
+  /// before the first one reaches it can carry the next version (D-122).
+  ShopListing copyWith({int? priceSdg, int? stockQty, bool? active, int? version}) {
+    final reserved = this.stockQty - availableQty;
+    final qty = stockQty ?? this.stockQty;
+    return ShopListing(
+      id: id,
+      version: version ?? this.version,
+      partId: partId,
+      partName: partName,
+      categoryId: categoryId,
+      condition: condition,
+      priceSdg: priceSdg ?? this.priceSdg,
+      priceOnRequest: priceOnRequest,
+      stockQty: qty,
+      availableQty: qty - reserved,
+      warrantyDays: warrantyDays,
+      active: active ?? this.active,
+      ownPart: ownPart,
+      modelIds: modelIds,
+      images: images,
+      sku: sku,
+      brand: brand,
+      note: note,
+      wasSdg: wasSdg,
+    );
+  }
 }
 
 /// A part the shop types in during quick listing. Empty [modelIds] = "not sure which cars".
@@ -283,6 +349,33 @@ class ListingDraft {
   final NewPart? newPart;
   final String? listingId;
   final int? version;
+
+  /// Back from [toParams] (the outbox keeps a queued listing as its parameters).
+  factory ListingDraft.fromParams(Json p) {
+    final part = p['p_new_part'] as Json?;
+    return ListingDraft(
+      condition: ListingCondition.fromCode(p['p_condition'] as String),
+      stockQty: p['p_stock_qty'] as int,
+      priceSdg: p['p_price_sdg'] as int?,
+      priceOnRequest: p['p_price_on_request'] as bool? ?? false,
+      warrantyDays: p['p_warranty_days'] as int? ?? 0,
+      brand: p['p_brand'] as String?,
+      sku: p['p_sku'] as String?,
+      note: p['p_note_ar'] as String?,
+      active: p['p_is_active'] as bool? ?? true,
+      partId: p['p_part_id'] as String?,
+      newPart: part == null
+          ? null
+          : NewPart(
+              nameAr: part['name_ar'] as String,
+              nameEn: part['name_en'] as String?,
+              categoryId: part['category_id'] as String,
+              modelIds: [...?(part['model_ids'] as List?)?.cast<String>()],
+            ),
+      listingId: p['p_listing_id'] as String?,
+      version: p['p_version'] as int?,
+    );
+  }
 
   Json toParams(String shopId) => {
     'p_shop_id': shopId,
@@ -597,7 +690,56 @@ class TimeOff {
 class SalesDay {
   const SalesDay(this.day, this.sdg, this.orders);
 
+  /// Midnight UTC of the Khartoum date, like `khartoumDay`.
   final DateTime day;
   final int sdg;
   final int orders;
+}
+
+/// One of the shop's best sellers over the insights' days.
+@immutable
+class TopSeller {
+  const TopSeller({required this.title, required this.qty, required this.salesSdg, this.partId});
+
+  factory TopSeller.fromJson(Json j) => TopSeller(
+    partId: j['part_id'] as String?,
+    title: LocalizedText(j['title_ar'] as String? ?? '', j['title_en'] as String? ?? ''),
+    qty: j['qty'] as int,
+    salesSdg: j['sales_sdg'] as int,
+  );
+
+  final String? partId;
+  final LocalizedText title;
+  final int qty;
+  final int salesSdg;
+}
+
+/// `shop_insights`: sales per Khartoum day (oldest first, today last), best sellers, rating.
+@immutable
+class ShopInsights {
+  const ShopInsights({
+    required this.days,
+    required this.top,
+    required this.rating,
+    required this.ratingCount,
+  });
+
+  factory ShopInsights.fromJson(Json j) => ShopInsights(
+    days: [
+      for (final d in (j['days'] as List).cast<Json>())
+        SalesDay(
+          DateTime.parse('${d['day']}T00:00:00Z'),
+          d['sales_sdg'] as int,
+          d['orders'] as int,
+        ),
+    ],
+    top: [for (final t in (j['top'] as List).cast<Json>()) TopSeller.fromJson(t)],
+    rating: (j['rating_avg'] as num?)?.toDouble() ?? 0,
+    ratingCount: j['rating_count'] as int? ?? 0,
+  );
+
+  final List<SalesDay> days;
+  final List<TopSeller> top;
+  final double rating;
+  final int ratingCount;
 }

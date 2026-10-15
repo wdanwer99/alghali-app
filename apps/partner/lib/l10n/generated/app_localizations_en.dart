@@ -49,23 +49,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signInForgot => 'Forgot password?';
 
   @override
-  String get signInForgotSent => 'We\'ll email you a reset link once email sending is switched on.';
+  String get signInForgotSent =>
+      'If this email has an account, a link to reset the password is on its way.';
 
   @override
-  String get signInDemoHint =>
-      'In the demo, any valid email works with an 8+ character password that includes a number.';
-
-  @override
-  String get signInApply => 'New shop or technician? Apply to join';
-
-  @override
-  String get applySoon => 'Applying in the app opens soon. Contact the platform team for now.';
+  String get signInApply => 'New shop or technician? Create an account';
 
   @override
   String get roleTitle => 'How do you want to continue?';
 
   @override
-  String get roleBody => 'Your account has a shop and an installation technician profile.';
+  String get roleBody =>
+      'Choose which of your work to open. You can switch any time from the menu.';
 
   @override
   String get roleShop => 'Shop owner';
@@ -98,9 +93,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get shopIsOpen => 'Shop is open for orders';
-
-  @override
-  String get shopIsClosed => 'Shop is closed — buyers won\'t see your parts';
 
   @override
   String get kpiNewOrders => 'New orders';
@@ -175,9 +167,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String orderFrom(String buyer) {
     return 'From $buyer';
   }
-
-  @override
-  String get orderAwaitingPayment => 'Waiting for the buyer\'s payment — don\'t prepare yet';
 
   @override
   String toTechWith(String name, String time) {
@@ -314,9 +303,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bulkPriceBy => 'Change prices by';
 
   @override
-  String get bulkApply => 'Apply';
-
-  @override
   String bulkDone(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -369,9 +355,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get takePhoto => 'Take photo';
 
   @override
-  String get photoAdded => 'Photo added';
-
-  @override
   String get categoryTitle => 'What is the part?';
 
   @override
@@ -406,9 +389,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get draftSaved => 'Draft saved';
-
-  @override
-  String get draft => 'Draft';
 
   @override
   String get quotesBody =>
@@ -570,11 +550,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get staffInviteSent => 'Invite sent';
 
   @override
-  String lastActive(String ago) {
-    return 'Last active $ago';
-  }
-
-  @override
   String get insightsSales7 => 'Sales, last 7 days';
 
   @override
@@ -701,9 +676,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get jobCustomer => 'Customer';
 
   @override
-  String get jobCar => 'Car';
-
-  @override
   String get jobWork => 'Work';
 
   @override
@@ -816,7 +788,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noTimeOff => 'No upcoming time off';
 
   @override
-  String get timeOffAdded => 'Added a full day off tomorrow';
+  String get timeOffAdded => 'Time off added';
 
   @override
   String get earningsWeek => 'This week\'s earnings';
@@ -864,14 +836,493 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get demoControls => 'Demo controls';
+  String get forgotSend => 'Send link';
 
   @override
-  String get demoNewOrder => 'Simulate a new order';
+  String get signUpTitle => 'New partner account';
 
   @override
-  String get demoNewOffer => 'Simulate a new job offer';
+  String get signUpBody =>
+      'For shop owners, their staff and installation technicians. Next you choose how you work with us.';
 
   @override
-  String get demoNewQuote => 'Simulate a new price request';
+  String get fieldName => 'Full name';
+
+  @override
+  String get fieldPhone => 'Mobile number';
+
+  @override
+  String get fieldWhatsapp => 'WhatsApp number (optional)';
+
+  @override
+  String get signUpSubmit => 'Create account';
+
+  @override
+  String get signUpHaveAccount => 'Already have an account? Sign in';
+
+  @override
+  String get roleShopStaff => 'Shop staff';
+
+  @override
+  String get applyAddShop => 'Add a shop';
+
+  @override
+  String get applyAsTechnician => 'Apply as an installation technician';
+
+  @override
+  String get statusPending => 'Under review';
+
+  @override
+  String get statusApproved => 'Approved';
+
+  @override
+  String get statusRejected => 'Not approved';
+
+  @override
+  String get statusSuspended => 'Suspended';
+
+  @override
+  String get statusRejectedBody =>
+      'Your application wasn\'t approved. Contact the platform team to find out what\'s needed.';
+
+  @override
+  String get statusSuspendedBody =>
+      'The account is suspended and hidden from buyers. Contact the platform team.';
+
+  @override
+  String statusReason(String reason) {
+    return 'Reason: $reason';
+  }
+
+  @override
+  String get shopPendingBody =>
+      'Your shop is being reviewed. Add your parts and prices now; buyers see them once it is approved.';
+
+  @override
+  String get techPendingBody =>
+      'Your application is being reviewed. Job offers come once you\'re approved; set your hours and prices now.';
+
+  @override
+  String get applyTitle => 'Join Alghali Street';
+
+  @override
+  String applyHello(String name) {
+    return 'Welcome, $name';
+  }
+
+  @override
+  String get applyBody =>
+      'How will you work with us? The platform team usually reviews applications within a working day.';
+
+  @override
+  String get applyShopTitle => 'I have a shop on the street';
+
+  @override
+  String get applyShopBody => 'List your parts, get orders and price requests.';
+
+  @override
+  String get applyTechTitle => 'I\'m an installation technician';
+
+  @override
+  String get applyTechBody =>
+      'Get fitting jobs at a bay on the street or at the customer\'s place.';
+
+  @override
+  String get applyStaffNote =>
+      'Working at a shop that is already here? Don\'t apply: ask the owner to add you with this email.';
+
+  @override
+  String get applyShopNote =>
+      'The shop\'s name and place on the street show to buyers once approved.';
+
+  @override
+  String get applySectionShop => 'The shop';
+
+  @override
+  String get applySectionPlace => 'Place on the street';
+
+  @override
+  String get applySectionContact => 'Contact';
+
+  @override
+  String get applySubmit => 'Send application';
+
+  @override
+  String get applySent => 'Application sent for review';
+
+  @override
+  String get shopNameAr => 'Shop name in Arabic';
+
+  @override
+  String get shopNameEn => 'Shop name in English (optional)';
+
+  @override
+  String get shopZone => 'Zone';
+
+  @override
+  String get shopPlot => 'Plot number';
+
+  @override
+  String get shopSideA => 'Side A';
+
+  @override
+  String get shopSideB => 'Side B';
+
+  @override
+  String get shopLandmark => 'Landmark';
+
+  @override
+  String get shopLandmarkHint => 'e.g. opposite the petrol station';
+
+  @override
+  String get shopAbout => 'About the shop (optional)';
+
+  @override
+  String get shopHours => 'Opening hours';
+
+  @override
+  String get shopSells => 'What do you sell?';
+
+  @override
+  String get shopMakes => 'Car makes you serve';
+
+  @override
+  String get shopMakesBody => 'Leave empty if you serve every make.';
+
+  @override
+  String get applyTechNote => 'The team checks your experience before your first job offer.';
+
+  @override
+  String get techApplyBay => 'The bay you work at';
+
+  @override
+  String get techApplyBayHelp =>
+      'A shop or workshop on the street where customers come for fittings';
+
+  @override
+  String get techApplyHome => 'Use my current location as my starting point';
+
+  @override
+  String get techApplyHomeSet => 'Location set';
+
+  @override
+  String get techApplyHomeBody => 'Visit distances are measured from here; customers never see it.';
+
+  @override
+  String get techApplyJobsBody =>
+      'Enter your labour price for each kind of job you do; leave the others empty.';
+
+  @override
+  String get techApplyMakes => 'Car makes you work on';
+
+  @override
+  String get techApplyMakesBody => 'Leave empty if you work on every make.';
+
+  @override
+  String get techApplyYears => 'Years of experience';
+
+  @override
+  String get techApplyBio => 'About you (optional)';
+
+  @override
+  String get techApplyNeedJob => 'Choose at least one kind of job with its price.';
+
+  @override
+  String get techApplyNeedBay => 'Choose the bay where you work.';
+
+  @override
+  String get techApplyNeedHome => 'Set your starting point for visits.';
+
+  @override
+  String get homeUpdate => 'Update my starting point';
+
+  @override
+  String get addJobType => 'Add a kind of job';
+
+  @override
+  String get chatsTitle => 'Messages';
+
+  @override
+  String get notificationsTitle => 'Alerts';
+
+  @override
+  String get shopClosedToday => 'Closed today — buyers see the shop as closed';
+
+  @override
+  String get shopOutsideHours => 'Outside opening hours now';
+
+  @override
+  String get orderAccepted => 'Order accepted';
+
+  @override
+  String get orderRejected => 'Order declined; the buyer gets the money back';
+
+  @override
+  String get orderMarkedReady => 'Marked ready';
+
+  @override
+  String get orderHandedOver => 'Handed over';
+
+  @override
+  String get orderDelivered => 'Delivered';
+
+  @override
+  String get orderNotHere => 'This order isn\'t in your shop';
+
+  @override
+  String returnRequested(String reason) {
+    return 'The buyer asked to return it: $reason';
+  }
+
+  @override
+  String get waitTechAccept => 'Hand the part over once the technician accepts the job.';
+
+  @override
+  String get callTechnician => 'Call the technician';
+
+  @override
+  String get cashCollected => 'You collected the cash';
+
+  @override
+  String get rejectOtherLabel => 'Write the reason for the buyer';
+
+  @override
+  String get openOrder => 'Open the order';
+
+  @override
+  String get chatsEmpty => 'No messages yet';
+
+  @override
+  String get chatsEmptyBody => 'When a buyer messages you, the chat shows here.';
+
+  @override
+  String get chatEmpty => 'Start the conversation';
+
+  @override
+  String get chatHint => 'Write a message';
+
+  @override
+  String get chatSend => 'Send';
+
+  @override
+  String get chatVoiceNote => 'Voice note';
+
+  @override
+  String get notificationsEmpty => 'No alerts';
+
+  @override
+  String get notificationsEmptyBody => 'New orders, job offers and messages show here.';
+
+  @override
+  String get notificationsGeneric => 'Alert';
+
+  @override
+  String get notificationsMarkRead => 'Mark all read';
+
+  @override
+  String get helpBody => 'The platform team helps with orders, payments and your account.';
+
+  @override
+  String get stockEmpty => 'No parts yet';
+
+  @override
+  String get stockEmptyBody => 'Add a part with a photo, or import an Excel file.';
+
+  @override
+  String get stockNoMatch => 'No parts match';
+
+  @override
+  String reservedQty(int count) {
+    return '$count reserved';
+  }
+
+  @override
+  String reservedNote(int count) {
+    return '$count held for open orders';
+  }
+
+  @override
+  String get priceOnRequest => 'Price on request';
+
+  @override
+  String get archive => 'Remove from the shop';
+
+  @override
+  String get archiveTitle => 'Remove this part?';
+
+  @override
+  String get archiveBody => 'Buyers won\'t see it any more. Confirmed orders aren\'t affected.';
+
+  @override
+  String get listingQueued =>
+      'This part is waiting for a connection to be sent. Edit it once it\'s in the list.';
+
+  @override
+  String get listingSavedOffline => 'Saved; it\'ll be sent when you\'re back online';
+
+  @override
+  String get retakePhoto => 'Take another';
+
+  @override
+  String get noPhoto => 'No photo for now';
+
+  @override
+  String get fromCatalogue => 'From the parts catalogue';
+
+  @override
+  String get suggestionsTitle => 'Did you mean?';
+
+  @override
+  String get carsFromCatalogue => 'The cars this part fits are set in the catalogue.';
+
+  @override
+  String get importCheckTitle => 'File check';
+
+  @override
+  String importCheckBody(int created, int updated, int failed) {
+    return '$created to add, $updated to update, $failed rows with problems.';
+  }
+
+  @override
+  String importRow(int row) {
+    return 'Row $row';
+  }
+
+  @override
+  String importGo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Import $count rows',
+      one: 'Import 1 row',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importDone(int created, int updated, int failed) {
+    return 'Added $created, updated $updated, skipped $failed';
+  }
+
+  @override
+  String get importErrName => 'Part name missing';
+
+  @override
+  String get importErrCategory => 'Category missing or unknown';
+
+  @override
+  String get importErrCondition => 'Condition missing or wrong';
+
+  @override
+  String get importErrPrice => 'Price missing or wrong';
+
+  @override
+  String get importErrQty => 'Quantity is wrong';
+
+  @override
+  String get importErrWarranty => 'Warranty is wrong';
+
+  @override
+  String get importErrSku => 'Code used twice';
+
+  @override
+  String get importErrReserved => 'Less than open orders have reserved';
+
+  @override
+  String get importErrValue => 'A value is wrong';
+
+  @override
+  String get importWarnModel => 'Unknown car (left out):';
+
+  @override
+  String get changeOffer => 'Change';
+
+  @override
+  String get statementEmpty => 'Nothing in the last 30 days';
+
+  @override
+  String staffAdded(String date) {
+    return 'Added $date';
+  }
+
+  @override
+  String staffRemoveTitle(String name) {
+    return 'Remove $name?';
+  }
+
+  @override
+  String get staffRemoveBody =>
+      'They won\'t be able to manage the shop\'s orders and stock any more.';
+
+  @override
+  String get insightsNoSales => 'No sales in these days yet';
+
+  @override
+  String get profileNameNote =>
+      'To change the name or place on the street, contact the platform team.';
+
+  @override
+  String get atCustomerPlace => 'At the customer\'s place';
+
+  @override
+  String jobAndMore(String first, int count) {
+    return '$first + $count more';
+  }
+
+  @override
+  String jobRef(String ref) {
+    return 'Job $ref';
+  }
+
+  @override
+  String get onMyWayDone => 'The customer can see your position until you arrive';
+
+  @override
+  String get checkedIn => 'Job started';
+
+  @override
+  String get sharingLocation => 'Your position is shared with the customer while on the way.';
+
+  @override
+  String partCollected(String shop) {
+    return 'Collected from $shop';
+  }
+
+  @override
+  String get partNotFitReason => 'What\'s wrong?';
+
+  @override
+  String get partNotFitDone => 'Recorded; a return was opened for the part';
+
+  @override
+  String get dropJob => 'I can\'t make it';
+
+  @override
+  String get dropJobReason => 'Reason';
+
+  @override
+  String get dropJobBody =>
+      'The job goes to another technician at the same time. Dropping jobs often affects your rating.';
+
+  @override
+  String get dropJobDone => 'The job was passed on';
+
+  @override
+  String get youEarnLabel => 'You earn';
+
+  @override
+  String get editHours => 'Edit hours';
+
+  @override
+  String get addPeriod => 'Add a period';
+
+  @override
+  String get periodsOverlap =>
+      'Make sure each period ends after it starts and they don\'t overlap.';
+
+  @override
+  String get timeOffDefault => 'Time off';
+
+  @override
+  String get earningsNotYet => 'Your earnings show here once you are approved';
 }

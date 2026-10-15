@@ -53,7 +53,9 @@ pnpm env:sync               # copies client-safe keys (and each app's Firebase e
 | `pnpm test`                                      | TypeScript tests (DB tests run when `SUPABASE_TEST_DB_URL` is set)                                     |
 | `pnpm flutter:test`                              | Flutter tests in core, buyer and partner                                                               |
 | `pnpm buyer:e2e [-- -d <device>]`                | The buyer's happy path on a running emulator or phone against `alghali-dev` (signs in as a demo buyer) |
+| `pnpm partner:e2e [-- -d <device>]`              | The partner's happy path on an emulator or phone against `alghali-dev` (cleans up)                     |
 | `pnpm fixtures:buyer`                            | Re-capture the buyer app's test fixtures from `alghali-dev` (demo data)                                |
+| `pnpm fixtures:partner`                          | Re-capture the partner app's test fixtures from `alghali-dev`                                          |
 | `pnpm db:push:dev` / `pnpm db:push:test`         | Apply new migrations                                                                                   |
 | `pnpm db:reset:test`                             | Wipe `alghali-test` and re-apply every migration                                                       |
 | `pnpm db:types`                                  | Regenerate `packages/db-types` from `alghali-dev`                                                      |
@@ -65,20 +67,13 @@ pnpm env:sync               # copies client-safe keys (and each app's Firebase e
 
 Apps built without Supabase keys still run and show "not set up" for backend status.
 
-**Sample data.** The buyer and partner apps still run on built-in sample data (PLAN §2, D-051), so every screen works without a backend; nothing real happens there (the Bankak account shown is a dummy, calls and messages are off). The backend behind them is ready (M1–M3, `packages/core/lib/src/backend`) and M4–M5 switch the screens over. The admin console already reads the real database.
+**Real data.** Both apps (M4, M5) and the admin console read and write the real backend (`alghali-dev` during development). Built without keys, the apps still open, with an empty catalogue.
 
 **Tests that hit Supabase** run against `alghali-test`. `pnpm test` includes end-to-end API tests that create real accounts there and delete them afterwards.
 
-## Screenshots
+## Screen tests
 
-Flutter screens are rendered by golden tests with the real font. The PNGs go to `apps/<app>/build/screenshots/` (git-ignored):
-
-```bash
-cd apps/buyer   && flutter test test/screenshots --dart-define=SCREENSHOTS=true --update-goldens
-cd apps/partner && flutter test test/screenshots --dart-define=SCREENSHOTS=true --update-goldens
-```
-
-These tests are skipped in a normal `flutter test` run.
+Every screen of both apps is opened in Arabic and English on a 360 dp phone with answers captured from `alghali-dev` (`apps/<app>/test/screens_test.dart`); `pnpm flutter:test` runs them with the rest.
 
 ## Logo, icons and splash
 

@@ -4,7 +4,6 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../app.dart';
 import '../../state/account.dart';
-import '../../widgets/buyer_widgets.dart';
 
 /// Adds a place for deliveries and fittings: the phone's GPS point, a short label and
 /// written directions (brief §6: GPS only for the buyer's address). Returns the new

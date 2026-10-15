@@ -1,0 +1,53 @@
+{
+  "support_phone": "",
+  "booking_fee_sdg": 2000,
+  "support_whatsapp": "",
+  "travel_fee_bands": [
+    {
+      "sdg": 3000,
+      "max_km": 3
+    },
+    {
+      "sdg": 6000,
+      "max_km": 8
+    },
+    {
+      "sdg": 10000,
+      "max_km": 15
+    }
+  ],
+  "slot_hold_minutes": 10,
+  "delivery_fee_bands": [
+    {
+      "sdg": 2000,
+      "max_km": 3
+    },
+    {
+      "sdg": 4000,
+      "max_km": 8
+    },
+    {
+      "sdg": 7000,
+      "max_km": 15
+    }
+  ],
+  "mobile_deposit_sdg": 5000,
+  "return_window_days": 3,
+  "bankak_account_name": "TODO: platform account name",
+  "cancel_cutoff_hours": 6,
+  "latest_app_versions": {
+    "buyer": {
+      "apk_url": null,
+      "min_build": 1,
+      "latest_build": 1
+    },
+    "partner": {
+      "apk_url": null,
+      "min_build": 1,
+      "latest_build": 1
+    }
+  },
+  "bankak_account_number": "TODO: platform account number",
+  "booking_lookahead_days": 7,
+  "payment_window_minutes": 120
+}

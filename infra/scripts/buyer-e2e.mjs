@@ -34,7 +34,7 @@ try {
       'test',
       'integration_test/journey_test.dart',
       `--dart-define-from-file=${file}`,
-      ...process.argv.slice(2),
+      ...process.argv.slice(2).filter((a) => a !== '--'),
     ],
     { cwd: app, stdio: 'inherit', shell: true },
   );

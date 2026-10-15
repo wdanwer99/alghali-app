@@ -1,4 +1,5 @@
 import 'package:alghali_core/alghali_core.dart';
+import 'package:flutter/services.dart' show TextInputFormatter;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -267,38 +268,6 @@ class _BarsPainter extends CustomPainter {
       old.selected != selected || old.values != values || old.bar != bar || old.rtl != rtl;
 }
 
-/// "Demo controls" card used across partner screens.
-class DemoControls extends StatelessWidget {
-  const DemoControls({super.key, required this.label, required this.onTap});
-
-  final String label;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Container(
-      padding: const EdgeInsets.all(Space.md),
-      decoration: BoxDecoration(
-        borderRadius: Radii.mdAll,
-        border: Border.all(color: theme.colorScheme.outline),
-      ),
-      child: Row(
-        children: [
-          const Icon(Icons.science_outlined, size: 20),
-          const SizedBox(width: Space.sm),
-          Expanded(child: Text(context.t.demoControls, style: theme.textTheme.titleSmall)),
-          OutlinedButton(
-            style: OutlinedButton.styleFrom(minimumSize: const Size(0, Hit.min)),
-            onPressed: onTap,
-            child: Text(label),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 /// Language and appearance pickers shared by the shop and technician menus.
 List<Widget> settingsRows(BuildContext context, WidgetRef ref) {
   final t = context.t;
@@ -458,7 +427,9 @@ class HeaderSwitch extends StatelessWidget {
   });
 
   final bool value;
-  final ValueChanged<bool> onChanged;
+
+  /// Null while it can't be changed (still loading).
+  final ValueChanged<bool>? onChanged;
   final String title;
   final IconData icon;
 
@@ -488,4 +459,309 @@ class HeaderSwitch extends StatelessWidget {
       ),
     );
   }
+}
+
+/// A short message at the bottom of the screen.
+void showSnack(BuildContext context, String message) {
+  ScaffoldMessenger.of(context)
+    ..hideCurrentSnackBar()
+    ..showSnackBar(SnackBar(content: Text(message)));
+}
+
+/// The photo picker (camera or gallery); tests swap it for one that returns bytes.
+final photoPickerProvider = Provider<Future<PickedPhoto?> Function({required bool camera})>(
+  (ref) => Photos.pick,
+);
+
+/// Asks camera or gallery, then picks one photo (already shrunk for upload).
+Future<PickedPhoto?> pickPhoto(BuildContext context, WidgetRef ref) async {
+  final camera = await showModalBottomSheet<bool>(
+    context: context,
+    builder: (context) => SafeArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            leading: const Icon(Icons.photo_camera_outlined),
+            title: Text(context.core.photoCamera),
+            onTap: () => Navigator.pop(context, true),
+          ),
+          ListTile(
+            leading: const Icon(Icons.photo_library_outlined),
+            title: Text(context.core.photoGallery),
+            onTap: () => Navigator.pop(context, false),
+          ),
+        ],
+      ),
+    ),
+  );
+  if (camera == null) return null;
+  return ref.read(photoPickerProvider)(camera: camera);
+}
+
+/// Asks for a short text (a reason, an email) in a bottom sheet; null when dismissed.
+Future<String?> askText(
+  BuildContext context, {
+  required String title,
+  required String label,
+  String? initial,
+  String? hint,
+  String? submit,
+  int maxLines = 1,
+  TextInputType? keyboardType,
+  List<TextInputFormatter>? inputFormatters,
+}) => showModalBottomSheet<String>(
+  context: context,
+  isScrollControlled: true,
+  builder: (context) => _TextSheet(
+    title: title,
+    label: label,
+    initial: initial,
+    hint: hint,
+    submit: submit,
+    maxLines: maxLines,
+    keyboardType: keyboardType,
+    inputFormatters: inputFormatters,
+  ),
+);
+
+class _TextSheet extends StatefulWidget {
+  const _TextSheet({
+    required this.title,
+    required this.label,
+    this.initial,
+    this.hint,
+    this.submit,
+    this.maxLines = 1,
+    this.keyboardType,
+    this.inputFormatters,
+  });
+
+  final String title;
+  final String label;
+  final String? initial;
+  final String? hint;
+  final String? submit;
+  final int maxLines;
+  final TextInputType? keyboardType;
+  final List<TextInputFormatter>? inputFormatters;
+
+  @override
+  State<_TextSheet> createState() => _TextSheetState();
+}
+
+class _TextSheetState extends State<_TextSheet> {
+  late final _text = TextEditingController(text: widget.initial);
+
+  @override
+  void dispose() {
+    _text.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
+    child: SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(Space.page, 0, Space.page, Space.lg),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(widget.title, style: Theme.of(context).textTheme.titleLarge),
+            const SizedBox(height: Space.lg),
+            TextField(
+              controller: _text,
+              autofocus: true,
+              minLines: 1,
+              maxLines: widget.maxLines,
+              keyboardType: widget.keyboardType,
+              inputFormatters: widget.inputFormatters,
+              textDirection: widget.keyboardType == TextInputType.emailAddress
+                  ? TextDirection.ltr
+                  : null,
+              onChanged: (_) => setState(() {}),
+              decoration: InputDecoration(labelText: widget.label, hintText: widget.hint),
+            ),
+            const SizedBox(height: Space.lg),
+            FilledButton(
+              onPressed: _text.text.trim().isEmpty
+                  ? null
+                  : () => Navigator.pop(context, _text.text.trim()),
+              child: Text(widget.submit ?? context.core.actionNext),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+/// A shop's or technician's review state, when it isn't simply approved.
+class PartnerStatusPill extends StatelessWidget {
+  const PartnerStatusPill({super.key, required this.status});
+
+  final PartnerStatus status;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.t;
+    return StatusPill(
+      label: switch (status) {
+        PartnerStatus.pending => t.statusPending,
+        PartnerStatus.approved => t.statusApproved,
+        PartnerStatus.rejected => t.statusRejected,
+        PartnerStatus.suspended => t.statusSuspended,
+      },
+      tone: switch (status) {
+        PartnerStatus.pending => Tone.warning,
+        PartnerStatus.approved => Tone.success,
+        PartnerStatus.rejected || PartnerStatus.suspended => Tone.danger,
+      },
+      icon: switch (status) {
+        PartnerStatus.pending => Icons.hourglass_top,
+        PartnerStatus.approved => Icons.verified_outlined,
+        PartnerStatus.rejected || PartnerStatus.suspended => Icons.block,
+      },
+    );
+  }
+}
+
+/// The banner on a home screen while the shop or technician isn't approved: waiting for
+/// review (with what they can already do), or rejected / suspended with the reason.
+class ReviewBanner extends StatelessWidget {
+  const ReviewBanner({super.key, required this.status, this.reason, required this.pendingBody});
+
+  final PartnerStatus status;
+  final String? reason;
+  final String pendingBody;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.t;
+    if (status == PartnerStatus.approved) return const SizedBox.shrink();
+    final pending = status == PartnerStatus.pending;
+    final why = reason == null || reason!.isEmpty ? '' : '\n${t.statusReason(reason!)}';
+    return InfoBanner(
+      tone: pending ? Tone.warning : Tone.danger,
+      icon: pending ? Icons.hourglass_top : Icons.block,
+      message: pending
+          ? pendingBody
+          : '${status == PartnerStatus.rejected ? t.statusRejectedBody : t.statusSuspendedBody}$why',
+    );
+  }
+}
+
+/// Khartoum wall-clock "8:00 ص" for minutes after midnight.
+String clockOf(BuildContext context, int minutes) =>
+    context.time(DateTime.utc(2026, 1, 1).add(Duration(minutes: minutes)).subtract(khartoumOffset));
+
+/// A day's name for a database weekday (0 = Sunday … 6 = Saturday).
+String dayName(BuildContext context, int weekday) =>
+    context.weekday(DateTime.utc(2026, 10, 11 + weekday, 10));
+
+/// Saturday first: the Sudanese working week, as database weekdays.
+const weekOrder = [6, 0, 1, 2, 3, 4, 5];
+
+/// Picks a time of day (Khartoum), as minutes after midnight; null when dismissed.
+Future<int?> pickClock(BuildContext context, int minutes) async {
+  final picked = await showTimePicker(
+    context: context,
+    initialTime: TimeOfDay(hour: minutes ~/ 60 % 24, minute: minutes % 60),
+  );
+  return picked == null ? null : picked.hour * 60 + picked.minute;
+}
+
+/// Weekly hours, one window per day, Saturday first: a switch per day and the times to
+/// tap. Used for a shop's opening hours and a technician's working hours.
+class WeeklyHoursEditor extends StatelessWidget {
+  const WeeklyHoursEditor({
+    super.key,
+    required this.hours,
+    required this.onChanged,
+    this.defaultWindow = (480, 1200),
+  });
+
+  /// By database weekday; a missing or empty day is closed.
+  final Map<int, List<(int, int)>> hours;
+  final ValueChanged<Map<int, List<(int, int)>>> onChanged;
+  final (int, int) defaultWindow;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.t;
+    final theme = Theme.of(context);
+    return Column(
+      children: [
+        for (final (i, day) in weekOrder.indexed) ...[
+          if (i > 0) const Divider(height: 1),
+          Builder(
+            builder: (context) {
+              final windows = hours[day] ?? const [];
+              final open = windows.isNotEmpty;
+              final (start, end) = open ? (windows.first.$1, windows.last.$2) : defaultWindow;
+              void set(List<(int, int)> w) => onChanged({...hours, day: w});
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: Space.xs),
+                child: Row(
+                  children: [
+                    Expanded(child: Text(dayName(context, day), style: theme.textTheme.titleSmall)),
+                    if (open) ...[
+                      TextButton(
+                        onPressed: () async {
+                          final v = await pickClock(context, start);
+                          if (v != null && v < end) set([(v, end)]);
+                        },
+                        child: Text(clockOf(context, start)),
+                      ),
+                      const Text('–'),
+                      TextButton(
+                        onPressed: () async {
+                          final v = await pickClock(context, end);
+                          if (v != null && v > start) set([(start, v)]);
+                        },
+                        child: Text(clockOf(context, end)),
+                      ),
+                    ] else
+                      Text(
+                        t.dayOff,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    Switch(value: open, onChanged: (v) => set(v ? [defaultWindow] : const [])),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+/// A white icon button on the dark brand header, with an unread badge.
+class HeaderIconButton extends StatelessWidget {
+  const HeaderIconButton({
+    super.key,
+    required this.icon,
+    required this.tooltip,
+    required this.onPressed,
+    this.badge = 0,
+  });
+
+  final IconData icon;
+  final String tooltip;
+  final VoidCallback onPressed;
+  final int badge;
+
+  @override
+  Widget build(BuildContext context) => IconButton(
+    tooltip: tooltip,
+    onPressed: onPressed,
+    color: AppColors.of(context).onBrandSurface,
+    icon: Badge(isLabelVisible: badge > 0, label: Text('$badge'), child: Icon(icon)),
+  );
 }

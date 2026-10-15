@@ -5,7 +5,6 @@ import 'package:alghali_core/alghali_core.dart';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'connection.dart';
 import 'outbox.dart';
 import 'session.dart';
 
@@ -19,7 +18,7 @@ class InboxController extends AsyncNotifier<List<InboxItem>> with CachedList<Lis
   }
 
   @override
-  Future<List<InboxItem>> fetch() => ref.read(notificationsRepositoryProvider).list();
+  Future<List<InboxItem>> fetch() => ref.read(notificationsRepositoryProvider).list(app: 'buyer');
 
   /// Marks everything read at once; the server hears about it through the outbox.
   Future<void> markAllRead() async {
@@ -57,7 +56,7 @@ final unreadCountProvider = Provider<int>(
 final alertTemplatesProvider = FutureProvider<AlertTemplates>((ref) async {
   if (!ref.watch(backendReadyProvider)) return AlertTemplates.empty;
   try {
-    return await ref.watch(notificationsRepositoryProvider).templates('buyer');
+    return await ref.watch(notificationsRepositoryProvider).templates();
   } on BackendException {
     return AlertTemplates.empty;
   }

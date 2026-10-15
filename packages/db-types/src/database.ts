@@ -2591,6 +2591,7 @@ export type Database = {
           about_ar: string | null
           about_en: string | null
           approved_at: string | null
+          closed_until: string | null
           created_at: string
           created_by: string | null
           id: string
@@ -2620,6 +2621,7 @@ export type Database = {
           about_ar?: string | null
           about_en?: string | null
           approved_at?: string | null
+          closed_until?: string | null
           created_at?: string
           created_by?: string | null
           id?: string
@@ -2649,6 +2651,7 @@ export type Database = {
           about_ar?: string | null
           about_en?: string | null
           approved_at?: string | null
+          closed_until?: string | null
           created_at?: string
           created_by?: string | null
           id?: string
@@ -4043,6 +4046,7 @@ export type Database = {
         Args: { p_limit?: number; p_shop_id: string }
         Returns: Json[]
       }
+      shop_detail: { Args: { p_shop_id: string }; Returns: Json }
       shop_hand_over: { Args: { p_sub_order_id: string }; Returns: Json }
       shop_import_rows: {
         Args: {
@@ -4052,6 +4056,10 @@ export type Database = {
           p_rows: Json
           p_shop_id: string
         }
+        Returns: Json
+      }
+      shop_insights: {
+        Args: { p_days?: number; p_shop_id: string }
         Returns: Json
       }
       shop_json: { Args: { p_shop_id: string }; Returns: Json }
@@ -4082,6 +4090,10 @@ export type Database = {
       }
       shop_mark_delivered: { Args: { p_sub_order_id: string }; Returns: Json }
       shop_mark_ready: { Args: { p_sub_order_id: string }; Returns: Json }
+      shop_open_now: {
+        Args: { p_at: string; p_closed_until: string; p_hours: Json }
+        Returns: boolean
+      }
       shop_open_requests: {
         Args: { p_limit?: number; p_offset?: number; p_shop_id: string }
         Returns: Json[]
@@ -4102,6 +4114,10 @@ export type Database = {
       shop_remove_staff: {
         Args: { p_shop_id: string; p_user_id: string }
         Returns: undefined
+      }
+      shop_set_closed: {
+        Args: { p_shop_id: string; p_until: string }
+        Returns: Json
       }
       shop_set_listing_images: {
         Args: { p_base_keys: string[]; p_listing_id: string; p_shop_id: string }

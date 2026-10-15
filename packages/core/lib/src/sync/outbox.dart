@@ -70,6 +70,12 @@ class Outbox {
     unawaited(flush());
   }
 
+  /// What is waiting, oldest first: screens show queued changes again after a restart.
+  Future<List<({String operation, Json payload})>> queued() async => [
+    for (final e in await _db.pending())
+      (operation: e.operation, payload: jsonDecode(e.payload) as Json),
+  ];
+
   /// Sends every due entry, oldest first. Returns how many are still waiting.
   /// A call made while a run is going waits for it, then runs once more (the running one
   /// may have missed what was just queued).

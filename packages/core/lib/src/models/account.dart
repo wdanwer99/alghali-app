@@ -92,20 +92,42 @@ class ShopMembership {
   final String? statusReason;
 }
 
+/// The user's technician record and its review state (`me().technician`).
+@immutable
+class TechnicianMembership {
+  const TechnicianMembership({required this.id, required this.status, this.statusReason});
+
+  factory TechnicianMembership.fromJson(Json j) => TechnicianMembership(
+    id: j['technician_id'] as String,
+    status: PartnerStatus.fromCode(j['status'] as String),
+    statusReason: j['status_reason'] as String?,
+  );
+
+  final String id;
+  final PartnerStatus status;
+  final String? statusReason;
+}
+
 /// The signed-in user, from the `me()` RPC.
 @immutable
 class Account {
-  const Account({required this.profile, required this.roles, required this.shops});
+  const Account({required this.profile, required this.roles, required this.shops, this.technician});
 
   factory Account.fromJson(Json j) => Account(
     profile: Profile.fromJson(j['profile'] as Json),
     roles: {for (final r in (j['roles'] as List).cast<String>()) ?AppRole.fromCode(r)},
     shops: [for (final s in (j['shops'] as List).cast<Json>()) ShopMembership.fromJson(s)],
+    technician: j['technician'] == null
+        ? null
+        : TechnicianMembership.fromJson(j['technician'] as Json),
   );
 
   final Profile profile;
   final Set<AppRole> roles;
   final List<ShopMembership> shops;
+
+  /// Null until the user applies as a technician.
+  final TechnicianMembership? technician;
 
   bool get isAdmin => roles.contains(AppRole.admin);
   bool has(AppRole role) => roles.contains(role);

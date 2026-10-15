@@ -149,6 +149,10 @@ const AUTHENTICATED_FUNCTIONS = [
   'tech_statement',
   'tech_update_location',
   'tech_update_profile',
+  // M5 partner app
+  'shop_detail',
+  'shop_insights',
+  'shop_set_closed',
 ].sort();
 
 describe.skipIf(!hasDb)('security baseline', () => {

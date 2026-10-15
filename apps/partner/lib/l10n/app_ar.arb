@@ -52,27 +52,19 @@
   "@signInForgot": {
     "description": "Link"
   },
-  "signInForgotSent": "سنرسل رابط إعادة التعيين إلى بريدك عند تفعيل خدمة البريد.",
+  "signInForgotSent": "إذا كان لهذا البريد حساب، سيصلك رابط لتغيير كلمة المرور.",
   "@signInForgotSent": {
     "description": "Snackbar"
   },
-  "signInDemoHint": "في النسخة التجريبية يعمل أي بريد صحيح مع كلمة مرور من 8 أحرف فيها أرقام.",
-  "@signInDemoHint": {
-    "description": "Demo hint"
-  },
-  "signInApply": "محل أو فني جديد؟ قدّم طلب انضمام",
+  "signInApply": "محل أو فني جديد؟ أنشئ حساباً",
   "@signInApply": {
     "description": "Link for new partners"
-  },
-  "applySoon": "يُفتح التقديم من التطبيق قريبًا. تواصل مع فريق المنصة حاليًا.",
-  "@applySoon": {
-    "description": "Applying is not in the app yet"
   },
   "roleTitle": "كيف تريد المتابعة؟",
   "@roleTitle": {
     "description": "Role chooser title"
   },
-  "roleBody": "حسابك مرتبط بمحل وبملف فني تركيب.",
+  "roleBody": "اختر ما تريد فتحه من أعمالك. يمكنك التبديل في أي وقت من القائمة.",
   "@roleBody": {
     "description": "Role chooser explanation"
   },
@@ -120,10 +112,6 @@
   "shopIsOpen": "المحل مفتوح لاستقبال الطلبات",
   "@shopIsOpen": {
     "description": "Open toggle on"
-  },
-  "shopIsClosed": "المحل مغلق — لن تظهر قطعك للمشترين",
-  "@shopIsClosed": {
-    "description": "Open toggle off"
   },
   "kpiNewOrders": "طلبات جديدة",
   "@kpiNewOrders": {
@@ -224,10 +212,6 @@
         "type": "String"
       }
     }
-  },
-  "orderAwaitingPayment": "بانتظار دفع المشتري — لا تجهّز بعد",
-  "@orderAwaitingPayment": {
-    "description": "Banner"
   },
   "toTechWith": "للفني {name} · {time}",
   "@toTechWith": {
@@ -419,10 +403,6 @@
   "@bulkPriceBy": {
     "description": "Bulk action label"
   },
-  "bulkApply": "تطبيق",
-  "@bulkApply": {
-    "description": "Button"
-  },
   "bulkDone": "{count, plural, =1{حُدّث سعر قطعة واحدة} =2{حُدّث سعر قطعتين} few{حُدّثت أسعار {count} قطع} other{حُدّثت أسعار {count} قطعة}}",
   "@bulkDone": {
     "description": "Snackbar",
@@ -484,10 +464,6 @@
   "@takePhoto": {
     "description": "Button"
   },
-  "photoAdded": "تمت إضافة الصورة",
-  "@photoAdded": {
-    "description": "State"
-  },
   "categoryTitle": "ما القطعة؟",
   "@categoryTitle": {
     "description": "Step title"
@@ -535,10 +511,6 @@
   "draftSaved": "حُفظت المسودة",
   "@draftSaved": {
     "description": "Snackbar"
-  },
-  "draft": "مسودة",
-  "@draft": {
-    "description": "Pill"
   },
   "quotesBody": "مشترون أرسلوا صورًا لقطع يبحثون عنها. أرسل عرضك قبل انتهاء الطلب.",
   "@quotesBody": {
@@ -745,15 +717,6 @@
   "@staffInviteSent": {
     "description": "Snackbar"
   },
-  "lastActive": "آخر نشاط {ago}",
-  "@lastActive": {
-    "description": "Activity",
-    "placeholders": {
-      "ago": {
-        "type": "String"
-      }
-    }
-  },
   "insightsSales7": "المبيعات آخر 7 أيام",
   "@insightsSales7": {
     "description": "Chart title"
@@ -928,10 +891,6 @@
   "@jobCustomer": {
     "description": "Section"
   },
-  "jobCar": "السيارة",
-  "@jobCar": {
-    "description": "Section"
-  },
   "jobWork": "العمل",
   "@jobWork": {
     "description": "Section"
@@ -1081,7 +1040,7 @@
   "@noTimeOff": {
     "description": "Empty state"
   },
-  "timeOffAdded": "أُضيفت إجازة غدًا طوال اليوم",
+  "timeOffAdded": "أضيفت الإجازة",
   "@timeOffAdded": {
     "description": "Snackbar (demo adds a full day tomorrow)"
   },
@@ -1145,20 +1104,677 @@
       }
     }
   },
-  "demoControls": "أدوات العرض التجريبي",
-  "@demoControls": {
-    "description": "Card title (demo only)"
+  "forgotSend": "أرسل الرابط",
+  "@forgotSend": {
+    "description": "Button in the forgot-password sheet"
   },
-  "demoNewOrder": "محاكاة طلب جديد",
-  "@demoNewOrder": {
-    "description": "Demo button"
+  "signUpTitle": "حساب شريك جديد",
+  "@signUpTitle": {
+    "description": "Sign-up screen title"
   },
-  "demoNewOffer": "محاكاة عرض عمل جديد",
-  "@demoNewOffer": {
-    "description": "Demo button"
+  "signUpBody": "لأصحاب المحلات وموظفيهم وفنيي التركيب. بعدها تختار كيف تعمل معنا.",
+  "@signUpBody": {
+    "description": "Sign-up intro"
   },
-  "demoNewQuote": "محاكاة طلب تسعير جديد",
-  "@demoNewQuote": {
-    "description": "Demo button"
+  "fieldName": "الاسم الكامل",
+  "@fieldName": {
+    "description": "Field label"
+  },
+  "fieldPhone": "رقم الجوال",
+  "@fieldPhone": {
+    "description": "Field label"
+  },
+  "fieldWhatsapp": "رقم واتساب (اختياري)",
+  "@fieldWhatsapp": {
+    "description": "Field label"
+  },
+  "signUpSubmit": "إنشاء الحساب",
+  "@signUpSubmit": {
+    "description": "Button"
+  },
+  "signUpHaveAccount": "لديك حساب؟ سجّل الدخول",
+  "@signUpHaveAccount": {
+    "description": "Link"
+  },
+  "roleShopStaff": "موظف في المحل",
+  "@roleShopStaff": {
+    "description": "Role card subtitle for staff"
+  },
+  "applyAddShop": "أضف محلاً",
+  "@applyAddShop": {
+    "description": "Button on the role screen"
+  },
+  "applyAsTechnician": "قدّم كفني تركيب",
+  "@applyAsTechnician": {
+    "description": "Button on the role screen"
+  },
+  "statusPending": "قيد المراجعة",
+  "@statusPending": {
+    "description": "Shop or technician review state"
+  },
+  "statusApproved": "معتمد",
+  "@statusApproved": {
+    "description": "Review state"
+  },
+  "statusRejected": "مرفوض",
+  "@statusRejected": {
+    "description": "Review state"
+  },
+  "statusSuspended": "موقوف",
+  "@statusSuspended": {
+    "description": "Review state"
+  },
+  "statusRejectedBody": "لم يُعتمد طلبك. تواصل مع فريق المنصة لمعرفة المطلوب.",
+  "@statusRejectedBody": {
+    "description": "Banner"
+  },
+  "statusSuspendedBody": "الحساب موقوف مؤقتاً، ولا يظهر للمشترين. تواصل مع فريق المنصة.",
+  "@statusSuspendedBody": {
+    "description": "Banner"
+  },
+  "statusReason": "السبب: {reason}",
+  "@statusReason": {
+    "description": "The admin reason under a review banner",
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "shopPendingBody": "طلب المحل قيد المراجعة. جهّز قطعك وأسعارك الآن، وستظهر للمشترين بعد الاعتماد.",
+  "@shopPendingBody": {
+    "description": "Banner on the shop home while pending"
+  },
+  "techPendingBody": "طلبك قيد المراجعة. ستصلك عروض العمل بعد الاعتماد؛ أكمل ساعات عملك وأسعارك الآن.",
+  "@techPendingBody": {
+    "description": "Banner on the jobs screen while pending"
+  },
+  "applyTitle": "انضم إلى شارع الغالي",
+  "@applyTitle": {
+    "description": "Apply screen title"
+  },
+  "applyHello": "أهلاً {name}",
+  "@applyHello": {
+    "description": "Apply screen greeting",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "applyBody": "كيف ستعمل معنا؟ يراجع فريق المنصة طلبك عادة خلال يوم عمل.",
+  "@applyBody": {
+    "description": "Apply intro"
+  },
+  "applyShopTitle": "عندي محل في الشارع",
+  "@applyShopTitle": {
+    "description": "Choice title / screen title"
+  },
+  "applyShopBody": "اعرض قطعك، واستقبل الطلبات وطلبات الأسعار.",
+  "@applyShopBody": {
+    "description": "Choice body"
+  },
+  "applyTechTitle": "أنا فني تركيب",
+  "@applyTechTitle": {
+    "description": "Choice title / screen title"
+  },
+  "applyTechBody": "استقبل أعمال التركيب في ورشة على الشارع أو عند الزبون.",
+  "@applyTechBody": {
+    "description": "Choice body"
+  },
+  "applyStaffNote": "تعمل في محل مسجّل؟ لا تقدّم طلباً — اطلب من صاحب المحل إضافتك ببريدك هذا.",
+  "@applyStaffNote": {
+    "description": "Note for staff"
+  },
+  "applyShopNote": "اسم المحل ومكانه في الشارع يظهران للمشترين بعد الاعتماد.",
+  "@applyShopNote": {
+    "description": "Banner at the top of the shop form"
+  },
+  "applySectionShop": "المحل",
+  "@applySectionShop": {
+    "description": "Form section"
+  },
+  "applySectionPlace": "المكان في الشارع",
+  "@applySectionPlace": {
+    "description": "Form section"
+  },
+  "applySectionContact": "التواصل",
+  "@applySectionContact": {
+    "description": "Form section"
+  },
+  "applySubmit": "أرسل الطلب",
+  "@applySubmit": {
+    "description": "Button"
+  },
+  "applySent": "أرسلنا طلبك للمراجعة",
+  "@applySent": {
+    "description": "Snack bar"
+  },
+  "shopNameAr": "اسم المحل بالعربية",
+  "@shopNameAr": {
+    "description": "Field label"
+  },
+  "shopNameEn": "اسم المحل بالإنجليزية (اختياري)",
+  "@shopNameEn": {
+    "description": "Field label"
+  },
+  "shopZone": "المنطقة",
+  "@shopZone": {
+    "description": "Field label"
+  },
+  "shopPlot": "رقم القطعة",
+  "@shopPlot": {
+    "description": "Field label"
+  },
+  "shopSideA": "الجهة أ",
+  "@shopSideA": {
+    "description": "Street side"
+  },
+  "shopSideB": "الجهة ب",
+  "@shopSideB": {
+    "description": "Street side"
+  },
+  "shopLandmark": "علامة مميزة",
+  "@shopLandmark": {
+    "description": "Field label"
+  },
+  "shopLandmarkHint": "مثلاً: مقابل محطة الوقود",
+  "@shopLandmarkHint": {
+    "description": "Field hint"
+  },
+  "shopAbout": "عن المحل (اختياري)",
+  "@shopAbout": {
+    "description": "Field label"
+  },
+  "shopHours": "ساعات العمل",
+  "@shopHours": {
+    "description": "Form section"
+  },
+  "shopSells": "ماذا تبيع؟",
+  "@shopSells": {
+    "description": "Form section"
+  },
+  "shopMakes": "السيارات التي تخدمها",
+  "@shopMakes": {
+    "description": "Form section"
+  },
+  "shopMakesBody": "اتركها فارغة إذا كنت تخدم كل الأنواع.",
+  "@shopMakesBody": {
+    "description": "Hint"
+  },
+  "applyTechNote": "يراجع الفريق خبرتك قبل وصول أول عرض عمل.",
+  "@applyTechNote": {
+    "description": "Banner at the top of the technician form"
+  },
+  "techApplyBay": "الورشة التي تعمل فيها",
+  "@techApplyBay": {
+    "description": "Field label"
+  },
+  "techApplyBayHelp": "محل أو ورشة على الشارع يركّب فيه الزبائن",
+  "@techApplyBayHelp": {
+    "description": "Field helper"
+  },
+  "techApplyHome": "حدّد موقعي الحالي كنقطة الانطلاق",
+  "@techApplyHome": {
+    "description": "Button"
+  },
+  "techApplyHomeSet": "حُدّد موقعك",
+  "@techApplyHomeSet": {
+    "description": "Button after setting / snack bar"
+  },
+  "techApplyHomeBody": "تُحسب مسافة الزيارات من هنا، ولا يراها الزبائن.",
+  "@techApplyHomeBody": {
+    "description": "Hint"
+  },
+  "techApplyJobsBody": "اكتب سعر المصنعية لكل نوع عمل تقوم به، واترك الباقي فارغاً.",
+  "@techApplyJobsBody": {
+    "description": "Hint"
+  },
+  "techApplyMakes": "السيارات التي تعمل عليها",
+  "@techApplyMakes": {
+    "description": "Form section"
+  },
+  "techApplyMakesBody": "اتركها فارغة إذا كنت تعمل على كل الأنواع.",
+  "@techApplyMakesBody": {
+    "description": "Hint"
+  },
+  "techApplyYears": "سنوات الخبرة",
+  "@techApplyYears": {
+    "description": "Field label"
+  },
+  "techApplyBio": "نبذة عنك (اختياري)",
+  "@techApplyBio": {
+    "description": "Field label"
+  },
+  "techApplyNeedJob": "اختر نوع عمل واحداً على الأقل مع سعره.",
+  "@techApplyNeedJob": {
+    "description": "Validation"
+  },
+  "techApplyNeedBay": "اختر الورشة التي تعمل فيها.",
+  "@techApplyNeedBay": {
+    "description": "Validation"
+  },
+  "techApplyNeedHome": "حدّد موقع انطلاقك للزيارات.",
+  "@techApplyNeedHome": {
+    "description": "Validation"
+  },
+  "homeUpdate": "حدّث موقع الانطلاق",
+  "@homeUpdate": {
+    "description": "Button"
+  },
+  "addJobType": "أضف نوع عمل",
+  "@addJobType": {
+    "description": "Button / sheet title"
+  },
+  "chatsTitle": "الرسائل",
+  "@chatsTitle": {
+    "description": "Chats screen title"
+  },
+  "notificationsTitle": "التنبيهات",
+  "@notificationsTitle": {
+    "description": "Inbox screen title"
+  },
+  "shopClosedToday": "المحل مغلق اليوم — يظهر مغلقاً للمشترين",
+  "@shopClosedToday": {
+    "description": "Header switch when closed for the day"
+  },
+  "shopOutsideHours": "خارج ساعات العمل الآن",
+  "@shopOutsideHours": {
+    "description": "Header switch outside hours"
+  },
+  "orderAccepted": "قُبل الطلب",
+  "@orderAccepted": {
+    "description": "Snack bar"
+  },
+  "orderRejected": "اعتذرت عن الطلب، وسيُعاد المبلغ للمشتري",
+  "@orderRejected": {
+    "description": "Snack bar"
+  },
+  "orderMarkedReady": "القطعة جاهزة",
+  "@orderMarkedReady": {
+    "description": "Snack bar"
+  },
+  "orderHandedOver": "تم التسليم",
+  "@orderHandedOver": {
+    "description": "Snack bar"
+  },
+  "orderDelivered": "تم التوصيل",
+  "@orderDelivered": {
+    "description": "Snack bar"
+  },
+  "orderNotHere": "لم نجد هذا الطلب في محلك",
+  "@orderNotHere": {
+    "description": "Empty state"
+  },
+  "returnRequested": "طلب المشتري الإرجاع: {reason}",
+  "@returnRequested": {
+    "description": "Banner",
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "waitTechAccept": "سلّم القطعة بعد أن يقبل الفني العمل.",
+  "@waitTechAccept": {
+    "description": "Banner"
+  },
+  "callTechnician": "اتصل بالفني",
+  "@callTechnician": {
+    "description": "Button"
+  },
+  "cashCollected": "استلمت المبلغ نقداً",
+  "@cashCollected": {
+    "description": "Banner"
+  },
+  "rejectOtherLabel": "اكتب السبب للمشتري",
+  "@rejectOtherLabel": {
+    "description": "Field label"
+  },
+  "openOrder": "افتح الطلب",
+  "@openOrder": {
+    "description": "Tooltip"
+  },
+  "chatsEmpty": "لا توجد رسائل بعد",
+  "@chatsEmpty": {
+    "description": "Empty state"
+  },
+  "chatsEmptyBody": "عندما يراسلك مشترٍ ستظهر محادثته هنا.",
+  "@chatsEmptyBody": {
+    "description": "Empty state body"
+  },
+  "chatEmpty": "ابدأ المحادثة",
+  "@chatEmpty": {
+    "description": "Empty chat"
+  },
+  "chatHint": "اكتب رسالة",
+  "@chatHint": {
+    "description": "Chat field hint"
+  },
+  "chatSend": "إرسال",
+  "@chatSend": {
+    "description": "Tooltip"
+  },
+  "chatVoiceNote": "رسالة صوتية",
+  "@chatVoiceNote": {
+    "description": "Chat preview"
+  },
+  "notificationsEmpty": "لا توجد تنبيهات",
+  "@notificationsEmpty": {
+    "description": "Empty state"
+  },
+  "notificationsEmptyBody": "ستصلك هنا الطلبات الجديدة وعروض العمل والرسائل.",
+  "@notificationsEmptyBody": {
+    "description": "Empty state body"
+  },
+  "notificationsGeneric": "تنبيه",
+  "@notificationsGeneric": {
+    "description": "Title when no template exists"
+  },
+  "notificationsMarkRead": "تعليم الكل كمقروء",
+  "@notificationsMarkRead": {
+    "description": "Button"
+  },
+  "helpBody": "فريق المنصة يساعدك في الطلبات والمدفوعات والحساب.",
+  "@helpBody": {
+    "description": "Help sheet"
+  },
+  "stockEmpty": "لا توجد قطع بعد",
+  "@stockEmpty": {
+    "description": "Empty state"
+  },
+  "stockEmptyBody": "أضف قطعة بالصورة، أو استورد ملف Excel.",
+  "@stockEmptyBody": {
+    "description": "Empty state body"
+  },
+  "stockNoMatch": "لا توجد قطع تطابق البحث",
+  "@stockNoMatch": {
+    "description": "Empty state"
+  },
+  "reservedQty": "محجوز {count}",
+  "@reservedQty": {
+    "description": "Pill: units held by open orders",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reservedNote": "{count} محجوزة لطلبات مفتوحة",
+  "@reservedNote": {
+    "description": "Hint in the edit sheet",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "priceOnRequest": "السعر عند الطلب",
+  "@priceOnRequest": {
+    "description": "Stock row"
+  },
+  "archive": "احذف من المحل",
+  "@archive": {
+    "description": "Button"
+  },
+  "archiveTitle": "حذف القطعة؟",
+  "@archiveTitle": {
+    "description": "Dialog title"
+  },
+  "archiveBody": "لن تظهر للمشترين بعد الآن. الطلبات المؤكدة لا تتأثر.",
+  "@archiveBody": {
+    "description": "Dialog body"
+  },
+  "listingQueued": "هذه القطعة بانتظار الاتصال لإرسالها. عدّلها بعد ظهورها في القائمة.",
+  "@listingQueued": {
+    "description": "Edit sheet banner"
+  },
+  "listingSavedOffline": "حُفظت القطعة وستُرسل عند عودة الاتصال",
+  "@listingSavedOffline": {
+    "description": "Snack bar"
+  },
+  "retakePhoto": "صورة أخرى",
+  "@retakePhoto": {
+    "description": "Button"
+  },
+  "noPhoto": "بدون صورة الآن",
+  "@noPhoto": {
+    "description": "Checkbox"
+  },
+  "fromCatalogue": "من دليل القطع",
+  "@fromCatalogue": {
+    "description": "Chosen suggestion subtitle"
+  },
+  "suggestionsTitle": "هل تقصد؟",
+  "@suggestionsTitle": {
+    "description": "Suggestions heading"
+  },
+  "carsFromCatalogue": "السيارات المناسبة لهذه القطعة محددة في الدليل.",
+  "@carsFromCatalogue": {
+    "description": "Banner"
+  },
+  "importCheckTitle": "فحص الملف",
+  "@importCheckTitle": {
+    "description": "Sheet title"
+  },
+  "importCheckBody": "سيُضاف {created} ويُحدَّث {updated}، وفيه {failed} صفوف بها مشاكل.",
+  "@importCheckBody": {
+    "description": "Dry-run summary",
+    "placeholders": {
+      "created": {
+        "type": "int"
+      },
+      "updated": {
+        "type": "int"
+      },
+      "failed": {
+        "type": "int"
+      }
+    }
+  },
+  "importRow": "الصف {row}",
+  "@importRow": {
+    "description": "Problem row",
+    "placeholders": {
+      "row": {
+        "type": "int"
+      }
+    }
+  },
+  "importGo": "{count, plural, =1{استورد صفاً واحداً} =2{استورد صفين} few{استورد {count} صفوف} other{استورد {count} صفاً}}",
+  "@importGo": {
+    "description": "Button",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importDone": "أضيفت {created} وحُدّثت {updated}، وتُركت {failed}",
+  "@importDone": {
+    "description": "Snack bar",
+    "placeholders": {
+      "created": {
+        "type": "int"
+      },
+      "updated": {
+        "type": "int"
+      },
+      "failed": {
+        "type": "int"
+      }
+    }
+  },
+  "importErrName": "اسم القطعة ناقص",
+  "@importErrName": {
+    "description": "Row problem"
+  },
+  "importErrCategory": "الفئة ناقصة أو غير معروفة",
+  "@importErrCategory": {
+    "description": "Row problem"
+  },
+  "importErrCondition": "الحالة ناقصة أو غير صحيحة",
+  "@importErrCondition": {
+    "description": "Row problem"
+  },
+  "importErrPrice": "السعر ناقص أو غير صحيح",
+  "@importErrPrice": {
+    "description": "Row problem"
+  },
+  "importErrQty": "الكمية غير صحيحة",
+  "@importErrQty": {
+    "description": "Row problem"
+  },
+  "importErrWarranty": "الضمان غير صحيح",
+  "@importErrWarranty": {
+    "description": "Row problem"
+  },
+  "importErrSku": "الرمز مكرر",
+  "@importErrSku": {
+    "description": "Row problem"
+  },
+  "importErrReserved": "الكمية أقل من المحجوز لطلبات مفتوحة",
+  "@importErrReserved": {
+    "description": "Row problem"
+  },
+  "importErrValue": "قيمة غير صحيحة",
+  "@importErrValue": {
+    "description": "Row problem"
+  },
+  "importWarnModel": "سيارة غير معروفة (تجاهلناها):",
+  "@importWarnModel": {
+    "description": "Row warning"
+  },
+  "changeOffer": "تعديل",
+  "@changeOffer": {
+    "description": "Button"
+  },
+  "statementEmpty": "لا حركات في آخر 30 يوماً",
+  "@statementEmpty": {
+    "description": "Empty statement"
+  },
+  "staffAdded": "أضيف {date}",
+  "@staffAdded": {
+    "description": "Staff subtitle",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "staffRemoveTitle": "إزالة {name}؟",
+  "@staffRemoveTitle": {
+    "description": "Dialog title",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "staffRemoveBody": "لن يستطيع إدارة طلبات المحل ومخزونه بعد الآن.",
+  "@staffRemoveBody": {
+    "description": "Dialog body"
+  },
+  "insightsNoSales": "لا مبيعات في هذه الأيام بعد",
+  "@insightsNoSales": {
+    "description": "Empty top sellers"
+  },
+  "profileNameNote": "لتغيير الاسم أو المكان في الشارع، تواصل مع فريق المنصة.",
+  "@profileNameNote": {
+    "description": "Profile note"
+  },
+  "atCustomerPlace": "عند الزبون",
+  "@atCustomerPlace": {
+    "description": "Job place without a distance"
+  },
+  "jobAndMore": "{first} و{count} أخرى",
+  "@jobAndMore": {
+    "description": "Job title with more items",
+    "placeholders": {
+      "first": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "jobRef": "رقم العمل {ref}",
+  "@jobRef": {
+    "description": "Booking reference",
+    "placeholders": {
+      "ref": {
+        "type": "String"
+      }
+    }
+  },
+  "onMyWayDone": "الزبون يرى موقعك الآن حتى تصل",
+  "@onMyWayDone": {
+    "description": "Snack bar"
+  },
+  "checkedIn": "بدأ العمل",
+  "@checkedIn": {
+    "description": "Snack bar"
+  },
+  "sharingLocation": "يُشارك موقعك مع الزبون أثناء الطريق.",
+  "@sharingLocation": {
+    "description": "Banner"
+  },
+  "partCollected": "استلمت القطعة من {shop}",
+  "@partCollected": {
+    "description": "Part row",
+    "placeholders": {
+      "shop": {
+        "type": "String"
+      }
+    }
+  },
+  "partNotFitReason": "ما المشكلة؟",
+  "@partNotFitReason": {
+    "description": "Field label"
+  },
+  "partNotFitDone": "سُجّل أن القطعة لا تناسب، وفُتح طلب إرجاع",
+  "@partNotFitDone": {
+    "description": "Snack bar"
+  },
+  "dropJob": "لا أستطيع الحضور",
+  "@dropJob": {
+    "description": "Button / sheet title"
+  },
+  "dropJobReason": "السبب",
+  "@dropJobReason": {
+    "description": "Field label"
+  },
+  "dropJobBody": "يذهب العمل لفني آخر في نفس الموعد. الاعتذار المتكرر يؤثر على تقييمك.",
+  "@dropJobBody": {
+    "description": "Sheet hint"
+  },
+  "dropJobDone": "أُرسل العمل لفني آخر",
+  "@dropJobDone": {
+    "description": "Snack bar"
+  },
+  "youEarnLabel": "لك",
+  "@youEarnLabel": {
+    "description": "Pay total label"
+  },
+  "editHours": "تعديل الساعات",
+  "@editHours": {
+    "description": "Tooltip"
+  },
+  "addPeriod": "أضف فترة",
+  "@addPeriod": {
+    "description": "Button"
+  },
+  "periodsOverlap": "تأكد أن كل فترة تنتهي بعد بدايتها ولا تتداخل مع غيرها.",
+  "@periodsOverlap": {
+    "description": "Validation"
+  },
+  "timeOffDefault": "إجازة",
+  "@timeOffDefault": {
+    "description": "Time off without a reason"
+  },
+  "earningsNotYet": "ستظهر أرباحك هنا بعد الاعتماد",
+  "@earningsNotYet": {
+    "description": "Empty state"
   }
 }

@@ -338,6 +338,7 @@ class Shop {
     this.storefrontKey,
     this.lat,
     this.lng,
+    this.closedUntil,
   });
 
   /// From `shop_json()` (catalogue snapshot, shop RPCs). [hours] is left empty: the UI
@@ -365,6 +366,7 @@ class Shop {
     storefrontKey: j['storefront_key'] as String?,
     lat: (j['lat'] as num?)?.toDouble(),
     lng: (j['lng'] as num?)?.toDouble(),
+    closedUntil: DateTime.tryParse(j['closed_until'] as String? ?? ''),
   );
 
   final String id;
@@ -394,6 +396,9 @@ class Shop {
   /// starting point.
   final double? lat;
   final double? lng;
+
+  /// "Closed today": the shop closed itself until then (D-119).
+  final DateTime? closedUntil;
 }
 
 enum ListingCondition {

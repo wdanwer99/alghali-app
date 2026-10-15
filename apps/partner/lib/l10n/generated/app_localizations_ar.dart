@@ -49,23 +49,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get signInForgot => 'نسيت كلمة المرور؟';
 
   @override
-  String get signInForgotSent => 'سنرسل رابط إعادة التعيين إلى بريدك عند تفعيل خدمة البريد.';
+  String get signInForgotSent => 'إذا كان لهذا البريد حساب، سيصلك رابط لتغيير كلمة المرور.';
 
   @override
-  String get signInDemoHint =>
-      'في النسخة التجريبية يعمل أي بريد صحيح مع كلمة مرور من 8 أحرف فيها أرقام.';
-
-  @override
-  String get signInApply => 'محل أو فني جديد؟ قدّم طلب انضمام';
-
-  @override
-  String get applySoon => 'يُفتح التقديم من التطبيق قريبًا. تواصل مع فريق المنصة حاليًا.';
+  String get signInApply => 'محل أو فني جديد؟ أنشئ حساباً';
 
   @override
   String get roleTitle => 'كيف تريد المتابعة؟';
 
   @override
-  String get roleBody => 'حسابك مرتبط بمحل وبملف فني تركيب.';
+  String get roleBody => 'اختر ما تريد فتحه من أعمالك. يمكنك التبديل في أي وقت من القائمة.';
 
   @override
   String get roleShop => 'صاحب محل';
@@ -98,9 +91,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get shopIsOpen => 'المحل مفتوح لاستقبال الطلبات';
-
-  @override
-  String get shopIsClosed => 'المحل مغلق — لن تظهر قطعك للمشترين';
 
   @override
   String get kpiNewOrders => 'طلبات جديدة';
@@ -177,9 +167,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String orderFrom(String buyer) {
     return 'من $buyer';
   }
-
-  @override
-  String get orderAwaitingPayment => 'بانتظار دفع المشتري — لا تجهّز بعد';
 
   @override
   String toTechWith(String name, String time) {
@@ -318,9 +305,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get bulkPriceBy => 'تغيير الأسعار بنسبة';
 
   @override
-  String get bulkApply => 'تطبيق';
-
-  @override
   String bulkDone(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -374,9 +358,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get takePhoto => 'التقاط صورة';
 
   @override
-  String get photoAdded => 'تمت إضافة الصورة';
-
-  @override
   String get categoryTitle => 'ما القطعة؟';
 
   @override
@@ -411,9 +392,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get draftSaved => 'حُفظت المسودة';
-
-  @override
-  String get draft => 'مسودة';
 
   @override
   String get quotesBody => 'مشترون أرسلوا صورًا لقطع يبحثون عنها. أرسل عرضك قبل انتهاء الطلب.';
@@ -578,11 +556,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get staffInviteSent => 'أُرسلت الدعوة';
 
   @override
-  String lastActive(String ago) {
-    return 'آخر نشاط $ago';
-  }
-
-  @override
   String get insightsSales7 => 'المبيعات آخر 7 أيام';
 
   @override
@@ -711,9 +684,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get jobCustomer => 'العميل';
 
   @override
-  String get jobCar => 'السيارة';
-
-  @override
   String get jobWork => 'العمل';
 
   @override
@@ -826,7 +796,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get noTimeOff => 'لا توجد إجازات قادمة';
 
   @override
-  String get timeOffAdded => 'أُضيفت إجازة غدًا طوال اليوم';
+  String get timeOffAdded => 'أضيفت الإجازة';
 
   @override
   String get earningsWeek => 'أرباح هذا الأسبوع';
@@ -876,14 +846,482 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get demoControls => 'أدوات العرض التجريبي';
+  String get forgotSend => 'أرسل الرابط';
 
   @override
-  String get demoNewOrder => 'محاكاة طلب جديد';
+  String get signUpTitle => 'حساب شريك جديد';
 
   @override
-  String get demoNewOffer => 'محاكاة عرض عمل جديد';
+  String get signUpBody => 'لأصحاب المحلات وموظفيهم وفنيي التركيب. بعدها تختار كيف تعمل معنا.';
 
   @override
-  String get demoNewQuote => 'محاكاة طلب تسعير جديد';
+  String get fieldName => 'الاسم الكامل';
+
+  @override
+  String get fieldPhone => 'رقم الجوال';
+
+  @override
+  String get fieldWhatsapp => 'رقم واتساب (اختياري)';
+
+  @override
+  String get signUpSubmit => 'إنشاء الحساب';
+
+  @override
+  String get signUpHaveAccount => 'لديك حساب؟ سجّل الدخول';
+
+  @override
+  String get roleShopStaff => 'موظف في المحل';
+
+  @override
+  String get applyAddShop => 'أضف محلاً';
+
+  @override
+  String get applyAsTechnician => 'قدّم كفني تركيب';
+
+  @override
+  String get statusPending => 'قيد المراجعة';
+
+  @override
+  String get statusApproved => 'معتمد';
+
+  @override
+  String get statusRejected => 'مرفوض';
+
+  @override
+  String get statusSuspended => 'موقوف';
+
+  @override
+  String get statusRejectedBody => 'لم يُعتمد طلبك. تواصل مع فريق المنصة لمعرفة المطلوب.';
+
+  @override
+  String get statusSuspendedBody => 'الحساب موقوف مؤقتاً، ولا يظهر للمشترين. تواصل مع فريق المنصة.';
+
+  @override
+  String statusReason(String reason) {
+    return 'السبب: $reason';
+  }
+
+  @override
+  String get shopPendingBody =>
+      'طلب المحل قيد المراجعة. جهّز قطعك وأسعارك الآن، وستظهر للمشترين بعد الاعتماد.';
+
+  @override
+  String get techPendingBody =>
+      'طلبك قيد المراجعة. ستصلك عروض العمل بعد الاعتماد؛ أكمل ساعات عملك وأسعارك الآن.';
+
+  @override
+  String get applyTitle => 'انضم إلى شارع الغالي';
+
+  @override
+  String applyHello(String name) {
+    return 'أهلاً $name';
+  }
+
+  @override
+  String get applyBody => 'كيف ستعمل معنا؟ يراجع فريق المنصة طلبك عادة خلال يوم عمل.';
+
+  @override
+  String get applyShopTitle => 'عندي محل في الشارع';
+
+  @override
+  String get applyShopBody => 'اعرض قطعك، واستقبل الطلبات وطلبات الأسعار.';
+
+  @override
+  String get applyTechTitle => 'أنا فني تركيب';
+
+  @override
+  String get applyTechBody => 'استقبل أعمال التركيب في ورشة على الشارع أو عند الزبون.';
+
+  @override
+  String get applyStaffNote =>
+      'تعمل في محل مسجّل؟ لا تقدّم طلباً — اطلب من صاحب المحل إضافتك ببريدك هذا.';
+
+  @override
+  String get applyShopNote => 'اسم المحل ومكانه في الشارع يظهران للمشترين بعد الاعتماد.';
+
+  @override
+  String get applySectionShop => 'المحل';
+
+  @override
+  String get applySectionPlace => 'المكان في الشارع';
+
+  @override
+  String get applySectionContact => 'التواصل';
+
+  @override
+  String get applySubmit => 'أرسل الطلب';
+
+  @override
+  String get applySent => 'أرسلنا طلبك للمراجعة';
+
+  @override
+  String get shopNameAr => 'اسم المحل بالعربية';
+
+  @override
+  String get shopNameEn => 'اسم المحل بالإنجليزية (اختياري)';
+
+  @override
+  String get shopZone => 'المنطقة';
+
+  @override
+  String get shopPlot => 'رقم القطعة';
+
+  @override
+  String get shopSideA => 'الجهة أ';
+
+  @override
+  String get shopSideB => 'الجهة ب';
+
+  @override
+  String get shopLandmark => 'علامة مميزة';
+
+  @override
+  String get shopLandmarkHint => 'مثلاً: مقابل محطة الوقود';
+
+  @override
+  String get shopAbout => 'عن المحل (اختياري)';
+
+  @override
+  String get shopHours => 'ساعات العمل';
+
+  @override
+  String get shopSells => 'ماذا تبيع؟';
+
+  @override
+  String get shopMakes => 'السيارات التي تخدمها';
+
+  @override
+  String get shopMakesBody => 'اتركها فارغة إذا كنت تخدم كل الأنواع.';
+
+  @override
+  String get applyTechNote => 'يراجع الفريق خبرتك قبل وصول أول عرض عمل.';
+
+  @override
+  String get techApplyBay => 'الورشة التي تعمل فيها';
+
+  @override
+  String get techApplyBayHelp => 'محل أو ورشة على الشارع يركّب فيه الزبائن';
+
+  @override
+  String get techApplyHome => 'حدّد موقعي الحالي كنقطة الانطلاق';
+
+  @override
+  String get techApplyHomeSet => 'حُدّد موقعك';
+
+  @override
+  String get techApplyHomeBody => 'تُحسب مسافة الزيارات من هنا، ولا يراها الزبائن.';
+
+  @override
+  String get techApplyJobsBody => 'اكتب سعر المصنعية لكل نوع عمل تقوم به، واترك الباقي فارغاً.';
+
+  @override
+  String get techApplyMakes => 'السيارات التي تعمل عليها';
+
+  @override
+  String get techApplyMakesBody => 'اتركها فارغة إذا كنت تعمل على كل الأنواع.';
+
+  @override
+  String get techApplyYears => 'سنوات الخبرة';
+
+  @override
+  String get techApplyBio => 'نبذة عنك (اختياري)';
+
+  @override
+  String get techApplyNeedJob => 'اختر نوع عمل واحداً على الأقل مع سعره.';
+
+  @override
+  String get techApplyNeedBay => 'اختر الورشة التي تعمل فيها.';
+
+  @override
+  String get techApplyNeedHome => 'حدّد موقع انطلاقك للزيارات.';
+
+  @override
+  String get homeUpdate => 'حدّث موقع الانطلاق';
+
+  @override
+  String get addJobType => 'أضف نوع عمل';
+
+  @override
+  String get chatsTitle => 'الرسائل';
+
+  @override
+  String get notificationsTitle => 'التنبيهات';
+
+  @override
+  String get shopClosedToday => 'المحل مغلق اليوم — يظهر مغلقاً للمشترين';
+
+  @override
+  String get shopOutsideHours => 'خارج ساعات العمل الآن';
+
+  @override
+  String get orderAccepted => 'قُبل الطلب';
+
+  @override
+  String get orderRejected => 'اعتذرت عن الطلب، وسيُعاد المبلغ للمشتري';
+
+  @override
+  String get orderMarkedReady => 'القطعة جاهزة';
+
+  @override
+  String get orderHandedOver => 'تم التسليم';
+
+  @override
+  String get orderDelivered => 'تم التوصيل';
+
+  @override
+  String get orderNotHere => 'لم نجد هذا الطلب في محلك';
+
+  @override
+  String returnRequested(String reason) {
+    return 'طلب المشتري الإرجاع: $reason';
+  }
+
+  @override
+  String get waitTechAccept => 'سلّم القطعة بعد أن يقبل الفني العمل.';
+
+  @override
+  String get callTechnician => 'اتصل بالفني';
+
+  @override
+  String get cashCollected => 'استلمت المبلغ نقداً';
+
+  @override
+  String get rejectOtherLabel => 'اكتب السبب للمشتري';
+
+  @override
+  String get openOrder => 'افتح الطلب';
+
+  @override
+  String get chatsEmpty => 'لا توجد رسائل بعد';
+
+  @override
+  String get chatsEmptyBody => 'عندما يراسلك مشترٍ ستظهر محادثته هنا.';
+
+  @override
+  String get chatEmpty => 'ابدأ المحادثة';
+
+  @override
+  String get chatHint => 'اكتب رسالة';
+
+  @override
+  String get chatSend => 'إرسال';
+
+  @override
+  String get chatVoiceNote => 'رسالة صوتية';
+
+  @override
+  String get notificationsEmpty => 'لا توجد تنبيهات';
+
+  @override
+  String get notificationsEmptyBody => 'ستصلك هنا الطلبات الجديدة وعروض العمل والرسائل.';
+
+  @override
+  String get notificationsGeneric => 'تنبيه';
+
+  @override
+  String get notificationsMarkRead => 'تعليم الكل كمقروء';
+
+  @override
+  String get helpBody => 'فريق المنصة يساعدك في الطلبات والمدفوعات والحساب.';
+
+  @override
+  String get stockEmpty => 'لا توجد قطع بعد';
+
+  @override
+  String get stockEmptyBody => 'أضف قطعة بالصورة، أو استورد ملف Excel.';
+
+  @override
+  String get stockNoMatch => 'لا توجد قطع تطابق البحث';
+
+  @override
+  String reservedQty(int count) {
+    return 'محجوز $count';
+  }
+
+  @override
+  String reservedNote(int count) {
+    return '$count محجوزة لطلبات مفتوحة';
+  }
+
+  @override
+  String get priceOnRequest => 'السعر عند الطلب';
+
+  @override
+  String get archive => 'احذف من المحل';
+
+  @override
+  String get archiveTitle => 'حذف القطعة؟';
+
+  @override
+  String get archiveBody => 'لن تظهر للمشترين بعد الآن. الطلبات المؤكدة لا تتأثر.';
+
+  @override
+  String get listingQueued => 'هذه القطعة بانتظار الاتصال لإرسالها. عدّلها بعد ظهورها في القائمة.';
+
+  @override
+  String get listingSavedOffline => 'حُفظت القطعة وستُرسل عند عودة الاتصال';
+
+  @override
+  String get retakePhoto => 'صورة أخرى';
+
+  @override
+  String get noPhoto => 'بدون صورة الآن';
+
+  @override
+  String get fromCatalogue => 'من دليل القطع';
+
+  @override
+  String get suggestionsTitle => 'هل تقصد؟';
+
+  @override
+  String get carsFromCatalogue => 'السيارات المناسبة لهذه القطعة محددة في الدليل.';
+
+  @override
+  String get importCheckTitle => 'فحص الملف';
+
+  @override
+  String importCheckBody(int created, int updated, int failed) {
+    return 'سيُضاف $created ويُحدَّث $updated، وفيه $failed صفوف بها مشاكل.';
+  }
+
+  @override
+  String importRow(int row) {
+    return 'الصف $row';
+  }
+
+  @override
+  String importGo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'استورد $count صفاً',
+      few: 'استورد $count صفوف',
+      two: 'استورد صفين',
+      one: 'استورد صفاً واحداً',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importDone(int created, int updated, int failed) {
+    return 'أضيفت $created وحُدّثت $updated، وتُركت $failed';
+  }
+
+  @override
+  String get importErrName => 'اسم القطعة ناقص';
+
+  @override
+  String get importErrCategory => 'الفئة ناقصة أو غير معروفة';
+
+  @override
+  String get importErrCondition => 'الحالة ناقصة أو غير صحيحة';
+
+  @override
+  String get importErrPrice => 'السعر ناقص أو غير صحيح';
+
+  @override
+  String get importErrQty => 'الكمية غير صحيحة';
+
+  @override
+  String get importErrWarranty => 'الضمان غير صحيح';
+
+  @override
+  String get importErrSku => 'الرمز مكرر';
+
+  @override
+  String get importErrReserved => 'الكمية أقل من المحجوز لطلبات مفتوحة';
+
+  @override
+  String get importErrValue => 'قيمة غير صحيحة';
+
+  @override
+  String get importWarnModel => 'سيارة غير معروفة (تجاهلناها):';
+
+  @override
+  String get changeOffer => 'تعديل';
+
+  @override
+  String get statementEmpty => 'لا حركات في آخر 30 يوماً';
+
+  @override
+  String staffAdded(String date) {
+    return 'أضيف $date';
+  }
+
+  @override
+  String staffRemoveTitle(String name) {
+    return 'إزالة $name؟';
+  }
+
+  @override
+  String get staffRemoveBody => 'لن يستطيع إدارة طلبات المحل ومخزونه بعد الآن.';
+
+  @override
+  String get insightsNoSales => 'لا مبيعات في هذه الأيام بعد';
+
+  @override
+  String get profileNameNote => 'لتغيير الاسم أو المكان في الشارع، تواصل مع فريق المنصة.';
+
+  @override
+  String get atCustomerPlace => 'عند الزبون';
+
+  @override
+  String jobAndMore(String first, int count) {
+    return '$first و$count أخرى';
+  }
+
+  @override
+  String jobRef(String ref) {
+    return 'رقم العمل $ref';
+  }
+
+  @override
+  String get onMyWayDone => 'الزبون يرى موقعك الآن حتى تصل';
+
+  @override
+  String get checkedIn => 'بدأ العمل';
+
+  @override
+  String get sharingLocation => 'يُشارك موقعك مع الزبون أثناء الطريق.';
+
+  @override
+  String partCollected(String shop) {
+    return 'استلمت القطعة من $shop';
+  }
+
+  @override
+  String get partNotFitReason => 'ما المشكلة؟';
+
+  @override
+  String get partNotFitDone => 'سُجّل أن القطعة لا تناسب، وفُتح طلب إرجاع';
+
+  @override
+  String get dropJob => 'لا أستطيع الحضور';
+
+  @override
+  String get dropJobReason => 'السبب';
+
+  @override
+  String get dropJobBody => 'يذهب العمل لفني آخر في نفس الموعد. الاعتذار المتكرر يؤثر على تقييمك.';
+
+  @override
+  String get dropJobDone => 'أُرسل العمل لفني آخر';
+
+  @override
+  String get youEarnLabel => 'لك';
+
+  @override
+  String get editHours => 'تعديل الساعات';
+
+  @override
+  String get addPeriod => 'أضف فترة';
+
+  @override
+  String get periodsOverlap => 'تأكد أن كل فترة تنتهي بعد بدايتها ولا تتداخل مع غيرها.';
+
+  @override
+  String get timeOffDefault => 'إجازة';
+
+  @override
+  String get earningsNotYet => 'ستظهر أرباحك هنا بعد الاعتماد';
 }

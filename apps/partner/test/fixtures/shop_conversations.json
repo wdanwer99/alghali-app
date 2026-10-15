@@ -1,0 +1,21 @@
+[
+  {
+    "id": "2d6bdf03-026b-4562-9bd2-48e4610b3295",
+    "last": {
+      "at": "2026-10-13T23:20:49.502208+00:00",
+      "body": "السلام عليكم، هل القطعة متوفرة؟",
+      "mine": false,
+      "voice_secs": null
+    },
+    "unread": true,
+    "shop_id": "6c910581-25e5-46e3-9b54-d80a0c972047",
+    "buyer_id": "ae1c3ed8-de20-40c0-b775-5707881d9ec0",
+    "order_ref": "58156415",
+    "buyer_name": "أحمد محمد",
+    "created_at": "2026-10-13T23:20:49.222038+00:00",
+    "shop_read_at": null,
+    "sub_order_id": "b3fc3a26-3ebc-4cf9-b35f-3d183af8995e",
+    "buyer_read_at": "2026-10-13T23:20:49.730397+00:00",
+    "last_message_at": "2026-10-13T23:20:49.502208+00:00"
+  }
+]

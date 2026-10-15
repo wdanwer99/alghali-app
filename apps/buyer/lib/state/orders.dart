@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'bookings.dart';
 import 'cart.dart';
-import 'connection.dart';
 import 'session.dart';
 
 /// What the buyer picked on the checkout screen.

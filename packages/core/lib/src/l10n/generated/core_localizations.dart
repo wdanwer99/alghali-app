@@ -1064,6 +1064,156 @@ abstract class CoreLocalizations {
   /// In ar, this message translates to:
   /// **'فتح'**
   String get actionOpen;
+
+  /// Error: INVALID_TRANSITION, NOT_EN_ROUTE
+  ///
+  /// In ar, this message translates to:
+  /// **'تغيّر هذا في هذه الأثناء. اسحب للأسفل لترى حالته الآن.'**
+  String get errChangedMeanwhile;
+
+  /// Error: VERSION_CONFLICT
+  ///
+  /// In ar, this message translates to:
+  /// **'غيّر شخص آخر هذه القطعة للتو. راجعها وحاول مرة أخرى.'**
+  String get errVersionConflict;
+
+  /// Error: STOCK_BELOW_RESERVED
+  ///
+  /// In ar, this message translates to:
+  /// **'لا يمكن أن تقل الكمية عمّا حجزته الطلبات المفتوحة.'**
+  String get errStockBelowReserved;
+
+  /// Error: PRICE_REQUIRED
+  ///
+  /// In ar, this message translates to:
+  /// **'اكتب السعر.'**
+  String get errPriceRequired;
+
+  /// Error: validation codes
+  ///
+  /// In ar, this message translates to:
+  /// **'راجع البيانات المدخلة وحاول مرة أخرى.'**
+  String get errCheckValue;
+
+  /// Error: SHOP_NOT_ACTIVE
+  ///
+  /// In ar, this message translates to:
+  /// **'المحل موقوف أو غير معتمد. تواصل مع فريق المنصة.'**
+  String get errShopNotActive;
+
+  /// Error: TECHNICIAN_NOT_ACTIVE
+  ///
+  /// In ar, this message translates to:
+  /// **'حساب الفني غير مفعّل بعد.'**
+  String get errTechNotActive;
+
+  /// Error: PARTS_NOT_COLLECTED
+  ///
+  /// In ar, this message translates to:
+  /// **'استلم القطع من المحل أولاً.'**
+  String get errPartsNotCollected;
+
+  /// Error: PARTS_WITH_TECHNICIAN
+  ///
+  /// In ar, this message translates to:
+  /// **'القطع معك الآن. تواصل مع فريق المنصة للاعتذار عن العمل.'**
+  String get errPartsWithTechnician;
+
+  /// Error: JOB_CODE_LOCKED
+  ///
+  /// In ar, this message translates to:
+  /// **'أُوقف إنهاء العمل بعد محاولات خاطئة. سيساعدك فريق المنصة.'**
+  String get errJobCodeLocked;
+
+  /// Error: LABOUR_OUT_OF_BOUNDS
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا السعر خارج الحدود التي تسمح بها المنصة.'**
+  String get errLabourBounds;
+
+  /// Error: TOO_MANY_RULES
+  ///
+  /// In ar, this message translates to:
+  /// **'فترات العمل كثيرة جداً.'**
+  String get errTooManyRules;
+
+  /// Error: TIME_OFF_TOO_LONG
+  ///
+  /// In ar, this message translates to:
+  /// **'الإجازة لا تتجاوز 60 يوماً.'**
+  String get errTimeOffTooLong;
+
+  /// Error: ALREADY_MEMBER
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا الشخص موجود في محلك.'**
+  String get errAlreadyMember;
+
+  /// Error: USER_NOT_FOUND
+  ///
+  /// In ar, this message translates to:
+  /// **'لا يوجد حساب بهذا البريد. اطلب منه التسجيل في تطبيق الشركاء أولاً.'**
+  String get errUserNotFound;
+
+  /// Error: TOO_MANY_STAFF
+  ///
+  /// In ar, this message translates to:
+  /// **'وصلت إلى الحد الأقصى للموظفين.'**
+  String get errTooManyStaff;
+
+  /// Error: CANNOT_REMOVE_OWNER
+  ///
+  /// In ar, this message translates to:
+  /// **'لا يمكن إزالة صاحب المحل.'**
+  String get errCannotRemoveOwner;
+
+  /// Error: APPLICATION_PENDING, ALREADY_APPLIED
+  ///
+  /// In ar, this message translates to:
+  /// **'لديك طلب قيد المراجعة بالفعل.'**
+  String get errAlreadyApplied;
+
+  /// Error: TOO_MANY_SHOPS
+  ///
+  /// In ar, this message translates to:
+  /// **'يمكنك إدارة 3 محلات على الأكثر.'**
+  String get errTooManyShops;
+
+  /// Error: BAY_REQUIRED
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر الورشة التي تعمل فيها.'**
+  String get errBayRequired;
+
+  /// Error: HOME_POINT_REQUIRED
+  ///
+  /// In ar, this message translates to:
+  /// **'حدّد موقع انطلاقك للزيارات.'**
+  String get errHomeRequired;
+
+  /// Error: JOB_TYPES_REQUIRED
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر نوع عمل واحداً على الأقل.'**
+  String get errJobTypesRequired;
+
+  /// Error: REASON_REQUIRED
+  ///
+  /// In ar, this message translates to:
+  /// **'اكتب السبب.'**
+  String get errReasonRequired;
+
+  /// Error: import file problems
+  ///
+  /// In ar, this message translates to:
+  /// **'الملف لا يطابق القالب. نزّل القالب واملأه ثم أعد المحاولة.'**
+  String get errBadSheet;
+
+  /// Error: TOO_MANY_ROWS
+  ///
+  /// In ar, this message translates to:
+  /// **'الملف فيه أكثر من 2000 صف. قسّمه إلى ملفات أصغر.'**
+  String get errTooManyRows;
 }
 
 class _CoreLocalizationsDelegate extends LocalizationsDelegate<CoreLocalizations> {

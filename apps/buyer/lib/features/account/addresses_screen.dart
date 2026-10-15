@@ -4,7 +4,6 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../app.dart';
 import '../../state/account.dart';
-import '../../widgets/buyer_widgets.dart';
 import 'address_sheet.dart';
 
 /// The buyer's saved places for deliveries and fittings.

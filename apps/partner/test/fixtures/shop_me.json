@@ -1,0 +1,29 @@
+{
+  "roles": [
+    "BUYER",
+    "SHOP_OWNER"
+  ],
+  "shops": [
+    {
+      "role": "OWNER",
+      "status": "APPROVED",
+      "name_ar": "النور لقطع الغيار",
+      "name_en": "Al-Nour Auto Parts",
+      "shop_id": "6c910581-25e5-46e3-9b54-d80a0c972047",
+      "status_reason": null
+    }
+  ],
+  "profile": {
+    "id": "3a8e4b2f-f0ba-4c5c-9aba-310b57bbff32",
+    "email": "owner.nour@demo.alghali.invalid",
+    "phone": null,
+    "locale": "ar",
+    "created_at": "2026-10-13T14:43:46.853364+00:00",
+    "data_saver": true,
+    "updated_at": "2026-10-13T14:43:46.853364+00:00",
+    "display_name": "عبدالله النور",
+    "refund_account": null,
+    "phone_verified_at": null
+  },
+  "technician": null
+}

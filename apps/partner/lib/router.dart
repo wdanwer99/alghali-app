@@ -4,7 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'app.dart';
+import 'features/auth/apply_screens.dart';
 import 'features/auth/auth_screens.dart';
+import 'features/shared/chat_screens.dart';
+import 'features/shared/notifications_screen.dart';
 import 'features/shell/partner_shells.dart';
 import 'features/shop/add_listing_screen.dart';
 import 'features/shop/money_screens.dart';
@@ -13,6 +16,7 @@ import 'features/shop/shop_home_screen.dart';
 import 'features/shop/shop_more_screen.dart';
 import 'features/shop/shop_order_screen.dart';
 import 'features/shop/shop_orders_screen.dart';
+import 'features/shop/shop_profile_screen.dart';
 import 'features/shop/stock_screen.dart';
 import 'features/tech/earnings_screen.dart';
 import 'features/tech/job_screen.dart';
@@ -24,7 +28,12 @@ import 'state/session.dart';
 abstract final class Routes {
   static const welcome = '/welcome';
   static const signIn = '/sign-in';
+  static const signUp = '/sign-up';
   static const role = '/role';
+  static const apply = '/apply';
+  static const applyShop = '/apply/shop';
+  static const applyTech = '/apply/tech';
+  static const notifications = '/notifications';
 
   static const shopHome = '/shop/home';
   static const shopOrders = '/shop/orders';
@@ -35,7 +44,10 @@ abstract final class Routes {
   static const shopMoney = '/shop/money';
   static const shopStaff = '/shop/staff';
   static const shopInsights = '/shop/insights';
+  static const shopProfile = '/shop/profile';
+  static const shopChats = '/shop/chats';
   static String shopOrder(String id) => '/shop/order/$id';
+  static String shopChat(String conversationId) => '/shop/chat/$conversationId';
 
   static const techJobs = '/tech/jobs';
   static const techSchedule = '/tech/schedule';
@@ -47,25 +59,42 @@ abstract final class Routes {
 }
 
 final routerProvider = Provider<GoRouter>((ref) {
+  // Sign-in, applying and an admin's decision change where the partner belongs.
+  final refresh = ValueNotifier(0);
+  ref.listen(partnerSessionProvider, (_, _) => refresh.value++);
+  ref.onDispose(refresh.dispose);
+
   return GoRouter(
     initialLocation: '/',
+    refreshListenable: refresh,
     redirect: (context, state) {
       final loc = state.matchedLocation;
       if (!ref.read(localeControllerProvider).chosen) {
         return loc == Routes.welcome ? null : Routes.welcome;
       }
       final session = ref.read(partnerSessionProvider);
-      if (!session.signedIn) return loc == Routes.signIn ? null : Routes.signIn;
+      if (!session.signedIn) {
+        return loc == Routes.signIn || loc == Routes.signUp ? null : Routes.signIn;
+      }
+      // Signed in, the account still on its way: wait on the blank start page.
+      if (!session.loaded) return loc == '/' ? null : '/';
+      final applying = loc.startsWith(Routes.apply);
+      if (!session.isPartner) return applying ? null : Routes.apply;
       final role = session.role;
-      if (role == null) return loc == Routes.role ? null : Routes.role;
-      if (loc == '/' || loc == Routes.welcome || loc == Routes.signIn) return Routes.homeOf(role);
-      // Stay inside the active role's screens.
+      if (role == null) return loc == Routes.role || applying ? null : Routes.role;
+      if (loc == '/' || loc == Routes.welcome || loc == Routes.signIn || loc == Routes.signUp) {
+        return Routes.homeOf(role);
+      }
+      // Stay inside the open home's screens.
       if (role == PartnerRole.shop && loc.startsWith('/tech')) return Routes.shopHome;
       if (role == PartnerRole.technician && loc.startsWith('/shop')) return Routes.techJobs;
       return null;
     },
     routes: [
-      GoRoute(path: '/', builder: (_, _) => const SizedBox.shrink()),
+      GoRoute(
+        path: '/',
+        builder: (_, _) => const Scaffold(body: Center(child: CircularProgressIndicator())),
+      ),
       GoRoute(
         path: Routes.welcome,
         builder: (context, state) => LanguagePickerScreen(
@@ -80,7 +109,12 @@ final routerProvider = Provider<GoRouter>((ref) {
         ),
       ),
       GoRoute(path: Routes.signIn, builder: (_, _) => const SignInScreen()),
+      GoRoute(path: Routes.signUp, builder: (_, _) => const SignUpScreen()),
       GoRoute(path: Routes.role, builder: (_, _) => const RoleScreen()),
+      GoRoute(path: Routes.apply, builder: (_, _) => const ApplyScreen()),
+      GoRoute(path: Routes.applyShop, builder: (_, _) => const ShopApplyScreen()),
+      GoRoute(path: Routes.applyTech, builder: (_, _) => const TechApplyScreen()),
+      GoRoute(path: Routes.notifications, builder: (_, _) => const NotificationsScreen()),
       StatefulShellRoute.indexedStack(
         builder: (_, _, shell) => ShopShell(shell: shell),
         branches: [
@@ -119,6 +153,12 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: Routes.shopMoney, builder: (_, _) => const MoneyScreen()),
       GoRoute(path: Routes.shopStaff, builder: (_, _) => const StaffScreen()),
       GoRoute(path: Routes.shopInsights, builder: (_, _) => const InsightsScreen()),
+      GoRoute(path: Routes.shopProfile, builder: (_, _) => const ShopProfileScreen()),
+      GoRoute(path: Routes.shopChats, builder: (_, _) => const ShopChatsScreen()),
+      GoRoute(
+        path: '/shop/chat/:id',
+        builder: (_, s) => ChatScreen(conversationId: s.pathParameters['id']!),
+      ),
       StatefulShellRoute.indexedStack(
         builder: (_, _, shell) => TechShell(shell: shell),
         branches: [

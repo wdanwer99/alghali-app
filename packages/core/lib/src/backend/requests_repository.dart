@@ -81,13 +81,14 @@ class RequestsRepository with CachedReads {
 
   /// Open requests in the shop's specialities, newest first.
   Future<List<OpenRequest>> openForShop(String shopId, {int limit = 30, int offset = 0}) =>
-      guard(() async {
-        final rows = await _client.rpc<List<dynamic>>(
+      cachedRead(
+        '@shop.requests:$shopId:$offset',
+        () => _client.rpc<List<dynamic>>(
           'shop_open_requests',
           params: {'p_shop_id': shopId, 'p_limit': limit, 'p_offset': offset},
-        );
-        return [for (final r in rows.cast<Json>()) OpenRequest.fromJson(r)];
-      });
+        ),
+        (raw) => [for (final r in (raw! as List).cast<Json>()) OpenRequest.fromJson(r)],
+      );
 
   /// Replaces the shop's previous offer on the request, if any.
   Future<PartOffer> makeOffer(String shopId, String requestId, OfferDraft offer, {String? idem}) =>

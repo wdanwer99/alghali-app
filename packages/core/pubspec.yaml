@@ -17,6 +17,7 @@ dependencies:
   firebase_messaging: ^16.7.0
   flutter:
     sdk: flutter
+  flutter_image_compress: ^2.5.1
   flutter_localizations:
     sdk: flutter
   flutter_riverpod: ^3.4.3

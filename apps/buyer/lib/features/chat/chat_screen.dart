@@ -9,7 +9,6 @@ import '../../app.dart';
 import '../../router.dart';
 import '../../state/inbox.dart';
 import '../../state/session.dart';
-import '../../widgets/buyer_widgets.dart';
 
 /// Chat with a shop: text and voice notes (D-033), newest at the bottom, live. Text can
 /// be written offline (it waits in the outbox, with a clock on the bubble).

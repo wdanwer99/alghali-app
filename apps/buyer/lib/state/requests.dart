@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:alghali_core/alghali_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'connection.dart';
 import 'session.dart';
 
 /// Photo requests (PLAN §3.5): the buyer's requests with every shop's offer.

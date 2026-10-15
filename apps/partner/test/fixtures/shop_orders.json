@@ -1,0 +1,173 @@
+[
+  {
+    "id": "de8c30bd-4eec-4b96-95f9-4cb266ed74cd",
+    "ref": "72491962",
+    "buyer": {
+      "name": "أحمد محمد",
+      "phone": "+249912000001"
+    },
+    "items": [
+      {
+        "id": "c5bb15a9-d9a7-49d1-9c90-eee951001f63",
+        "qty": 1,
+        "brand": "Osram",
+        "part_id": "4824b834-7986-4062-9634-057d887582d7",
+        "line_sdg": 45000,
+        "offer_id": null,
+        "title_ar": "لمبات أمامية LED مقاس H4 (زوج)",
+        "title_en": "H4 LED headlight bulbs (pair)",
+        "condition": "NEW_AFTERMARKET",
+        "listing_id": "ddee9d00-1244-45f7-bf20-24549d432871",
+        "sub_order_id": "de8c30bd-4eec-4b96-95f9-4cb266ed74cd",
+        "warranty_days": 180,
+        "unit_price_sdg": 45000
+      }
+    ],
+    "events": [
+      {
+        "at": "2026-10-14T01:00:41.600568+00:00",
+        "to": "PENDING_PAYMENT",
+        "from": null,
+        "actor": "BUYER"
+      },
+      {
+        "at": "2026-10-14T01:00:42.057618+00:00",
+        "to": "PAYMENT_REVIEW",
+        "from": "PENDING_PAYMENT",
+        "actor": "BUYER"
+      },
+      {
+        "at": "2026-10-14T01:00:42.470583+00:00",
+        "to": "CONFIRMED",
+        "from": "PAYMENT_REVIEW",
+        "actor": "ADMIN"
+      },
+      {
+        "at": "2026-10-14T01:00:43.467415+00:00",
+        "to": "READY",
+        "from": "CONFIRMED",
+        "actor": "SHOP"
+      }
+    ],
+    "return": null,
+    "status": "READY",
+    "address": null,
+    "booking": {
+      "id": "b5835683-04f6-4981-87e5-6f1d2e00919f",
+      "ref": "60047982",
+      "status": "ACCEPTED",
+      "start_at": "2026-10-15T14:00:00+00:00",
+      "technician": {
+        "name": "عمر عبد الله",
+        "phone": "+249912100001"
+      }
+    },
+    "shop_id": "6c910581-25e5-46e3-9b54-d80a0c972047",
+    "order_id": "b3f82059-f1c9-4b89-9568-26e9c36c4975",
+    "ready_at": "2026-10-14T01:00:43.467415+00:00",
+    "items_sdg": 45000,
+    "placed_at": "2026-10-14T01:00:41.600568+00:00",
+    "created_at": "2026-10-14T01:00:41.600568+00:00",
+    "fulfilment": "TO_TECHNICIAN",
+    "shop_ack_at": "2026-10-14T01:00:43.467415+00:00",
+    "ack_alert_at": null,
+    "cancelled_at": null,
+    "completed_at": null,
+    "delivered_at": null,
+    "cancel_reason": null,
+    "commission_bp": 500,
+    "commission_sdg": 2250,
+    "handed_over_at": null,
+    "payment_method": "BANKAK",
+    "payment_status": "CONFIRMED",
+    "delivery_fee_sdg": 0,
+    "status_changed_at": "2026-10-14T01:00:43.467415+00:00"
+  },
+  {
+    "id": "b3fc3a26-3ebc-4cf9-b35f-3d183af8995e",
+    "ref": "58156415",
+    "buyer": {
+      "name": "أحمد محمد",
+      "phone": "+249912000001"
+    },
+    "items": [
+      {
+        "id": "dbcb144e-375a-42b7-b9ac-799f7ff5209f",
+        "qty": 1,
+        "brand": null,
+        "part_id": "0573f167-cbf9-4d7f-a1db-888e16df9758",
+        "line_sdg": 145000,
+        "offer_id": null,
+        "title_ar": "بطارية 55 أمبير",
+        "title_en": "55 Ah battery",
+        "condition": "NEW_AFTERMARKET",
+        "listing_id": "4f2a4907-852e-4b96-96af-ea131960a531",
+        "sub_order_id": "b3fc3a26-3ebc-4cf9-b35f-3d183af8995e",
+        "warranty_days": 365,
+        "unit_price_sdg": 145000
+      }
+    ],
+    "events": [
+      {
+        "at": "2026-10-13T22:48:47.211884+00:00",
+        "to": "PENDING_PAYMENT",
+        "from": null,
+        "actor": "BUYER"
+      },
+      {
+        "at": "2026-10-13T22:48:47.565256+00:00",
+        "to": "PAYMENT_REVIEW",
+        "from": "PENDING_PAYMENT",
+        "actor": "BUYER"
+      },
+      {
+        "at": "2026-10-13T22:48:47.903559+00:00",
+        "to": "CONFIRMED",
+        "from": "PAYMENT_REVIEW",
+        "actor": "ADMIN"
+      },
+      {
+        "at": "2026-10-13T22:48:48.311307+00:00",
+        "to": "READY",
+        "from": "CONFIRMED",
+        "actor": "SHOP"
+      },
+      {
+        "at": "2026-10-13T22:48:48.757576+00:00",
+        "to": "PICKED_UP",
+        "from": "READY",
+        "actor": "SHOP"
+      },
+      {
+        "at": "2026-10-13T22:48:49.096585+00:00",
+        "to": "COMPLETED",
+        "from": "PICKED_UP",
+        "actor": "BUYER"
+      }
+    ],
+    "return": null,
+    "status": "COMPLETED",
+    "address": null,
+    "booking": null,
+    "shop_id": "6c910581-25e5-46e3-9b54-d80a0c972047",
+    "order_id": "bb867a41-7ec1-459d-87b3-8ae82f0c3caa",
+    "ready_at": "2026-10-13T22:48:48.311307+00:00",
+    "items_sdg": 145000,
+    "placed_at": "2026-10-13T22:48:47.211884+00:00",
+    "created_at": "2026-10-13T22:48:47.211884+00:00",
+    "fulfilment": "PICKUP",
+    "shop_ack_at": "2026-10-13T22:48:48.311307+00:00",
+    "ack_alert_at": null,
+    "cancelled_at": null,
+    "completed_at": "2026-10-13T22:48:49.096585+00:00",
+    "delivered_at": null,
+    "cancel_reason": null,
+    "commission_bp": 500,
+    "commission_sdg": 7250,
+    "handed_over_at": "2026-10-13T22:48:48.757576+00:00",
+    "payment_method": "BANKAK",
+    "payment_status": "CONFIRMED",
+    "delivery_fee_sdg": 0,
+    "status_changed_at": "2026-10-13T22:48:49.096585+00:00"
+  }
+]

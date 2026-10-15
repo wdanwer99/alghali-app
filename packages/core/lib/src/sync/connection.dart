@@ -1,7 +1,8 @@
 import 'dart:async';
 
-import 'package:alghali_core/alghali_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../backend/backend_error.dart';
 
 /// Whether the last backend read found no connection (told by the read cache): screens
 /// then show the "you're offline, showing saved data" banner over what was cached.
@@ -25,7 +26,7 @@ class ConnectionController extends Notifier<bool> {
 
 final onlineProvider = NotifierProvider<ConnectionController, bool>(ConnectionController.new);
 
-/// Shared "cache first, then the network" loading for the buyer's lists: shows the saved
+/// Shared "cache first, then the network" loading for the apps' lists: shows the saved
 /// copy at once (if any), then replaces it with a fresh one. With no connection the
 /// repositories answer from the saved copy themselves.
 mixin CachedList<T> on AsyncNotifier<T> {

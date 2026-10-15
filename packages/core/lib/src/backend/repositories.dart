@@ -29,7 +29,9 @@ final addressesRepositoryProvider = Provider(
   (ref) =>
       AddressesRepository(ref.watch(supabaseClientProvider), cache: ref.watch(readCacheProvider)),
 );
-final shopRepositoryProvider = Provider((ref) => ShopRepository(ref.watch(supabaseClientProvider)));
+final shopRepositoryProvider = Provider(
+  (ref) => ShopRepository(ref.watch(supabaseClientProvider), cache: ref.watch(readCacheProvider)),
+);
 final ordersRepositoryProvider = Provider(
   (ref) => OrdersRepository(ref.watch(supabaseClientProvider), cache: ref.watch(readCacheProvider)),
 );
@@ -51,5 +53,6 @@ final bookingsRepositoryProvider = Provider(
       BookingsRepository(ref.watch(supabaseClientProvider), cache: ref.watch(readCacheProvider)),
 );
 final technicianRepositoryProvider = Provider(
-  (ref) => TechnicianRepository(ref.watch(supabaseClientProvider)),
+  (ref) =>
+      TechnicianRepository(ref.watch(supabaseClientProvider), cache: ref.watch(readCacheProvider)),
 );

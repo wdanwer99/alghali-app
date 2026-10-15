@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Alghali Partners</string>
+    <string name="alerts_channel">Orders and jobs</string>
+    <string name="alerts_channel_description">New orders, part requests, job offers and messages</string>
+</resources>

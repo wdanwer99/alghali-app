@@ -1,0 +1,25 @@
+{
+  "roles": [
+    "BUYER",
+    "TECHNICIAN"
+  ],
+  "shops": [],
+  "profile": {
+    "id": "762ea9c3-1758-42ec-864d-a02b17c367a1",
+    "email": "tech.omar@demo.alghali.invalid",
+    "phone": "+249912100001",
+    "locale": "ar",
+    "created_at": "2026-10-14T01:00:18.84601+00:00",
+    "data_saver": true,
+    "updated_at": "2026-10-14T01:00:19.113224+00:00",
+    "display_name": "عمر عبد الله",
+    "refund_account": null,
+    "phone_verified_at": null
+  },
+  "technician": {
+    "status": "APPROVED",
+    "work_mode": "BOTH",
+    "status_reason": null,
+    "technician_id": "86b8bf37-a20b-4011-98b9-f0ccbcae5a41"
+  }
+}

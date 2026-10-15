@@ -601,4 +601,80 @@ class CoreLocalizationsAr extends CoreLocalizations {
 
   @override
   String get actionOpen => 'فتح';
+
+  @override
+  String get errChangedMeanwhile => 'تغيّر هذا في هذه الأثناء. اسحب للأسفل لترى حالته الآن.';
+
+  @override
+  String get errVersionConflict => 'غيّر شخص آخر هذه القطعة للتو. راجعها وحاول مرة أخرى.';
+
+  @override
+  String get errStockBelowReserved => 'لا يمكن أن تقل الكمية عمّا حجزته الطلبات المفتوحة.';
+
+  @override
+  String get errPriceRequired => 'اكتب السعر.';
+
+  @override
+  String get errCheckValue => 'راجع البيانات المدخلة وحاول مرة أخرى.';
+
+  @override
+  String get errShopNotActive => 'المحل موقوف أو غير معتمد. تواصل مع فريق المنصة.';
+
+  @override
+  String get errTechNotActive => 'حساب الفني غير مفعّل بعد.';
+
+  @override
+  String get errPartsNotCollected => 'استلم القطع من المحل أولاً.';
+
+  @override
+  String get errPartsWithTechnician => 'القطع معك الآن. تواصل مع فريق المنصة للاعتذار عن العمل.';
+
+  @override
+  String get errJobCodeLocked => 'أُوقف إنهاء العمل بعد محاولات خاطئة. سيساعدك فريق المنصة.';
+
+  @override
+  String get errLabourBounds => 'هذا السعر خارج الحدود التي تسمح بها المنصة.';
+
+  @override
+  String get errTooManyRules => 'فترات العمل كثيرة جداً.';
+
+  @override
+  String get errTimeOffTooLong => 'الإجازة لا تتجاوز 60 يوماً.';
+
+  @override
+  String get errAlreadyMember => 'هذا الشخص موجود في محلك.';
+
+  @override
+  String get errUserNotFound =>
+      'لا يوجد حساب بهذا البريد. اطلب منه التسجيل في تطبيق الشركاء أولاً.';
+
+  @override
+  String get errTooManyStaff => 'وصلت إلى الحد الأقصى للموظفين.';
+
+  @override
+  String get errCannotRemoveOwner => 'لا يمكن إزالة صاحب المحل.';
+
+  @override
+  String get errAlreadyApplied => 'لديك طلب قيد المراجعة بالفعل.';
+
+  @override
+  String get errTooManyShops => 'يمكنك إدارة 3 محلات على الأكثر.';
+
+  @override
+  String get errBayRequired => 'اختر الورشة التي تعمل فيها.';
+
+  @override
+  String get errHomeRequired => 'حدّد موقع انطلاقك للزيارات.';
+
+  @override
+  String get errJobTypesRequired => 'اختر نوع عمل واحداً على الأقل.';
+
+  @override
+  String get errReasonRequired => 'اكتب السبب.';
+
+  @override
+  String get errBadSheet => 'الملف لا يطابق القالب. نزّل القالب واملأه ثم أعد المحاولة.';
+
+  @override
+  String get errTooManyRows => 'الملف فيه أكثر من 2000 صف. قسّمه إلى ملفات أصغر.';
 }

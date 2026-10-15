@@ -587,4 +587,84 @@ class CoreLocalizationsEn extends CoreLocalizations {
 
   @override
   String get actionOpen => 'Open';
+
+  @override
+  String get errChangedMeanwhile => 'This changed meanwhile. Pull down to see where it is now.';
+
+  @override
+  String get errVersionConflict => 'Someone else just changed this part. Check it and try again.';
+
+  @override
+  String get errStockBelowReserved => 'Stock can\'t go below what open orders have reserved.';
+
+  @override
+  String get errPriceRequired => 'Enter a price.';
+
+  @override
+  String get errCheckValue => 'Check what you entered and try again.';
+
+  @override
+  String get errShopNotActive =>
+      'The shop is suspended or not approved. Contact the platform team.';
+
+  @override
+  String get errTechNotActive => 'The technician account isn\'t active yet.';
+
+  @override
+  String get errPartsNotCollected => 'Collect the parts from the shop first.';
+
+  @override
+  String get errPartsWithTechnician =>
+      'You have the parts now. Contact the platform team to drop this job.';
+
+  @override
+  String get errJobCodeLocked =>
+      'Finishing is locked after wrong codes. The platform team will help.';
+
+  @override
+  String get errLabourBounds => 'That price is outside the platform\'s limits.';
+
+  @override
+  String get errTooManyRules => 'Too many working periods.';
+
+  @override
+  String get errTimeOffTooLong => 'Time off can be up to 60 days.';
+
+  @override
+  String get errAlreadyMember => 'They\'re already in your shop.';
+
+  @override
+  String get errUserNotFound =>
+      'No account with that email. Ask them to sign up in the partner app first.';
+
+  @override
+  String get errTooManyStaff => 'You\'ve reached the staff limit.';
+
+  @override
+  String get errCannotRemoveOwner => 'The owner can\'t be removed.';
+
+  @override
+  String get errAlreadyApplied => 'You already have an application under review.';
+
+  @override
+  String get errTooManyShops => 'You can run up to 3 shops.';
+
+  @override
+  String get errBayRequired => 'Choose the bay where you work.';
+
+  @override
+  String get errHomeRequired => 'Set your starting point for visits.';
+
+  @override
+  String get errJobTypesRequired => 'Choose at least one kind of job.';
+
+  @override
+  String get errReasonRequired => 'Write a reason.';
+
+  @override
+  String get errBadSheet =>
+      'The file doesn\'t match the template. Download the template, fill it in and try again.';
+
+  @override
+  String get errTooManyRows => 'The file has more than 2,000 rows. Split it into smaller files.';
 }

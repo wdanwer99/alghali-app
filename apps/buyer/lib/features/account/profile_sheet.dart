@@ -4,7 +4,6 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../app.dart';
 import '../../state/session.dart';
-import '../../widgets/buyer_widgets.dart';
 
 /// Edits the buyer's name and phone. With [askPhone] it explains that a phone is needed
 /// before ordering (shops and technicians call it). True when saved.

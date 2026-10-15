@@ -5,7 +5,9 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../app.dart';
 import '../../router.dart';
+import '../../state/inbox.dart';
 import '../../state/session.dart';
+import '../../state/shop.dart';
 import '../../widgets/partner_widgets.dart';
 
 class ShopMoreScreen extends ConsumerWidget {
@@ -17,14 +19,21 @@ class ShopMoreScreen extends ConsumerWidget {
     final core = context.core;
     final theme = Theme.of(context);
     final session = ref.watch(partnerSessionProvider);
+    final membership = session.shop;
+    final shop = ref.watch(myShopProvider).value;
     final catalogue = ref.watch(catalogueProvider);
-    final shop = catalogue.shop(session.shopId);
+    final name = (shop?.name ?? membership?.name)?.tr(context) ?? '';
+    final owner = session.isOwner;
     final chevron = Directionality.of(context) == TextDirection.rtl
         ? Icons.chevron_left
         : Icons.chevron_right;
 
-    ListTile row(IconData icon, String title, VoidCallback onTap) =>
-        ListTile(leading: Icon(icon), title: Text(title), trailing: Icon(chevron), onTap: onTap);
+    ListTile row(IconData icon, String title, VoidCallback onTap, {int badge = 0}) => ListTile(
+      leading: Badge(isLabelVisible: badge > 0, label: Text('$badge'), child: Icon(icon)),
+      title: Text(title),
+      trailing: Icon(chevron),
+      onTap: onTap,
+    );
 
     return Scaffold(
       appBar: AppBar(title: Text(t.shopNavMore)),
@@ -36,28 +45,36 @@ class ShopMoreScreen extends ConsumerWidget {
               padding: const EdgeInsets.all(Space.lg),
               child: Row(
                 children: [
-                  InitialsAvatar(name: shop.name.tr(context), size: 56, tone: Tone.brand),
+                  InitialsAvatar(name: name, size: 56, tone: Tone.brand),
                   const SizedBox(width: Space.lg),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(shop.name.tr(context), style: theme.textTheme.titleMedium),
-                        Text(
-                          '${catalogue.zone(shop.zoneId).name.tr(context)} · ${core.plot(shop.plotNo)}',
-                          style: theme.textTheme.bodySmall,
-                        ),
+                        Text(name, style: theme.textTheme.titleMedium),
+                        if (shop != null)
+                          Text(
+                            [
+                              catalogue.zone(shop.zoneId).name.tr(context),
+                              if (shop.plotNo.isNotEmpty) core.plot(shop.plotNo),
+                            ].where((s) => s.isNotEmpty).join(' · '),
+                            style: theme.textTheme.bodySmall,
+                          ),
                         const SizedBox(height: Space.xs),
                         Wrap(
                           spacing: Space.sm,
+                          runSpacing: Space.xs,
                           children: [
-                            if (shop.verified)
+                            if (membership != null && membership.status != PartnerStatus.approved)
+                              PartnerStatusPill(status: membership.status),
+                            if (shop?.verified ?? false)
                               StatusPill(
                                 label: core.verifiedShop,
                                 tone: Tone.info,
                                 icon: Icons.verified,
                               ),
-                            RatingLine(rating: shop.rating, count: shop.ratingCount, dense: true),
+                            if (shop != null && shop.ratingCount > 0)
+                              RatingLine(rating: shop.rating, count: shop.ratingCount, dense: true),
                           ],
                         ),
                       ],
@@ -70,20 +87,43 @@ class ShopMoreScreen extends ConsumerWidget {
           MenuCard(
             children: [
               row(
-                Icons.account_balance_wallet_outlined,
-                t.moreMoney,
-                () => context.push(Routes.shopMoney),
+                Icons.forum_outlined,
+                t.chatsTitle,
+                () => context.push(Routes.shopChats),
+                badge: ref.watch(unreadChatsProvider),
               ),
+              row(
+                Icons.notifications_outlined,
+                t.notificationsTitle,
+                () => context.push(Routes.notifications),
+                badge: ref.watch(unreadCountProvider),
+              ),
+            ],
+          ),
+          MenuCard(
+            children: [
+              if (owner)
+                row(
+                  Icons.account_balance_wallet_outlined,
+                  t.moreMoney,
+                  () => context.push(Routes.shopMoney),
+                ),
               row(Icons.insights_outlined, t.moreInsights, () => context.push(Routes.shopInsights)),
-              row(Icons.groups_outlined, t.moreStaff, () => context.push(Routes.shopStaff)),
-              row(Icons.storefront_outlined, t.moreProfile, () => showDemoDisabled(context)),
+              if (owner) ...[
+                row(Icons.groups_outlined, t.moreStaff, () => context.push(Routes.shopStaff)),
+                row(
+                  Icons.storefront_outlined,
+                  t.moreProfile,
+                  () => context.push(Routes.shopProfile),
+                ),
+              ],
             ],
           ),
           MenuCard(children: settingsRows(context, ref)),
           MenuCard(
             children: [
               row(Icons.swap_horiz, t.roleSwitch, () => context.push(Routes.role)),
-              row(Icons.help_outline, t.moreHelp, () => showDemoDisabled(context)),
+              row(Icons.help_outline, t.moreHelp, () => showHelp(context, ref)),
             ],
           ),
           const SizedBox(height: Space.xl),
@@ -92,6 +132,34 @@ class ShopMoreScreen extends ConsumerWidget {
       ),
     );
   }
+}
+
+/// The platform's support phone and WhatsApp.
+Future<void> showHelp(BuildContext context, WidgetRef ref) {
+  final settings = ref.read(platformSettingsProvider);
+  return showModalBottomSheet<void>(
+    context: context,
+    builder: (context) => SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(Space.page, 0, Space.page, Space.lg),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(context.t.moreHelp, style: Theme.of(context).textTheme.titleLarge),
+            const SizedBox(height: Space.sm),
+            Text(context.t.helpBody),
+            const SizedBox(height: Space.lg),
+            ContactActions(
+              live: true,
+              phone: settings.supportPhone.isEmpty ? null : settings.supportPhone,
+              whatsapp: settings.supportWhatsapp.isEmpty ? null : settings.supportWhatsapp,
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 }
 
 class SignOutButton extends ConsumerWidget {

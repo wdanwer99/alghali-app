@@ -5,7 +5,6 @@ import 'package:alghali_core/alghali_core.dart';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'connection.dart';
 import 'session.dart';
 
 /// The buyer's fittings, newest first: the saved copy at once, then the server's.

@@ -576,6 +576,7 @@ class Booking {
     this.lat,
     this.lng,
     this.paymentRejectReason,
+    this.parts = const <BookingPart>[],
   });
 
   /// From `booking_json` (booking RPCs, my_bookings, tech_bookings). The job code is there
@@ -653,6 +654,9 @@ class Booking {
       lat: (j['lat'] as num?)?.toDouble(),
       lng: (j['lng'] as num?)?.toDouble(),
       paymentRejectReason: bankak.isEmpty ? null : bankak.first['reject_reason'] as String?,
+      parts: [
+        for (final p in [...?(j['parts'] as List?)?.cast<Json>()]) BookingPart.fromJson(p),
+      ],
     );
   }
 
@@ -717,6 +721,9 @@ class Booking {
   final double? lng;
   final String? paymentRejectReason;
 
+  /// The shops holding the parts bought with the fitting, and how far along each is (D-121).
+  final List<BookingPart> parts;
+
   DateTime get endAt => startAt.add(Duration(minutes: durationMin));
 
   /// What the buyer transfers through Bankak for a booking paid on its own.
@@ -777,7 +784,47 @@ class Booking {
     lat: lat,
     lng: lng,
     paymentRejectReason: paymentRejectReason,
+    parts: parts,
   );
+}
+
+/// One shop's part of a fitting's order, for the technician who collects it.
+@immutable
+class BookingPart {
+  const BookingPart({
+    required this.subOrderId,
+    required this.shopId,
+    required this.shopName,
+    required this.status,
+    this.itemsSdg = 0,
+    this.plotNo,
+    this.phone,
+  });
+
+  factory BookingPart.fromJson(Json j) => BookingPart(
+    subOrderId: j['sub_order_id'] as String,
+    shopId: j['shop_id'] as String,
+    shopName: LocalizedText.fromJson(j, 'name'),
+    status: SubOrderStatus.fromCode(j['status'] as String),
+    itemsSdg: j['items_sdg'] as int? ?? 0,
+    plotNo: j['plot_no'] as String?,
+    phone: j['phone'] as String?,
+  );
+
+  final String subOrderId;
+  final String shopId;
+  final LocalizedText shopName;
+  final SubOrderStatus status;
+
+  /// What the parts cost: on a cash fitting the technician pays the shop this at pickup.
+  final int itemsSdg;
+  final String? plotNo;
+  final String? phone;
+
+  /// The technician has it (or it was never theirs to collect any more).
+  bool get collected =>
+      status == SubOrderStatus.handedToTechnician || status == SubOrderStatus.completed;
+  bool get ready => status == SubOrderStatus.ready;
 }
 
 /// A bookable start time for one technician.

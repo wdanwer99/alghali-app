@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">شركاء الغالي</string>
+    <string name="alerts_channel">الطلبات والأعمال</string>
+    <string name="alerts_channel_description">الطلبات الجديدة وطلبات القطع وعروض العمل والرسائل</string>
+</resources>

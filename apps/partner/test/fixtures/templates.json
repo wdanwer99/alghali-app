@@ -1,0 +1,458 @@
+[
+  {
+    "code": "ORDER_PLACED",
+    "locale": "ar",
+    "title": "تم استلام طلبك",
+    "body": "رقم الطلب {ref}. سنُبلغك بكل خطوة."
+  },
+  {
+    "code": "ORDER_PLACED",
+    "locale": "en",
+    "title": "Order received",
+    "body": "Order {ref}. We'll keep you posted."
+  },
+  {
+    "code": "PAYMENT_CONFIRMED",
+    "locale": "ar",
+    "title": "تم تأكيد الدفع",
+    "body": "وصل تحويلك للطلب {ref}، والمحلات تجهّزه الآن."
+  },
+  {
+    "code": "PAYMENT_CONFIRMED",
+    "locale": "en",
+    "title": "Payment confirmed",
+    "body": "Your transfer for order {ref} arrived; the shops are preparing it."
+  },
+  {
+    "code": "PAYMENT_REJECTED",
+    "locale": "ar",
+    "title": "لم نتمكن من تأكيد الدفع",
+    "body": "راجع إيصال الطلب {ref} وأرسله مرة أخرى قبل {pay_by}."
+  },
+  {
+    "code": "PAYMENT_REJECTED",
+    "locale": "en",
+    "title": "Payment not confirmed",
+    "body": "Check the receipt for order {ref} and send it again before {pay_by}."
+  },
+  {
+    "code": "ORDER_READY",
+    "locale": "ar",
+    "title": "طلبك جاهز",
+    "body": "الطلب {ref} جاهز في المحل."
+  },
+  {
+    "code": "ORDER_READY",
+    "locale": "en",
+    "title": "Your order is ready",
+    "body": "Order {ref} is ready at the shop."
+  },
+  {
+    "code": "ORDER_HANDED_OVER",
+    "locale": "ar",
+    "title": "تم تسليم الطلب",
+    "body": "خرج الطلب {ref} من المحل."
+  },
+  {
+    "code": "ORDER_HANDED_OVER",
+    "locale": "en",
+    "title": "Order handed over",
+    "body": "Order {ref} has left the shop."
+  },
+  {
+    "code": "ORDER_DELIVERED",
+    "locale": "ar",
+    "title": "تم التوصيل",
+    "body": "وصل الطلب {ref}. نتمنى أن يعجبك."
+  },
+  {
+    "code": "ORDER_DELIVERED",
+    "locale": "en",
+    "title": "Delivered",
+    "body": "Order {ref} was delivered."
+  },
+  {
+    "code": "ORDER_CANCELLED",
+    "locale": "ar",
+    "title": "أُلغي الطلب",
+    "body": "أُلغي الطلب {ref}."
+  },
+  {
+    "code": "ORDER_CANCELLED",
+    "locale": "en",
+    "title": "Order cancelled",
+    "body": "Order {ref} was cancelled."
+  },
+  {
+    "code": "ORDER_REJECTED_BY_SHOP",
+    "locale": "ar",
+    "title": "المحل لا يستطيع توفير القطعة",
+    "body": "اعتذر المحل عن جزء من الطلب {ref}، وسنعيد لك المبلغ."
+  },
+  {
+    "code": "ORDER_REJECTED_BY_SHOP",
+    "locale": "en",
+    "title": "The shop can't supply it",
+    "body": "A shop declined part of order {ref}; you'll get that money back."
+  },
+  {
+    "code": "RETURN_APPROVED",
+    "locale": "ar",
+    "title": "تمت الموافقة على الإرجاع",
+    "body": "وافقنا على إرجاع جزء من الطلب {ref}."
+  },
+  {
+    "code": "RETURN_APPROVED",
+    "locale": "en",
+    "title": "Return approved",
+    "body": "The return on order {ref} was approved."
+  },
+  {
+    "code": "RETURN_DECLINED",
+    "locale": "ar",
+    "title": "لم تتم الموافقة على الإرجاع",
+    "body": "لم نوافق على إرجاع جزء من الطلب {ref}: {reason}"
+  },
+  {
+    "code": "RETURN_DECLINED",
+    "locale": "en",
+    "title": "Return declined",
+    "body": "The return on order {ref} was declined: {reason}"
+  },
+  {
+    "code": "REFUND_CREATED",
+    "locale": "ar",
+    "title": "سنعيد لك مبلغًا",
+    "body": "سنحوّل لك {amount_sdg} عبر بنكك قريبًا."
+  },
+  {
+    "code": "REFUND_CREATED",
+    "locale": "en",
+    "title": "Refund on its way",
+    "body": "We'll send you {amount_sdg} by Bankak soon."
+  },
+  {
+    "code": "REFUND_PAID",
+    "locale": "ar",
+    "title": "تم تحويل المبلغ",
+    "body": "حوّلنا لك {amount_sdg} عبر بنكك. رقم العملية {txn}."
+  },
+  {
+    "code": "REFUND_PAID",
+    "locale": "en",
+    "title": "Refund sent",
+    "body": "We sent you {amount_sdg} by Bankak, transaction {txn}."
+  },
+  {
+    "code": "NEW_OFFER",
+    "locale": "ar",
+    "title": "عرض جديد على طلبك",
+    "body": "وصلك عرض بسعر {price_sdg}."
+  },
+  {
+    "code": "NEW_OFFER",
+    "locale": "en",
+    "title": "New offer on your request",
+    "body": "A shop offered it for {price_sdg}."
+  },
+  {
+    "code": "NEW_MESSAGE",
+    "locale": "ar",
+    "title": "رسالة جديدة",
+    "body": "لديك رسالة جديدة."
+  },
+  {
+    "code": "NEW_MESSAGE",
+    "locale": "en",
+    "title": "New message",
+    "body": "You have a new message."
+  },
+  {
+    "code": "BOOKING_ACCEPTED",
+    "locale": "ar",
+    "title": "تم تأكيد موعد التركيب",
+    "body": "الفني قبل موعد التركيب {ref} يوم {start_at}."
+  },
+  {
+    "code": "BOOKING_ACCEPTED",
+    "locale": "en",
+    "title": "Fitting confirmed",
+    "body": "The technician accepted fitting {ref} for {start_at}."
+  },
+  {
+    "code": "BOOKING_REASSIGNED",
+    "locale": "ar",
+    "title": "فني آخر لموعدك",
+    "body": "نعرض موعد التركيب {ref} على فني آخر في نفس الوقت."
+  },
+  {
+    "code": "BOOKING_REASSIGNED",
+    "locale": "en",
+    "title": "Another technician",
+    "body": "We're offering fitting {ref} to another technician at the same time."
+  },
+  {
+    "code": "BOOKING_NEEDS_RESCHEDULE",
+    "locale": "ar",
+    "title": "اختر موعدًا جديدًا",
+    "body": "لا يوجد فني متاح لموعد التركيب {ref}. اختر وقتًا آخر أو ألغِ واسترد المبلغ كاملًا."
+  },
+  {
+    "code": "BOOKING_NEEDS_RESCHEDULE",
+    "locale": "en",
+    "title": "Pick a new time",
+    "body": "No technician is free for fitting {ref}. Pick another time, or cancel for a full refund."
+  },
+  {
+    "code": "BOOKING_CANCELLED",
+    "locale": "ar",
+    "title": "أُلغي موعد التركيب",
+    "body": "أُلغي موعد التركيب {ref}."
+  },
+  {
+    "code": "BOOKING_CANCELLED",
+    "locale": "en",
+    "title": "Fitting cancelled",
+    "body": "Fitting {ref} was cancelled."
+  },
+  {
+    "code": "BOOKING_COMPLETED",
+    "locale": "ar",
+    "title": "تم التركيب",
+    "body": "انتهى التركيب {ref}. قيّم الفني والمحل."
+  },
+  {
+    "code": "BOOKING_COMPLETED",
+    "locale": "en",
+    "title": "Fitting done",
+    "body": "Fitting {ref} is done. Rate the technician and the shop."
+  },
+  {
+    "code": "TECH_EN_ROUTE",
+    "locale": "ar",
+    "title": "الفني في الطريق",
+    "body": "الفني في طريقه إليك لموعد التركيب {ref}."
+  },
+  {
+    "code": "TECH_EN_ROUTE",
+    "locale": "en",
+    "title": "Technician on the way",
+    "body": "Your technician is on the way for fitting {ref}."
+  },
+  {
+    "code": "TECH_ARRIVED",
+    "locale": "ar",
+    "title": "بدأ التركيب",
+    "body": "بدأ الفني العمل على التركيب {ref}."
+  },
+  {
+    "code": "TECH_ARRIVED",
+    "locale": "en",
+    "title": "Work started",
+    "body": "The technician started fitting {ref}."
+  },
+  {
+    "code": "PART_DOES_NOT_FIT",
+    "locale": "ar",
+    "title": "القطعة لا تناسب السيارة",
+    "body": "لم يركّب الفني القطعة في الموعد {ref}. تدفع رسوم المشوار فقط، وفتحنا طلب إرجاع."
+  },
+  {
+    "code": "PART_DOES_NOT_FIT",
+    "locale": "en",
+    "title": "The part doesn't fit",
+    "body": "The part couldn't be fitted ({ref}). You pay the travel fee only; we opened a return."
+  },
+  {
+    "code": "BOOKING_REMINDER_DAY",
+    "locale": "ar",
+    "title": "تذكير بموعد التركيب",
+    "body": "موعد التركيب {ref} غدًا {start_at}."
+  },
+  {
+    "code": "BOOKING_REMINDER_DAY",
+    "locale": "en",
+    "title": "Fitting tomorrow",
+    "body": "Fitting {ref} is at {start_at}."
+  },
+  {
+    "code": "BOOKING_REMINDER_HOUR",
+    "locale": "ar",
+    "title": "موعد التركيب بعد ساعة",
+    "body": "موعد التركيب {ref} الساعة {start_at}."
+  },
+  {
+    "code": "BOOKING_REMINDER_HOUR",
+    "locale": "en",
+    "title": "Fitting in an hour",
+    "body": "Fitting {ref} starts at {start_at}."
+  },
+  {
+    "code": "DISPUTE_REPLY",
+    "locale": "ar",
+    "title": "رد على الشكوى",
+    "body": "هناك رد جديد على الشكوى."
+  },
+  {
+    "code": "DISPUTE_REPLY",
+    "locale": "en",
+    "title": "Reply on your complaint",
+    "body": "There's a new reply on the complaint."
+  },
+  {
+    "code": "DISPUTE_RESOLVED",
+    "locale": "ar",
+    "title": "أُغلقت الشكوى",
+    "body": "تم البت في الشكوى: {resolution}"
+  },
+  {
+    "code": "DISPUTE_RESOLVED",
+    "locale": "en",
+    "title": "Complaint closed",
+    "body": "The complaint was decided: {resolution}"
+  },
+  {
+    "code": "NEW_ORDER",
+    "locale": "ar",
+    "title": "طلب جديد",
+    "body": "طلب جديد رقم {ref}. اضغط للقبول."
+  },
+  {
+    "code": "NEW_ORDER",
+    "locale": "en",
+    "title": "New order",
+    "body": "New order {ref}. Tap to accept."
+  },
+  {
+    "code": "NEW_PART_REQUEST",
+    "locale": "ar",
+    "title": "طلب قطعة جديد",
+    "body": "زبون يبحث عن قطعة قد تكون عندك."
+  },
+  {
+    "code": "NEW_PART_REQUEST",
+    "locale": "en",
+    "title": "New part request",
+    "body": "A buyer is looking for a part you may have."
+  },
+  {
+    "code": "RETURN_REQUESTED",
+    "locale": "ar",
+    "title": "طلب إرجاع",
+    "body": "طلب الزبون إرجاع الطلب {ref}: {reason}"
+  },
+  {
+    "code": "RETURN_REQUESTED",
+    "locale": "en",
+    "title": "Return requested",
+    "body": "The buyer wants to return order {ref}: {reason}"
+  },
+  {
+    "code": "PAYOUT_PAID",
+    "locale": "ar",
+    "title": "تم تحويل مستحقاتك",
+    "body": "حوّلنا لك {amount_sdg} عبر بنكك. رقم العملية {txn}."
+  },
+  {
+    "code": "PAYOUT_PAID",
+    "locale": "en",
+    "title": "Payout sent",
+    "body": "We sent you {amount_sdg} by Bankak, transaction {txn}."
+  },
+  {
+    "code": "NEW_JOB_OFFER",
+    "locale": "ar",
+    "title": "عرض عمل جديد",
+    "body": "تركيب {ref} يوم {start_at}. اقبل أو اعتذر قبل انتهاء المهلة."
+  },
+  {
+    "code": "NEW_JOB_OFFER",
+    "locale": "en",
+    "title": "New job offer",
+    "body": "Fitting {ref} at {start_at}. Accept or decline before it times out."
+  },
+  {
+    "code": "TECHNICIAN_STATUS",
+    "locale": "ar",
+    "title": "تحديث على حسابك كفني",
+    "body": "تغيّرت حالة حسابك كفني."
+  },
+  {
+    "code": "TECHNICIAN_STATUS",
+    "locale": "en",
+    "title": "Technician account update",
+    "body": "The status of your technician account changed."
+  },
+  {
+    "code": "PARTS_READY",
+    "locale": "ar",
+    "title": "القطع جاهزة للاستلام",
+    "body": "قطع الطلب {ref} جاهزة في المحل لموعد التركيب."
+  },
+  {
+    "code": "PARTS_READY",
+    "locale": "en",
+    "title": "Parts ready to collect",
+    "body": "The parts for order {ref} are ready at the shop for your fitting."
+  },
+  {
+    "code": "TECH_WILL_COLLECT",
+    "locale": "ar",
+    "title": "فني سيستلم القطع",
+    "body": "{technician} سيستلم قطع الطلب قبل موعد التركيب {start_at}."
+  },
+  {
+    "code": "TECH_WILL_COLLECT",
+    "locale": "en",
+    "title": "A technician will collect",
+    "body": "{technician} will collect the parts before the fitting at {start_at}."
+  },
+  {
+    "code": "NEW_REVIEW",
+    "locale": "ar",
+    "title": "تقييم جديد",
+    "body": "حصلت على تقييم {rating} من 5."
+  },
+  {
+    "code": "NEW_REVIEW",
+    "locale": "en",
+    "title": "New review",
+    "body": "You got a {rating} out of 5 review."
+  },
+  {
+    "code": "SHOP_NOT_ACKNOWLEDGED",
+    "locale": "ar",
+    "title": "طلب لم يقبله المحل",
+    "body": "الطلب {ref} مؤكد منذ 30 دقيقة ولم يقبله المحل."
+  },
+  {
+    "code": "SHOP_NOT_ACKNOWLEDGED",
+    "locale": "en",
+    "title": "Order not accepted",
+    "body": "Order {ref} has been confirmed for 30 minutes without the shop accepting."
+  },
+  {
+    "code": "JOB_CODE_LOCKED",
+    "locale": "ar",
+    "title": "قُفل رمز التركيب",
+    "body": "أُدخل رمز خاطئ 5 مرات في التركيب {ref}."
+  },
+  {
+    "code": "JOB_CODE_LOCKED",
+    "locale": "en",
+    "title": "Job code locked",
+    "body": "A wrong code was entered 5 times on fitting {ref}."
+  },
+  {
+    "code": "DISPUTE_OPENED",
+    "locale": "ar",
+    "title": "شكوى جديدة",
+    "body": "فُتحت شكوى جديدة."
+  },
+  {
+    "code": "DISPUTE_OPENED",
+    "locale": "en",
+    "title": "New complaint",
+    "body": "A new complaint was opened."
+  }
+]

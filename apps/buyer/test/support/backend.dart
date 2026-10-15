@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:alghali_buyer/app.dart';
-import 'package:alghali_buyer/state/connection.dart';
 import 'package:alghali_buyer/state/inbox.dart';
 import 'package:alghali_buyer/state/session.dart';
 import 'package:alghali_core/alghali_core.dart';

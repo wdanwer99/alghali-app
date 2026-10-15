@@ -722,5 +722,105 @@
   "actionOpen": "فتح",
   "@actionOpen": {
     "description": "Open what an alert is about"
+  },
+  "errChangedMeanwhile": "تغيّر هذا في هذه الأثناء. اسحب للأسفل لترى حالته الآن.",
+  "@errChangedMeanwhile": {
+    "description": "Error: INVALID_TRANSITION, NOT_EN_ROUTE"
+  },
+  "errVersionConflict": "غيّر شخص آخر هذه القطعة للتو. راجعها وحاول مرة أخرى.",
+  "@errVersionConflict": {
+    "description": "Error: VERSION_CONFLICT"
+  },
+  "errStockBelowReserved": "لا يمكن أن تقل الكمية عمّا حجزته الطلبات المفتوحة.",
+  "@errStockBelowReserved": {
+    "description": "Error: STOCK_BELOW_RESERVED"
+  },
+  "errPriceRequired": "اكتب السعر.",
+  "@errPriceRequired": {
+    "description": "Error: PRICE_REQUIRED"
+  },
+  "errCheckValue": "راجع البيانات المدخلة وحاول مرة أخرى.",
+  "@errCheckValue": {
+    "description": "Error: validation codes"
+  },
+  "errShopNotActive": "المحل موقوف أو غير معتمد. تواصل مع فريق المنصة.",
+  "@errShopNotActive": {
+    "description": "Error: SHOP_NOT_ACTIVE"
+  },
+  "errTechNotActive": "حساب الفني غير مفعّل بعد.",
+  "@errTechNotActive": {
+    "description": "Error: TECHNICIAN_NOT_ACTIVE"
+  },
+  "errPartsNotCollected": "استلم القطع من المحل أولاً.",
+  "@errPartsNotCollected": {
+    "description": "Error: PARTS_NOT_COLLECTED"
+  },
+  "errPartsWithTechnician": "القطع معك الآن. تواصل مع فريق المنصة للاعتذار عن العمل.",
+  "@errPartsWithTechnician": {
+    "description": "Error: PARTS_WITH_TECHNICIAN"
+  },
+  "errJobCodeLocked": "أُوقف إنهاء العمل بعد محاولات خاطئة. سيساعدك فريق المنصة.",
+  "@errJobCodeLocked": {
+    "description": "Error: JOB_CODE_LOCKED"
+  },
+  "errLabourBounds": "هذا السعر خارج الحدود التي تسمح بها المنصة.",
+  "@errLabourBounds": {
+    "description": "Error: LABOUR_OUT_OF_BOUNDS"
+  },
+  "errTooManyRules": "فترات العمل كثيرة جداً.",
+  "@errTooManyRules": {
+    "description": "Error: TOO_MANY_RULES"
+  },
+  "errTimeOffTooLong": "الإجازة لا تتجاوز 60 يوماً.",
+  "@errTimeOffTooLong": {
+    "description": "Error: TIME_OFF_TOO_LONG"
+  },
+  "errAlreadyMember": "هذا الشخص موجود في محلك.",
+  "@errAlreadyMember": {
+    "description": "Error: ALREADY_MEMBER"
+  },
+  "errUserNotFound": "لا يوجد حساب بهذا البريد. اطلب منه التسجيل في تطبيق الشركاء أولاً.",
+  "@errUserNotFound": {
+    "description": "Error: USER_NOT_FOUND"
+  },
+  "errTooManyStaff": "وصلت إلى الحد الأقصى للموظفين.",
+  "@errTooManyStaff": {
+    "description": "Error: TOO_MANY_STAFF"
+  },
+  "errCannotRemoveOwner": "لا يمكن إزالة صاحب المحل.",
+  "@errCannotRemoveOwner": {
+    "description": "Error: CANNOT_REMOVE_OWNER"
+  },
+  "errAlreadyApplied": "لديك طلب قيد المراجعة بالفعل.",
+  "@errAlreadyApplied": {
+    "description": "Error: APPLICATION_PENDING, ALREADY_APPLIED"
+  },
+  "errTooManyShops": "يمكنك إدارة 3 محلات على الأكثر.",
+  "@errTooManyShops": {
+    "description": "Error: TOO_MANY_SHOPS"
+  },
+  "errBayRequired": "اختر الورشة التي تعمل فيها.",
+  "@errBayRequired": {
+    "description": "Error: BAY_REQUIRED"
+  },
+  "errHomeRequired": "حدّد موقع انطلاقك للزيارات.",
+  "@errHomeRequired": {
+    "description": "Error: HOME_POINT_REQUIRED"
+  },
+  "errJobTypesRequired": "اختر نوع عمل واحداً على الأقل.",
+  "@errJobTypesRequired": {
+    "description": "Error: JOB_TYPES_REQUIRED"
+  },
+  "errReasonRequired": "اكتب السبب.",
+  "@errReasonRequired": {
+    "description": "Error: REASON_REQUIRED"
+  },
+  "errBadSheet": "الملف لا يطابق القالب. نزّل القالب واملأه ثم أعد المحاولة.",
+  "@errBadSheet": {
+    "description": "Error: import file problems"
+  },
+  "errTooManyRows": "الملف فيه أكثر من 2000 صف. قسّمه إلى ملفات أصغر.",
+  "@errTooManyRows": {
+    "description": "Error: TOO_MANY_ROWS"
   }
 }

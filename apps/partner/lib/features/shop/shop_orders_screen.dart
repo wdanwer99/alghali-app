@@ -5,7 +5,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../app.dart';
 import '../../router.dart';
-import '../../state/shop_state.dart';
+import '../../state/shop.dart';
 import '../../widgets/partner_widgets.dart';
 
 class ShopOrdersScreen extends ConsumerWidget {
@@ -16,16 +16,30 @@ class ShopOrdersScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = context.t;
-    final orders = ref.watch(shopOrdersProvider);
+    final value = ref.watch(shopOrdersProvider);
+    final orders = value.value ?? const <ShopSubOrder>[];
+    Future<void> refresh() => ref.read(shopOrdersProvider.notifier).refresh();
     final groups = [
-      (
-        t.tabNew,
-        orders.where((o) => o.isNew || o.sub.status == SubOrderStatus.pendingPayment).toList(),
-      ),
+      (t.tabNew, orders.where((o) => o.isNew).toList()),
       (t.tabPreparing, orders.where((o) => o.isPreparing).toList()),
       (t.tabReady, orders.where((o) => o.isReady).toList()),
       (t.tabDone, orders.where((o) => o.isDone).toList()),
     ];
+
+    Widget list(List<ShopSubOrder> items) => RefreshIndicator(
+      onRefresh: refresh,
+      child: items.isEmpty
+          ? ListView(
+              children: [EmptyState(icon: Icons.inbox_outlined, title: t.ordersEmpty)],
+            )
+          : ListView.separated(
+              padding: Space.pageInsets,
+              itemCount: items.length,
+              separatorBuilder: (_, _) => const SizedBox(height: Space.sm),
+              itemBuilder: (_, i) => ShopOrderCard(key: ValueKey(items[i].id), order: items[i]),
+            ),
+    );
+
     return DefaultTabController(
       length: groups.length,
       initialIndex: switch (tab) {
@@ -43,18 +57,26 @@ class ShopOrdersScreen extends ConsumerWidget {
             tabs: [for (final (label, list) in groups) Tab(text: '$label (${list.length})')],
           ),
         ),
-        body: TabBarView(
+        body: Column(
           children: [
-            for (final (_, list) in groups)
-              list.isEmpty
-                  ? EmptyState(icon: Icons.inbox_outlined, title: t.ordersEmpty)
-                  : ListView.separated(
-                      padding: Space.pageInsets,
-                      itemCount: list.length,
-                      separatorBuilder: (_, _) => const SizedBox(height: Space.sm),
-                      itemBuilder: (_, i) =>
-                          ShopOrderCard(key: ValueKey(list[i].id), order: list[i]),
-                    ),
+            const OfflineBanner(),
+            Expanded(
+              child: switch (value) {
+                AsyncValue(hasValue: true) => TabBarView(
+                  children: [for (final (_, items) in groups) list(items)],
+                ),
+                AsyncError(:final error) => EmptyState(
+                  icon: Icons.cloud_off_outlined,
+                  title: context.core.error(error),
+                  action: OutlinedButton.icon(
+                    onPressed: refresh,
+                    icon: const Icon(Icons.refresh),
+                    label: Text(context.core.actionRetry),
+                  ),
+                ),
+                _ => const SkeletonList(),
+              },
+            ),
           ],
         ),
       ),
@@ -62,21 +84,26 @@ class ShopOrdersScreen extends ConsumerWidget {
   }
 }
 
+/// When the order became the shop's to accept: when it was paid (or placed, for cash).
+DateTime confirmedAt(ShopSubOrder o) =>
+    o.subOrder.events.where((e) => e.status == SubOrderStatus.confirmed).firstOrNull?.at ??
+    o.placedAt;
+
 /// Order summary card used on the dashboard and the orders tabs.
 class ShopOrderCard extends ConsumerWidget {
   const ShopOrderCard({super.key, required this.order});
 
-  final ShopOrder order;
+  final ShopSubOrder order;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = context.t;
     final core = context.core;
     final theme = Theme.of(context);
-    final catalogue = ref.watch(catalogueProvider);
     final now = ref.watch(clockProvider)();
-    final items = order.sub.items;
-    final ackBy = order.sub.events.first.at.add(const Duration(minutes: 30));
+    final sub = order.subOrder;
+    final booking = order.booking;
+    final ackBy = confirmedAt(order).add(const Duration(minutes: 30));
 
     return TapCard(
       onTap: () => context.push(Routes.shopOrder(order.id)),
@@ -89,7 +116,7 @@ class ShopOrderCard extends ConsumerWidget {
                 child: Text(t.orderRef(formatRef(order.ref)), style: theme.textTheme.titleSmall),
               ),
               Text(
-                context.sdg(order.sub.itemsSdg),
+                context.sdg(sub.itemsSdg),
                 style: theme.textTheme.titleSmall?.copyWith(fontFeatures: AppTypography.tabular),
               ),
             ],
@@ -99,7 +126,7 @@ class ShopOrderCard extends ConsumerWidget {
             style: theme.textTheme.bodySmall,
           ),
           const SizedBox(height: Space.sm),
-          for (final i in items)
+          for (final i in sub.items)
             Text(
               '${i.title.tr(context)} × ${i.qty}',
               maxLines: 1,
@@ -121,26 +148,21 @@ class ShopOrderCard extends ConsumerWidget {
                   ),
                 )
               else
-                StatusPill(
-                  label: core.subOrderStatus(order.sub.status),
-                  tone: shopOrderTone(order.sub.status),
-                ),
+                StatusPill(label: core.subOrderStatus(sub.status), tone: shopOrderTone(sub.status)),
               StatusPill(
-                label:
-                    order.sub.fulfilment == FulfilmentType.toTechnician &&
-                        order.technicianId != null
+                label: sub.fulfilment == FulfilmentType.toTechnician && booking != null
                     ? t.toTechWith(
-                        catalogue.technician(order.technicianId!).name.tr(context),
-                        order.fittingAt == null ? '' : context.dayTime(order.fittingAt!),
+                        isolate(booking.technicianName),
+                        context.dayTime(booking.startAt),
                       )
-                    : core.fulfilment(order.sub.fulfilment),
-                icon: switch (order.sub.fulfilment) {
+                    : core.fulfilment(sub.fulfilment),
+                icon: switch (sub.fulfilment) {
                   FulfilmentType.pickup => Icons.storefront_outlined,
                   FulfilmentType.delivery => Icons.local_shipping_outlined,
                   FulfilmentType.toTechnician => Icons.handyman_outlined,
                 },
               ),
-              if (order.paymentStatus == PaymentStatus.due)
+              if (order.cashDue)
                 StatusPill(label: core.payCash, tone: Tone.warning, icon: Icons.payments_outlined),
             ],
           ),

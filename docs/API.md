@@ -93,10 +93,13 @@ A shop sees a sub-order only once it is paid (or a cash order is placed), and ne
 | `shop_withdraw_offer(p_shop_id, p_offer_id)` | members | |
 | `shop_start_conversation(p_sub_order_id)` | members | Chat with the buyer of one of the shop's orders. |
 | `shop_conversations(p_shop_id, p_limit?)` | members | The inbox: the buyer's name, the order reference, the last message and `unread`. |
+| `shop_detail(p_shop_id)` | members | The shop as `shop_json`, also while `PENDING`, `REJECTED` or `SUSPENDED` (M5, D-120). |
+| `shop_set_closed(p_shop_id, p_until)` | members (writable shop) | "Closed today": `closed_until` until `p_until` (in the future, at most 7 days ahead; null opens again). `open_now` is false meanwhile (D-119). `INVALID_VALUE` otherwise. |
+| `shop_insights(p_shop_id, p_days = 7)` | members | `{days: [{day, sales_sdg, orders}], top: [{part_id, title_ar, title_en, qty, sales_sdg}] (≤ 5), rating_avg, rating_count}`: sales per Khartoum day, oldest first, counting sub-orders the shop can see that weren't cancelled, refused or returned (D-120). `p_days` 1–90. |
 
 #### Fittings (M3)
 
-Booking RPCs return `booking_json`: the booking with `items` (each with `job_type_code`), `events`, `technician` (phone once accepted, for the buyer), `buyer` (for the technician), `bay`, `photos`, `offer`, `payments`, `order_ref`, and `job_code` for the buyer only. Statuses move along `booking_transitions` (PLAN §3.10, D-097–D-102).
+Booking RPCs return `booking_json`: the booking with `items` (each with `job_type_code`), `events`, `technician` (phone once accepted, for the buyer), `buyer` (for the technician), `bay`, `photos`, `offer`, `payments`, `order_ref`, `parts` (M5: each shop holding the fitting's parts, with `sub_order_id, shop_id, name_ar/en, plot_no, phone, status, items_sdg`, D-121), and `job_code` for the buyer only. Statuses move along `booking_transitions` (PLAN §3.10, D-097–D-102).
 
 | Function | Who | Does |
 |---|---|---|

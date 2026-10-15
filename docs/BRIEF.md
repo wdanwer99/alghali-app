@@ -12,7 +12,7 @@ Where the project stands and the rules every change follows. Read this before wr
 
 ---
 
-## 1. Status (2026-10-14)
+## 1. Status (2026-10-15)
 
 | Milestone | State | Commit |
 |---|---|---|
@@ -23,14 +23,15 @@ Where the project stands and the rules every change follows. Read this before wr
 | M2 Commerce: cart, checkout, payments, fulfilment, returns, ledger, payouts, photo requests, chat | Done 2026-10-14 | `a0a2d74` |
 | M3 Installation: technicians, slots, bookings, notifications, reviews, disputes | Done 2026-10-14 | `921e149` |
 | Push through Firebase (project `alghali-street`) | Done 2026-10-14 | `173979a` |
-| M4 Buyer app on the real backend, offline cache and outbox, push | Done 2026-10-14 | see `git log` |
-| M5 Partner app · M6 Admin rest · M7 Hardening and launch | Not started | — |
+| M4 Buyer app on the real backend, offline cache and outbox, push | Done 2026-10-14 | `fb20a5e` |
+| M5 Partner app on the real backend: shops and technicians, joining, offline stock | Done 2026-10-15 | see `git log` |
+| M6 Admin rest · M7 Hardening and launch | Not started | — |
 
 **Working state of each part:**
-- **Backend (Supabase):** everything up to M3 is applied to `alghali-dev` and `alghali-test`, with the Edge Functions deployed and the alert dispatcher wired (`pnpm notify:setup`) with real Firebase push (D-109); phones receive pushes once the apps register their devices (M4/M5).
+- **Backend (Supabase):** everything up to M5 is applied to `alghali-dev` and `alghali-test`, with the Edge Functions deployed and the alert dispatcher wired (`pnpm notify:setup`) with real Firebase push (D-109); both apps register their phones for push.
 - **Admin console:** every page reads the real database (D-106); no sample data is left.
 - **Buyer app:** every screen runs on the real backend (D-110), works offline for reading and queues safe changes (D-112), and receives push (D-113). Build `0.4.0+4`.
-- **Partner app:** every screen exists, on sample data (`packages/core/lib/src/demo`); M5 wires it to the repositories the same way, **without redesigning** (the sample screens are the reference, D-051).
+- **Partner app:** every screen runs on the real backend (D-119–D-128): joining as a shop or technician, one account with several homes, shop orders, stock with offline edits and quick listings, photo requests, chat, money, staff, insights, "closed today"; the technician's offers, job day with photos, the buyer's code and live location, hours, breaks and time off, earnings. Build `0.5.0+5`.
 
 **Waiting on the owner before launch:** the street's city, GPS starting point and real zone names (D-077), the platform Bankak account, real fee amounts (D-034), and a sender mailbox for password-reset emails (D-064). The owner can enter the street, zones, Bankak account and fees in the admin console.
 
@@ -100,6 +101,8 @@ Where the project stands and the rules every change follows. Read this before wr
 - **Writes** that can wait go through the app's outbox (`queue(ref, BuyerOps.x, payload)` or `ref.read(queueProvider)`): add an op and its handler in `state/outbox.dart`, pick an id on the phone for inserts and treat `BackendException.duplicate` as done. Anything that must be checked now calls the repository directly and shows `context.core.error(e)`.
 - Every backend error code a user can meet needs a line in `ErrorLabels.errorCode` (core `labels.dart`) and its Arabic and English text.
 - The apps' catalogue is `catalogueProvider` overridden with `liveCatalogueProvider` (`liveDataOverrides`); lookups never throw, so check `hasShop` / `hasVariant` where an empty placeholder would look wrong.
+- **Partner app:** the open home is `partnerSessionProvider` (`role`, `shopId`); shop state reads `currentShopIdProvider`. Its outbox ops are `PartnerOps` (stock edits through `shop_bulk_update` with the version raised by one per change, quick listings with their photo kept by `PhotoStore`). Device plugins that tests can't run are behind providers: `photoPickerProvider`, `sheetPickerProvider`, `photoStoreProvider`, `locationSharingEnabledProvider`.
+- `onlineProvider`, `CachedList`, `AsyncBody`, `OfflineBanner`, `showError` and `thumbUrl` are in the core package, shared by both apps.
 
 ## 6. Tests
 
@@ -111,6 +114,8 @@ Where the project stands and the rules every change follows. Read this before wr
 | `packages/core/test` | Parsers on fixtures, repositories on the fake server, outbox and cache on in-memory SQLite |
 | `apps/buyer/test` | `FakeBackend` (test/support/backend.dart) answers from fixtures captured on dev (`pnpm fixtures:buyer`). New screens join `screens_test.dart` (Arabic and English at 360 dp); flows go in `journey_test.dart`. |
 | `apps/buyer/integration_test` | `pnpm buyer:e2e` with an emulator running: the happy path against dev, cleaning up after itself |
+| `apps/partner/test` | Like the buyer's: `FakeBackend` on fixtures from dev (`pnpm fixtures:partner`, signed in as the demo owner and technician; non-demo people are replaced), plus a new order, a photo request and a job offer it adds. New screens join `screens_test.dart`; flows go in `journey_test.dart`. |
+| `apps/partner/integration_test` | `pnpm partner:e2e` with an emulator running: the script places a cash order and a fitting as a demo buyer, the shop and the technician act on them, and an admin cancels both |
 | `apps/admin` | Dictionary parity, locale |
 
 Each milestone's exit criteria in PLAN §2 must have a test. Before committing, `pnpm check` must pass (lint, Prettier, typecheck, TypeScript tests including DB and API, Dart format, `flutter analyze`, Flutter tests).
@@ -149,8 +154,13 @@ Each milestone's exit criteria in PLAN §2 must have a test. Before committing, 
 - Mock HTTP responses for the Supabase Dart client must set `request: req`.
 - `const []` defaults in Dart need explicit type arguments (`const <String>[]`).
 - In Next 16, `usePathname()` in a client component outside `<Suspense>` breaks prerendering of a dynamic route; use `instant = false` there.
+- A provider that watches another can't be invalidated from that other one (Riverpod's circular dependency): let it recompute by watching.
+- The partner router waits for the account (`PartnerSession.loaded`): publishing a session with the user but not yet their shops sent partners to "apply" and left them there.
+- Device tests: a snack bar from the last step can cover the next button (clear them before tapping); a switch that waits for data is disabled until it arrives; "open now" depends on the time of day, so check the switch's value, not its words.
+- `file_picker` 13 has a static API (`FilePicker.pickFile`, `PlatformFile.xFile`); 10.x clashes with another package's `win32`.
+- The partner fixtures include whoever used dev; the capture script replaces non-demo people. Never commit fixtures captured without it.
 
 ## 10. What comes next
 
-- **M5 Partner app:** the shop and technician screens on the real backend (orders, stock, requests, chat, statements; offers, job day, hours, earnings), the same way as the buyer app: `liveDataOverrides`, `CachedReads`, an outbox with the partner's handlers (offline listing drafts), push registration with `app: 'partner'`, an `alerts` channel and icon in its Android project, fixtures captured from dev and screen tests in both languages. The technician's en-route location (`tech_update_location`) and job photos (`booking-photos`) are new device work.
-- **M6:** the remaining admin work and Playwright smoke tests. **M7:** the acceptance journey end to end, low-end phone profiling, security review, release signing, the APK download page, and the live project.
+- **M6:** the remaining admin work and Playwright smoke tests; partners can't reply to complaints in the app yet (admins handle them), and the shop's storefront photo and the technician's avatar have no upload screen yet.
+- **M7:** the acceptance journey end to end, low-end phone profiling, security review, release signing, the APK download page, and the live project.

@@ -1,0 +1,66 @@
+[
+  {
+    "id": "fe5e87f1-7e49-47a4-a58a-54a73e26e3c3",
+    "category_id": "91a081bf-d3f0-4766-984d-17d98d17cff4",
+    "name_ar": "لمبات LED أمامية (زوج)",
+    "name_en": "LED headlight bulbs (pair)",
+    "is_verified": true,
+    "model_count": 0
+  },
+  {
+    "id": "0149b1c4-4d76-49eb-8434-20f914aa3a0f",
+    "category_id": "91a081bf-d3f0-4766-984d-17d98d17cff4",
+    "name_ar": "لمبات إشارة خلفية (طقم 4)",
+    "name_en": "Rear indicator bulbs (set of 4)",
+    "is_verified": true,
+    "model_count": 0
+  },
+  {
+    "id": "4824b834-7986-4062-9634-057d887582d7",
+    "category_id": "91a081bf-d3f0-4766-984d-17d98d17cff4",
+    "name_ar": "لمبات أمامية LED مقاس H4 (زوج)",
+    "name_en": "H4 LED headlight bulbs (pair)",
+    "is_verified": true,
+    "model_count": 6
+  },
+  {
+    "id": "71948653-da78-4de4-bbe9-fb6edd0b396d",
+    "category_id": "91a081bf-d3f0-4766-984d-17d98d17cff4",
+    "name_ar": "لمبة H11",
+    "name_en": "H11 bulb",
+    "is_verified": true,
+    "model_count": 0
+  },
+  {
+    "id": "4dbd98ab-457b-4007-8a79-8d27bb893149",
+    "category_id": "91a081bf-d3f0-4766-984d-17d98d17cff4",
+    "name_ar": "لمبة إشارة",
+    "name_en": "Indicator bulb",
+    "is_verified": true,
+    "model_count": 0
+  },
+  {
+    "id": "fb5a7b51-4db7-4d30-97c1-b936db78081f",
+    "category_id": "91a081bf-d3f0-4766-984d-17d98d17cff4",
+    "name_ar": "لمبة أمامية H7",
+    "name_en": "H7 headlight bulb",
+    "is_verified": true,
+    "model_count": 0
+  },
+  {
+    "id": "b5f16380-0992-427e-8a9b-0420df17d4c7",
+    "category_id": "91a081bf-d3f0-4766-984d-17d98d17cff4",
+    "name_ar": "لمبة أمامية H4",
+    "name_en": "H4 headlight bulb",
+    "is_verified": true,
+    "model_count": 0
+  },
+  {
+    "id": "2e8797aa-ad41-4b8f-8940-382d024b38d1",
+    "category_id": "91a081bf-d3f0-4766-984d-17d98d17cff4",
+    "name_ar": "لمبة هالوجين H4",
+    "name_en": "H4 halogen bulb",
+    "is_verified": true,
+    "model_count": 6
+  }
+]

@@ -174,26 +174,14 @@ abstract class AppLocalizations {
   /// Snackbar
   ///
   /// In ar, this message translates to:
-  /// **'سنرسل رابط إعادة التعيين إلى بريدك عند تفعيل خدمة البريد.'**
+  /// **'إذا كان لهذا البريد حساب، سيصلك رابط لتغيير كلمة المرور.'**
   String get signInForgotSent;
-
-  /// Demo hint
-  ///
-  /// In ar, this message translates to:
-  /// **'في النسخة التجريبية يعمل أي بريد صحيح مع كلمة مرور من 8 أحرف فيها أرقام.'**
-  String get signInDemoHint;
 
   /// Link for new partners
   ///
   /// In ar, this message translates to:
-  /// **'محل أو فني جديد؟ قدّم طلب انضمام'**
+  /// **'محل أو فني جديد؟ أنشئ حساباً'**
   String get signInApply;
-
-  /// Applying is not in the app yet
-  ///
-  /// In ar, this message translates to:
-  /// **'يُفتح التقديم من التطبيق قريبًا. تواصل مع فريق المنصة حاليًا.'**
-  String get applySoon;
 
   /// Role chooser title
   ///
@@ -204,7 +192,7 @@ abstract class AppLocalizations {
   /// Role chooser explanation
   ///
   /// In ar, this message translates to:
-  /// **'حسابك مرتبط بمحل وبملف فني تركيب.'**
+  /// **'اختر ما تريد فتحه من أعمالك. يمكنك التبديل في أي وقت من القائمة.'**
   String get roleBody;
 
   /// Role
@@ -266,12 +254,6 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'المحل مفتوح لاستقبال الطلبات'**
   String get shopIsOpen;
-
-  /// Open toggle off
-  ///
-  /// In ar, this message translates to:
-  /// **'المحل مغلق — لن تظهر قطعك للمشترين'**
-  String get shopIsClosed;
 
   /// Stat tile
   ///
@@ -392,12 +374,6 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'من {buyer}'**
   String orderFrom(String buyer);
-
-  /// Banner
-  ///
-  /// In ar, this message translates to:
-  /// **'بانتظار دفع المشتري — لا تجهّز بعد'**
-  String get orderAwaitingPayment;
 
   /// Fulfilment line
   ///
@@ -627,12 +603,6 @@ abstract class AppLocalizations {
   /// **'تغيير الأسعار بنسبة'**
   String get bulkPriceBy;
 
-  /// Button
-  ///
-  /// In ar, this message translates to:
-  /// **'تطبيق'**
-  String get bulkApply;
-
   /// Snackbar
   ///
   /// In ar, this message translates to:
@@ -717,12 +687,6 @@ abstract class AppLocalizations {
   /// **'التقاط صورة'**
   String get takePhoto;
 
-  /// State
-  ///
-  /// In ar, this message translates to:
-  /// **'تمت إضافة الصورة'**
-  String get photoAdded;
-
   /// Step title
   ///
   /// In ar, this message translates to:
@@ -794,12 +758,6 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'حُفظت المسودة'**
   String get draftSaved;
-
-  /// Pill
-  ///
-  /// In ar, this message translates to:
-  /// **'مسودة'**
-  String get draft;
 
   /// Explanation
   ///
@@ -1071,12 +1029,6 @@ abstract class AppLocalizations {
   /// **'أُرسلت الدعوة'**
   String get staffInviteSent;
 
-  /// Activity
-  ///
-  /// In ar, this message translates to:
-  /// **'آخر نشاط {ago}'**
-  String lastActive(String ago);
-
   /// Chart title
   ///
   /// In ar, this message translates to:
@@ -1296,12 +1248,6 @@ abstract class AppLocalizations {
   /// Section
   ///
   /// In ar, this message translates to:
-  /// **'السيارة'**
-  String get jobCar;
-
-  /// Section
-  ///
-  /// In ar, this message translates to:
   /// **'العمل'**
   String get jobWork;
 
@@ -1488,7 +1434,7 @@ abstract class AppLocalizations {
   /// Snackbar (demo adds a full day tomorrow)
   ///
   /// In ar, this message translates to:
-  /// **'أُضيفت إجازة غدًا طوال اليوم'**
+  /// **'أضيفت الإجازة'**
   String get timeOffAdded;
 
   /// Hero label
@@ -1551,29 +1497,887 @@ abstract class AppLocalizations {
   /// **'أجرة {job}'**
   String labourFor(String job);
 
-  /// Card title (demo only)
+  /// Button in the forgot-password sheet
   ///
   /// In ar, this message translates to:
-  /// **'أدوات العرض التجريبي'**
-  String get demoControls;
+  /// **'أرسل الرابط'**
+  String get forgotSend;
 
-  /// Demo button
+  /// Sign-up screen title
   ///
   /// In ar, this message translates to:
-  /// **'محاكاة طلب جديد'**
-  String get demoNewOrder;
+  /// **'حساب شريك جديد'**
+  String get signUpTitle;
 
-  /// Demo button
+  /// Sign-up intro
   ///
   /// In ar, this message translates to:
-  /// **'محاكاة عرض عمل جديد'**
-  String get demoNewOffer;
+  /// **'لأصحاب المحلات وموظفيهم وفنيي التركيب. بعدها تختار كيف تعمل معنا.'**
+  String get signUpBody;
 
-  /// Demo button
+  /// Field label
   ///
   /// In ar, this message translates to:
-  /// **'محاكاة طلب تسعير جديد'**
-  String get demoNewQuote;
+  /// **'الاسم الكامل'**
+  String get fieldName;
+
+  /// Field label
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم الجوال'**
+  String get fieldPhone;
+
+  /// Field label
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم واتساب (اختياري)'**
+  String get fieldWhatsapp;
+
+  /// Button
+  ///
+  /// In ar, this message translates to:
+  /// **'إنشاء الحساب'**
+  String get signUpSubmit;
+
+  /// Link
+  ///
+  /// In ar, this message translates to:
+  /// **'لديك حساب؟ سجّل الدخول'**
+  String get signUpHaveAccount;
+
+  /// Role card subtitle for staff
+  ///
+  /// In ar, this message translates to:
+  /// **'موظف في المحل'**
+  String get roleShopStaff;
+
+  /// Button on the role screen
+  ///
+  /// In ar, this message translates to:
+  /// **'أضف محلاً'**
+  String get applyAddShop;
+
+  /// Button on the role screen
+  ///
+  /// In ar, this message translates to:
+  /// **'قدّم كفني تركيب'**
+  String get applyAsTechnician;
+
+  /// Shop or technician review state
+  ///
+  /// In ar, this message translates to:
+  /// **'قيد المراجعة'**
+  String get statusPending;
+
+  /// Review state
+  ///
+  /// In ar, this message translates to:
+  /// **'معتمد'**
+  String get statusApproved;
+
+  /// Review state
+  ///
+  /// In ar, this message translates to:
+  /// **'مرفوض'**
+  String get statusRejected;
+
+  /// Review state
+  ///
+  /// In ar, this message translates to:
+  /// **'موقوف'**
+  String get statusSuspended;
+
+  /// Banner
+  ///
+  /// In ar, this message translates to:
+  /// **'لم يُعتمد طلبك. تواصل مع فريق المنصة لمعرفة المطلوب.'**
+  String get statusRejectedBody;
+
+  /// Banner
+  ///
+  /// In ar, this message translates to:
+  /// **'الحساب موقوف مؤقتاً، ولا يظهر للمشترين. تواصل مع فريق المنصة.'**
+  String get statusSuspendedBody;
+
+  /// The admin reason under a review banner
+  ///
+  /// In ar, this message translates to:
+  /// **'السبب: {reason}'**
+  String statusReason(String reason);
+
+  /// Banner on the shop home while pending
+  ///
+  /// In ar, this message translates to:
+  /// **'طلب المحل قيد المراجعة. جهّز قطعك وأسعارك الآن، وستظهر للمشترين بعد الاعتماد.'**
+  String get shopPendingBody;
+
+  /// Banner on the jobs screen while pending
+  ///
+  /// In ar, this message translates to:
+  /// **'طلبك قيد المراجعة. ستصلك عروض العمل بعد الاعتماد؛ أكمل ساعات عملك وأسعارك الآن.'**
+  String get techPendingBody;
+
+  /// Apply screen title
+  ///
+  /// In ar, this message translates to:
+  /// **'انضم إلى شارع الغالي'**
+  String get applyTitle;
+
+  /// Apply screen greeting
+  ///
+  /// In ar, this message translates to:
+  /// **'أهلاً {name}'**
+  String applyHello(String name);
+
+  /// Apply intro
+  ///
+  /// In ar, this message translates to:
+  /// **'كيف ستعمل معنا؟ يراجع فريق المنصة طلبك عادة خلال يوم عمل.'**
+  String get applyBody;
+
+  /// Choice title / screen title
+  ///
+  /// In ar, this message translates to:
+  /// **'عندي محل في الشارع'**
+  String get applyShopTitle;
+
+  /// Choice body
+  ///
+  /// In ar, this message translates to:
+  /// **'اعرض قطعك، واستقبل الطلبات وطلبات الأسعار.'**
+  String get applyShopBody;
+
+  /// Choice title / screen title
+  ///
+  /// In ar, this message translates to:
+  /// **'أنا فني تركيب'**
+  String get applyTechTitle;
+
+  /// Choice body
+  ///
+  /// In ar, this message translates to:
+  /// **'استقبل أعمال التركيب في ورشة على الشارع أو عند الزبون.'**
+  String get applyTechBody;
+
+  /// Note for staff
+  ///
+  /// In ar, this message translates to:
+  /// **'تعمل في محل مسجّل؟ لا تقدّم طلباً — اطلب من صاحب المحل إضافتك ببريدك هذا.'**
+  String get applyStaffNote;
+
+  /// Banner at the top of the shop form
+  ///
+  /// In ar, this message translates to:
+  /// **'اسم المحل ومكانه في الشارع يظهران للمشترين بعد الاعتماد.'**
+  String get applyShopNote;
+
+  /// Form section
+  ///
+  /// In ar, this message translates to:
+  /// **'المحل'**
+  String get applySectionShop;
+
+  /// Form section
+  ///
+  /// In ar, this message translates to:
+  /// **'المكان في الشارع'**
+  String get applySectionPlace;
+
+  /// Form section
+  ///
+  /// In ar, this message translates to:
+  /// **'التواصل'**
+  String get applySectionContact;
+
+  /// Button
+  ///
+  /// In ar, this message translates to:
+  /// **'أرسل الطلب'**
+  String get applySubmit;
+
+  /// Snack bar
+  ///
+  /// In ar, this message translates to:
+  /// **'أرسلنا طلبك للمراجعة'**
+  String get applySent;
+
+  /// Field label
+  ///
+  /// In ar, this message translates to:
+  /// **'اسم المحل بالعربية'**
+  String get shopNameAr;
+
+  /// Field label
+  ///
+  /// In ar, this message translates to:
+  /// **'اسم المحل بالإنجليزية (اختياري)'**
+  String get shopNameEn;
+
+  /// Field label
+  ///
+  /// In ar, this message translates to:
+  /// **'المنطقة'**
+  String get shopZone;
+
+  /// Field label
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم القطعة'**
+  String get shopPlot;
+
+  /// Street side
+  ///
+  /// In ar, this message translates to:
+  /// **'الجهة أ'**
+  String get shopSideA;
+
+  /// Street side
+  ///
+  /// In ar, this message translates to:
+  /// **'الجهة ب'**
+  String get shopSideB;
+
+  /// Field label
+  ///
+  /// In ar, this message translates to:
+  /// **'علامة مميزة'**
+  String get shopLandmark;
+
+  /// Field hint
+  ///
+  /// In ar, this message translates to:
+  /// **'مثلاً: مقابل محطة الوقود'**
+  String get shopLandmarkHint;
+
+  /// Field label
+  ///
+  /// In ar, this message translates to:
+  /// **'عن المحل (اختياري)'**
+  String get shopAbout;
+
+  /// Form section
+  ///
+  /// In ar, this message translates to:
+  /// **'ساعات العمل'**
+  String get shopHours;
+
+  /// Form section
+  ///
+  /// In ar, this message translates to:
+  /// **'ماذا تبيع؟'**
+  String get shopSells;
+
+  /// Form section
+  ///
+  /// In ar, this message translates to:
+  /// **'السيارات التي تخدمها'**
+  String get shopMakes;
+
+  /// Hint
+  ///
+  /// In ar, this message translates to:
+  /// **'اتركها فارغة إذا كنت تخدم كل الأنواع.'**
+  String get shopMakesBody;
+
+  /// Banner at the top of the technician form
+  ///
+  /// In ar, this message translates to:
+  /// **'يراجع الفريق خبرتك قبل وصول أول عرض عمل.'**
+  String get applyTechNote;
+
+  /// Field label
+  ///
+  /// In ar, this message translates to:
+  /// **'الورشة التي تعمل فيها'**
+  String get techApplyBay;
+
+  /// Field helper
+  ///
+  /// In ar, this message translates to:
+  /// **'محل أو ورشة على الشارع يركّب فيه الزبائن'**
+  String get techApplyBayHelp;
+
+  /// Button
+  ///
+  /// In ar, this message translates to:
+  /// **'حدّد موقعي الحالي كنقطة الانطلاق'**
+  String get techApplyHome;
+
+  /// Button after setting / snack bar
+  ///
+  /// In ar, this message translates to:
+  /// **'حُدّد موقعك'**
+  String get techApplyHomeSet;
+
+  /// Hint
+  ///
+  /// In ar, this message translates to:
+  /// **'تُحسب مسافة الزيارات من هنا، ولا يراها الزبائن.'**
+  String get techApplyHomeBody;
+
+  /// Hint
+  ///
+  /// In ar, this message translates to:
+  /// **'اكتب سعر المصنعية لكل نوع عمل تقوم به، واترك الباقي فارغاً.'**
+  String get techApplyJobsBody;
+
+  /// Form section
+  ///
+  /// In ar, this message translates to:
+  /// **'السيارات التي تعمل عليها'**
+  String get techApplyMakes;
+
+  /// Hint
+  ///
+  /// In ar, this message translates to:
+  /// **'اتركها فارغة إذا كنت تعمل على كل الأنواع.'**
+  String get techApplyMakesBody;
+
+  /// Field label
+  ///
+  /// In ar, this message translates to:
+  /// **'سنوات الخبرة'**
+  String get techApplyYears;
+
+  /// Field label
+  ///
+  /// In ar, this message translates to:
+  /// **'نبذة عنك (اختياري)'**
+  String get techApplyBio;
+
+  /// Validation
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر نوع عمل واحداً على الأقل مع سعره.'**
+  String get techApplyNeedJob;
+
+  /// Validation
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر الورشة التي تعمل فيها.'**
+  String get techApplyNeedBay;
+
+  /// Validation
+  ///
+  /// In ar, this message translates to:
+  /// **'حدّد موقع انطلاقك للزيارات.'**
+  String get techApplyNeedHome;
+
+  /// Button
+  ///
+  /// In ar, this message translates to:
+  /// **'حدّث موقع الانطلاق'**
+  String get homeUpdate;
+
+  /// Button / sheet title
+  ///
+  /// In ar, this message translates to:
+  /// **'أضف نوع عمل'**
+  String get addJobType;
+
+  /// Chats screen title
+  ///
+  /// In ar, this message translates to:
+  /// **'الرسائل'**
+  String get chatsTitle;
+
+  /// Inbox screen title
+  ///
+  /// In ar, this message translates to:
+  /// **'التنبيهات'**
+  String get notificationsTitle;
+
+  /// Header switch when closed for the day
+  ///
+  /// In ar, this message translates to:
+  /// **'المحل مغلق اليوم — يظهر مغلقاً للمشترين'**
+  String get shopClosedToday;
+
+  /// Header switch outside hours
+  ///
+  /// In ar, this message translates to:
+  /// **'خارج ساعات العمل الآن'**
+  String get shopOutsideHours;
+
+  /// Snack bar
+  ///
+  /// In ar, this message translates to:
+  /// **'قُبل الطلب'**
+  String get orderAccepted;
+
+  /// Snack bar
+  ///
+  /// In ar, this message translates to:
+  /// **'اعتذرت عن الطلب، وسيُعاد المبلغ للمشتري'**
+  String get orderRejected;
+
+  /// Snack bar
+  ///
+  /// In ar, this message translates to:
+  /// **'القطعة جاهزة'**
+  String get orderMarkedReady;
+
+  /// Snack bar
+  ///
+  /// In ar, this message translates to:
+  /// **'تم التسليم'**
+  String get orderHandedOver;
+
+  /// Snack bar
+  ///
+  /// In ar, this message translates to:
+  /// **'تم التوصيل'**
+  String get orderDelivered;
+
+  /// Empty state
+  ///
+  /// In ar, this message translates to:
+  /// **'لم نجد هذا الطلب في محلك'**
+  String get orderNotHere;
+
+  /// Banner
+  ///
+  /// In ar, this message translates to:
+  /// **'طلب المشتري الإرجاع: {reason}'**
+  String returnRequested(String reason);
+
+  /// Banner
+  ///
+  /// In ar, this message translates to:
+  /// **'سلّم القطعة بعد أن يقبل الفني العمل.'**
+  String get waitTechAccept;
+
+  /// Button
+  ///
+  /// In ar, this message translates to:
+  /// **'اتصل بالفني'**
+  String get callTechnician;
+
+  /// Banner
+  ///
+  /// In ar, this message translates to:
+  /// **'استلمت المبلغ نقداً'**
+  String get cashCollected;
+
+  /// Field label
+  ///
+  /// In ar, this message translates to:
+  /// **'اكتب السبب للمشتري'**
+  String get rejectOtherLabel;
+
+  /// Tooltip
+  ///
+  /// In ar, this message translates to:
+  /// **'افتح الطلب'**
+  String get openOrder;
+
+  /// Empty state
+  ///
+  /// In ar, this message translates to:
+  /// **'لا توجد رسائل بعد'**
+  String get chatsEmpty;
+
+  /// Empty state body
+  ///
+  /// In ar, this message translates to:
+  /// **'عندما يراسلك مشترٍ ستظهر محادثته هنا.'**
+  String get chatsEmptyBody;
+
+  /// Empty chat
+  ///
+  /// In ar, this message translates to:
+  /// **'ابدأ المحادثة'**
+  String get chatEmpty;
+
+  /// Chat field hint
+  ///
+  /// In ar, this message translates to:
+  /// **'اكتب رسالة'**
+  String get chatHint;
+
+  /// Tooltip
+  ///
+  /// In ar, this message translates to:
+  /// **'إرسال'**
+  String get chatSend;
+
+  /// Chat preview
+  ///
+  /// In ar, this message translates to:
+  /// **'رسالة صوتية'**
+  String get chatVoiceNote;
+
+  /// Empty state
+  ///
+  /// In ar, this message translates to:
+  /// **'لا توجد تنبيهات'**
+  String get notificationsEmpty;
+
+  /// Empty state body
+  ///
+  /// In ar, this message translates to:
+  /// **'ستصلك هنا الطلبات الجديدة وعروض العمل والرسائل.'**
+  String get notificationsEmptyBody;
+
+  /// Title when no template exists
+  ///
+  /// In ar, this message translates to:
+  /// **'تنبيه'**
+  String get notificationsGeneric;
+
+  /// Button
+  ///
+  /// In ar, this message translates to:
+  /// **'تعليم الكل كمقروء'**
+  String get notificationsMarkRead;
+
+  /// Help sheet
+  ///
+  /// In ar, this message translates to:
+  /// **'فريق المنصة يساعدك في الطلبات والمدفوعات والحساب.'**
+  String get helpBody;
+
+  /// Empty state
+  ///
+  /// In ar, this message translates to:
+  /// **'لا توجد قطع بعد'**
+  String get stockEmpty;
+
+  /// Empty state body
+  ///
+  /// In ar, this message translates to:
+  /// **'أضف قطعة بالصورة، أو استورد ملف Excel.'**
+  String get stockEmptyBody;
+
+  /// Empty state
+  ///
+  /// In ar, this message translates to:
+  /// **'لا توجد قطع تطابق البحث'**
+  String get stockNoMatch;
+
+  /// Pill: units held by open orders
+  ///
+  /// In ar, this message translates to:
+  /// **'محجوز {count}'**
+  String reservedQty(int count);
+
+  /// Hint in the edit sheet
+  ///
+  /// In ar, this message translates to:
+  /// **'{count} محجوزة لطلبات مفتوحة'**
+  String reservedNote(int count);
+
+  /// Stock row
+  ///
+  /// In ar, this message translates to:
+  /// **'السعر عند الطلب'**
+  String get priceOnRequest;
+
+  /// Button
+  ///
+  /// In ar, this message translates to:
+  /// **'احذف من المحل'**
+  String get archive;
+
+  /// Dialog title
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف القطعة؟'**
+  String get archiveTitle;
+
+  /// Dialog body
+  ///
+  /// In ar, this message translates to:
+  /// **'لن تظهر للمشترين بعد الآن. الطلبات المؤكدة لا تتأثر.'**
+  String get archiveBody;
+
+  /// Edit sheet banner
+  ///
+  /// In ar, this message translates to:
+  /// **'هذه القطعة بانتظار الاتصال لإرسالها. عدّلها بعد ظهورها في القائمة.'**
+  String get listingQueued;
+
+  /// Snack bar
+  ///
+  /// In ar, this message translates to:
+  /// **'حُفظت القطعة وستُرسل عند عودة الاتصال'**
+  String get listingSavedOffline;
+
+  /// Button
+  ///
+  /// In ar, this message translates to:
+  /// **'صورة أخرى'**
+  String get retakePhoto;
+
+  /// Checkbox
+  ///
+  /// In ar, this message translates to:
+  /// **'بدون صورة الآن'**
+  String get noPhoto;
+
+  /// Chosen suggestion subtitle
+  ///
+  /// In ar, this message translates to:
+  /// **'من دليل القطع'**
+  String get fromCatalogue;
+
+  /// Suggestions heading
+  ///
+  /// In ar, this message translates to:
+  /// **'هل تقصد؟'**
+  String get suggestionsTitle;
+
+  /// Banner
+  ///
+  /// In ar, this message translates to:
+  /// **'السيارات المناسبة لهذه القطعة محددة في الدليل.'**
+  String get carsFromCatalogue;
+
+  /// Sheet title
+  ///
+  /// In ar, this message translates to:
+  /// **'فحص الملف'**
+  String get importCheckTitle;
+
+  /// Dry-run summary
+  ///
+  /// In ar, this message translates to:
+  /// **'سيُضاف {created} ويُحدَّث {updated}، وفيه {failed} صفوف بها مشاكل.'**
+  String importCheckBody(int created, int updated, int failed);
+
+  /// Problem row
+  ///
+  /// In ar, this message translates to:
+  /// **'الصف {row}'**
+  String importRow(int row);
+
+  /// Button
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{استورد صفاً واحداً} =2{استورد صفين} few{استورد {count} صفوف} other{استورد {count} صفاً}}'**
+  String importGo(int count);
+
+  /// Snack bar
+  ///
+  /// In ar, this message translates to:
+  /// **'أضيفت {created} وحُدّثت {updated}، وتُركت {failed}'**
+  String importDone(int created, int updated, int failed);
+
+  /// Row problem
+  ///
+  /// In ar, this message translates to:
+  /// **'اسم القطعة ناقص'**
+  String get importErrName;
+
+  /// Row problem
+  ///
+  /// In ar, this message translates to:
+  /// **'الفئة ناقصة أو غير معروفة'**
+  String get importErrCategory;
+
+  /// Row problem
+  ///
+  /// In ar, this message translates to:
+  /// **'الحالة ناقصة أو غير صحيحة'**
+  String get importErrCondition;
+
+  /// Row problem
+  ///
+  /// In ar, this message translates to:
+  /// **'السعر ناقص أو غير صحيح'**
+  String get importErrPrice;
+
+  /// Row problem
+  ///
+  /// In ar, this message translates to:
+  /// **'الكمية غير صحيحة'**
+  String get importErrQty;
+
+  /// Row problem
+  ///
+  /// In ar, this message translates to:
+  /// **'الضمان غير صحيح'**
+  String get importErrWarranty;
+
+  /// Row problem
+  ///
+  /// In ar, this message translates to:
+  /// **'الرمز مكرر'**
+  String get importErrSku;
+
+  /// Row problem
+  ///
+  /// In ar, this message translates to:
+  /// **'الكمية أقل من المحجوز لطلبات مفتوحة'**
+  String get importErrReserved;
+
+  /// Row problem
+  ///
+  /// In ar, this message translates to:
+  /// **'قيمة غير صحيحة'**
+  String get importErrValue;
+
+  /// Row warning
+  ///
+  /// In ar, this message translates to:
+  /// **'سيارة غير معروفة (تجاهلناها):'**
+  String get importWarnModel;
+
+  /// Button
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل'**
+  String get changeOffer;
+
+  /// Empty statement
+  ///
+  /// In ar, this message translates to:
+  /// **'لا حركات في آخر 30 يوماً'**
+  String get statementEmpty;
+
+  /// Staff subtitle
+  ///
+  /// In ar, this message translates to:
+  /// **'أضيف {date}'**
+  String staffAdded(String date);
+
+  /// Dialog title
+  ///
+  /// In ar, this message translates to:
+  /// **'إزالة {name}؟'**
+  String staffRemoveTitle(String name);
+
+  /// Dialog body
+  ///
+  /// In ar, this message translates to:
+  /// **'لن يستطيع إدارة طلبات المحل ومخزونه بعد الآن.'**
+  String get staffRemoveBody;
+
+  /// Empty top sellers
+  ///
+  /// In ar, this message translates to:
+  /// **'لا مبيعات في هذه الأيام بعد'**
+  String get insightsNoSales;
+
+  /// Profile note
+  ///
+  /// In ar, this message translates to:
+  /// **'لتغيير الاسم أو المكان في الشارع، تواصل مع فريق المنصة.'**
+  String get profileNameNote;
+
+  /// Job place without a distance
+  ///
+  /// In ar, this message translates to:
+  /// **'عند الزبون'**
+  String get atCustomerPlace;
+
+  /// Job title with more items
+  ///
+  /// In ar, this message translates to:
+  /// **'{first} و{count} أخرى'**
+  String jobAndMore(String first, int count);
+
+  /// Booking reference
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم العمل {ref}'**
+  String jobRef(String ref);
+
+  /// Snack bar
+  ///
+  /// In ar, this message translates to:
+  /// **'الزبون يرى موقعك الآن حتى تصل'**
+  String get onMyWayDone;
+
+  /// Snack bar
+  ///
+  /// In ar, this message translates to:
+  /// **'بدأ العمل'**
+  String get checkedIn;
+
+  /// Banner
+  ///
+  /// In ar, this message translates to:
+  /// **'يُشارك موقعك مع الزبون أثناء الطريق.'**
+  String get sharingLocation;
+
+  /// Part row
+  ///
+  /// In ar, this message translates to:
+  /// **'استلمت القطعة من {shop}'**
+  String partCollected(String shop);
+
+  /// Field label
+  ///
+  /// In ar, this message translates to:
+  /// **'ما المشكلة؟'**
+  String get partNotFitReason;
+
+  /// Snack bar
+  ///
+  /// In ar, this message translates to:
+  /// **'سُجّل أن القطعة لا تناسب، وفُتح طلب إرجاع'**
+  String get partNotFitDone;
+
+  /// Button / sheet title
+  ///
+  /// In ar, this message translates to:
+  /// **'لا أستطيع الحضور'**
+  String get dropJob;
+
+  /// Field label
+  ///
+  /// In ar, this message translates to:
+  /// **'السبب'**
+  String get dropJobReason;
+
+  /// Sheet hint
+  ///
+  /// In ar, this message translates to:
+  /// **'يذهب العمل لفني آخر في نفس الموعد. الاعتذار المتكرر يؤثر على تقييمك.'**
+  String get dropJobBody;
+
+  /// Snack bar
+  ///
+  /// In ar, this message translates to:
+  /// **'أُرسل العمل لفني آخر'**
+  String get dropJobDone;
+
+  /// Pay total label
+  ///
+  /// In ar, this message translates to:
+  /// **'لك'**
+  String get youEarnLabel;
+
+  /// Tooltip
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل الساعات'**
+  String get editHours;
+
+  /// Button
+  ///
+  /// In ar, this message translates to:
+  /// **'أضف فترة'**
+  String get addPeriod;
+
+  /// Validation
+  ///
+  /// In ar, this message translates to:
+  /// **'تأكد أن كل فترة تنتهي بعد بدايتها ولا تتداخل مع غيرها.'**
+  String get periodsOverlap;
+
+  /// Time off without a reason
+  ///
+  /// In ar, this message translates to:
+  /// **'إجازة'**
+  String get timeOffDefault;
+
+  /// Empty state
+  ///
+  /// In ar, this message translates to:
+  /// **'ستظهر أرباحك هنا بعد الاعتماد'**
+  String get earningsNotYet;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -8,6 +8,7 @@ import '../models/commerce.dart';
 import '../models/installation.dart';
 import '../models/partner.dart';
 import 'backend_error.dart';
+import 'read_cache.dart';
 import 'uploads.dart';
 
 /// What `tech_complete` answers. A wrong code isn't an error (the try must be counted):
@@ -27,10 +28,12 @@ class CompleteResult {
 
 /// The partner app's technician side: applying, profile, prices, hours and time off, job
 /// offers and the job day (on the way, check-in, photos, the buyer's code), and earnings.
-class TechnicianRepository {
-  TechnicianRepository(this._client);
+class TechnicianRepository with CachedReads {
+  TechnicianRepository(this._client, {this.cache});
 
   final SupabaseClient _client;
+  @override
+  final ReadCache? cache;
 
   static const _select =
       '*, technician_job_types(labour_sdg, job_types(id, code, name_ar, name_en)), technician_makes(make_id), '
@@ -75,11 +78,14 @@ class TechnicianRepository {
   );
 
   /// Null until the user applies.
-  Future<MyTechnician?> me() => guard(() async {
+  Future<MyTechnician?> me() {
     final uid = signedInUserId(_client);
-    final row = await _client.from('technicians').select(_select).eq('user_id', uid).maybeSingle();
-    return row == null ? null : MyTechnician.fromJson(row);
-  });
+    return cachedRead(
+      '@tech.me',
+      () => _client.from('technicians').select(_select).eq('user_id', uid).maybeSingle(),
+      (raw) => raw == null ? null : MyTechnician.fromJson(raw as Json),
+    );
+  }
 
   /// Only the keys in [patch] change: work_mode, home_bay_shop_id, home_lat, home_lng,
   /// radius_km, years_experience, bio_ar, bio_en, avatar_key, employer_shop_id.
@@ -142,13 +148,11 @@ class TechnicianRepository {
 
   // ---------------------------------------------------------------- jobs
 
-  Future<List<Booking>> _scope(String scope, int limit) => guard(() async {
-    final rows = await _client.rpc<List<dynamic>>(
-      'tech_bookings',
-      params: {'p_scope': scope, 'p_limit': limit},
-    );
-    return [for (final r in rows.cast<Json>()) Booking.fromJson(r)];
-  });
+  Future<List<Booking>> _scope(String scope, int limit) => cachedRead(
+    '@tech.jobs:$scope',
+    () => _client.rpc<List<dynamic>>('tech_bookings', params: {'p_scope': scope, 'p_limit': limit}),
+    (raw) => [for (final r in (raw! as List).cast<Json>()) Booking.fromJson(r)],
+  );
 
   /// Jobs offered to this technician, waiting for an answer ([Booking.offer] has the deadline).
   Future<List<Booking>> offers() => _scope('OFFERS', 50);
@@ -238,11 +242,12 @@ class TechnicianRepository {
   });
 
   /// Earnings: labour and travel fees, cash taken, payouts (positive = the platform owes).
-  Future<ShopStatement> statement({DateTime? from, DateTime? to}) => guard(() async {
-    final row = await _client.rpc<Json>(
+  Future<ShopStatement> statement({DateTime? from, DateTime? to}) => cachedRead(
+    '@tech.statement:${from?.toIso8601String() ?? ''}:${to?.toIso8601String() ?? ''}',
+    () => _client.rpc<Json>(
       'tech_statement',
       params: {'p_from': from?.toUtc().toIso8601String(), 'p_to': to?.toUtc().toIso8601String()},
-    );
-    return ShopStatement.fromJson(row);
-  });
+    ),
+    (raw) => ShopStatement.fromJson(raw! as Json),
+  );
 }

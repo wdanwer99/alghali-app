@@ -64,13 +64,14 @@ class ChatRepository with CachedReads {
   }
 
   /// A shop's chats, latest activity first.
-  Future<List<Conversation>> shopInbox(String shopId, {int limit = 50}) => guard(() async {
-    final rows = await _client.rpc<List<dynamic>>(
+  Future<List<Conversation>> shopInbox(String shopId, {int limit = 50}) => cachedRead(
+    '@shop.chats:$shopId',
+    () => _client.rpc<List<dynamic>>(
       'shop_conversations',
       params: {'p_shop_id': shopId, 'p_limit': limit},
-    );
-    return [for (final r in rows.cast<Json>()) Conversation.forShop(r)];
-  });
+    ),
+    (raw) => [for (final r in (raw! as List).cast<Json>()) Conversation.forShop(r)],
+  );
 
   /// Up to [limit] messages before [before] (the newest when null), oldest first.
   Future<List<ChatMessage>> messages(String conversationId, {DateTime? before, int limit = 50}) {
@@ -176,20 +177,23 @@ class NotificationsRepository with CachedReads {
   @override
   final ReadCache? cache;
 
-  Future<List<InboxItem>> list({int limit = 50}) => cachedRead(
-    '@inbox',
-    () => _client.from('notifications').select().order('created_at', ascending: false).limit(limit),
+  /// The alerts for [app] (`buyer` or `partner`): one account can use both apps.
+  Future<List<InboxItem>> list({required String app, int limit = 50}) => cachedRead(
+    '@inbox:$app',
+    () => _client
+        .from('notifications')
+        .select()
+        .eq('app', app)
+        .order('created_at', ascending: false)
+        .limit(limit),
     (raw) => [for (final r in (raw! as List).cast<Json>()) InboxItem.fromJson(r)],
   );
 
-  /// Arabic and English wording of every alert code for [app] (`buyer` or `partner`):
-  /// the templates the push dispatcher uses too.
-  Future<AlertTemplates> templates(String app) => cachedRead(
-    'templates:$app',
-    () => _client
-        .from('notification_templates')
-        .select('code, locale, title, body, notification_codes!inner(app)')
-        .eq('notification_codes.app', app),
+  /// Arabic and English wording of every alert code: the templates the push dispatcher
+  /// uses too. All of them, as some codes reach both apps (NEW_MESSAGE, BOOKING_CANCELLED).
+  Future<AlertTemplates> templates() => cachedRead(
+    'templates',
+    () => _client.from('notification_templates').select('code, locale, title, body'),
     (raw) => AlertTemplates.fromRows((raw! as List).cast<Json>()),
   );
 

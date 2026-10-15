@@ -141,6 +141,7 @@ class CatalogueData {
     required List<List<String>> synonyms,
     this.streetOrigin,
     this.streetLengthM,
+    this.jobTypeIds = const {},
   }) : _synonyms = [
          for (final group in synonyms) {for (final w in group) ...searchTerms(w)},
        ];
@@ -161,6 +162,9 @@ class CatalogueData {
   final ({double lat, double lng})? streetOrigin;
   final int? streetLengthM;
 
+  /// `job_types.id` of each kind of job (technicians apply and price by these).
+  final Map<JobType, String> jobTypeIds;
+
   factory CatalogueData.fromSnapshot(CatalogueSnapshot s) => CatalogueData(
     makes: s.makes,
     models: s.models,
@@ -175,6 +179,7 @@ class CatalogueData {
     synonyms: const [],
     streetOrigin: s.streetOrigin,
     streetLengthM: s.streetLengthM,
+    jobTypeIds: {for (final MapEntry(:key, :value) in s.jobTypes.entries) value: key},
   );
 
   static final empty = CatalogueData(

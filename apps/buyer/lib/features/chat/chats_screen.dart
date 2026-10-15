@@ -6,7 +6,6 @@ import 'package:material_ui/material_ui.dart';
 import '../../app.dart';
 import '../../router.dart';
 import '../../state/inbox.dart';
-import '../../widgets/buyer_widgets.dart';
 
 /// The buyer's chats with shops, latest first.
 class ChatsScreen extends ConsumerWidget {

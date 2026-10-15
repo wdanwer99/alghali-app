@@ -3,8 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../app.dart';
-import '../../state/shop_state.dart';
-import '../../state/tech_state.dart';
+import '../../state/shop.dart';
+import '../../state/tech.dart';
 
 class _Shell extends StatelessWidget {
   const _Shell({required this.shell, required this.destinations});
@@ -44,8 +44,12 @@ class ShopShell extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = context.t;
-    final newOrders = ref.watch(shopOrdersProvider).where((o) => o.isNew).length;
-    final openQuotes = ref.watch(quotesProvider).where((q) => q.myOfferSdg == null).length;
+    final newOrders = (ref.watch(shopOrdersProvider).value ?? const [])
+        .where((o) => o.isNew)
+        .length;
+    final openQuotes = (ref.watch(quotesProvider).value ?? const [])
+        .where((q) => q.myOffer == null)
+        .length;
     return _Shell(
       shell: shell,
       destinations: [
@@ -68,7 +72,7 @@ class TechShell extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = context.t;
-    final offers = ref.watch(techJobsProvider).offers.length;
+    final offers = ref.watch(techJobsProvider).value?.offers.length ?? 0;
     return _Shell(
       shell: shell,
       destinations: [

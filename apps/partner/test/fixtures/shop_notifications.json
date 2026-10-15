@@ -1,0 +1,35 @@
+[
+  {
+    "id": "0ee20af6-6f54-451e-bae7-24cc134474ba",
+    "user_id": "3a8e4b2f-f0ba-4c5c-9aba-310b57bbff32",
+    "code": "TECH_WILL_COLLECT",
+    "payload": {
+      "phone": "+249912100001",
+      "shop_id": "6c910581-25e5-46e3-9b54-d80a0c972047",
+      "order_id": "b3f82059-f1c9-4b89-9568-26e9c36c4975",
+      "start_at": "2026-10-15T14:00:00+00:00",
+      "booking_id": "b5835683-04f6-4981-87e5-6f1d2e00919f",
+      "technician": "عمر عبد الله",
+      "booking_ref": "60047982",
+      "sub_order_id": "de8c30bd-4eec-4b96-95f9-4cb266ed74cd"
+    },
+    "created_at": "2026-10-14T01:00:43.035591+00:00",
+    "read_at": null,
+    "app": "partner"
+  },
+  {
+    "id": "8cf61ffd-f89e-452e-8a84-3b242cfd8c4e",
+    "user_id": "3a8e4b2f-f0ba-4c5c-9aba-310b57bbff32",
+    "code": "NEW_ORDER",
+    "payload": {
+      "ref": "72491962",
+      "status": "CONFIRMED",
+      "shop_id": "6c910581-25e5-46e3-9b54-d80a0c972047",
+      "order_id": "b3f82059-f1c9-4b89-9568-26e9c36c4975",
+      "sub_order_id": "de8c30bd-4eec-4b96-95f9-4cb266ed74cd"
+    },
+    "created_at": "2026-10-14T01:00:42.470583+00:00",
+    "read_at": null,
+    "app": "partner"
+  }
+]

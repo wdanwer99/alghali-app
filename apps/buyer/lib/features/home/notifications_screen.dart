@@ -5,7 +5,6 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../app.dart';
 import '../../state/inbox.dart';
-import '../../widgets/buyer_widgets.dart';
 
 /// The in-app inbox: every alert, worded in the reader's language from the templates
 /// admins edit (the same wording push uses, D-101).

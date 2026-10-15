@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:alghali_core/alghali_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'connection.dart';
 import 'outbox.dart';
 import 'session.dart';
 

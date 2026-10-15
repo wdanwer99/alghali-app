@@ -126,7 +126,7 @@ extension ErrorLabels on CoreLocalizations {
     'OVER_REQUEST_RATE_LIMIT' ||
     'OVER_EMAIL_SEND_RATE_LIMIT' ||
     'RATE_LIMITED' => errTooManyAttempts,
-    'INVALID_PHONE' => fieldPhoneInvalid,
+    'INVALID_PHONE' || 'INVALID_WHATSAPP' => fieldPhoneInvalid,
     'PHONE_REQUIRED' => errPhoneRequired,
     'SLOT_TAKEN' => errSlotTaken,
     'HOLD_EXPIRED' || 'BOOKING_NOT_FOUND' => errHoldExpired,
@@ -137,18 +137,60 @@ extension ErrorLabels on CoreLocalizations {
     'DELIVERY_UNAVAILABLE' => errDeliveryUnavailable,
     'DUPLICATE_TXN' => errDuplicateTxn,
     'PAYMENT_EXPIRED' => errPaymentExpired,
-    'CANNOT_CANCEL' || 'INVALID_TRANSITION' => errCannotCancel,
+    'CANNOT_CANCEL' => errCannotCancel,
+    'INVALID_TRANSITION' || 'NOT_EN_ROUTE' => errChangedMeanwhile,
     'TOO_MANY_REQUESTS' => errTooManyRequests,
     'GARAGE_FULL' => errGarageFull,
     'FILE_TOO_LARGE' => errFileTooLarge,
     'INVALID_FILE_TYPE' => errFileType,
-    'NOT_FOUND' || 'ORDER_NOT_FOUND' || 'ITEM_NOT_FOUND' => errNotFound,
+    'NOT_FOUND' ||
+    'ORDER_NOT_FOUND' ||
+    'ITEM_NOT_FOUND' ||
+    'SUBORDER_NOT_FOUND' ||
+    'LISTING_NOT_FOUND' ||
+    'SHOP_NOT_FOUND' ||
+    'REQUEST_NOT_FOUND' => errNotFound,
     'FORBIDDEN' => errForbidden,
     'CART_CHANGED' => errCartChanged,
     'ADDRESS_REQUIRED' || 'ADDRESS_NOT_FOUND' => errAddressRequired,
     'LOCATION_OFF' => errLocationOff,
     'LOCATION_DENIED' => errLocationDenied,
     'OFFER_CLOSED' || 'OFFER_NOT_FOUND' || 'UNAVAILABLE' || 'NOT_INSTALLABLE' => errUnavailable,
+    // The partner app (M5).
+    'VERSION_CONFLICT' => errVersionConflict,
+    'STOCK_BELOW_RESERVED' => errStockBelowReserved,
+    'PRICE_REQUIRED' => errPriceRequired,
+    'INVALID_QTY' ||
+    'INVALID_VALUE' ||
+    'INVALID_OFFER' ||
+    'NAME_TOO_LONG' ||
+    'PART_NAME_REQUIRED' ||
+    'PART_NAME_INVALID' ||
+    'PART_REQUIRED' ||
+    'INVALID_OPENING_HOURS' ||
+    'CATEGORY_NOT_FOUND' ||
+    'INVALID_JOB_TYPES' ||
+    'INVALID_WORK_MODE' => errCheckValue,
+    'SHOP_NOT_ACTIVE' => errShopNotActive,
+    'TECHNICIAN_NOT_ACTIVE' || 'NOT_A_TECHNICIAN' => errTechNotActive,
+    'PARTS_NOT_COLLECTED' => errPartsNotCollected,
+    'PARTS_WITH_TECHNICIAN' => errPartsWithTechnician,
+    'JOB_CODE_LOCKED' => errJobCodeLocked,
+    'LABOUR_OUT_OF_BOUNDS' => errLabourBounds,
+    'TOO_MANY_RULES' => errTooManyRules,
+    'TIME_OFF_TOO_LONG' => errTimeOffTooLong,
+    'ALREADY_MEMBER' => errAlreadyMember,
+    'USER_NOT_FOUND' => errUserNotFound,
+    'TOO_MANY_STAFF' => errTooManyStaff,
+    'CANNOT_REMOVE_OWNER' => errCannotRemoveOwner,
+    'APPLICATION_PENDING' || 'ALREADY_APPLIED' => errAlreadyApplied,
+    'TOO_MANY_SHOPS' => errTooManyShops,
+    'BAY_REQUIRED' => errBayRequired,
+    'HOME_POINT_REQUIRED' => errHomeRequired,
+    'JOB_TYPES_REQUIRED' => errJobTypesRequired,
+    'REASON_REQUIRED' => errReasonRequired,
+    'HEADER_NOT_FOUND' || 'UNREADABLE_FILE' || 'EMPTY_FILE' || 'FILE_NOT_FOUND' => errBadSheet,
+    'TOO_MANY_ROWS' => errTooManyRows,
     _ => errGeneric,
   };
 }
