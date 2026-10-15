@@ -822,5 +822,21 @@
   "errTooManyRows": "الملف فيه أكثر من 2000 صف. قسّمه إلى ملفات أصغر.",
   "@errTooManyRows": {
     "description": "Error: TOO_MANY_ROWS"
+  },
+  "updateTitle": "حدّث التطبيق",
+  "@updateTitle": {
+    "description": "Update screen title"
+  },
+  "updateRequiredBody": "هذه النسخة قديمة ولم تعد تعمل. حمّل النسخة الجديدة وثبّتها فوق الحالية؛ حسابك وبياناتك تبقى كما هي.",
+  "@updateRequiredBody": {
+    "description": "Update screen: a newer version is required"
+  },
+  "updateAvailableBody": "نسخة جديدة من التطبيق متاحة.",
+  "@updateAvailableBody": {
+    "description": "Banner: a newer version exists"
+  },
+  "updateDownload": "تحميل",
+  "@updateDownload": {
+    "description": "Button"
   }
 }

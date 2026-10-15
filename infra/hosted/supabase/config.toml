@@ -13,3 +13,12 @@ password_requirements = "letters_digits"
 [auth.email]
 # D-031: no confirmation emails until custom SMTP is set up before launch.
 enable_confirmations = false
+
+[auth.rate_limit]
+# M7 security review: pinned so every project has the same guard against password
+# guessing and mass sign-ups. Per IP address, per 5 minutes. Many phones in Sudan share an
+# address through the mobile network, so these stay at Supabase's defaults rather than
+# lower; raise them if real users get "too many requests" at busy times.
+sign_in_sign_ups = 30
+token_refresh = 150
+token_verifications = 30

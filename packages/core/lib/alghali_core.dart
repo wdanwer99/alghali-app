@@ -55,4 +55,5 @@ export 'src/widgets/brand.dart';
 export 'src/widgets/common.dart';
 export 'src/widgets/countdown.dart';
 export 'src/widgets/language_picker.dart';
+export 'src/widgets/update_gate.dart';
 export 'src/widgets/voice.dart';

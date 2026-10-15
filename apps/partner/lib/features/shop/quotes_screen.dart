@@ -93,6 +93,8 @@ class _QuoteCard extends ConsumerWidget {
                           Image.network(
                             urls[first]!,
                             fit: BoxFit.cover,
+                            // The buyer's photo, decoded at the 72 px tile's size.
+                            cacheWidth: (72 * MediaQuery.devicePixelRatioOf(context)).round(),
                             errorBuilder: (_, _, _) => const Icon(Icons.broken_image_outlined),
                           )
                         else

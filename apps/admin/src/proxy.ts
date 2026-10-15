@@ -4,8 +4,8 @@ import { refreshSession } from '@/lib/supabase/proxy';
 
 /**
  * 1. Sends any path without a locale prefix to the saved language, or Arabic.
- * 2. Keeps the Supabase session fresh and sends signed-out visitors to sign-in
- *    (pages and actions still check the admin role themselves).
+ * 2. Keeps the Supabase session fresh and sends signed-out visitors to sign-in, except on
+ *    the sign-in and app download pages (pages and actions still check the admin role).
  */
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -21,7 +21,9 @@ export async function proxy(request: NextRequest) {
   const response = NextResponse.next({ request });
   const { configured, signedIn } = await refreshSession(request, response);
   // The sign-in page itself sends a signed-in admin on (a signed-in non-admin stays there).
-  if (configured && !signedIn && pathname !== `/${locale}/login`) {
+  // The app download page is public (D-058).
+  const open = [`/${locale}/login`, `/${locale}/download`];
+  if (configured && !signedIn && !open.includes(pathname)) {
     return toLogin(request, response, locale);
   }
   return response;

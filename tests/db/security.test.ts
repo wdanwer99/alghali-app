@@ -158,6 +158,37 @@ const AUTHENTICATED_FUNCTIONS = [
   'admin_report',
 ].sort();
 
+/**
+ * Callable functions that don't check the caller, and why that is safe: they only read
+ * public data or compute from their arguments. Every other callable function must check
+ * who is calling (M7 security review).
+ */
+const NO_CALLER_CHECK = [
+  'ar_normalize', // text in, text out
+  'search_terms',
+  'valid_opening_hours',
+  'try_uuid',
+  'ping',
+  'public_settings', // the is_public settings only
+  'catalogue_snapshot', // active catalogue rows, the street and approved shops
+  'search_parts', // active listings of approved shops
+  'part_detail',
+  'cart_validate', // prices and stock of listings anyone can see
+  'booking_context', // no contact details (D-104)
+  'reviews_for', // visible reviews only
+  'technician_profile',
+].sort();
+
+/**
+ * What counts as checking the caller: a require_* helper (each of which is checked below
+ * to read auth.uid() itself), the role and membership helpers, or auth.uid() directly.
+ */
+const CALLER_CHECK =
+  /public\.require_(?!parts_collected)\w+\(|auth\.uid\(\)|public\.(is_admin|has_role|is_shop_member|my_technician_id|can_see_\w+|is_conversation_participant)\(/;
+
+/** require_* helpers that check a state, not the caller. */
+const STATE_CHECKS = ['require_parts_collected'];
+
 describe.skipIf(!hasDb)('security baseline', () => {
   const sql: Sql = connect();
   afterAll(() => sql.end());
@@ -220,6 +251,61 @@ describe.skipIf(!hasDb)('security baseline', () => {
       where n.nspname = 'public' and p.prosecdef
         and not coalesce('search_path=""' = any (p.proconfig), false)`;
     expect(rows.map((r) => r.name)).toEqual([]);
+  });
+
+  async function bodies(): Promise<{ name: string; body: string }[]> {
+    return sql<{ name: string; body: string }[]>`
+      select p.proname as name, pg_get_functiondef(p.oid) as body
+      from pg_proc p join pg_namespace n on n.oid = p.pronamespace
+      where n.nspname = 'public' and p.prokind = 'f'
+        and has_function_privilege('authenticated', p.oid, 'EXECUTE')`;
+  }
+
+  it('every function the apps can call checks who is calling, unless it only reads public data', async () => {
+    const unchecked = (await bodies())
+      .filter((f) => !NO_CALLER_CHECK.includes(f.name) && !CALLER_CHECK.test(f.body))
+      .map((f) => f.name);
+    expect(unchecked).toEqual([]);
+    // The exceptions are callable on purpose, not left over.
+    expect(NO_CALLER_CHECK.every((n) => AUTHENTICATED_FUNCTIONS.includes(n))).toBe(true);
+  });
+
+  it('every require_* helper reads the caller itself', async () => {
+    const rows = await sql<{ name: string; body: string }[]>`
+      select p.proname as name, pg_get_functiondef(p.oid) as body
+      from pg_proc p join pg_namespace n on n.oid = p.pronamespace
+      where n.nspname = 'public' and p.proname like 'require%'`;
+    expect(rows.length).toBeGreaterThan(5);
+    // Directly, or through require_user / require_shop / require_technician.
+    const reads =
+      /auth\.uid\(\)|public\.(require_user|require_shop|require_technician|is_admin|my_technician_id|is_shop_member)\(/;
+    const blind = rows
+      .filter((r) => !STATE_CHECKS.includes(r.name) && !reads.test(r.body))
+      .map((r) => r.name);
+    expect(blind).toEqual([]);
+  });
+
+  it('every admin_ function requires an admin', async () => {
+    const loose = (await bodies())
+      .filter((f) => f.name.startsWith('admin_') && !f.body.includes('public.require_admin()'))
+      .map((f) => f.name);
+    expect(loose).toEqual([]);
+  });
+
+  it('no view bypasses row level security', async () => {
+    const rows = await sql<{ view: string }[]>`
+      select c.relname as view from pg_class c join pg_namespace n on n.oid = c.relnamespace
+      where n.nspname = 'public' and c.relkind in ('v', 'm')
+        and not coalesce('security_invoker=true' = any (c.reloptions), false)
+        and (has_table_privilege('anon', c.oid, 'SELECT') or has_table_privilege('authenticated', c.oid, 'SELECT'))`;
+    expect(rows.map((r) => r.view)).toEqual([]);
+  });
+
+  it('no bucket takes web pages, scripts or SVG (they could run in a browser)', async () => {
+    const rows = await sql<{ id: string; mime: string }[]>`
+      select b.id, m as mime from storage.buckets b, unnest(b.allowed_mime_types) m
+      where m ~* '^(text/html|text/xml|application/xml|application/xhtml[+]xml|image/svg[+]xml)$|javascript|[*]'`;
+    expect(rows).toEqual([]);
   });
 
   it('every public bucket is limited by size and MIME type', async () => {

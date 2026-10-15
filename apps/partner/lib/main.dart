@@ -2,12 +2,17 @@ import 'dart:async';
 
 import 'package:alghali_core/alghali_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app.dart';
 
-Future<void> main() async {
+Future<void> main() => runPartnerApp();
+
+/// Starts the app; device tests add [overrides] for what they can't do on a phone
+/// (pick a photo, answer the location prompt).
+Future<void> runPartnerApp({List<Override> overrides = const []}) async {
   WidgetsFlutterBinding.ensureInitialized();
   registerFontLicenses();
   final env = AppEnv.fromEnvironment();
@@ -44,6 +49,7 @@ Future<void> main() async {
       readCacheProvider.overrideWithValue(cache),
       pushClientProvider.overrideWithValue(push),
       ...liveDataOverrides,
+      ...overrides,
     ],
     // Screens refresh on their own (pull down, app resume, push); no automatic retries.
     retry: (_, _) => null,

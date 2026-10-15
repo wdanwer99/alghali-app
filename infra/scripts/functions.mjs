@@ -1,6 +1,6 @@
 // Deploys every Edge Function in supabase/functions to a hosted project, bundled on
 // Supabase's side (no Docker needed):
-//   node functions.mjs deploy <dev|test>
+//   node functions.mjs deploy <dev|test|live>
 // Needs `npx supabase login` once.
 import { spawnSync } from 'node:child_process';
 import { readdirSync } from 'node:fs';
@@ -9,9 +9,9 @@ import { readEnvFile, supabaseTarget } from './lib/env.mjs';
 import { root, supabaseCommand } from './lib/paths.mjs';
 
 const [command, which] = process.argv.slice(2);
-const target = { dev: 'DEV', test: 'TEST' }[which];
+const target = { dev: 'DEV', test: 'TEST', live: 'LIVE' }[which];
 if (command !== 'deploy' || !target) {
-  console.error('usage: functions.mjs deploy <dev|test>');
+  console.error('usage: functions.mjs deploy <dev|test|live>');
   process.exit(2);
 }
 

@@ -1,6 +1,6 @@
 // Uploads supabase/templates/* to the public `templates` bucket of a hosted project, so the
 // partner app can link to the stock import sheet:
-//   node upload-templates.mjs <dev|test>
+//   node upload-templates.mjs <dev|test|live>
 // Public URL: <project url>/storage/v1/object/public/templates/inventory-template.xlsx
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -9,9 +9,9 @@ import { readEnvFile, supabaseTarget } from './lib/env.mjs';
 import { root } from './lib/paths.mjs';
 
 const which = process.argv[2];
-const target = { dev: 'DEV', test: 'TEST' }[which];
+const target = { dev: 'DEV', test: 'TEST', live: 'LIVE' }[which];
 if (!target) {
-  console.error('usage: upload-templates.mjs <dev|test>');
+  console.error('usage: upload-templates.mjs <dev|test|live>');
   process.exit(2);
 }
 const t = supabaseTarget(readEnvFile(join(root, '.env')) ?? {}, target);

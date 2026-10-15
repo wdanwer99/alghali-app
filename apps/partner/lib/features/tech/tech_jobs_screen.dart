@@ -7,6 +7,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../app.dart';
 import '../../router.dart';
 import '../../state/inbox.dart';
+import '../../state/push.dart';
 import '../../state/session.dart';
 import '../../state/tech.dart';
 import '../../widgets/partner_widgets.dart';
@@ -20,6 +21,7 @@ class TechJobsScreen extends ConsumerWidget {
     final theme = Theme.of(context);
     final colors = AppColors.of(context);
     final session = ref.watch(partnerSessionProvider);
+    final release = ref.watch(platformSettingsProvider).partnerRelease;
     final status = session.technician?.status ?? PartnerStatus.pending;
     final me = ref.watch(myTechnicianProvider).value;
     final jobsValue = ref.watch(techJobsProvider);
@@ -129,6 +131,10 @@ class TechJobsScreen extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    if (release.updateAvailable(partnerBuild)) ...[
+                      const SizedBox(height: Space.lg),
+                      UpdateBanner(release: release, appBuild: partnerBuild),
+                    ],
                     if (!approved) ...[
                       const SizedBox(height: Space.lg),
                       ReviewBanner(

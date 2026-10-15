@@ -1,3 +1,5 @@
+import 'dart:ffi' show Abi;
+
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -33,7 +35,19 @@ class AppRelease {
 
   /// This build is no longer supported; the app asks to update before continuing.
   bool updateRequired(int build) => build < minBuild && apkUrl != null;
+
+  /// The download for this phone: releases come as one APK per processor type, and
+  /// [apkUrl] holds `{abi}` where the type goes (D-135). Cheap phones often run a 32-bit
+  /// system, which can't install the 64-bit file, and some new ones only run 64-bit.
+  String? apkFor([Abi? abi]) => apkUrl?.replaceAll('{abi}', androidAbiName(abi ?? Abi.current()));
 }
+
+/// The Android name of a processor type, as in the APK file names.
+String androidAbiName(Abi abi) => switch (abi) {
+  Abi.androidArm => 'armeabi-v7a',
+  Abi.androidX64 => 'x86_64',
+  _ => 'arm64-v8a',
+};
 
 /// The buyer-visible subset of `app_settings` (the `public_settings()` RPC).
 /// SDG values are placeholders until confirmed with real prices (D-034).

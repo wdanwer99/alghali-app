@@ -677,4 +677,17 @@ class CoreLocalizationsAr extends CoreLocalizations {
 
   @override
   String get errTooManyRows => 'الملف فيه أكثر من 2000 صف. قسّمه إلى ملفات أصغر.';
+
+  @override
+  String get updateTitle => 'حدّث التطبيق';
+
+  @override
+  String get updateRequiredBody =>
+      'هذه النسخة قديمة ولم تعد تعمل. حمّل النسخة الجديدة وثبّتها فوق الحالية؛ حسابك وبياناتك تبقى كما هي.';
+
+  @override
+  String get updateAvailableBody => 'نسخة جديدة من التطبيق متاحة.';
+
+  @override
+  String get updateDownload => 'تحميل';
 }

@@ -1,3 +1,5 @@
+import 'dart:ffi' show Abi;
+
 import 'package:alghali_core/alghali_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -86,6 +88,10 @@ void main() {
     expect(r.updateRequired(4), isFalse);
     expect(r.updateRequired(2), isTrue);
     expect(const AppRelease(latestBuild: 5, minBuild: 3).updateRequired(1), isFalse); // no APK yet
+    const split = AppRelease(latestBuild: 7, minBuild: 3, apkUrl: 'https://x/buyer-7-{abi}.apk');
+    expect(split.apkFor(Abi.androidArm), 'https://x/buyer-7-armeabi-v7a.apk');
+    expect(split.apkFor(Abi.androidArm64), 'https://x/buyer-7-arm64-v8a.apk');
+    expect(r.apkFor(Abi.androidArm), 'https://x/buyer.apk'); // one file for every phone
   });
 
   test('me() becomes the account with roles and shop memberships', () {

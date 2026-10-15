@@ -1,0 +1,72 @@
+name: Nightly backup
+
+# D-060, D-136: Supabase's free plan keeps no backups, so every night this dumps the live
+# database (roles, schema and data, the users' accounts included) with the Supabase CLI,
+# encrypts it and keeps it as a private artifact of this repository for 30 days.
+# Needs two repository secrets (docs/DEPLOY.md): LIVE_DB_URL (the live project's session
+# pooler URL) and BACKUP_PASSPHRASE (the owner keeps a copy: without it a backup can't be
+# opened). Until both exist the job does nothing. Photos and receipts in Storage are not in
+# the dump.
+
+on:
+  schedule:
+    - cron: '30 0 * * *' # 02:30 in Khartoum
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  backup:
+    name: Back up the live database
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check the secrets
+        id: ready
+        env:
+          LIVE_DB_URL: ${{ secrets.LIVE_DB_URL }}
+          BACKUP_PASSPHRASE: ${{ secrets.BACKUP_PASSPHRASE }}
+        run: |
+          if [ -n "$LIVE_DB_URL" ] && [ -n "$BACKUP_PASSPHRASE" ]; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::No live project yet (LIVE_DB_URL / BACKUP_PASSPHRASE not set); nothing to back up."
+          fi
+      - uses: actions/checkout@v5
+        if: steps.ready.outputs.ok == 'true'
+      - uses: pnpm/action-setup@v4
+        if: steps.ready.outputs.ok == 'true'
+      - uses: actions/setup-node@v5
+        if: steps.ready.outputs.ok == 'true'
+        with:
+          node-version: 22
+          cache: pnpm
+      - if: steps.ready.outputs.ok == 'true'
+        run: pnpm install --frozen-lockfile
+      - name: Dump roles, schema and data
+        if: steps.ready.outputs.ok == 'true'
+        env:
+          LIVE_DB_URL: ${{ secrets.LIVE_DB_URL }}
+        run: |
+          mkdir backup
+          pnpm exec supabase db dump --db-url "$LIVE_DB_URL" -f backup/roles.sql --role-only
+          pnpm exec supabase db dump --db-url "$LIVE_DB_URL" -f backup/schema.sql
+          pnpm exec supabase db dump --db-url "$LIVE_DB_URL" -f backup/data.sql --use-copy --data-only
+      - name: Encrypt
+        if: steps.ready.outputs.ok == 'true'
+        env:
+          BACKUP_PASSPHRASE: ${{ secrets.BACKUP_PASSPHRASE }}
+        run: |
+          name="alghali-live-$(date -u +%Y-%m-%d)"
+          tar -czf "$name.tar.gz" backup
+          gpg --batch --yes --pinentry-mode loopback --passphrase "$BACKUP_PASSPHRASE" \
+            --symmetric --cipher-algo AES256 -o "$name.tar.gz.gpg" "$name.tar.gz"
+          rm -rf backup "$name.tar.gz"
+          echo "NAME=$name" >> "$GITHUB_ENV"
+      - uses: actions/upload-artifact@v4
+        if: steps.ready.outputs.ok == 'true'
+        with:
+          name: ${{ env.NAME }}
+          path: ${{ env.NAME }}.tar.gz.gpg
+          retention-days: 30
+          if-no-files-found: error

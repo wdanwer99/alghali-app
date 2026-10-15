@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr';
 import type { Database } from '@alghali/db-types';
 import type { NextRequest, NextResponse } from 'next/server';
+import { SESSION_COOKIE } from './cookies';
 
 /**
  * Refreshes the Supabase session cookies on [response] and says whether the
@@ -13,6 +14,7 @@ export async function refreshSession(request: NextRequest, response: NextRespons
   if (!url || !key) return { configured: false, signedIn: false };
 
   const supabase = createServerClient<Database>(url, key, {
+    cookieOptions: SESSION_COOKIE,
     cookies: {
       getAll: () => request.cookies.getAll(),
       setAll(list) {

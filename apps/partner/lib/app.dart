@@ -158,6 +158,12 @@ class _PartnerAppState extends ConsumerState<PartnerApp> {
       themeMode: ref.watch(themeModeProvider),
       routerConfig: ref.watch(routerProvider),
       debugShowCheckedModeBanner: false,
+      // Below the minimum build, only the update screen (D-058).
+      builder: (context, child) => UpdateGate(
+        release: ref.watch(platformSettingsProvider).partnerRelease,
+        appBuild: partnerBuild,
+        child: child!,
+      ),
     );
   }
 }

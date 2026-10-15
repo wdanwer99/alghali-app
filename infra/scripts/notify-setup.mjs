@@ -1,5 +1,5 @@
 // Connects a hosted project's notification queue to its notify-dispatch Edge Function:
-//   node notify-setup.mjs <dev|test> [--fcm path/to/firebase-service-account.json]
+//   node notify-setup.mjs <dev|test|live> [--fcm path/to/firebase-service-account.json]
 // - makes a fresh shared token and stores it twice: in the database's Vault (for pg_cron)
 //   and as the function's NOTIFY_DISPATCH_TOKEN secret;
 // - stores the function's address in Vault;
@@ -16,9 +16,9 @@ import { readEnvFile, supabaseTarget } from './lib/env.mjs';
 import { root, supabaseCommand } from './lib/paths.mjs';
 
 const [which, flag, fcmPath] = process.argv.slice(2);
-const target = { dev: 'DEV', test: 'TEST' }[which];
+const target = { dev: 'DEV', test: 'TEST', live: 'LIVE' }[which];
 if (!target || (flag && (flag !== '--fcm' || !fcmPath))) {
-  console.error('usage: notify-setup.mjs <dev|test> [--fcm path/to/service-account.json]');
+  console.error('usage: notify-setup.mjs <dev|test|live> [--fcm path/to/service-account.json]');
   process.exit(2);
 }
 const t = supabaseTarget(readEnvFile(join(root, '.env')) ?? {}, target);

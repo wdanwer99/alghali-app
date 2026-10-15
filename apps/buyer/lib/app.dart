@@ -127,7 +127,15 @@ class _BuyerAppState extends ConsumerState<BuyerApp> {
       themeMode: ref.watch(themeModeProvider),
       routerConfig: ref.watch(routerProvider),
       debugShowCheckedModeBanner: false,
-      builder: (context, child) => CatalogueScope(catalogue: catalogue, child: child!),
+      // Below the minimum build, only the update screen (D-058).
+      builder: (context, child) => CatalogueScope(
+        catalogue: catalogue,
+        child: UpdateGate(
+          release: ref.watch(platformSettingsProvider).buyerRelease,
+          appBuild: buyerBuild,
+          child: child!,
+        ),
+      ),
     );
   }
 }

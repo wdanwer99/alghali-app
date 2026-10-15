@@ -7,6 +7,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../app.dart';
 import '../../router.dart';
 import '../../state/session.dart';
+import '../../state/tech.dart';
 import '../../widgets/partner_widgets.dart';
 import '../shop/shop_more_screen.dart';
 
@@ -336,7 +337,7 @@ class _TechApplyScreenState extends ConsumerState<TechApplyScreen> {
   Future<void> _locate() async {
     setState(() => _locating = true);
     try {
-      final here = await Gps.here();
+      final here = await ref.read(gpsProvider)();
       if (mounted) setState(() => _home = here);
     } on BackendException catch (e) {
       if (mounted) showError(context, e);

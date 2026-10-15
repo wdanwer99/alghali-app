@@ -1,5 +1,5 @@
 // Supabase helpers that work without Docker (hosted projects):
-//   node db.mjs push <dev|test>   apply supabase/migrations to that project
+//   node db.mjs push <dev|test|live>   apply supabase/migrations to that project
 //   node db.mjs types dev         regenerate packages/db-types/src/database.ts
 //   node db.mjs seed <dev|test>   run supabase/seed.sql against that project
 //   node db.mjs reset test        drop everything in alghali-test and re-apply all migrations
@@ -10,13 +10,18 @@ import { readEnvFile, supabaseTarget } from './lib/env.mjs';
 import { root, supabaseCommand } from './lib/paths.mjs';
 
 const [command, which = 'dev'] = process.argv.slice(2);
-const target = { dev: 'DEV', test: 'TEST' }[which];
+const target = { dev: 'DEV', test: 'TEST', live: 'LIVE' }[which];
 if (!target || !['push', 'types', 'seed', 'reset'].includes(command)) {
   console.error('usage: db.mjs <push|types|seed> <dev|test> | db.mjs reset test');
   process.exit(2);
 }
 if (command === 'reset' && which !== 'test') {
   console.error('reset only runs against the test project.');
+  process.exit(2);
+}
+// Real users' data: only migrations go there, never seeds (D-071).
+if (which === 'live' && command !== 'push') {
+  console.error('Only push runs against the live project.');
   process.exit(2);
 }
 

@@ -667,4 +667,17 @@ class CoreLocalizationsEn extends CoreLocalizations {
 
   @override
   String get errTooManyRows => 'The file has more than 2,000 rows. Split it into smaller files.';
+
+  @override
+  String get updateTitle => 'Update the app';
+
+  @override
+  String get updateRequiredBody =>
+      'This version is too old to use. Download the new one and install it over this one; your account and data stay as they are.';
+
+  @override
+  String get updateAvailableBody => 'A new version of the app is available.';
+
+  @override
+  String get updateDownload => 'Download';
 }

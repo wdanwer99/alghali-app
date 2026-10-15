@@ -4,6 +4,7 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '@alghali/db-types';
 import { cookies } from 'next/headers';
 import { connection } from 'next/server';
+import { SESSION_COOKIE } from './cookies';
 
 export type Supabase = SupabaseClient<Database>;
 
@@ -38,6 +39,7 @@ export async function getSessionClient(): Promise<Supabase | null> {
   await connection();
   const store = await cookies();
   return createServerClient<Database>(c.url, c.key, {
+    cookieOptions: SESSION_COOKIE,
     cookies: {
       getAll: () => store.getAll(),
       setAll(list) {

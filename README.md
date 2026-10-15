@@ -54,14 +54,17 @@ pnpm env:sync               # copies client-safe keys (and each app's Firebase e
 | `pnpm flutter:test`                              | Flutter tests in core, buyer and partner                                                               |
 | `pnpm buyer:e2e [-- -d <device>]`                | The buyer's happy path on a running emulator or phone against `alghali-dev` (signs in as a demo buyer) |
 | `pnpm partner:e2e [-- -d <device>]`              | The partner's happy path on an emulator or phone against `alghali-dev` (cleans up)                     |
-| `pnpm admin:e2e`                                 | The admin console in Chromium against `alghali-dev`, every page in Arabic and English (read-only)      |
+| `pnpm admin:e2e [-- --fresh]`                    | The admin console in Chromium against `alghali-dev`, every page in Arabic and English (read-only)      |
+| `pnpm journey:e2e [-- -d <device>]`              | The acceptance journey with both apps on an emulator, against `alghali-test` with throwaway accounts   |
+| `pnpm perf:e2e [-- -d <device>]`                 | Start-up, frame times and memory of both apps (profile mode) on an emulator or phone                   |
+| `pnpm release:apk <app> <env> [--required]`      | Build, sign, upload and announce a new app version ([docs/DEPLOY.md](docs/DEPLOY.md) §4)               |
 | `pnpm fixtures:buyer`                            | Re-capture the buyer app's test fixtures from `alghali-dev` (demo data)                                |
 | `pnpm fixtures:partner`                          | Re-capture the partner app's test fixtures from `alghali-dev`                                          |
-| `pnpm db:push:dev` / `pnpm db:push:test`         | Apply new migrations                                                                                   |
+| `pnpm db:push:<dev\|test\|live>`                 | Apply new migrations                                                                                   |
 | `pnpm db:reset:test`                             | Wipe `alghali-test` and re-apply every migration                                                       |
 | `pnpm db:types`                                  | Regenerate `packages/db-types` from `alghali-dev`                                                      |
 | `pnpm db:seed:dev`                               | Load the demo shops, stock, buyers, orders, technicians and fittings into `alghali-dev` (dev only)     |
-| `pnpm functions:deploy:<dev\|test>`              | Deploy the Edge Functions                                                                              |
+| `pnpm functions:deploy:<dev\|test\|live>`        | Deploy the Edge Functions                                                                              |
 | `pnpm hosted:diff <dev\|test>`                   | Compare the project's settings with `infra/hosted/supabase/config.toml` (`hosted:push` applies)        |
 | `pnpm import-template`                           | Rebuild `supabase/templates/inventory-template.xlsx`; `pnpm templates:upload <dev\|test>` publishes it |
 | `pnpm notify:setup <dev\|test> [--fcm key.json]` | Wire the alert queue to `notify-dispatch`; with a Firebase service account key, pushes really go out   |
@@ -69,6 +72,8 @@ pnpm env:sync               # copies client-safe keys (and each app's Firebase e
 Apps built without Supabase keys still run and show "not set up" for backend status.
 
 **Real data.** Both apps (M4, M5) and the admin console read and write the real backend (`alghali-dev` during development). Built without keys, the apps still open, with an empty catalogue.
+
+**Going live** is step by step in [docs/DEPLOY.md](docs/DEPLOY.md); the security review is [docs/SECURITY.md](docs/SECURITY.md).
 
 **Tests that hit Supabase** run against `alghali-test`. `pnpm test` includes end-to-end API tests that create real accounts there and delete them afterwards.
 

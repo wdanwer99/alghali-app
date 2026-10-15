@@ -7,6 +7,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../app.dart';
 import '../../router.dart';
 import '../../state/inbox.dart';
+import '../../state/push.dart';
 import '../../state/session.dart';
 import '../../state/shop.dart';
 import '../../widgets/partner_widgets.dart';
@@ -146,6 +147,10 @@ class ShopHomeScreen extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    UpdateBanner(
+                      release: ref.watch(platformSettingsProvider).partnerRelease,
+                      appBuild: partnerBuild,
+                    ),
                     if (membership != null && membership.status != PartnerStatus.approved) ...[
                       ReviewBanner(
                         status: membership.status,

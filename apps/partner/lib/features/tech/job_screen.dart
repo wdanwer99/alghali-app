@@ -51,7 +51,7 @@ class _JobScreenState extends ConsumerState<JobScreen> {
   Future<void> _onMyWay(Booking b) => _step(() async {
     await _jobs.enRoute(b.id);
     try {
-      await Gps.here();
+      await ref.read(gpsProvider)();
     } on BackendException catch (e) {
       if (mounted) showError(context, e);
     }
@@ -535,6 +535,8 @@ class _Photos extends StatelessWidget {
                 : Image.network(
                     u,
                     fit: BoxFit.cover,
+                    // Photos are up to 1600 px; decode them at the tile's size (M7 profiling).
+                    cacheWidth: (72 * MediaQuery.devicePixelRatioOf(context)).round(),
                     errorBuilder: (_, _, _) =>
                         Icon(Icons.broken_image_outlined, color: scheme.onSurfaceVariant),
                   ),

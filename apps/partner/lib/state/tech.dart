@@ -90,7 +90,7 @@ class MyTechnicianController extends AsyncNotifier<MyTechnician?> with CachedLis
 
   /// Where visits are measured from: the phone's position now.
   Future<void> setHomeHere() async {
-    final (:lat, :lng) = await Gps.here();
+    final (:lat, :lng) = await ref.read(gpsProvider)();
     await _then(_repo.updateProfile({'home_lat': lat, 'home_lng': lng}));
   }
 
@@ -292,7 +292,7 @@ class LocationSharing extends Notifier<String?> {
 
   Future<void> _send(String bookingId) async {
     try {
-      final (:lat, :lng) = await Gps.here();
+      final (:lat, :lng) = await ref.read(gpsProvider)();
       await ref.read(technicianRepositoryProvider).updateLocation(bookingId, lat, lng);
     } on Object {
       // No fix or no connection this time; the next tick tries again.
@@ -304,6 +304,10 @@ final locationSharingProvider = NotifierProvider<LocationSharing, String?>(Locat
 
 /// Off in widget tests (no GPS there).
 final locationSharingEnabledProvider = Provider<bool>((ref) => true);
+
+/// The phone's position (asks for permission the first time); device tests give a fixed
+/// one, since they can't answer Android's permission prompt.
+final gpsProvider = Provider<Future<({double lat, double lng})> Function()>((ref) => Gps.here);
 
 // -------------------------------------------------------------------------- earnings
 

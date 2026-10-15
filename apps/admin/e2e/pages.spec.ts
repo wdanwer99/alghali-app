@@ -83,3 +83,43 @@ test('cash: every partner row can be adjusted', async ({ page }) => {
   const adjust = page.getByRole('button', { name: new RegExp(`^${d.cash.adjust} `) });
   await expect(adjust).toHaveCount(await rows.count());
 });
+
+test('every page is sent with the browser protections (M7 security review)', async ({ page }) => {
+  const res = await page.request.get('/ar/login');
+  const h = res.headers();
+  expect(h['x-frame-options']).toBe('DENY');
+  expect(h['content-security-policy']).toContain("frame-ancestors 'none'");
+  expect(h['x-content-type-options']).toBe('nosniff');
+  expect(h['referrer-policy']).toBe('strict-origin-when-cross-origin');
+  expect(h['x-powered-by']).toBeUndefined();
+  // The admin's session can't be read by scripts in the page.
+  const session = (await page.context().cookies()).filter((c) => c.name.startsWith('sb-'));
+  expect(session.length).toBeGreaterThan(0);
+  expect(session.every((c) => c.httpOnly)).toBe(true);
+});
+
+test.describe('signed out', () => {
+  test.use({ storageState: { cookies: [], origins: [] } });
+
+  for (const locale of ['ar', 'en'] as Locale[]) {
+    test(`the app download page is open to everyone (${locale})`, async ({ page }) => {
+      const d = dictionaries[locale].download;
+      await page.goto(`/${locale}/download`);
+      await expect(page).toHaveURL(new RegExp(`/${locale}/download$`));
+      await expect(page.locator('html')).toHaveAttribute('dir', locale === 'ar' ? 'rtl' : 'ltr');
+      await expect(page.getByRole('heading', { level: 1, name: d.title })).toBeVisible();
+      // Each app: the download for this phone, or "coming soon" before the first release.
+      for (const name of [d.buyerTitle, d.partnerTitle]) {
+        const card = page.getByRole('region', { name });
+        await expect(
+          card.getByRole('link', { name: d.download }).or(card.getByText(d.soon)),
+        ).toBeVisible();
+      }
+    });
+  }
+
+  test('the console itself still asks for sign-in', async ({ page }) => {
+    await page.goto('/en/orders');
+    await expect(page).toHaveURL(/\/en\/login/);
+  });
+});

@@ -58,7 +58,7 @@ class HomeScreen extends ConsumerWidget {
                           ? t.updateRequired
                           : t.updateAvailable,
                       action: FilledButton(
-                        onPressed: () => Launch.open(release.apkUrl!),
+                        onPressed: () => Launch.open(release.apkFor()!),
                         child: Text(t.updateDownload),
                       ),
                     ),

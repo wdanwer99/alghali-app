@@ -1,5 +1,5 @@
 // Previews or applies infra/hosted/supabase/config.toml on a hosted project:
-//   node hosted-config.mjs <diff|push> <dev|test>
+//   node hosted-config.mjs <diff|push> <dev|test|live>
 // Only the properties declared in that file change. Needs `npx supabase login` once.
 import { spawnSync } from 'node:child_process';
 import { join } from 'node:path';
@@ -7,9 +7,9 @@ import { readEnvFile, supabaseTarget } from './lib/env.mjs';
 import { root, supabaseCommand } from './lib/paths.mjs';
 
 const [command, which] = process.argv.slice(2);
-const target = { dev: 'DEV', test: 'TEST' }[which];
+const target = { dev: 'DEV', test: 'TEST', live: 'LIVE' }[which];
 if (!['diff', 'push'].includes(command) || !target) {
-  console.error('usage: hosted-config.mjs <diff|push> <dev|test>');
+  console.error('usage: hosted-config.mjs <diff|push> <dev|test|live>');
   process.exit(2);
 }
 

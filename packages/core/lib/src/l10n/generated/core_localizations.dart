@@ -1214,6 +1214,30 @@ abstract class CoreLocalizations {
   /// In ar, this message translates to:
   /// **'الملف فيه أكثر من 2000 صف. قسّمه إلى ملفات أصغر.'**
   String get errTooManyRows;
+
+  /// Update screen title
+  ///
+  /// In ar, this message translates to:
+  /// **'حدّث التطبيق'**
+  String get updateTitle;
+
+  /// Update screen: a newer version is required
+  ///
+  /// In ar, this message translates to:
+  /// **'هذه النسخة قديمة ولم تعد تعمل. حمّل النسخة الجديدة وثبّتها فوق الحالية؛ حسابك وبياناتك تبقى كما هي.'**
+  String get updateRequiredBody;
+
+  /// Banner: a newer version exists
+  ///
+  /// In ar, this message translates to:
+  /// **'نسخة جديدة من التطبيق متاحة.'**
+  String get updateAvailableBody;
+
+  /// Button
+  ///
+  /// In ar, this message translates to:
+  /// **'تحميل'**
+  String get updateDownload;
 }
 
 class _CoreLocalizationsDelegate extends LocalizationsDelegate<CoreLocalizations> {

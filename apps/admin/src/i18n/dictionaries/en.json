@@ -878,5 +878,23 @@
     "placeholders": "Placeholders:",
     "noPlaceholders": "This alert has no placeholders.",
     "saved": "Wording saved"
+  },
+  "download": {
+    "title": "Get the Alghali Street apps",
+    "subtitle": "For Android 8 and newer. The apps are free.",
+    "buyerTitle": "Alghali Street",
+    "buyerBody": "Find spare parts that fit your car, order them and book the fitting.",
+    "partnerTitle": "Shops and technicians",
+    "partnerBody": "For shop owners, their staff and fitting technicians: orders, stock, jobs and earnings.",
+    "download": "Download",
+    "version": "Version {build}",
+    "other": "Didn't install? Try the other version",
+    "soon": "Coming soon",
+    "stepsTitle": "How to install",
+    "step1": "Tap Download and wait for it to finish.",
+    "step2": "Open the file from the notification or your Downloads folder.",
+    "step3": "If Android warns about unknown apps, tap Settings, turn on \"Allow from this source\" for your browser, then go back.",
+    "step4": "Tap Install. When a new version is out the app tells you; install it over the old one and your account stays.",
+    "safety": "Only download the apps from this page. We never send the app files by WhatsApp or messages."
   }
 }

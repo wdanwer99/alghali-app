@@ -186,5 +186,9 @@
   "errJobTypesRequired": "Choose at least one kind of job.",
   "errReasonRequired": "Write a reason.",
   "errBadSheet": "The file doesn't match the template. Download the template, fill it in and try again.",
-  "errTooManyRows": "The file has more than 2,000 rows. Split it into smaller files."
+  "errTooManyRows": "The file has more than 2,000 rows. Split it into smaller files.",
+  "updateTitle": "Update the app",
+  "updateRequiredBody": "This version is too old to use. Download the new one and install it over this one; your account and data stay as they are.",
+  "updateAvailableBody": "A new version of the app is available.",
+  "updateDownload": "Download"
 }
