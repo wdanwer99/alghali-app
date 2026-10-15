@@ -35,7 +35,9 @@
     "commandPlaceholder": "ابحث في الصفحات والإجراءات",
     "commandEmpty": "لا شيء يطابق",
     "commandPages": "الصفحات",
-    "commandActions": "إجراءات"
+    "commandActions": "إجراءات",
+    "reports": "التقارير",
+    "alerts": "صياغة التنبيهات"
   },
   "common": {
     "search": "بحث",
@@ -121,10 +123,11 @@
     "PAYMENT_NOT_FOUND": "هذه الدفعة غير موجودة.",
     "INVALID_REASON": "اختر سببًا.",
     "BOOKING_NOT_FOUND": "موعد التركيب هذا لم يعد موجودًا.",
-    "TECHNICIAN_NOT_FOUND": "هذا الفني لم يعد موجودًا.",
+    "TECHNICIAN_NOT_FOUND": "هذا الفني لم يعد موجوداً.",
     "DISPUTE_CLOSED": "هذه الشكوى مغلقة بالفعل.",
     "NOT_FOUND": "غير موجود. حدّث الصفحة.",
-    "SLOT_TAKEN": "حُجز هذا الوقت للتو."
+    "SLOT_TAKEN": "حُجز هذا الوقت للتو.",
+    "UNKNOWN_PLACEHOLDER": "استخدمت خانة غير موجودة في هذا التنبيه. استعمل الخانات المذكورة فقط."
   },
   "status": {
     "order": {
@@ -546,7 +549,19 @@
     "emptyBody": "تظهر المحلات والفنيون هنا بعد أول عمل عبر المنصة.",
     "collectedHint": "النقد الذي استلموه من الزبائن منذ آخر دفعة لهم.",
     "shopTag": "محل",
-    "techTag": "فني"
+    "techTag": "فني",
+    "adjust": "تعديل الرصيد",
+    "adjustTitle": "تعديل رصيد {name}",
+    "adjustBody": "يُسجَّل في الحسابات ويظهر في كشف الشريك، ويُسوّى في الدفعة القادمة. استعمله للتعويض أو لتصحيح خطأ.",
+    "adjustDirection": "نوع التعديل",
+    "adjustCredit": "نزيد ما ندين به له",
+    "adjustDebit": "نخصم منه",
+    "adjustAmount": "المبلغ (ج.س)",
+    "adjustCreditNote": "سيُضاف {amount} لصالح الشريك.",
+    "adjustDebitNote": "سيُخصم {amount} من الشريك.",
+    "adjustReason": "السبب (يراه الفريق في سجل النشاط)",
+    "adjustSave": "سجّل التعديل",
+    "adjusted": "سُجّل التعديل"
   },
   "payouts": {
     "title": "الدفعات للشركاء",
@@ -806,5 +821,62 @@
     "rateLimited": "محاولات كثيرة. انتظر دقيقة ثم حاول مرة أخرى.",
     "notConfigured": "لم يُجهَّز الخادم بعد. املأ ملف ⁦.env⁩ ثم شغّل ⁦pnpm dev⁩ مجددًا.",
     "failed": "تعذّر تسجيل الدخول. تحقّق من الاتصال وحاول مرة أخرى."
+  },
+  "reports": {
+    "title": "التقارير",
+    "subtitle": "المبيعات والعمولة والتركيب والمدفوعات ونمو المنصة لفترة تختارها، بتوقيت الخرطوم.",
+    "period": "الفترة",
+    "lastDays": "آخر {n} يوماً",
+    "download": "تنزيل CSV",
+    "sales": "المبيعات",
+    "salesNote": "من {n} محلات",
+    "orders": "الطلبات",
+    "ordersNote": "{n}٪ منها نقداً",
+    "commission": "العمولة",
+    "commissionNote": "ورسوم حجز التركيب {fees}",
+    "fittingsDone": "تركيبات مكتملة",
+    "fittingsNote": "من {n} محجوزة",
+    "buyers": "مشترون اشتروا",
+    "buyersNote": "{n} حساب جديد",
+    "receipts": "إيصالات مؤكدة",
+    "receiptsNote": "متوسط {minutes} دقيقة للتأكيد · {n} مرفوض",
+    "rejected": "{n} مرفوض",
+    "refunds": "مبالغ مستردة مدفوعة",
+    "newPartners": "شركاء جدد",
+    "newPartnersNote": "{shops} محلات · {techs} فنيين",
+    "salesPerDay": "المبيعات يومياً",
+    "chartSummary": "مبيعات آخر {n} يوماً: {total}",
+    "showTable": "عرض كجدول",
+    "showChart": "عرض كرسم",
+    "ordersCount": "{n} طلب",
+    "topShops": "أكثر المحلات مبيعاً",
+    "fittings": "التركيبات حسب الحالة",
+    "noSales": "لا مبيعات في هذه الفترة",
+    "noFittings": "لا تركيبات في هذه الفترة",
+    "colDay": "اليوم",
+    "colOrders": "الطلبات",
+    "colSales": "المبيعات",
+    "colCommission": "العمولة",
+    "colFittings": "التركيبات",
+    "colRating": "التقييم"
+  },
+  "alerts": {
+    "title": "صياغة التنبيهات",
+    "subtitle": "ما يصل في الإشعارات وصناديق التنبيهات في التطبيقين، بالعربية والإنجليزية. الخانات بين قوسين تُملأ من بيانات كل تنبيه.",
+    "search": "ابحث في التنبيهات",
+    "empty": "لا تنبيهات تطابق البحث",
+    "appBuyer": "تطبيق المشتري",
+    "appPartner": "تطبيق الشركاء",
+    "appAdmin": "لوحة الإدارة",
+    "code": "الرمز",
+    "arabic": "العربية",
+    "english": "الإنجليزية",
+    "sms": "رسالة نصية أيضاً",
+    "titleLabel": "العنوان",
+    "bodyLabel": "النص",
+    "editHint": "يُطبَّق على التنبيهات التالية فوراً. العنوان حتى 100 حرف والنص حتى 300.",
+    "placeholders": "الخانات المتاحة:",
+    "noPlaceholders": "هذا التنبيه بلا خانات.",
+    "saved": "حُفظت الصياغة"
   }
 }

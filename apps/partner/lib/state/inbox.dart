@@ -86,6 +86,10 @@ final alertTemplatesProvider = FutureProvider<AlertTemplates>((ref) async {
     return shop('/shop/chat/${id('conversation_id')}');
   }
   if (code == 'NEW_PART_REQUEST') return shop('/shop/quotes');
+  // Complaints sit outside both sides: stay on the open one.
+  if (id('dispute_id') != null) {
+    return (route: '/complaints/${id('dispute_id')}', role: current ?? PartnerRole.shop);
+  }
   if (id('booking_id') != null) return tech('/tech/job/${id('booking_id')}');
   if (id('sub_order_id') != null) return shop('/shop/order/${id('sub_order_id')}');
   if (code == 'TECHNICIAN_STATUS') return tech('/tech/profile');

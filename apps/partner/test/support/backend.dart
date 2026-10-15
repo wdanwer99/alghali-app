@@ -73,6 +73,9 @@ class FakeBackend {
   final locations = <({String booking, double lat, double lng})>[];
   final photos = <String>[];
 
+  /// Complaints the partner is part of: one a buyer opened about a delivered order.
+  late List<Json> disputes;
+
   /// The job code the fake buyer gives the technician.
   static const jobCode = '2741';
   var codeTries = 0;
@@ -156,6 +159,30 @@ class FakeBackend {
           'status': 'OFFERED',
           'expires_at': now.add(const Duration(minutes: 14)).toIso8601String(),
         },
+      },
+    ];
+    disputes = [
+      {
+        'id': 'dp-1',
+        'category': 'WRONG_PART',
+        'description': 'وصلتني مرآة يمين بدل اليسار',
+        'status': 'IN_REVIEW',
+        'created_at': ago(90).toIso8601String(),
+        'ref': done['ref'],
+        'sub_order_id': done['id'],
+        'booking_id': null,
+        'resolution': null,
+        'opener_name': 'عمر',
+        'messages': <Json>[
+          {
+            'id': 'dm-1',
+            'body': 'نراجع الطلب مع المحل.',
+            'from_admin': true,
+            'mine': false,
+            'at': ago(60).toIso8601String(),
+            'sender': null,
+          },
+        ],
       },
     ];
     technician = {...fixture('technician') as Json, 'home_lat': 15.6, 'home_lng': 32.5};
@@ -561,6 +588,38 @@ class FakeBackend {
     s.on('/rest/v1/rpc/tech_statement', (_) => jsonResponse(fixture('tech_statement')));
 
     // Shared.
+    s.on('/rest/v1/rpc/my_disputes', (_) => jsonResponse(disputes));
+    s.on('/rest/v1/rpc/open_dispute', (r) {
+      final b = _body(r);
+      final d = <String, Object?>{
+        'id': 'dp-${disputes.length + 1}',
+        'category': b['p_category'],
+        'description': b['p_description'],
+        'status': 'OPEN',
+        'created_at': now.toIso8601String(),
+        'ref': null,
+        'sub_order_id': b['p_sub_order_id'],
+        'booking_id': b['p_booking_id'],
+        'resolution': null,
+        'opener_name': (me['profile'] as Json)['display_name'],
+        'messages': <Json>[],
+      };
+      disputes.insert(0, d);
+      return jsonResponse(d);
+    });
+    s.on('/rest/v1/rpc/dispute_reply', (r) {
+      final b = _body(r);
+      final d = disputes.firstWhere((x) => x['id'] == b['p_dispute_id']);
+      (d['messages'] as List).add({
+        'id': 'dm-${(d['messages'] as List).length + 1}',
+        'body': b['p_body'],
+        'from_admin': false,
+        'mine': true,
+        'at': now.toIso8601String(),
+        'sender': null,
+      });
+      return jsonResponse(d);
+    });
     s.on('/rest/v1/notifications', (_) {
       return jsonResponse(fixture(who == Who.tech ? 'tech_notifications' : 'shop_notifications'));
     });

@@ -1324,4 +1324,85 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get earningsNotYet => 'ستظهر أرباحك هنا بعد الاعتماد';
+
+  @override
+  String get ledgerAdjustment => 'تعديل من الإدارة';
+
+  @override
+  String get complaintsTitle => 'الشكاوى';
+
+  @override
+  String get complaintsMenuBody => 'شكاوى المشترين عن طلباتك أو أعمالك، وما أبلغت عنه';
+
+  @override
+  String get complaintsEmpty => 'لا توجد شكاوى';
+
+  @override
+  String get complaintsEmptyBody =>
+      'إن أبلغ مشترٍ عن مشكلة في أحد طلباتك أو أعمالك تظهر هنا. ويمكنك الإبلاغ عن مشكلة من صفحة الطلب أو العمل.';
+
+  @override
+  String get complaintReport => 'الإبلاغ عن مشكلة';
+
+  @override
+  String get complaintIntro => 'اختر نوع المشكلة واشرح ما حدث. يرد فريقنا عادةً خلال يوم عمل.';
+
+  @override
+  String get complaintDescribe => 'ماذا حدث؟';
+
+  @override
+  String get complaintSend => 'إرسال';
+
+  @override
+  String get complaintNotReceived => 'لم يستلم القطعة';
+
+  @override
+  String get complaintWrongPart => 'قطعة خاطئة';
+
+  @override
+  String get complaintDamaged => 'تلف أو عطل';
+
+  @override
+  String get complaintNotFitted => 'التركيب لم يتم كما يجب';
+
+  @override
+  String get complaintPayment => 'مشكلة في الدفع';
+
+  @override
+  String get complaintBehaviour => 'سوء معاملة';
+
+  @override
+  String get complaintOther => 'أخرى';
+
+  @override
+  String get complaintOpen => 'مفتوحة';
+
+  @override
+  String get complaintInReview => 'قيد المراجعة';
+
+  @override
+  String get complaintResolved => 'تم الحل';
+
+  @override
+  String get complaintRejected => 'مغلقة';
+
+  @override
+  String get complaintTitle => 'الشكوى';
+
+  @override
+  String complaintFrom(String name) {
+    return 'فتحها $name';
+  }
+
+  @override
+  String get complaintOutcome => 'القرار';
+
+  @override
+  String get complaintYou => 'أنت';
+
+  @override
+  String get complaintTeam => 'فريق شارع الغالي';
+
+  @override
+  String get complaintReply => 'اكتب ردًا';
 }

@@ -1325,4 +1325,87 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get earningsNotYet => 'Your earnings show here once you are approved';
+
+  @override
+  String get ledgerAdjustment => 'Adjustment';
+
+  @override
+  String get complaintsTitle => 'Complaints';
+
+  @override
+  String get complaintsMenuBody =>
+      'What buyers reported about your orders or jobs, and what you reported';
+
+  @override
+  String get complaintsEmpty => 'No complaints';
+
+  @override
+  String get complaintsEmptyBody =>
+      'If a buyer reports a problem with one of your orders or jobs, it shows here. You can also report one from the order or job.';
+
+  @override
+  String get complaintReport => 'Report a problem';
+
+  @override
+  String get complaintIntro =>
+      'Pick what went wrong and tell us what happened. Our team usually replies within a working day.';
+
+  @override
+  String get complaintDescribe => 'What happened?';
+
+  @override
+  String get complaintSend => 'Send';
+
+  @override
+  String get complaintNotReceived => 'Part not received';
+
+  @override
+  String get complaintWrongPart => 'Wrong part';
+
+  @override
+  String get complaintDamaged => 'Damage or fault';
+
+  @override
+  String get complaintNotFitted => 'Fitting not done right';
+
+  @override
+  String get complaintPayment => 'Payment problem';
+
+  @override
+  String get complaintBehaviour => 'Bad behaviour';
+
+  @override
+  String get complaintOther => 'Something else';
+
+  @override
+  String get complaintOpen => 'Open';
+
+  @override
+  String get complaintInReview => 'Being reviewed';
+
+  @override
+  String get complaintResolved => 'Resolved';
+
+  @override
+  String get complaintRejected => 'Closed';
+
+  @override
+  String get complaintTitle => 'Complaint';
+
+  @override
+  String complaintFrom(String name) {
+    return 'Opened by $name';
+  }
+
+  @override
+  String get complaintOutcome => 'Outcome';
+
+  @override
+  String get complaintYou => 'You';
+
+  @override
+  String get complaintTeam => 'Alghali Street team';
+
+  @override
+  String get complaintReply => 'Write a reply';
 }

@@ -24,14 +24,15 @@ Where the project stands and the rules every change follows. Read this before wr
 | M3 Installation: technicians, slots, bookings, notifications, reviews, disputes | Done 2026-10-14 | `921e149` |
 | Push through Firebase (project `alghali-street`) | Done 2026-10-14 | `173979a` |
 | M4 Buyer app on the real backend, offline cache and outbox, push | Done 2026-10-14 | `fb20a5e` |
-| M5 Partner app on the real backend: shops and technicians, joining, offline stock | Done 2026-10-15 | see `git log` |
-| M6 Admin rest · M7 Hardening and launch | Not started | — |
+| M5 Partner app on the real backend: shops and technicians, joining, offline stock | Done 2026-10-15 | `a0142bd` |
+| M6 Admin console: reports, balance corrections, alert wording, complaints for partners, browser tests | Done 2026-10-15 | see `git log` |
+| M7 Hardening and launch | Not started | — |
 
 **Working state of each part:**
-- **Backend (Supabase):** everything up to M5 is applied to `alghali-dev` and `alghali-test`, with the Edge Functions deployed and the alert dispatcher wired (`pnpm notify:setup`) with real Firebase push (D-109); both apps register their phones for push.
-- **Admin console:** every page reads the real database (D-106); no sample data is left.
+- **Backend (Supabase):** everything up to M6 is applied to `alghali-dev` and `alghali-test`, with the Edge Functions deployed and the alert dispatcher wired (`pnpm notify:setup`) with real Firebase push (D-109); both apps register their phones for push.
+- **Admin console:** every page reads the real database (D-106), plus reports (D-129), balance corrections (D-130) and the alert wording editor (D-131); every page is tested in a browser in both languages (D-133).
 - **Buyer app:** every screen runs on the real backend (D-110), works offline for reading and queues safe changes (D-112), and receives push (D-113). Build `0.4.0+4`.
-- **Partner app:** every screen runs on the real backend (D-119–D-128): joining as a shop or technician, one account with several homes, shop orders, stock with offline edits and quick listings, photo requests, chat, money, staff, insights, "closed today"; the technician's offers, job day with photos, the buyer's code and live location, hours, breaks and time off, earnings. Build `0.5.0+5`.
+- **Partner app:** every screen runs on the real backend (D-119–D-128): joining as a shop or technician, one account with several homes, shop orders, stock with offline edits and quick listings, photo requests, chat, money, staff, insights, "closed today"; the technician's offers, job day with photos, the buyer's code and live location, hours, breaks and time off, earnings; complaints with replies and "Report a problem" (D-132). Build `0.6.0+6`.
 
 **Waiting on the owner before launch:** the street's city, GPS starting point and real zone names (D-077), the platform Bankak account, real fee amounts (D-034), and a sender mailbox for password-reset emails (D-064). The owner can enter the street, zones, Bankak account and fees in the admin console.
 
@@ -116,7 +117,8 @@ Where the project stands and the rules every change follows. Read this before wr
 | `apps/buyer/integration_test` | `pnpm buyer:e2e` with an emulator running: the happy path against dev, cleaning up after itself |
 | `apps/partner/test` | Like the buyer's: `FakeBackend` on fixtures from dev (`pnpm fixtures:partner`, signed in as the demo owner and technician; non-demo people are replaced), plus a new order, a photo request and a job offer it adds. New screens join `screens_test.dart`; flows go in `journey_test.dart`. |
 | `apps/partner/integration_test` | `pnpm partner:e2e` with an emulator running: the script places a cash order and a fitting as a demo buyer, the shop and the technician act on them, and an admin cancels both |
-| `apps/admin` | Dictionary parity, locale |
+| `apps/admin` | Dictionary parity, locale (vitest) |
+| `apps/admin/e2e` | Playwright (D-133). `pages.spec.ts` opens every page in both languages; `actions.spec.ts` changes data and is skipped unless `E2E_WRITES=1` (CI only). New pages join `PAGES`; find buttons by their dictionary text or `aria-label`, never by position. `pnpm admin:e2e` runs it read-only against dev |
 
 Each milestone's exit criteria in PLAN §2 must have a test. Before committing, `pnpm check` must pass (lint, Prettier, typecheck, TypeScript tests including DB and API, Dart format, `flutter analyze`, Flutter tests).
 
@@ -159,8 +161,10 @@ Each milestone's exit criteria in PLAN §2 must have a test. Before committing, 
 - Device tests: a snack bar from the last step can cover the next button (clear them before tapping); a switch that waits for data is disabled until it arrives; "open now" depends on the time of day, so check the switch's value, not its words.
 - `file_picker` 13 has a static API (`FilePicker.pickFile`, `PlatformFile.xFile`); 10.x clashes with another package's `win32`.
 - The partner fixtures include whoever used dev; the capture script replaces non-demo people. Never commit fixtures captured without it.
+- Playwright failure traces and page snapshots can contain the admin password typed at sign-in. `pnpm admin:e2e` deletes `test-results/`, `playwright-report/` and `e2e/.auth/` afterwards, and they are ignored by Git; don't attach them anywhere.
+- `pnpm admin:e2e` reuses a dev server already on port 3000 (two `next dev` in one folder clash); the first visit to each page compiles it, hence the long timeouts.
 
 ## 10. What comes next
 
-- **M6:** the remaining admin work and Playwright smoke tests; partners can't reply to complaints in the app yet (admins handle them), and the shop's storefront photo and the technician's avatar have no upload screen yet.
+- **Left from M6:** the shop's storefront photo and the technician's avatar have no upload screen, and the buyer app doesn't show them yet (the backend already takes both).
 - **M7:** the acceptance journey end to end, low-end phone profiling, security review, release signing, the APK download page, and the live project.

@@ -2378,6 +2378,162 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'ستظهر أرباحك هنا بعد الاعتماد'**
   String get earningsNotYet;
+
+  /// Ledger line: a correction the platform team made by hand
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل من الإدارة'**
+  String get ledgerAdjustment;
+
+  /// Screen title and menu entry
+  ///
+  /// In ar, this message translates to:
+  /// **'الشكاوى'**
+  String get complaintsTitle;
+
+  /// Menu entry subtitle
+  ///
+  /// In ar, this message translates to:
+  /// **'شكاوى المشترين عن طلباتك أو أعمالك، وما أبلغت عنه'**
+  String get complaintsMenuBody;
+
+  /// Empty state
+  ///
+  /// In ar, this message translates to:
+  /// **'لا توجد شكاوى'**
+  String get complaintsEmpty;
+
+  /// Empty state
+  ///
+  /// In ar, this message translates to:
+  /// **'إن أبلغ مشترٍ عن مشكلة في أحد طلباتك أو أعمالك تظهر هنا. ويمكنك الإبلاغ عن مشكلة من صفحة الطلب أو العمل.'**
+  String get complaintsEmptyBody;
+
+  /// Button and sheet title
+  ///
+  /// In ar, this message translates to:
+  /// **'الإبلاغ عن مشكلة'**
+  String get complaintReport;
+
+  /// Sheet intro
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر نوع المشكلة واشرح ما حدث. يرد فريقنا عادةً خلال يوم عمل.'**
+  String get complaintIntro;
+
+  /// Field label
+  ///
+  /// In ar, this message translates to:
+  /// **'ماذا حدث؟'**
+  String get complaintDescribe;
+
+  /// Button
+  ///
+  /// In ar, this message translates to:
+  /// **'إرسال'**
+  String get complaintSend;
+
+  /// Complaint category
+  ///
+  /// In ar, this message translates to:
+  /// **'لم يستلم القطعة'**
+  String get complaintNotReceived;
+
+  /// Complaint category
+  ///
+  /// In ar, this message translates to:
+  /// **'قطعة خاطئة'**
+  String get complaintWrongPart;
+
+  /// Complaint category
+  ///
+  /// In ar, this message translates to:
+  /// **'تلف أو عطل'**
+  String get complaintDamaged;
+
+  /// Complaint category
+  ///
+  /// In ar, this message translates to:
+  /// **'التركيب لم يتم كما يجب'**
+  String get complaintNotFitted;
+
+  /// Complaint category
+  ///
+  /// In ar, this message translates to:
+  /// **'مشكلة في الدفع'**
+  String get complaintPayment;
+
+  /// Complaint category
+  ///
+  /// In ar, this message translates to:
+  /// **'سوء معاملة'**
+  String get complaintBehaviour;
+
+  /// Complaint category
+  ///
+  /// In ar, this message translates to:
+  /// **'أخرى'**
+  String get complaintOther;
+
+  /// Complaint status
+  ///
+  /// In ar, this message translates to:
+  /// **'مفتوحة'**
+  String get complaintOpen;
+
+  /// Complaint status
+  ///
+  /// In ar, this message translates to:
+  /// **'قيد المراجعة'**
+  String get complaintInReview;
+
+  /// Complaint status
+  ///
+  /// In ar, this message translates to:
+  /// **'تم الحل'**
+  String get complaintResolved;
+
+  /// Complaint status
+  ///
+  /// In ar, this message translates to:
+  /// **'مغلقة'**
+  String get complaintRejected;
+
+  /// Screen title
+  ///
+  /// In ar, this message translates to:
+  /// **'الشكوى'**
+  String get complaintTitle;
+
+  /// Who opened the complaint
+  ///
+  /// In ar, this message translates to:
+  /// **'فتحها {name}'**
+  String complaintFrom(String name);
+
+  /// Banner title
+  ///
+  /// In ar, this message translates to:
+  /// **'القرار'**
+  String get complaintOutcome;
+
+  /// Message sender
+  ///
+  /// In ar, this message translates to:
+  /// **'أنت'**
+  String get complaintYou;
+
+  /// Message sender
+  ///
+  /// In ar, this message translates to:
+  /// **'فريق شارع الغالي'**
+  String get complaintTeam;
+
+  /// Field label
+  ///
+  /// In ar, this message translates to:
+  /// **'اكتب ردًا'**
+  String get complaintReply;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

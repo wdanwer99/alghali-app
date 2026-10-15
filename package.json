@@ -12,6 +12,7 @@
     "partner": "pnpm env:sync && node infra/scripts/flutter-run.mjs partner",
     "buyer:e2e": "pnpm env:sync && node infra/scripts/buyer-e2e.mjs",
     "partner:e2e": "pnpm env:sync && node infra/scripts/partner-e2e.mjs",
+    "admin:e2e": "pnpm env:sync && node infra/scripts/admin-e2e.mjs",
     "fixtures:buyer": "node infra/scripts/capture-fixtures.mjs",
     "fixtures:partner": "node infra/scripts/capture-partner-fixtures.mjs",
     "build": "pnpm -r build",

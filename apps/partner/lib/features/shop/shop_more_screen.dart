@@ -5,6 +5,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../app.dart';
 import '../../router.dart';
+import '../../state/complaints.dart';
 import '../../state/inbox.dart';
 import '../../state/session.dart';
 import '../../state/shop.dart';
@@ -97,6 +98,12 @@ class ShopMoreScreen extends ConsumerWidget {
                 t.notificationsTitle,
                 () => context.push(Routes.notifications),
                 badge: ref.watch(unreadCountProvider),
+              ),
+              row(
+                Icons.support_agent_outlined,
+                t.complaintsTitle,
+                () => context.push(Routes.complaints),
+                badge: ref.watch(openComplaintsProvider),
               ),
             ],
           ),

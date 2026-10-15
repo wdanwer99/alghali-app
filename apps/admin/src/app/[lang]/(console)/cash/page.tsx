@@ -1,5 +1,6 @@
 import { Banknote, HandCoins, TriangleAlert, Wallet } from 'lucide-react';
 import { Suspense } from 'react';
+import { AdjustBalance } from '@/components/admin/adjust-balance';
 import {
   EmptyState,
   Num,
@@ -79,6 +80,9 @@ async function Cash({ d, locale }: { d: Dictionary; locale: Locale }) {
                 <Th className="text-end">{d.cash.owedToShop}</Th>
                 <Th className="text-end">{d.cash.openPayout}</Th>
                 <Th>{d.cash.cycles}</Th>
+                <Th className="w-0">
+                  <span className="sr-only">{d.cash.adjust}</span>
+                </Th>
               </tr>
             </thead>
             <tbody>
@@ -118,6 +122,16 @@ async function Cash({ d, locale }: { d: Dictionary; locale: Locale }) {
                         </StatusBadge>
                       )}
                     </span>
+                  </Td>
+                  <Td>
+                    <AdjustBalance
+                      party={r.party}
+                      partyId={r.id}
+                      name={named(r.name, locale)}
+                      d={d.cash}
+                      common={d.common}
+                      errors={d.errors}
+                    />
                   </Td>
                 </tr>
               ))}

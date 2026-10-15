@@ -3338,6 +3338,15 @@ export type Database = {
         Args: { p_hidden: boolean; p_reason?: string; p_review_id: string }
         Returns: undefined
       }
+      admin_ledger_adjustment: {
+        Args: {
+          p_amount_sdg: number
+          p_reason: string
+          p_shop_id?: string
+          p_technician_id?: string
+        }
+        Returns: number
+      }
       admin_mark_payout_paid: {
         Args: { p_payout_id: string; p_txn_no: string }
         Returns: undefined
@@ -3360,6 +3369,7 @@ export type Database = {
         Args: { p_note?: string; p_payment_id: string; p_reason: string }
         Returns: Json
       }
+      admin_report: { Args: { p_from: string; p_to: string }; Returns: Json }
       admin_revoke_role: {
         Args: {
           p_role: Database["public"]["Enums"]["app_role"]
@@ -3647,6 +3657,10 @@ export type Database = {
       }
       dispute_json: { Args: { p_dispute_id: string }; Returns: Json }
       dispute_parties: { Args: { p_dispute_id: string }; Returns: string[] }
+      dispute_party_app: {
+        Args: { p_dispute_id: string; p_user_id: string }
+        Returns: string
+      }
       dispute_reply: {
         Args: { p_body: string; p_dispute_id: string }
         Returns: Json

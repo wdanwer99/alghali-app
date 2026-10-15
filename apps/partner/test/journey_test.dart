@@ -340,7 +340,7 @@ void main() {
     final c = await pumpApp(tester, backend, push: push, locale: 'en');
     final device = jsonBody(backend.server.to('/rest/v1/rpc/register_device').single);
     expect(device['p_app'], 'partner');
-    expect(device['p_app_build'], 5);
+    expect(device['p_app_build'], 6);
 
     push.arrive({'code': 'NEW_ORDER', 'sub_order_id': 'so-new', 'ref': '61042177'});
     await settle(tester);
@@ -352,6 +352,45 @@ void main() {
     await settle(tester);
     expect(c.read(partnerSessionProvider).role, PartnerRole.technician);
     expect(c.read(routerProvider).state.uri.path, Routes.techJob('bk-offer'));
+  });
+
+  testWidgets('a complaint: reported from an order, answered, and its alert opens it', (
+    tester,
+  ) async {
+    final backend = FakeBackend();
+    final push = FakePush();
+    final c = await pumpApp(tester, backend, push: push);
+    c.read(routerProvider).go(Routes.shopOrder('so-new'));
+    await settle(tester);
+    await tester.tap(find.byTooltip(text('complaintReport')));
+    await settle(tester);
+    await tap(tester, text('complaintPayment'));
+    await tester.enterText(find.byType(TextField), 'المشتري لم يدفع عند الاستلام');
+    await settle(tester);
+    await tap(tester, text('complaintSend'));
+    expect(backend.calls('open_dispute').single, {
+      'p_category': 'PAYMENT',
+      'p_description': 'المشتري لم يدفع عند الاستلام',
+      'p_sub_order_id': 'so-new',
+      'p_booking_id': null,
+    });
+    expect(c.read(routerProvider).state.uri.path, Routes.complaint('dp-2'));
+
+    await tester.enterText(find.byType(TextField), 'أرفقت صورة الإيصال');
+    await settle(tester);
+    await tester.tap(find.byTooltip(text('chatSend')));
+    await settle(tester);
+    expect(backend.calls('dispute_reply').single, {
+      'p_dispute_id': 'dp-2',
+      'p_body': 'أرفقت صورة الإيصال',
+    });
+    expect(find.text('أرفقت صورة الإيصال'), findsOneWidget);
+
+    push.tap({'code': 'DISPUTE_FILED', 'dispute_id': 'dp-1', 'ref': '61042177'});
+    await settle(tester);
+    expect(c.read(routerProvider).state.uri.path, Routes.complaint('dp-1'));
+    expect(find.text('وصلتني مرآة يمين بدل اليسار'), findsOneWidget);
+    expect(c.read(partnerSessionProvider).role, PartnerRole.shop);
   });
 
   testWidgets('signing in with one shop opens it; with a shop and a job profile, asks', (

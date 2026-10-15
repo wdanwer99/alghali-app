@@ -54,6 +54,7 @@ pnpm env:sync               # copies client-safe keys (and each app's Firebase e
 | `pnpm flutter:test`                              | Flutter tests in core, buyer and partner                                                               |
 | `pnpm buyer:e2e [-- -d <device>]`                | The buyer's happy path on a running emulator or phone against `alghali-dev` (signs in as a demo buyer) |
 | `pnpm partner:e2e [-- -d <device>]`              | The partner's happy path on an emulator or phone against `alghali-dev` (cleans up)                     |
+| `pnpm admin:e2e`                                 | The admin console in Chromium against `alghali-dev`, every page in Arabic and English (read-only)      |
 | `pnpm fixtures:buyer`                            | Re-capture the buyer app's test fixtures from `alghali-dev` (demo data)                                |
 | `pnpm fixtures:partner`                          | Re-capture the partner app's test fixtures from `alghali-dev`                                          |
 | `pnpm db:push:dev` / `pnpm db:push:test`         | Apply new migrations                                                                                   |

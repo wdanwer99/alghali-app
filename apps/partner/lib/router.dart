@@ -7,6 +7,7 @@ import 'app.dart';
 import 'features/auth/apply_screens.dart';
 import 'features/auth/auth_screens.dart';
 import 'features/shared/chat_screens.dart';
+import 'features/shared/complaints_screens.dart';
 import 'features/shared/notifications_screen.dart';
 import 'features/shell/partner_shells.dart';
 import 'features/shop/add_listing_screen.dart';
@@ -34,6 +35,8 @@ abstract final class Routes {
   static const applyShop = '/apply/shop';
   static const applyTech = '/apply/tech';
   static const notifications = '/notifications';
+  static const complaints = '/complaints';
+  static String complaint(String id) => '/complaints/$id';
 
   static const shopHome = '/shop/home';
   static const shopOrders = '/shop/orders';
@@ -115,6 +118,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: Routes.applyShop, builder: (_, _) => const ShopApplyScreen()),
       GoRoute(path: Routes.applyTech, builder: (_, _) => const TechApplyScreen()),
       GoRoute(path: Routes.notifications, builder: (_, _) => const NotificationsScreen()),
+      GoRoute(path: Routes.complaints, builder: (_, _) => const ComplaintsScreen()),
+      GoRoute(
+        path: '/complaints/:id',
+        builder: (_, s) => ComplaintScreen(disputeId: s.pathParameters['id']!),
+      ),
       StatefulShellRoute.indexedStack(
         builder: (_, _, shell) => ShopShell(shell: shell),
         branches: [

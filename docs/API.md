@@ -110,7 +110,7 @@ Booking RPCs return `booking_json`: the booking with `items` (each with `job_typ
 | `buyer_cancel_booking(p_booking_id, p_reason?)` | buyer | Free before `cancel_cutoff_hours`; later the booking fee and travel fee are kept (D-099). While unpaid it cancels the whole order. |
 | `buyer_reschedule(p_booking_id, p_start_at, p_technician_id?)` | buyer | After `NEEDS_RESCHEDULE` only. |
 | `create_review(p_rating, p_sub_order_id? \| p_booking_id?, p_comment?)` | buyer | The shop for a received sub-order, the technician for a finished fitting (D-105). |
-| `open_dispute(p_category, p_description, p_sub_order_id? \| p_booking_id?)` / `dispute_reply(p_dispute_id, p_body)` / `my_disputes(p_limit?)` | the buyer, the shop's members, the technician | Categories: `NOT_RECEIVED`, `WRONG_PART`, `DAMAGED`, `NOT_FITTED`, `PAYMENT`, `BEHAVIOUR`, `OTHER`. |
+| `open_dispute(p_category, p_description, p_sub_order_id? \| p_booking_id?)` / `dispute_reply(p_dispute_id, p_body)` / `my_disputes(p_limit?)` | the buyer, the shop's members, the technician | Categories: `NOT_RECEIVED`, `WRONG_PART`, `DAMAGED`, `NOT_FITTED`, `PAYMENT`, `BEHAVIOUR`, `OTHER`. The other side is told (`DISPUTE_FILED`, payload `{dispute_id, ref}`); replies (`DISPUTE_REPLY`) and decisions (`DISPUTE_RESOLVED`) reach each person in the app they use for it (D-132). |
 
 Technicians (partner app):
 
@@ -155,6 +155,8 @@ Three timed jobs run on the server (pg_cron):
 | `admin_complete_suborder(p_sub_order_id)` | Completes a picked-up, delivered or handed-to-technician sub-order. |
 | `admin_decide_return(p_sub_order_id, p_approve, p_note?)` | Approve: `RETURNED`, stock back, the sale reversed and the buyer refunded in full. Decline (note required): `COMPLETED`. |
 | `admin_partner_balances()` | Every shop and technician (`party`: `SHOP`/`TECH`) with ledger activity: its balance, cash collected since its last payout, the payout waiting, and how many runs in a row it ended owing the platform (D-018). |
+| `admin_ledger_adjustment(p_amount_sdg, p_reason, p_shop_id? \| p_technician_id?)` | A manual correction (D-130): positive = the platform owes the partner more, negative = less. Posts an `ADJUSTMENT` journal against `ADJUSTMENTS`, audited (`ADJUST_BALANCE`). Returns the new balance. `INVALID_VALUE` (no amount, or not exactly one partner), `REASON_REQUIRED`, `SHOP_NOT_FOUND`, `TECHNICIAN_NOT_FOUND`. |
+| `admin_report(p_from, p_to)` | Khartoum dates, both included, at most a year (D-129): `{from, to, days: [{day, orders, sales_sdg, commission_sdg, fittings}], totals: {orders, cash_orders, buyers, shops_selling, sales_sdg, commission_sdg, delivery_sdg, fittings_booked, fittings_done, booking_fees_sdg, labour_sdg, travel_sdg, refunds_paid_sdg, receipts_confirmed, receipts_rejected, review_minutes, new_accounts, new_shops, new_technicians}, top_shops: [{shop_id, name_ar, name_en, orders, sales_sdg, commission_sdg, rating_avg, rating_count}], fittings: {STATUS: count}}`. |
 | `admin_generate_payouts(p_period_to?)` | A `DRAFT` payout for every shop and technician the platform owes (D-089). |
 | `admin_set_technician_status(p_technician_id, p_status, p_reason?)` / `admin_verify_technician(p_technician_id, p_verified)` | Like shops; approval grants `TECHNICIAN` and opens the ledger account. |
 | `admin_cancel_booking(p_booking_id, p_reason)` / `admin_reassign_booking(p_booking_id, p_reason?)` / `admin_complete_booking(p_booking_id)` | Cancel with a full refund; pass a pending or accepted job to the next free technician; close a job in progress (e.g. a locked code). |
@@ -196,7 +198,7 @@ Admins also write the catalogue and street tables directly (D-068); every change
 | `tech_locations` | the technician; the buyer while `EN_ROUTE`; admins (Realtime) | — |
 | `reviews` | the author, the reviewed shop or technician, admins | — |
 | `disputes`, `dispute_messages` | the parties, admins | — |
-| `notification_codes`, `notification_templates` | signed-in users | admins (templates) |
+| `notification_codes`, `notification_templates` | signed-in users | admins (templates; every change audited, D-131) |
 | `notification_deliveries` | admins | — |
 | `app_settings`, `idempotency_keys`, `part_search_docs`, `search_synonym_terms` | — | — |
 

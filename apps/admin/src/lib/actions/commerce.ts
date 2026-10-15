@@ -134,3 +134,30 @@ export async function cancelPayout(payoutId: string, why: string) {
   });
   return done(error);
 }
+
+// ---------------------------------------------------------------- corrections
+
+/**
+ * A manual correction of a shop's or technician's balance (D-130): positive = the
+ * platform owes them more, negative = they owe more. Goes into the next payout.
+ */
+export async function adjustBalance(
+  party: 'SHOP' | 'TECH',
+  partyId: string,
+  amountSdg: number,
+  why: string,
+) {
+  if (!UUID.test(partyId) || !Number.isInteger(amountSdg) || amountSdg === 0) {
+    return fail('INVALID_VALUE');
+  }
+  if (Math.abs(amountSdg) > 100_000_000) return fail('INVALID_VALUE');
+  if (!reason(why)) return fail('REASON_REQUIRED');
+  const { supabase } = await requireAdmin();
+  const { error } = await supabase.rpc('admin_ledger_adjustment', {
+    p_amount_sdg: amountSdg,
+    p_reason: reason(why),
+    p_shop_id: party === 'SHOP' ? partyId : undefined,
+    p_technician_id: party === 'TECH' ? partyId : undefined,
+  });
+  return done(error);
+}

@@ -8,6 +8,7 @@ import '../../router.dart';
 import '../../state/inbox.dart';
 import '../../state/shop.dart';
 import '../../widgets/partner_widgets.dart';
+import '../shared/complaints_screens.dart';
 
 class ShopOrderScreen extends ConsumerStatefulWidget {
   const ShopOrderScreen({super.key, required this.orderId});
@@ -141,7 +142,16 @@ class _ShopOrderScreenState extends ConsumerState<ShopOrderScreen> {
     ];
 
     return Scaffold(
-      appBar: AppBar(title: Text(t.orderRef(formatRef(order.ref)))),
+      appBar: AppBar(
+        title: Text(t.orderRef(formatRef(order.ref))),
+        actions: [
+          IconButton(
+            tooltip: t.complaintReport,
+            onPressed: () => showComplaintSheet(context, subOrderId: order.id),
+            icon: const Icon(Icons.report_outlined),
+          ),
+        ],
+      ),
       body: RefreshIndicator(
         onRefresh: () => ref.read(shopOrdersProvider.notifier).refresh(),
         child: ListView(

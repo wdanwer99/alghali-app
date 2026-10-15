@@ -495,6 +495,7 @@ class Dispute {
     this.subOrderId,
     this.bookingId,
     this.resolution,
+    this.openerName,
   });
 
   factory Dispute.fromJson(Json j) => Dispute(
@@ -508,6 +509,7 @@ class Dispute {
     subOrderId: j['sub_order_id'] as String?,
     bookingId: j['booking_id'] as String?,
     resolution: j['resolution'] as String?,
+    openerName: j['opener_name'] as String?,
   );
 
   final String id;
@@ -520,6 +522,9 @@ class Dispute {
   final String? subOrderId;
   final String? bookingId;
   final String? resolution;
+
+  /// Who opened it (a shop or technician sees complaints a buyer opened about them).
+  final String? openerName;
 
   bool get closed => status == DisputeStatus.resolved || status == DisputeStatus.rejected;
 }

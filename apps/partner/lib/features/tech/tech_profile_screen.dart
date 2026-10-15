@@ -6,6 +6,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../app.dart';
 import '../../router.dart';
+import '../../state/complaints.dart';
 import '../../state/session.dart';
 import '../../state/tech.dart';
 import '../../widgets/partner_widgets.dart';
@@ -231,6 +232,16 @@ class _TechProfileScreenState extends ConsumerState<TechProfileScreen> {
         MenuCard(children: settingsRows(context, ref)),
         MenuCard(
           children: [
+            ListTile(
+              leading: Badge(
+                isLabelVisible: ref.watch(openComplaintsProvider) > 0,
+                label: Text('${ref.watch(openComplaintsProvider)}'),
+                child: const Icon(Icons.support_agent_outlined),
+              ),
+              title: Text(t.complaintsTitle),
+              trailing: Icon(chevron),
+              onTap: () => context.push(Routes.complaints),
+            ),
             ListTile(
               leading: const Icon(Icons.swap_horiz),
               title: Text(t.roleSwitch),

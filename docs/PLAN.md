@@ -159,6 +159,15 @@ Every milestone ends with: lint + tests green, docs updated, a commit, and a sho
   - **Changes from this plan:** the technician's online switch is time off, not a new flag (D-124); listing drafts are hidden listings sent through the outbox, not a separate draft store (D-122).
   - **Not in M5:** partners can't answer complaints in the app yet (admins handle them); no upload screen for a shop's storefront photo or a technician's avatar; offers on photo requests have no photo. Live location is sent only while the app is open.
 
+- **M6 — done 2026-10-15** (D-129–D-133):
+  - **Already done before M6** (pulled forward on 2026-10-14, then M2/M3): approvals, the Bankak queue with the receipt beside the order, cash reconciliation, catalogue and fitment, synonyms, orders and bookings, disputes, settings and payouts, all on real data.
+  - **Reports:** the last 7, 30 or 90 days — sales, commission, delivery, fittings and their fees, refunds, Bankak receipts and review time, new accounts, shops and technicians — with a daily chart, the best-selling shops, fittings by status and a CSV download (`admin_report`, D-129).
+  - **Balance corrections:** an admin can add to or take from a shop's or technician's balance with a reason, from the Cash page; it is a ledger journal, audited, and shows on the partner's statement (D-130).
+  - **Alert wording:** every alert's Arabic and English text can be edited in the console, with only the data the alert carries, and every change is audited (D-131).
+  - **Complaints for partners:** the shop or technician hears when a complaint is opened about them, and replies and decisions reach each side in its own app. The partner app gets a Complaints screen, the conversation with replies, and "Report a problem" on orders and jobs (D-132).
+  - **Tests:** 354 TypeScript, 3 admin unit, 40 Playwright (every page in Arabic and English, detail pages, reports, the alert editor, and four queue actions in CI), 115 core, 58 buyer and 74 partner Flutter tests. Exit criteria met: Playwright smoke tests for each queue, run in CI on a throwaway database, and an Arabic (right-to-left) and English (left-to-right) check of every page (D-133).
+  - **Not in M6:** upload screens for a shop's storefront photo and a technician's avatar, which the buyer app doesn't show yet either; offers on photo requests still have no photo.
+
 | # | Scope | Exit criteria |
 |---|---|---|
 | **M0 Scaffold** | `git init`. pnpm workspace (admin, tests, db-types). Dart pub workspace (buyer, partner, core). Supabase CLI as a dev dependency, linked to dev. First migration (extensions + `app_settings`). Empty buyer/partner apps with Arabic default, RTL, language switch, theme, go_router, Riverpod, Drift, plus a "ping" against Supabase. Empty admin with ar/en, RTL and a login shell. ESLint/Prettier, `flutter analyze` (strict lints), vitest. GitHub Actions CI. **Spike** to confirm free-plan support for: custom-access-token hook, pg_cron, pgmq, PostGIS, btree_gist, and Edge Function deploy without Docker. | All three apps build and open in Arabic RTL; CI green; spike results written to DECISIONS |

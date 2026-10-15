@@ -77,6 +77,18 @@ void main() {
       who: Who.shop,
       role: PartnerRole.shop,
     ),
+    'complaints': (
+      route: Routes.complaints,
+      key: 'complaintWrongPart',
+      who: Who.shop,
+      role: PartnerRole.shop,
+    ),
+    'a complaint': (
+      route: Routes.complaint('dp-1'),
+      key: 'complaintTeam',
+      who: Who.tech,
+      role: PartnerRole.technician,
+    ),
     'jobs': (route: Routes.techJobs, key: 'newOffers', who: Who.tech, role: PartnerRole.technician),
     'job': (
       route: Routes.techJob(job['id'] as String),

@@ -3,6 +3,8 @@
 import { Dialog } from '@base-ui/react/dialog';
 import {
   Banknote,
+  BarChart3,
+  BellRing,
   BookOpen,
   CalendarClock,
   Landmark,
@@ -47,7 +49,13 @@ export type NavItem = {
 export function navGroups(locale: Locale, d: NavLabels, badges: NavBadges | null) {
   const p = (path: string) => `/${locale}${path}`;
   return [
-    { title: null, items: [{ href: p(''), label: d.overview, icon: LayoutDashboard }] },
+    {
+      title: null,
+      items: [
+        { href: p(''), label: d.overview, icon: LayoutDashboard },
+        { href: p('/reports'), label: d.reports, icon: BarChart3 },
+      ],
+    },
     {
       title: d.partners,
       items: [
@@ -62,6 +70,7 @@ export function navGroups(locale: Locale, d: NavLabels, badges: NavBadges | null
         { href: p('/users'), label: d.users, icon: Users },
         { href: p('/catalogue'), label: d.catalogue, icon: BookOpen },
         { href: p('/street'), label: d.street, icon: MapPinned },
+        { href: p('/alerts'), label: d.alerts, icon: BellRing },
         { href: p('/settings'), label: d.settings, icon: Settings },
       ],
     },

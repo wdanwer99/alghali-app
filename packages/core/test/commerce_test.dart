@@ -115,6 +115,16 @@ void main() {
         })?.kind,
         LedgerKind.refund,
       );
+      // A correction the platform team made by hand (D-130).
+      expect(
+        LedgerLine.fromJson({
+          'id': 'x',
+          'kind': 'ADJUSTMENT',
+          'amount_sdg': 5000,
+          'at': '2026-10-17T00:00:00Z',
+        })?.kind,
+        LedgerKind.adjustment,
+      );
     });
 
     test('a shop inbox entry shows the buyer and the last message', () {

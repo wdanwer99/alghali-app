@@ -18,6 +18,7 @@ String ledgerLabel(AppLocalizations t, LedgerKind k) => switch (k) {
   LedgerKind.cashHandover => t.ledgerHandover,
   LedgerKind.payout => t.ledgerPayout,
   LedgerKind.refund => t.ledgerRefund,
+  LedgerKind.adjustment => t.ledgerAdjustment,
 };
 
 /// "+12,000" / "−600" with sign colour; signs stay left-to-right in Arabic.
@@ -54,6 +55,7 @@ class LedgerTile extends StatelessWidget {
         icon: switch (line.kind) {
           LedgerKind.sale || LedgerKind.labour || LedgerKind.travelFee => Icons.south_west,
           LedgerKind.payout => Icons.account_balance_outlined,
+          LedgerKind.adjustment => Icons.tune,
           LedgerKind.cashCollected || LedgerKind.cashHandover => Icons.payments_outlined,
           _ => Icons.percent,
         },

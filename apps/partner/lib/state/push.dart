@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:alghali_core/alghali_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'complaints.dart';
 import 'inbox.dart';
 import 'outbox.dart';
 import 'session.dart';
@@ -11,7 +12,7 @@ import 'tech.dart';
 
 /// This build's number, sent with the push token and compared with
 /// `latest_app_versions.partner` (D-058). Keep it equal to the `+N` in pubspec.yaml.
-const partnerBuild = 5;
+const partnerBuild = 6;
 
 /// An alert that arrived while the app was open, for the banner on screen.
 typedef ForegroundAlert = ({String code, Map<String, String> data});
@@ -102,6 +103,7 @@ class PushController extends Notifier<int> {
     }
     if (code == 'NEW_PART_REQUEST') unawaited(ref.read(quotesProvider.notifier).refresh());
     if (code == 'NEW_MESSAGE') unawaited(ref.read(shopChatsProvider.notifier).refresh());
+    if (data['dispute_id'] != null) unawaited(ref.read(complaintsProvider.notifier).refresh());
     if (data['booking_id'] != null) {
       unawaited(ref.read(techJobsProvider.notifier).refresh());
       ref.invalidate(jobDetailProvider(data['booking_id']!));

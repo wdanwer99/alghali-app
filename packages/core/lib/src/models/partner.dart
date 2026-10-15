@@ -581,6 +581,7 @@ class LedgerLine {
       'LABOUR' => LedgerKind.labour,
       'TRAVEL_FEE' => LedgerKind.travelFee,
       'BOOKING_FEE' => LedgerKind.bookingFee,
+      'ADJUSTMENT' => LedgerKind.adjustment,
       _ => null,
     };
     if (kind == null) return null;
@@ -610,6 +611,9 @@ enum LedgerKind {
   cashHandover,
   payout,
   refund,
+
+  /// A correction an admin made by hand (D-130).
+  adjustment,
 }
 
 enum PayoutStatus { draft, approved, paid }

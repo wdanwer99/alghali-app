@@ -6,6 +6,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../app.dart';
 import '../../state/tech.dart';
 import '../../widgets/partner_widgets.dart';
+import '../shared/complaints_screens.dart';
 import 'tech_jobs_screen.dart';
 
 /// One job from offer to done: on my way → check in → photos → buyer's code. Each step
@@ -130,7 +131,16 @@ class _JobScreenState extends ConsumerState<JobScreen> {
   Widget build(BuildContext context) {
     final t = context.t;
     return Scaffold(
-      appBar: AppBar(title: Text(t.jobTitle)),
+      appBar: AppBar(
+        title: Text(t.jobTitle),
+        actions: [
+          IconButton(
+            tooltip: t.complaintReport,
+            onPressed: () => showComplaintSheet(context, bookingId: widget.jobId),
+            icon: const Icon(Icons.report_outlined),
+          ),
+        ],
+      ),
       body: AsyncBody(
         value: ref.watch(jobDetailProvider(widget.jobId)),
         onRefresh: () async {

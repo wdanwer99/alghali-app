@@ -1776,5 +1776,114 @@
   "earningsNotYet": "ستظهر أرباحك هنا بعد الاعتماد",
   "@earningsNotYet": {
     "description": "Empty state"
+  },
+  "ledgerAdjustment": "تعديل من الإدارة",
+  "@ledgerAdjustment": {
+    "description": "Ledger line: a correction the platform team made by hand"
+  },
+  "complaintsTitle": "الشكاوى",
+  "@complaintsTitle": {
+    "description": "Screen title and menu entry"
+  },
+  "complaintsMenuBody": "شكاوى المشترين عن طلباتك أو أعمالك، وما أبلغت عنه",
+  "@complaintsMenuBody": {
+    "description": "Menu entry subtitle"
+  },
+  "complaintsEmpty": "لا توجد شكاوى",
+  "@complaintsEmpty": {
+    "description": "Empty state"
+  },
+  "complaintsEmptyBody": "إن أبلغ مشترٍ عن مشكلة في أحد طلباتك أو أعمالك تظهر هنا. ويمكنك الإبلاغ عن مشكلة من صفحة الطلب أو العمل.",
+  "@complaintsEmptyBody": {
+    "description": "Empty state"
+  },
+  "complaintReport": "الإبلاغ عن مشكلة",
+  "@complaintReport": {
+    "description": "Button and sheet title"
+  },
+  "complaintIntro": "اختر نوع المشكلة واشرح ما حدث. يرد فريقنا عادةً خلال يوم عمل.",
+  "@complaintIntro": {
+    "description": "Sheet intro"
+  },
+  "complaintDescribe": "ماذا حدث؟",
+  "@complaintDescribe": {
+    "description": "Field label"
+  },
+  "complaintSend": "إرسال",
+  "@complaintSend": {
+    "description": "Button"
+  },
+  "complaintNotReceived": "لم يستلم القطعة",
+  "@complaintNotReceived": {
+    "description": "Complaint category"
+  },
+  "complaintWrongPart": "قطعة خاطئة",
+  "@complaintWrongPart": {
+    "description": "Complaint category"
+  },
+  "complaintDamaged": "تلف أو عطل",
+  "@complaintDamaged": {
+    "description": "Complaint category"
+  },
+  "complaintNotFitted": "التركيب لم يتم كما يجب",
+  "@complaintNotFitted": {
+    "description": "Complaint category"
+  },
+  "complaintPayment": "مشكلة في الدفع",
+  "@complaintPayment": {
+    "description": "Complaint category"
+  },
+  "complaintBehaviour": "سوء معاملة",
+  "@complaintBehaviour": {
+    "description": "Complaint category"
+  },
+  "complaintOther": "أخرى",
+  "@complaintOther": {
+    "description": "Complaint category"
+  },
+  "complaintOpen": "مفتوحة",
+  "@complaintOpen": {
+    "description": "Complaint status"
+  },
+  "complaintInReview": "قيد المراجعة",
+  "@complaintInReview": {
+    "description": "Complaint status"
+  },
+  "complaintResolved": "تم الحل",
+  "@complaintResolved": {
+    "description": "Complaint status"
+  },
+  "complaintRejected": "مغلقة",
+  "@complaintRejected": {
+    "description": "Complaint status"
+  },
+  "complaintTitle": "الشكوى",
+  "@complaintTitle": {
+    "description": "Screen title"
+  },
+  "complaintFrom": "فتحها {name}",
+  "@complaintFrom": {
+    "description": "Who opened the complaint",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "complaintOutcome": "القرار",
+  "@complaintOutcome": {
+    "description": "Banner title"
+  },
+  "complaintYou": "أنت",
+  "@complaintYou": {
+    "description": "Message sender"
+  },
+  "complaintTeam": "فريق شارع الغالي",
+  "@complaintTeam": {
+    "description": "Message sender"
+  },
+  "complaintReply": "اكتب ردًا",
+  "@complaintReply": {
+    "description": "Field label"
   }
 }

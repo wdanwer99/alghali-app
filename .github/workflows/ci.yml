@@ -50,6 +50,9 @@ jobs:
   database:
     name: Database (local Supabase)
     runs-on: ubuntu-latest
+    env:
+      # The demo accounts' password on this throwaway stack only.
+      DEMO_PASSWORD: Ci-demo-password-7
     steps:
       - uses: actions/checkout@v5
       - uses: pnpm/action-setup@v4
@@ -82,3 +85,16 @@ jobs:
           node infra/scripts/seed-demo.mjs local
           node infra/scripts/seed-demo.mjs local | tee seed.log
           grep -q " 0 new listings, 0 new orders, 0 new technicians, 0 new bookings" seed.log
+      - name: Admin console in the browser (Playwright, actions included)
+        env:
+          E2E_WRITES: '1'
+          E2E_SERVER: start
+          E2E_ADMIN_PASSWORD: ${{ env.DEMO_PASSWORD }}
+        run: |
+          {
+            echo "NEXT_PUBLIC_SUPABASE_URL=$API_URL"
+            echo "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=$API_PUBLISHABLE_KEY"
+          } > apps/admin/.env.local
+          pnpm --filter @alghali/admin build
+          pnpm --filter @alghali/admin exec playwright install --with-deps chromium
+          pnpm --filter @alghali/admin exec playwright test

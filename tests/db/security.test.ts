@@ -153,6 +153,9 @@ const AUTHENTICATED_FUNCTIONS = [
   'shop_detail',
   'shop_insights',
   'shop_set_closed',
+  // M6 admin tools
+  'admin_ledger_adjustment',
+  'admin_report',
 ].sort();
 
 describe.skipIf(!hasDb)('security baseline', () => {

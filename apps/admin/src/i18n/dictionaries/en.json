@@ -35,7 +35,9 @@
     "commandPlaceholder": "Search pages and actions",
     "commandEmpty": "Nothing matches",
     "commandPages": "Pages",
-    "commandActions": "Actions"
+    "commandActions": "Actions",
+    "reports": "Reports",
+    "alerts": "Alert wording"
   },
   "common": {
     "search": "Search",
@@ -121,10 +123,11 @@
     "PAYMENT_NOT_FOUND": "This payment no longer exists.",
     "INVALID_REASON": "Pick a reason.",
     "BOOKING_NOT_FOUND": "That fitting no longer exists.",
-    "TECHNICIAN_NOT_FOUND": "That technician no longer exists.",
+    "TECHNICIAN_NOT_FOUND": "This technician no longer exists.",
     "DISPUTE_CLOSED": "This dispute is already closed.",
     "NOT_FOUND": "Not found. Refresh the page.",
-    "SLOT_TAKEN": "That time was just taken."
+    "SLOT_TAKEN": "That time was just taken.",
+    "UNKNOWN_PLACEHOLDER": "That placeholder isn't part of this alert. Use only the ones listed."
   },
   "status": {
     "order": {
@@ -546,7 +549,19 @@
     "emptyBody": "Shops and technicians appear here once they work through the platform.",
     "collectedHint": "Cash they took from buyers since their last payout.",
     "shopTag": "Shop",
-    "techTag": "Technician"
+    "techTag": "Technician",
+    "adjust": "Adjust",
+    "adjustTitle": "Adjust {name}’s balance",
+    "adjustBody": "It's posted to the ledger, shows on the partner's statement and is settled in the next payout. Use it for compensation or to correct a mistake.",
+    "adjustDirection": "Kind of adjustment",
+    "adjustCredit": "We owe them more",
+    "adjustDebit": "They owe us more",
+    "adjustAmount": "Amount (SDG)",
+    "adjustCreditNote": "{amount} will be added in the partner’s favour.",
+    "adjustDebitNote": "{amount} will be deducted from the partner.",
+    "adjustReason": "Reason (kept in the activity log)",
+    "adjustSave": "Record adjustment",
+    "adjusted": "Adjustment recorded"
   },
   "payouts": {
     "title": "Partner payouts",
@@ -806,5 +821,62 @@
     "rateLimited": "Too many attempts. Wait a minute and try again.",
     "notConfigured": "The backend isn't set up yet. Fill in .env and run pnpm dev again.",
     "failed": "Couldn't sign in. Check your connection and try again."
+  },
+  "reports": {
+    "title": "Reports",
+    "subtitle": "Sales, commission, fittings, payments and growth for the period you choose, in Khartoum time.",
+    "period": "Period",
+    "lastDays": "Last {n} days",
+    "download": "Download CSV",
+    "sales": "Sales",
+    "salesNote": "From {n} shops",
+    "orders": "Orders",
+    "ordersNote": "{n}% paid in cash",
+    "commission": "Commission",
+    "commissionNote": "Plus {fees} in booking fees",
+    "fittingsDone": "Fittings done",
+    "fittingsNote": "Of {n} booked",
+    "buyers": "Buyers who bought",
+    "buyersNote": "{n} new accounts",
+    "receipts": "Receipts confirmed",
+    "receiptsNote": "{minutes} min to confirm on average · {n} rejected",
+    "rejected": "{n} rejected",
+    "refunds": "Refunds paid",
+    "newPartners": "New partners",
+    "newPartnersNote": "{shops} shops · {techs} technicians",
+    "salesPerDay": "Sales per day",
+    "chartSummary": "Sales over the last {n} days: {total}",
+    "showTable": "Show as table",
+    "showChart": "Show as chart",
+    "ordersCount": "{n} orders",
+    "topShops": "Top shops",
+    "fittings": "Fittings by status",
+    "noSales": "No sales in this period",
+    "noFittings": "No fittings in this period",
+    "colDay": "Day",
+    "colOrders": "Orders",
+    "colSales": "Sales",
+    "colCommission": "Commission",
+    "colFittings": "Fittings",
+    "colRating": "Rating"
+  },
+  "alerts": {
+    "title": "Alert wording",
+    "subtitle": "What push notifications and the apps' alert inboxes say, in Arabic and English. Words in braces are filled from each alert's data.",
+    "search": "Search alerts",
+    "empty": "No alerts match",
+    "appBuyer": "Buyer app",
+    "appPartner": "Partner app",
+    "appAdmin": "Admin console",
+    "code": "Code",
+    "arabic": "Arabic",
+    "english": "English",
+    "sms": "Also by SMS",
+    "titleLabel": "Title",
+    "bodyLabel": "Text",
+    "editHint": "Applies to the next alerts straight away. Title up to 100 characters, text up to 300.",
+    "placeholders": "Placeholders:",
+    "noPlaceholders": "This alert has no placeholders.",
+    "saved": "Wording saved"
   }
 }

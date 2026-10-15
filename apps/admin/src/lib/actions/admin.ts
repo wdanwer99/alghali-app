@@ -134,3 +134,42 @@ export async function mergePart(fromId: string, intoId: string) {
   const { error } = await supabase.rpc('admin_merge_parts', { p_from: fromId, p_into: intoId });
   return done(error);
 }
+
+// ---------------------------------------------------------------- alert wording
+
+type Wording = { title: string; body: string };
+const ALERT_CODE = /^[A-Z][A-Z_]*$/;
+const placeholdersIn = (s: string) => [...s.matchAll(/\{([a-z_]+)\}/g)].map((m) => m[1]);
+
+/**
+ * Saves an alert's Arabic and English wording (push and both inboxes use it, D-101).
+ * Only the placeholders the alert already uses are allowed: others would show as typed.
+ */
+export async function saveAlertWording(
+  alertCode: string,
+  wording: { ar: Wording; en: Wording },
+  allowed: string[],
+) {
+  if (!ALERT_CODE.test(alertCode)) return fail('INVALID_VALUE');
+  for (const w of [wording.ar, wording.en]) {
+    const title = w.title.trim();
+    const body = w.body.trim();
+    if (title.length < 1 || title.length > 100 || body.length < 1 || body.length > 300) {
+      return fail('INVALID_VALUE');
+    }
+    if (placeholdersIn(`${title} ${body}`).some((p) => !allowed.includes(p as string))) {
+      return fail('UNKNOWN_PLACEHOLDER');
+    }
+  }
+  const { supabase } = await requireAdmin();
+  for (const locale of ['ar', 'en'] as const) {
+    const { error } = await supabase.from('notification_templates').upsert({
+      code: alertCode,
+      locale,
+      title: wording[locale].title.trim(),
+      body: wording[locale].body.trim(),
+    });
+    if (error) return done(error);
+  }
+  return done(null);
+}
