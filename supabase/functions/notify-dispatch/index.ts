@@ -4,9 +4,10 @@
 //
 // Claims due pushes (notify_claim), words them in the reader's language, sends them by
 // FCM, and reports each result (notify_report), which retries failures with backoff.
-// Without the FCM_SERVICE_ACCOUNT secret every push is recorded as a STUB (D-061).
+// Without the FCM_SERVICE_ACCOUNT_B64 secret every push is recorded as a STUB (D-061); a
+// secret that isn't a readable key fails every push with FCM_ACCOUNT_UNREADABLE (D-146).
 import { createClient } from 'npm:@supabase/supabase-js@2.117.3';
-import { accessToken, sendPush, type ServiceAccount } from '../_shared/notify/fcm.ts';
+import { accessToken, sendPush, serviceAccountFrom } from '../_shared/notify/fcm.ts';
 import { dataOf, render, retryable, type Locale } from '../_shared/notify/render.ts';
 
 interface Claimed {
@@ -30,15 +31,6 @@ function serviceKey(): string | undefined {
   }
 }
 
-function serviceAccount(): ServiceAccount | null {
-  try {
-    const sa = JSON.parse(Deno.env.get('FCM_SERVICE_ACCOUNT') ?? '') as ServiceAccount;
-    return sa.project_id && sa.client_email && sa.private_key ? sa : null;
-  } catch {
-    return null;
-  }
-}
-
 const json = (status: number, body: unknown) =>
   new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } });
 
@@ -53,7 +45,8 @@ Deno.serve(async (req) => {
     auth: { persistSession: false, autoRefreshToken: false },
   });
 
-  const sa = serviceAccount();
+  const account = serviceAccountFrom((name) => Deno.env.get(name));
+  const sa = typeof account === 'string' ? null : account;
   let token: string | null = null;
   let sent = 0;
   for (let round = 0; round < 5; round++) {
@@ -63,9 +56,13 @@ Deno.serve(async (req) => {
     if (batch.length === 0) break;
 
     const results: Record<string, unknown>[] = [];
-    if (!sa) {
+    if (account === 'missing') {
       for (const c of batch)
         results.push({ id: c.id, ok: false, stub: true, error: 'NO_FCM_ACCOUNT' });
+    } else if (!sa) {
+      // Retried, so the pushes go out once the key is installed again.
+      for (const c of batch)
+        results.push({ id: c.id, ok: false, retry: true, error: 'FCM_ACCOUNT_UNREADABLE' });
     } else {
       try {
         token ??= await accessToken(sa);
@@ -102,5 +99,10 @@ Deno.serve(async (req) => {
     sent += results.filter((r) => r.ok).length;
     if (batch.length < 100) break;
   }
-  return json(200, { ok: true, sent, fcm: sa !== null });
+  return json(200, {
+    ok: true,
+    sent,
+    fcm: sa !== null,
+    account: typeof account === 'string' ? account : 'ok',
+  });
 });

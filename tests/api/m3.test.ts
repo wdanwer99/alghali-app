@@ -245,7 +245,7 @@ describe.skipIf(!hasApi)('M3 over HTTP: fittings', () => {
     expect(Number(must(m).held)).toBe(0);
   });
 
-  it('notify-dispatch: refuses strangers; with the Vault token it works the queue (Firebase or stubs)', async () => {
+  it('notify-dispatch: refuses strangers; with the Vault token it works the queue, really through Firebase when the key is installed', async () => {
     const res = await fetch(`${api.url}/functions/v1/notify-dispatch`, {
       method: 'POST',
       headers: { Authorization: 'Bearer nope' },
@@ -263,16 +263,19 @@ describe.skipIf(!hasApi)('M3 over HTTP: fittings', () => {
       headers: { Authorization: `Bearer ${secret.token}` },
     });
     expect(ok.status).toBe(200);
+    const run = (await ok.json()) as { fcm: boolean; account: string };
+    // A key that is installed but can't be read is a bug, not "no Firebase" (D-146).
+    expect(run.account).not.toBe('unreadable');
     const [d] = await f.sql<{ status: string; last_error: string | null }[]>`
       select d.status, d.last_error from public.notification_deliveries d
       join public.notifications n on n.id = d.notification_id
       where n.user_id = ${user.id} and d.channel = 'PUSH'`;
-    // Without Firebase the push is a stub; with it, Google signs the dispatcher in and then
-    // refuses the made-up device token, so it fails for good without retrying.
-    expect([
-      ['STUB', 'NO_FCM_ACCOUNT'],
-      ['FAILED', 'INVALID_ARGUMENT'],
-    ]).toContainEqual([must(d).status, must(d).last_error]);
+    // Without Firebase the push is a stub. With it, Google signs the dispatcher in and then
+    // refuses the made-up device token, so it fails for good without retrying: proof the
+    // push really reached Firebase.
+    expect([must(d).status, must(d).last_error]).toEqual(
+      run.fcm ? ['FAILED', 'INVALID_ARGUMENT'] : ['STUB', 'NO_FCM_ACCOUNT'],
+    );
   });
 
   it('a job offer alert reaches the open partner app live, and nobody else (D-142)', async () => {

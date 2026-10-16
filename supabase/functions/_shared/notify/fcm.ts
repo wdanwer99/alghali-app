@@ -1,12 +1,38 @@
 // Firebase Cloud Messaging (HTTP v1) with a service account, using only Web Crypto so it
 // runs in Edge Functions without extra packages. The service account JSON comes from the
-// FCM_SERVICE_ACCOUNT secret (D-061); without it the dispatcher records pushes as stubs.
+// FCM_SERVICE_ACCOUNT_B64 secret (D-061, D-146); without it the dispatcher records pushes as
+// stubs.
 
 export interface ServiceAccount {
   project_id: string;
   client_email: string;
   private_key: string;
   token_uri?: string;
+}
+
+/**
+ * The service account from the function's secrets, or why there is none: `missing` (not set
+ * up: pushes are stubs) or `unreadable` (set, but not a key: an error to fix, D-146).
+ * The key is stored base64-encoded (`FCM_SERVICE_ACCOUNT_B64`): as raw JSON in an env file,
+ * the `\n`s of its private key came back as real line breaks and the JSON no longer parsed.
+ */
+export function serviceAccountFrom(
+  get: (name: string) => string | undefined,
+): ServiceAccount | 'missing' | 'unreadable' {
+  const b64 = get('FCM_SERVICE_ACCOUNT_B64');
+  const raw = get('FCM_SERVICE_ACCOUNT');
+  if (!b64 && !raw) return 'missing';
+  try {
+    const text = b64
+      ? new TextDecoder().decode(Uint8Array.from(atob(b64), (c) => c.charCodeAt(0)))
+      : raw!;
+    const sa = JSON.parse(text) as ServiceAccount;
+    return sa.project_id && sa.client_email && sa.private_key?.includes('PRIVATE KEY')
+      ? sa
+      : 'unreadable';
+  } catch {
+    return 'unreadable';
+  }
 }
 
 export interface PushMessage {

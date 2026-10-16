@@ -3,7 +3,7 @@
 // - makes a fresh shared token and stores it twice: in the database's Vault (for pg_cron)
 //   and as the function's NOTIFY_DISPATCH_TOKEN secret;
 // - stores the function's address in Vault;
-// - with --fcm, sets FCM_SERVICE_ACCOUNT so pushes really go out (D-061); without it, the
+// - with --fcm, sets FCM_SERVICE_ACCOUNT_B64 so pushes really go out (D-061); without it, the
 //   dispatcher records pushes as stubs.
 // Needs `npx supabase login` once. Secrets are never printed.
 import { spawnSync } from 'node:child_process';
@@ -36,7 +36,8 @@ if (fcmPath) {
     );
     process.exit(1);
   }
-  secrets.FCM_SERVICE_ACCOUNT = JSON.stringify(sa);
+  // Base64: as raw JSON the private key's \n escapes came back as line breaks (D-146).
+  secrets.FCM_SERVICE_ACCOUNT_B64 = Buffer.from(JSON.stringify(sa)).toString('base64');
 }
 
 // Function secrets, through a temporary env file so they never appear on a command line.

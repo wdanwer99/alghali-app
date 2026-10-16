@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   accessToken,
   sendPush,
+  serviceAccountFrom,
   signedAssertion,
   type ServiceAccount,
 } from '../../supabase/functions/_shared/notify/fcm.ts';
@@ -83,6 +84,19 @@ describe('FCM client', () => {
       publicKey: pair.publicKey,
     };
   }
+
+  it('reads the key from the base64 secret, and tells a missing key from a broken one (D-146)', async () => {
+    const { sa } = await account();
+    const env = (vars: Record<string, string>) => (name: string) => vars[name];
+    const b64 = Buffer.from(JSON.stringify(sa)).toString('base64');
+    expect(serviceAccountFrom(env({ FCM_SERVICE_ACCOUNT_B64: b64 }))).toEqual(sa);
+    expect(serviceAccountFrom(env({ FCM_SERVICE_ACCOUNT: JSON.stringify(sa) }))).toEqual(sa);
+    expect(serviceAccountFrom(env({}))).toBe('missing');
+    // What the env file did to the raw JSON: the key's \n escapes became real line breaks.
+    const mangled = JSON.stringify(sa).replaceAll('\\n', '\n');
+    expect(serviceAccountFrom(env({ FCM_SERVICE_ACCOUNT: mangled }))).toBe('unreadable');
+    expect(serviceAccountFrom(env({ FCM_SERVICE_ACCOUNT_B64: 'bm90IGEga2V5' }))).toBe('unreadable');
+  });
 
   it('signs the token request with the service account key (RS256)', async () => {
     const { sa, publicKey } = await account();
