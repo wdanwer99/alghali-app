@@ -167,4 +167,42 @@ void main() {
     await settle(tester);
     expect(find.textContaining('7249'), findsOneWidget);
   });
+
+  testWidgets('directions open Google Maps only for shops that set their pin', (tester) async {
+    final pickup = (fixture('orders') as List).cast<Json>().firstWhere((o) {
+      final subs = (o['sub_orders'] as List).cast<Json>();
+      return subs.length == 1 &&
+          subs.single['fulfilment'] == 'PICKUP' &&
+          subs.single['status'] == 'READY';
+    });
+    final pickupShop = ((pickup['sub_orders'] as List).single as Json)['shop_id'] as String;
+    final detail = fixture('part_detail') as Json;
+    final part = (detail['part'] as Json)['id'] as String;
+    final sellers = {
+      for (final l in (detail['listings'] as List).cast<Json>())
+        (l['shop'] as Json)['id'] as String,
+    };
+    final directions = 'الاتجاهات';
+
+    // No pins: no button anywhere.
+    final c = await pumpApp(tester, FakeBackend());
+    c.read(routerProvider).go(Routes.order(pickup['id'] as String));
+    await settle(tester);
+    expect(find.text(directions), findsNothing);
+    c.read(routerProvider).go(Routes.part(part));
+    await settle(tester);
+    expect(find.byTooltip(directions), findsNothing);
+
+    // The pickup shop and one seller set their pins.
+    final pinned = FakeBackend()
+      ..pins[pickupShop] = (lat: 15.5901, lng: 32.5352)
+      ..pins[sellers.first] = (lat: 15.5903, lng: 32.5349);
+    final c2 = await pumpApp(tester, pinned);
+    c2.read(routerProvider).go(Routes.order(pickup['id'] as String));
+    await settle(tester);
+    expect(find.text(directions), findsOneWidget);
+    c2.read(routerProvider).go(Routes.part(part));
+    await settle(tester);
+    expect(find.byTooltip(directions), findsOneWidget);
+  });
 }

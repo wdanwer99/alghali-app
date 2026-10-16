@@ -406,5 +406,16 @@
   "complaintOutcome": "Outcome",
   "complaintYou": "You",
   "complaintTeam": "Alghali Street team",
-  "complaintReply": "Write a reply"
+  "complaintReply": "Write a reply",
+  "shopLocation": "Shop location on the map",
+  "shopLocationBody": "Optional. Buyers get a button that opens Google Maps with directions to your shop; without it, the button is hidden.",
+  "shopLocationPick": "Set the shop's location",
+  "shopLocationIsSet": "Location set",
+  "shopLocationChange": "Change",
+  "shopLocationView": "View on the map",
+  "shopLocationRemove": "Remove",
+  "pickLocationTitle": "Shop location",
+  "pickLocationHint": "Move the map until the pin sits on your shop's door.",
+  "pickLocationHere": "My location",
+  "pickLocationConfirm": "Use this location"
 }

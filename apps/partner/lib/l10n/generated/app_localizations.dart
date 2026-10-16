@@ -2534,6 +2534,72 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'اكتب ردًا'**
   String get complaintReply;
+
+  /// Form section
+  ///
+  /// In ar, this message translates to:
+  /// **'موقع المحل على الخريطة'**
+  String get shopLocation;
+
+  /// Hint
+  ///
+  /// In ar, this message translates to:
+  /// **'اختياري. يظهر للزبائن زر يفتح خرائط جوجل بالطريق إلى محلك، ولا يظهر إن لم تحدّده.'**
+  String get shopLocationBody;
+
+  /// Button
+  ///
+  /// In ar, this message translates to:
+  /// **'حدّد موقع المحل'**
+  String get shopLocationPick;
+
+  /// Status
+  ///
+  /// In ar, this message translates to:
+  /// **'حُدّد الموقع'**
+  String get shopLocationIsSet;
+
+  /// Button
+  ///
+  /// In ar, this message translates to:
+  /// **'تغيير'**
+  String get shopLocationChange;
+
+  /// Button
+  ///
+  /// In ar, this message translates to:
+  /// **'عرض في الخرائط'**
+  String get shopLocationView;
+
+  /// Button
+  ///
+  /// In ar, this message translates to:
+  /// **'إزالة'**
+  String get shopLocationRemove;
+
+  /// Screen title
+  ///
+  /// In ar, this message translates to:
+  /// **'موقع المحل'**
+  String get pickLocationTitle;
+
+  /// Hint over the map
+  ///
+  /// In ar, this message translates to:
+  /// **'حرّك الخريطة حتى يقع الدبوس على باب محلك.'**
+  String get pickLocationHint;
+
+  /// Button
+  ///
+  /// In ar, this message translates to:
+  /// **'موقعي الحالي'**
+  String get pickLocationHere;
+
+  /// Button
+  ///
+  /// In ar, this message translates to:
+  /// **'اعتمد هذا الموقع'**
+  String get pickLocationConfirm;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

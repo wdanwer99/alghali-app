@@ -14,6 +14,7 @@ import 'features/shop/add_listing_screen.dart';
 import 'features/shop/money_screens.dart';
 import 'features/shop/quotes_screen.dart';
 import 'features/shop/shop_home_screen.dart';
+import 'features/shop/shop_location.dart';
 import 'features/shop/shop_more_screen.dart';
 import 'features/shop/shop_order_screen.dart';
 import 'features/shop/shop_orders_screen.dart';
@@ -34,6 +35,7 @@ abstract final class Routes {
   static const apply = '/apply';
   static const applyShop = '/apply/shop';
   static const applyTech = '/apply/tech';
+  static const pickLocation = '/location';
   static const notifications = '/notifications';
   static const complaints = '/complaints';
   static String complaint(String id) => '/complaints/$id';
@@ -81,7 +83,8 @@ final routerProvider = Provider<GoRouter>((ref) {
       }
       // Signed in, the account still on its way: wait on the blank start page.
       if (!session.loaded) return loc == '/' ? null : '/';
-      final applying = loc.startsWith(Routes.apply);
+      // The map picker opens from applying as well as from the shop's profile.
+      final applying = loc.startsWith(Routes.apply) || loc == Routes.pickLocation;
       if (!session.isPartner) return applying ? null : Routes.apply;
       final role = session.role;
       if (role == null) return loc == Routes.role || applying ? null : Routes.role;
@@ -117,6 +120,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: Routes.apply, builder: (_, _) => const ApplyScreen()),
       GoRoute(path: Routes.applyShop, builder: (_, _) => const ShopApplyScreen()),
       GoRoute(path: Routes.applyTech, builder: (_, _) => const TechApplyScreen()),
+      GoRoute(
+        path: Routes.pickLocation,
+        builder: (_, s) => LocationPickerScreen(initial: s.extra as MapPoint?),
+      ),
       GoRoute(path: Routes.notifications, builder: (_, _) => const NotificationsScreen()),
       GoRoute(path: Routes.complaints, builder: (_, _) => const ComplaintsScreen()),
       GoRoute(

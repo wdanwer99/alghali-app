@@ -285,6 +285,12 @@ class _OfferCard extends ConsumerWidget {
                     ),
                   ),
                   RatingLine(rating: shop.rating, dense: true),
+                  if (shop.lat != null && shop.lng != null)
+                    IconButton(
+                      onPressed: () => Launch.directions(shop.lat!, shop.lng!),
+                      tooltip: t.shopDirections,
+                      icon: const Icon(Icons.directions_outlined),
+                    ),
                 ],
               ),
             ),

@@ -6,6 +6,7 @@ import 'dart:typed_data';
 import 'package:alghali_core/alghali_core.dart';
 import 'package:alghali_core/testing.dart';
 import 'package:alghali_partner/app.dart';
+import 'package:alghali_partner/features/shop/shop_location.dart';
 import 'package:alghali_partner/features/shop/stock_screen.dart';
 import 'package:alghali_partner/state/inbox.dart';
 import 'package:alghali_partner/state/outbox.dart';
@@ -737,6 +738,7 @@ Future<ProviderContainer> pumpApp(
         backendReadyProvider.overrideWithValue(true),
         realtimeProvider.overrideWithValue(false),
         locationSharingEnabledProvider.overrideWithValue(false),
+        mapTilesEnabledProvider.overrideWithValue(false),
         photoStoreProvider.overrideWithValue(photos ?? MemoryPhotoStore()),
         photoPickerProvider.overrideWithValue(
           ({required bool camera}) async => (bytes: testPhoto, fileName: 'part.jpg'),

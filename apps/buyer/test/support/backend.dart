@@ -64,6 +64,24 @@ class FakeBackend {
   final placed = <Json>[];
   final requests = <Json>[];
 
+  /// Shops given a map pin; the fixtures have none.
+  final pins = <String, ({double lat, double lng})>{};
+
+  /// The catalogue snapshot with [pins] on their shops.
+  Json get snapshot {
+    final s = fixture('catalogue_snapshot') as Json;
+    return {
+      ...s,
+      'shops': [
+        for (final shop in (s['shops'] as List).cast<Json>())
+          if (pins[shop['id']] case (:final lat, :final lng))
+            {...shop, 'lat': lat, 'lng': lng}
+          else
+            shop,
+      ],
+    };
+  }
+
   /// What checkout answers next (e.g. an error), once.
   http.Response? Function(Json body)? onCheckout;
 
@@ -153,7 +171,7 @@ class FakeBackend {
     s.on('/auth/v1/logout', (_) => http.Response('', 204));
     s.on('/auth/v1/recover', (_) => jsonResponse({}));
 
-    s.on('/rest/v1/rpc/catalogue_snapshot', (_) => jsonResponse(fixture('catalogue_snapshot')));
+    s.on('/rest/v1/rpc/catalogue_snapshot', (_) => jsonResponse(snapshot));
     s.on('/rest/v1/rpc/public_settings', (_) => jsonResponse(fixture('public_settings')));
     s.on('/rest/v1/rpc/search_parts', (r) {
       final b = _body(r);
@@ -324,10 +342,7 @@ Future<ProviderContainer> pumpApp(
         backendReadyProvider.overrideWithValue(true),
         realtimeProvider.overrideWithValue(false),
         offlineSeedProvider.overrideWithValue(
-          OfflineSeed(
-            snapshot: fixture('catalogue_snapshot') as Json,
-            settings: fixture('public_settings') as Json,
-          ),
+          OfflineSeed(snapshot: backend.snapshot, settings: fixture('public_settings') as Json),
         ),
         if (db != null) appDatabaseProvider.overrideWithValue(db),
         if (cache != null) readCacheProvider.overrideWithValue(cache),

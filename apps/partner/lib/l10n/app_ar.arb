@@ -1885,5 +1885,49 @@
   "complaintReply": "اكتب ردًا",
   "@complaintReply": {
     "description": "Field label"
+  },
+  "shopLocation": "موقع المحل على الخريطة",
+  "@shopLocation": {
+    "description": "Form section"
+  },
+  "shopLocationBody": "اختياري. يظهر للزبائن زر يفتح خرائط جوجل بالطريق إلى محلك، ولا يظهر إن لم تحدّده.",
+  "@shopLocationBody": {
+    "description": "Hint"
+  },
+  "shopLocationPick": "حدّد موقع المحل",
+  "@shopLocationPick": {
+    "description": "Button"
+  },
+  "shopLocationIsSet": "حُدّد الموقع",
+  "@shopLocationIsSet": {
+    "description": "Status"
+  },
+  "shopLocationChange": "تغيير",
+  "@shopLocationChange": {
+    "description": "Button"
+  },
+  "shopLocationView": "عرض في الخرائط",
+  "@shopLocationView": {
+    "description": "Button"
+  },
+  "shopLocationRemove": "إزالة",
+  "@shopLocationRemove": {
+    "description": "Button"
+  },
+  "pickLocationTitle": "موقع المحل",
+  "@pickLocationTitle": {
+    "description": "Screen title"
+  },
+  "pickLocationHint": "حرّك الخريطة حتى يقع الدبوس على باب محلك.",
+  "@pickLocationHint": {
+    "description": "Hint over the map"
+  },
+  "pickLocationHere": "موقعي الحالي",
+  "@pickLocationHere": {
+    "description": "Button"
+  },
+  "pickLocationConfirm": "اعتمد هذا الموقع",
+  "@pickLocationConfirm": {
+    "description": "Button"
   }
 }

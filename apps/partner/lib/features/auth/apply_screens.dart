@@ -9,6 +9,7 @@ import '../../router.dart';
 import '../../state/session.dart';
 import '../../state/tech.dart';
 import '../../widgets/partner_widgets.dart';
+import '../shop/shop_location.dart';
 import '../shop/shop_more_screen.dart';
 
 /// A new partner chooses how they work with the street; an admin reviews the application.
@@ -102,6 +103,7 @@ class _ShopApplyScreenState extends ConsumerState<ShopApplyScreen> {
   final _about = TextEditingController();
   String? _zoneId;
   var _side = StreetSide.a;
+  MapPoint? _pin;
   var _hours = <int, List<(int, int)>>{
     for (final d in [6, 0, 1, 2, 3, 4]) d: [(480, 1200)],
   };
@@ -132,6 +134,8 @@ class _ShopApplyScreenState extends ConsumerState<ShopApplyScreen> {
               plotNo: _plot.text.trim().isEmpty ? null : _plot.text.trim(),
               side: _side,
               landmarkAr: _landmark.text.trim().isEmpty ? null : _landmark.text.trim(),
+              lat: _pin?.lat,
+              lng: _pin?.lng,
               whatsapp: _whatsapp.text.trim().isEmpty ? null : _whatsapp.text.replaceAll(' ', ''),
               aboutAr: _about.text.trim().isEmpty ? null : _about.text.trim(),
               openingHours: {
@@ -225,6 +229,8 @@ class _ShopApplyScreenState extends ConsumerState<ShopApplyScreen> {
               controller: _landmark,
               decoration: InputDecoration(labelText: t.shopLandmark, hintText: t.shopLandmarkHint),
             ),
+            section(t.shopLocation),
+            ShopLocationField(value: _pin, onChanged: (p) => setState(() => _pin = p)),
             section(t.applySectionContact),
             TextFormField(
               controller: _phone,

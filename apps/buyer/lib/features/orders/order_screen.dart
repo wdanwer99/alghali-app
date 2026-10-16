@@ -282,6 +282,20 @@ class _SubOrderCard extends ConsumerWidget {
               ),
               style: theme.textTheme.bodySmall,
             ),
+          // Only while there is still something to collect, and only if the shop set its pin.
+          if (sub.fulfilment == FulfilmentType.pickup &&
+              current >= 0 &&
+              !received &&
+              shop.lat != null &&
+              shop.lng != null)
+            Align(
+              alignment: AlignmentDirectional.centerStart,
+              child: TextButton.icon(
+                onPressed: () => Launch.directions(shop.lat!, shop.lng!),
+                icon: const Icon(Icons.directions_outlined, size: 18),
+                label: Text(t.shopDirections),
+              ),
+            ),
           if (sub.cancelReason != null &&
               (sub.status == SubOrderStatus.cancelled ||
                   sub.status == SubOrderStatus.rejectedByShop)) ...[

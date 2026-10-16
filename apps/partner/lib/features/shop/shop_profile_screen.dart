@@ -6,9 +6,10 @@ import '../../app.dart';
 import '../../state/session.dart';
 import '../../state/shop.dart';
 import '../../widgets/partner_widgets.dart';
+import 'shop_location.dart';
 
 /// The shop's profile as buyers see it (`shop_update_profile`, owners only): contacts,
-/// landmark, about, opening hours and what it sells. The name and place on the street are
+/// landmark, map pin, about, opening hours and what it sells. The name and place on the street are
 /// changed by the platform team.
 class ShopProfileScreen extends ConsumerWidget {
   const ShopProfileScreen({super.key});
@@ -45,6 +46,10 @@ class _FormState extends ConsumerState<_Form> {
   late var _hours = <int, List<(int, int)>>{...widget.shop.openingHours};
   late final _categories = {...widget.shop.specialityIds};
   late final _makes = {...widget.shop.makeIds};
+  late MapPoint? _pin = switch ((widget.shop.lat, widget.shop.lng)) {
+    (final lat?, final lng?) => (lat: lat, lng: lng),
+    _ => null,
+  };
   var _busy = false;
 
   @override
@@ -64,6 +69,8 @@ class _FormState extends ConsumerState<_Form> {
         'phone': _phone.text.replaceAll(' ', ''),
         'whatsapp': _whatsapp.text.trim().isEmpty ? null : _whatsapp.text.replaceAll(' ', ''),
         'landmark_ar': _landmark.text.trim(),
+        'lat': _pin?.lat,
+        'lng': _pin?.lng,
         'about_ar': _about.text.trim(),
         'opening_hours': openingHoursToJson({
           for (final MapEntry(:key, :value) in _hours.entries)
@@ -134,6 +141,8 @@ class _FormState extends ConsumerState<_Form> {
             controller: _landmark,
             decoration: InputDecoration(labelText: t.shopLandmark, hintText: t.shopLandmarkHint),
           ),
+          section(t.shopLocation),
+          ShopLocationField(value: _pin, onChanged: (p) => setState(() => _pin = p)),
           const SizedBox(height: Space.md),
           TextFormField(
             controller: _about,

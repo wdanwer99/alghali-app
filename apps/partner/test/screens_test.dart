@@ -64,6 +64,12 @@ void main() {
       who: Who.shop,
       role: PartnerRole.shop,
     ),
+    'shop location': (
+      route: Routes.pickLocation,
+      key: 'pickLocationHint',
+      who: Who.shop,
+      role: PartnerRole.shop,
+    ),
     'chats': (route: Routes.shopChats, key: 'chatsTitle', who: Who.shop, role: PartnerRole.shop),
     'chat': (
       route: Routes.shopChat(chat['id'] as String),

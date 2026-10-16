@@ -1408,4 +1408,38 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get complaintReply => 'Write a reply';
+
+  @override
+  String get shopLocation => 'Shop location on the map';
+
+  @override
+  String get shopLocationBody =>
+      'Optional. Buyers get a button that opens Google Maps with directions to your shop; without it, the button is hidden.';
+
+  @override
+  String get shopLocationPick => 'Set the shop\'s location';
+
+  @override
+  String get shopLocationIsSet => 'Location set';
+
+  @override
+  String get shopLocationChange => 'Change';
+
+  @override
+  String get shopLocationView => 'View on the map';
+
+  @override
+  String get shopLocationRemove => 'Remove';
+
+  @override
+  String get pickLocationTitle => 'Shop location';
+
+  @override
+  String get pickLocationHint => 'Move the map until the pin sits on your shop\'s door.';
+
+  @override
+  String get pickLocationHere => 'My location';
+
+  @override
+  String get pickLocationConfirm => 'Use this location';
 }

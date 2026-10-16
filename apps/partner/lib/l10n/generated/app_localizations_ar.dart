@@ -1405,4 +1405,38 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get complaintReply => 'اكتب ردًا';
+
+  @override
+  String get shopLocation => 'موقع المحل على الخريطة';
+
+  @override
+  String get shopLocationBody =>
+      'اختياري. يظهر للزبائن زر يفتح خرائط جوجل بالطريق إلى محلك، ولا يظهر إن لم تحدّده.';
+
+  @override
+  String get shopLocationPick => 'حدّد موقع المحل';
+
+  @override
+  String get shopLocationIsSet => 'حُدّد الموقع';
+
+  @override
+  String get shopLocationChange => 'تغيير';
+
+  @override
+  String get shopLocationView => 'عرض في الخرائط';
+
+  @override
+  String get shopLocationRemove => 'إزالة';
+
+  @override
+  String get pickLocationTitle => 'موقع المحل';
+
+  @override
+  String get pickLocationHint => 'حرّك الخريطة حتى يقع الدبوس على باب محلك.';
+
+  @override
+  String get pickLocationHere => 'موقعي الحالي';
+
+  @override
+  String get pickLocationConfirm => 'اعتمد هذا الموقع';
 }

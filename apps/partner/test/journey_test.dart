@@ -21,7 +21,9 @@ void main() {
     if (f.evaluate().isEmpty) {
       await tester.scrollUntilVisible(f, 300, scrollable: find.byType(Scrollable).first);
     }
-    await tester.ensureVisible(f.first);
+    // To the middle, clear of a bar along the bottom.
+    await Scrollable.ensureVisible(tester.element(f.first), alignment: 0.5);
+    await tester.pumpAndSettle();
     await tester.tap(f.first);
     await settle(tester);
   }
@@ -422,16 +424,50 @@ void main() {
     expect(c.read(routerProvider).state.uri.path, Routes.apply);
     await tap(tester, text('applyShopTitle'));
     await tester.enterText(find.byType(TextFormField).at(0), 'محل الأمل');
-    final phone = find.byType(TextFormField).at(4);
-    await tester.ensureVisible(phone);
+    // The pin is optional; set it on the map (it opens at the street's starting point).
+    await tap(tester, text('shopLocationPick'));
+    expect(find.text(text('pickLocationHint')), findsOneWidget);
+    await tap(tester, text('pickLocationConfirm'));
+    expect(find.text(text('shopLocationIsSet')), findsOneWidget);
+    final phone = find.widgetWithText(TextFormField, text('fieldPhone'));
+    await tester.scrollUntilVisible(phone, 300, scrollable: find.byType(Scrollable).first);
     await tester.enterText(phone, '0912345678');
     await settle(tester);
     await tap(tester, text('applySubmit'));
     final apply = backend.calls('apply_as_shop').single;
     expect(apply['p_name_ar'], 'محل الأمل');
     expect(apply['p_phone'], '0912345678');
+    expect(apply['p_lat'], isA<double>());
+    expect(apply['p_lng'], isA<double>());
     expect((apply['p_opening_hours'] as Json).keys, containsAll(['6', '0', '4']));
     expect(c.read(routerProvider).state.uri.path, Routes.shopHome);
     expect(find.text(text('shopPendingBody')), findsOneWidget);
+  });
+
+  testWidgets('the owner sets the shop pin in the profile, then removes it', (tester) async {
+    final backend = FakeBackend();
+    final c = await pumpApp(tester, backend);
+    c.read(routerProvider).go(Routes.shopProfile);
+    await settle(tester);
+    final save = CoreLocalizations.of(tester.element(find.byType(Scaffold).last)).actionSave;
+
+    await tap(tester, text('shopLocationPick'));
+    await tap(tester, text('pickLocationConfirm'));
+    await tap(tester, save);
+    final set = backend.calls('shop_update_profile').last['p_patch'] as Json;
+    expect(set['lat'], isA<double>());
+    expect(set['lng'], isA<double>());
+
+    final remove = find.text(text('shopLocationRemove'));
+    await tester.scrollUntilVisible(remove, -300, scrollable: find.byType(Scrollable).first);
+    await tap(tester, text('shopLocationRemove'));
+    expect(find.text(text('shopLocationPick')), findsOneWidget);
+    // The first "saved" message would cover the button.
+    ScaffoldMessenger.of(tester.element(find.byType(Scaffold).last)).clearSnackBars();
+    await settle(tester);
+    await tap(tester, save);
+    final removed = backend.calls('shop_update_profile').last['p_patch'] as Json;
+    expect(removed, containsPair('lat', null));
+    expect(removed, containsPair('lng', null));
   });
 }
