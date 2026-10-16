@@ -690,4 +690,18 @@ class CoreLocalizationsAr extends CoreLocalizations {
 
   @override
   String get updateDownload => 'تحميل';
+
+  @override
+  String get tourSkip => 'تخطي';
+
+  @override
+  String get tourNext => 'التالي';
+
+  @override
+  String get tourStart => 'ابدأ';
+
+  @override
+  String tourStep(int current, int total) {
+    return 'الصفحة $current من $total';
+  }
 }

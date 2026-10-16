@@ -838,5 +838,29 @@
   "updateDownload": "تحميل",
   "@updateDownload": {
     "description": "Button"
+  },
+  "tourSkip": "تخطي",
+  "@tourSkip": {
+    "description": "Welcome tour: top button that ends the tour"
+  },
+  "tourNext": "التالي",
+  "@tourNext": {
+    "description": "Welcome tour: button to the next page"
+  },
+  "tourStart": "ابدأ",
+  "@tourStart": {
+    "description": "Welcome tour: button on the last page"
+  },
+  "tourStep": "الصفحة {current} من {total}",
+  "@tourStep": {
+    "description": "Welcome tour: page dots, read by screen readers",
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
   }
 }

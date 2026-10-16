@@ -36,13 +36,14 @@ void main() {
   setUpAll(loadAppFonts);
 
   group('first launch', () {
-    testWidgets('shows the welcome screen in Arabic, right-to-left', (tester) async {
+    testWidgets('shows the welcome tour in Arabic, right-to-left', (tester) async {
       final backend = FakeBackend();
       await pumpApp(tester, backend, signedIn: false, prefs: {}, locale: 'ar');
       final c = ProviderScope.containerOf(tester.element(find.byType(Scaffold).first));
       c.read(routerProvider).go(Routes.welcome);
       await settle(tester);
-      expect(find.text('اختر اللغة'), findsOneWidget);
+      expect(find.text('كل محلات الشارع في جيبك'), findsOneWidget);
+      expect(find.text('تخطي'), findsOneWidget);
       expect(directionOf(tester), TextDirection.rtl);
     });
   });

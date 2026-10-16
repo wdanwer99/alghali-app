@@ -24,22 +24,6 @@
   "@navAccount": {
     "description": "Bottom navigation tab"
   },
-  "welcomeTitle": "قطع الغيار والتركيب في مكان واحد",
-  "@welcomeTitle": {
-    "description": "Headline on the first-launch screen"
-  },
-  "welcomePointFit": "قطع تناسب سيارتك من محلات شارع الغالي",
-  "@welcomePointFit": {
-    "description": "Benefit line on the first-launch screen"
-  },
-  "welcomePointCompare": "قارن الأسعار بين المحلات قبل الشراء",
-  "@welcomePointCompare": {
-    "description": "Benefit line on the first-launch screen"
-  },
-  "welcomePointInstall": "احجز فنيًا يركّبها في الورشة أو عندك",
-  "@welcomePointInstall": {
-    "description": "Benefit line on the first-launch screen"
-  },
   "homeSearchHint": "ابحث عن قطعة، مثل: لمبات، فحمات",
   "@homeSearchHint": {
     "description": "Placeholder of the search box on home"
@@ -2078,5 +2062,29 @@
   "addressesEmpty": "لا توجد عناوين محفوظة",
   "@addressesEmpty": {
     "description": "Addresses: empty"
+  },
+  "tourFindTitle": "كل محلات الشارع في جيبك",
+  "@tourFindTitle": {
+    "description": "Welcome tour page 1 title"
+  },
+  "tourFindBody": "اعثر على قطع تناسب سيارتك وقارن أسعارها بين محلات شارع الغالي.",
+  "@tourFindBody": {
+    "description": "Welcome tour page 1 text"
+  },
+  "tourFitTitle": "فني يركّبها لك",
+  "@tourFitTitle": {
+    "description": "Welcome tour page 2 title"
+  },
+  "tourFitBody": "احجز التركيب في الورشة أو عندك، في الوقت الذي يناسبك.",
+  "@tourFitBody": {
+    "description": "Welcome tour page 2 text"
+  },
+  "tourPayTitle": "ادفع كما تحب",
+  "@tourPayTitle": {
+    "description": "Welcome tour page 3 title"
+  },
+  "tourPayBody": "بتحويل بنكك أو نقدًا، وتابع طلبك خطوة بخطوة حتى يصلك.",
+  "@tourPayBody": {
+    "description": "Welcome tour page 3 text"
   }
 }

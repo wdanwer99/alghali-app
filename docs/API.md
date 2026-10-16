@@ -187,7 +187,7 @@ Admins also write the catalogue and street tables directly (D-068); every change
 | `part_offers` | the request's buyer, the shop, admins | — |
 | `conversations` | both sides, admins | — |
 | `messages` | both sides, admins | both sides (`body`, or `voice_key` + `voice_secs` ≤ 60); live through Realtime |
-| `notifications` | self | — |
+| `notifications` | self; new rows live through Realtime (D-142) | — |
 | `payouts` | the shop's members, admins | — |
 | `ledger_accounts`, `ledger_journals`, `ledger_entries`, `payout_runs`, `payout_run_balances`, `payout_run_tech_balances` | admins | — (append-only) |
 | `technicians`, `technician_job_types`, `technician_makes` | the technician, admins (buyers use `booking_context` / `technician_profile`) | — |

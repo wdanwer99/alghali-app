@@ -680,4 +680,18 @@ class CoreLocalizationsEn extends CoreLocalizations {
 
   @override
   String get updateDownload => 'Download';
+
+  @override
+  String get tourSkip => 'Skip';
+
+  @override
+  String get tourNext => 'Next';
+
+  @override
+  String get tourStart => 'Get started';
+
+  @override
+  String tourStep(int current, int total) {
+    return 'Page $current of $total';
+  }
 }

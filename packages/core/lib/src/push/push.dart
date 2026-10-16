@@ -11,6 +11,13 @@ import '../config/app_env.dart';
 /// server sent in the reader's language as `_title` / `_body` when there is one.
 typedef PushData = Map<String, String>;
 
+/// An inbox alert's payload in the shape push delivers it (every value as text), for
+/// alerts that arrive over Realtime instead.
+PushData pushData(Map<String, Object?> payload) => {
+  for (final e in payload.entries)
+    if (e.value != null) e.key: '${e.value}',
+};
+
 /// What the apps need from Firebase Cloud Messaging (D-109). Builds without Firebase
 /// settings, and tests, use [NoPush].
 abstract class PushClient {

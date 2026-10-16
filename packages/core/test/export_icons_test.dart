@@ -65,19 +65,19 @@ void main() {
         '$dir/monochrome.png',
         const MarkPainter(glyph: Colors.white, dot: Colors.white, scale: 0.56),
       );
-      // Splash: the rounded mark (pre-Android 12) and the bare mark (Android 12+
-      // draws it inside a circle covering two thirds of the image).
+      // Splash: the bare mark, the same on every Android (12+ draws it inside a circle
+      // covering two thirds of the image), at the size SplashGate starts from.
       await _export(
         tester,
         '$dir/splash.png',
-        MarkPainter(background: bg, glyph: Colors.white, dot: dot),
-        size: 512,
+        MarkPainter(glyph: Colors.white, dot: dot, scale: SplashGate.markScale),
+        size: SplashGate.markBox * 4,
       );
       await _export(
         tester,
         '$dir/splash_android12.png',
-        MarkPainter(glyph: Colors.white, dot: dot, scale: 0.5),
-        size: 1152,
+        MarkPainter(glyph: Colors.white, dot: dot, scale: SplashGate.markScale),
+        size: SplashGate.markBox * 4,
       );
     });
   }

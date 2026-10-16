@@ -13,18 +13,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'Alghali Partners';
 
   @override
-  String get welcomeTitle => 'Run your shop and jobs from your phone';
-
-  @override
-  String get welcomePointOrders => 'Receive and prepare orders fast';
-
-  @override
-  String get welcomePointStock => 'Update prices and stock in seconds';
-
-  @override
-  String get welcomePointJobs => 'Get fitting jobs and track your earnings';
-
-  @override
   String get signInTitle => 'Partner sign in';
 
   @override
@@ -1408,6 +1396,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get complaintReply => 'Write a reply';
+
+  @override
+  String get tourOrdersTitle => 'Orders and fitting jobs come to you';
+
+  @override
+  String get tourOrdersBody =>
+      'Get an alert for every new order or job, and answer buyers in chat.';
+
+  @override
+  String get tourStockTitle => 'Your stock, even offline';
+
+  @override
+  String get tourStockBody =>
+      'Change prices and quantities any time; they are sent by themselves when you are back online.';
+
+  @override
+  String get tourEarnTitle => 'Track your earnings';
+
+  @override
+  String get tourEarnBody =>
+      'See what each order and fitting earned you, and what the platform owes you.';
 
   @override
   String get shopLocation => 'Shop location on the map';

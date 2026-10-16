@@ -53,8 +53,11 @@ void main() {
   testWidgets('partner: shop home, orders and stock', (tester) async {
     expect(_email, isNotEmpty, reason: 'run with pnpm perf:e2e');
     await app.main();
-    await waitFor(tester, find.text('متابعة'));
-    await tester.tap(find.text('متابعة'));
+    await waitFor(
+      tester,
+      find.text('تخطي').hitTestable(),
+    ); // the welcome tour, once the splash has gone
+    await tester.tap(find.text('تخطي').hitTestable());
     await waitFor(tester, find.byType(TextFormField));
     // Signed in the way the sign-in page does it, not by typing: on Android 8 the system
     // keyboard swallows text a test types (this measures scrolling, not the sign-in form).

@@ -750,7 +750,8 @@ describe.skipIf(!hasDb)('bookings', { timeout: 90_000 }, () => {
         const codes = (await notifications(tx, buyer))
           .map((n) => n.code)
           .filter((c) => c.startsWith('BOOKING_REMINDER'));
-        expect(codes).toEqual(['BOOKING_REMINDER_DAY', 'BOOKING_REMINDER_HOUR']);
+        // Each once. Both rows carry the transaction's time, so their order is not fixed.
+        expect(codes.sort()).toEqual(['BOOKING_REMINDER_DAY', 'BOOKING_REMINDER_HOUR']);
         expect(await notifications(tx, tech.userId)).toContainEqual({
           code: 'BOOKING_REMINDER_HOUR',
           app: 'partner',

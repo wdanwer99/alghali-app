@@ -737,6 +737,7 @@ Future<ProviderContainer> pumpApp(
         supabaseClientProvider.overrideWithValue(backend.client),
         backendReadyProvider.overrideWithValue(true),
         realtimeProvider.overrideWithValue(false),
+        splashEnabledProvider.overrideWithValue(false),
         locationSharingEnabledProvider.overrideWithValue(false),
         mapTilesEnabledProvider.overrideWithValue(false),
         photoStoreProvider.overrideWithValue(photos ?? MemoryPhotoStore()),

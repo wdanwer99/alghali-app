@@ -6,10 +6,6 @@
   "navCart": "Cart",
   "navOrders": "My orders",
   "navAccount": "Account",
-  "welcomeTitle": "Car parts and fitting in one place",
-  "welcomePointFit": "Parts that fit your car, from Alghali Street shops",
-  "welcomePointCompare": "Compare prices across shops before you buy",
-  "welcomePointInstall": "Book a technician at a workshop or at your place",
   "homeSearchHint": "Search for a part, e.g. bulbs, brake pads",
   "homeAddCar": "Add your car to see parts that fit",
   "homeChangeCar": "Change",
@@ -448,5 +444,11 @@
   "accountNoPhone": "Add your phone number",
   "accountPending": "{count, plural, =1{1 change waiting for a connection} other{{count} changes waiting for a connection}}",
   "accountSignOutPending": "{count, plural, =1{1 change hasn't been sent yet and will be lost.} other{{count} changes haven't been sent yet and will be lost.}}",
-  "addressesEmpty": "No saved addresses"
+  "addressesEmpty": "No saved addresses",
+  "tourFindTitle": "Every shop on the street, in your pocket",
+  "tourFindBody": "Find parts that fit your car and compare prices across Alghali Street shops.",
+  "tourFitTitle": "A technician fits it for you",
+  "tourFitBody": "Book the fitting at a workshop or at your place, at a time that suits you.",
+  "tourPayTitle": "Pay your way",
+  "tourPayBody": "By Bankak transfer or in cash, and follow your order step by step until it reaches you."
 }

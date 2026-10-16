@@ -1238,6 +1238,30 @@ abstract class CoreLocalizations {
   /// In ar, this message translates to:
   /// **'تحميل'**
   String get updateDownload;
+
+  /// Welcome tour: top button that ends the tour
+  ///
+  /// In ar, this message translates to:
+  /// **'تخطي'**
+  String get tourSkip;
+
+  /// Welcome tour: button to the next page
+  ///
+  /// In ar, this message translates to:
+  /// **'التالي'**
+  String get tourNext;
+
+  /// Welcome tour: button on the last page
+  ///
+  /// In ar, this message translates to:
+  /// **'ابدأ'**
+  String get tourStart;
+
+  /// Welcome tour: page dots, read by screen readers
+  ///
+  /// In ar, this message translates to:
+  /// **'الصفحة {current} من {total}'**
+  String tourStep(int current, int total);
 }
 
 class _CoreLocalizationsDelegate extends LocalizationsDelegate<CoreLocalizations> {

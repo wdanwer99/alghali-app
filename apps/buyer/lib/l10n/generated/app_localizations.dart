@@ -129,30 +129,6 @@ abstract class AppLocalizations {
   /// **'حسابي'**
   String get navAccount;
 
-  /// Headline on the first-launch screen
-  ///
-  /// In ar, this message translates to:
-  /// **'قطع الغيار والتركيب في مكان واحد'**
-  String get welcomeTitle;
-
-  /// Benefit line on the first-launch screen
-  ///
-  /// In ar, this message translates to:
-  /// **'قطع تناسب سيارتك من محلات شارع الغالي'**
-  String get welcomePointFit;
-
-  /// Benefit line on the first-launch screen
-  ///
-  /// In ar, this message translates to:
-  /// **'قارن الأسعار بين المحلات قبل الشراء'**
-  String get welcomePointCompare;
-
-  /// Benefit line on the first-launch screen
-  ///
-  /// In ar, this message translates to:
-  /// **'احجز فنيًا يركّبها في الورشة أو عندك'**
-  String get welcomePointInstall;
-
   /// Placeholder of the search box on home
   ///
   /// In ar, this message translates to:
@@ -2786,6 +2762,42 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'لا توجد عناوين محفوظة'**
   String get addressesEmpty;
+
+  /// Welcome tour page 1 title
+  ///
+  /// In ar, this message translates to:
+  /// **'كل محلات الشارع في جيبك'**
+  String get tourFindTitle;
+
+  /// Welcome tour page 1 text
+  ///
+  /// In ar, this message translates to:
+  /// **'اعثر على قطع تناسب سيارتك وقارن أسعارها بين محلات شارع الغالي.'**
+  String get tourFindBody;
+
+  /// Welcome tour page 2 title
+  ///
+  /// In ar, this message translates to:
+  /// **'فني يركّبها لك'**
+  String get tourFitTitle;
+
+  /// Welcome tour page 2 text
+  ///
+  /// In ar, this message translates to:
+  /// **'احجز التركيب في الورشة أو عندك، في الوقت الذي يناسبك.'**
+  String get tourFitBody;
+
+  /// Welcome tour page 3 title
+  ///
+  /// In ar, this message translates to:
+  /// **'ادفع كما تحب'**
+  String get tourPayTitle;
+
+  /// Welcome tour page 3 text
+  ///
+  /// In ar, this message translates to:
+  /// **'بتحويل بنكك أو نقدًا، وتابع طلبك خطوة بخطوة حتى يصلك.'**
+  String get tourPayBody;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

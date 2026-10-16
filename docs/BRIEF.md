@@ -9,6 +9,7 @@ Where the project stands and the rules every change follows. Read this before wr
 | [DECISIONS.md](DECISIONS.md) | Every decision with its reason, numbered D-001… Add one whenever you choose something the plan doesn't say |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | How the code is laid out today |
 | [API.md](API.md) | Every RPC, table, bucket and Edge Function, with error codes |
+| [DATABASE.md](DATABASE.md) | The schema in full: every table and column, keys, checks, indexes, triggers, status machines, ledger, settings, timed jobs |
 | [DEPLOY.md](DEPLOY.md) | Going live and staying live: the owner's inputs, the live project, Netlify, releasing the apps, backups |
 | [SECURITY.md](SECURITY.md) | The M7 security review: what is enforced, which test keeps it, the remaining risks |
 | [PERFORMANCE.md](PERFORMANCE.md) | The apps on a low-end Android 8 phone (emulated) |
@@ -33,7 +34,7 @@ Where the project stands and the rules every change follows. Read this before wr
 | Launch: the live project | Waiting on the owner (DEPLOY §1–2) | — |
 
 **Working state of each part:**
-- **Backend (Supabase):** everything up to M7 is applied to `alghali-dev` and `alghali-test`, with the Edge Functions deployed and the alert dispatcher wired (`pnpm notify:setup`) with real Firebase push (D-109); both apps register their phones for push.
+- **Backend (Supabase):** everything up to M7 and the fixes after it (D-142, D-143) is applied to `alghali-dev` and `alghali-test`, with the Edge Functions deployed and the alert dispatcher wired (`pnpm notify:setup`); both apps register their phones for push. **Push has never actually gone out on dev or test:** the Firebase key is installed (`FCM_SERVICE_ACCOUNT`), but the dispatcher can't read it and records every push as a stub (`NO_FCM_ACCOUNT`). Open apps get their alerts over Realtime meanwhile (D-142).
 - **Admin console:** every page reads the real database (D-106), plus reports (D-129), balance corrections (D-130) and the alert wording editor (D-131); every page is tested in a browser in both languages (D-133).
 - **Buyer app:** every screen runs on the real backend (D-110), works offline for reading and queues safe changes (D-112), and receives push (D-113). Build `0.4.0+4`.
 - **Partner app:** every screen runs on the real backend (D-119–D-128): joining as a shop or technician (shops can set a map pin when joining or later, D-145), one account with several homes, shop orders, stock with offline edits and quick listings, photo requests, chat, money, staff, insights, "closed today"; the technician's offers, job day with photos, the buyer's code and live location, hours, breaks and time off, earnings; complaints with replies and "Report a problem" (D-132); the update banner and screen (D-138). Build `0.6.0+6`.
@@ -63,6 +64,7 @@ Where the project stands and the rules every change follows. Read this before wr
 - One file per topic: `supabase/migrations/<yyyymmddhhmmss>_<topic>.sql`, starting with a comment that says what it adds.
 - **An applied migration is never edited** (D-072). Fix things in a new file. `alghali-test` can be wiped (`pnpm db:reset:test`); `alghali-dev` cannot.
 - Apply with `pnpm db:push:test` and `pnpm db:push:dev`, then `pnpm db:types` to regenerate `packages/db-types`.
+- Update [DATABASE.md](DATABASE.md) in the same change for any new or changed table, column, constraint, status, setting or timed job.
 
 **Every function**
 - `security definer` with `set search_path = ''`, and every name schema-qualified (`public.orders`, `extensions.st_distance`).
@@ -110,6 +112,7 @@ Where the project stands and the rules every change follows. Read this before wr
 - The apps' catalogue is `catalogueProvider` overridden with `liveCatalogueProvider` (`liveDataOverrides`); lookups never throw, so check `hasShop` / `hasVariant` where an empty placeholder would look wrong.
 - **Partner app:** the open home is `partnerSessionProvider` (`role`, `shopId`); shop state reads `currentShopIdProvider`. Its outbox ops are `PartnerOps` (stock edits through `shop_bulk_update` with the version raised by one per change, quick listings with their photo kept by `PhotoStore`). Device plugins that tests can't run are behind providers: `photoPickerProvider`, `sheetPickerProvider`, `photoStoreProvider`, `locationSharingEnabledProvider`, and map tiles behind `mapTilesEnabledProvider` (D-145).
 - `onlineProvider`, `CachedList`, `AsyncBody`, `OfflineBanner`, `showError` and `thumbUrl` are in the core package, shared by both apps.
+- **Splash and welcome** (D-144): `SplashGate` (in each app's `MaterialApp.builder`) and `WelcomeTour` (the `/welcome` route) are in the core. Widget tests turn the splash off (`splashEnabledProvider`); device tests wait for the tour's Skip to be tappable (`find.text('تخطي').hitTestable()`). If the mark changes, re-export the icons (`export_icons_test.dart`) and run `flutter_native_splash:create`: the splash's first frame must match the launch screen.
 
 ## 6. Tests
 
@@ -161,6 +164,8 @@ Each milestone's exit criteria in PLAN §2 must have a test. Before committing, 
 - An order for a fitting alone has no sub-orders: never take `subOrders.first` unguarded.
 - Device tests (`integration_test`): `tester.pageBack()` can't see the `material_ui` back button, so use `tester.binding.handlePopRoute()`; parts of a page load a moment later and push items out of the built part of a list, so wait for them before `scrollUntilVisible`; the run leaves the demo buyer's garage changed, and cancels the order it places (if a run stops half-way, cancel what it left as that demo buyer).
 
+- Phones' clocks can be hours out (automatic time switched off). Compare server times with `ref.read(clockProvider)()`, which follows the server (D-143), never `DateTime.now()`.
+- A push that "worked" in a test may have been a stub: the M3 dispatcher test accepts `STUB` as well as Google's refusal. Check `notification_deliveries` for `SENT` or `FAILED` rows before calling push working.
 - Prettier treats `[lang]` in a path as a glob; target those files with `apps/admin/src/app/**/<page>/page.tsx`.
 - A `.catch()` inside a test transaction leaves Postgres in an aborted state; use `failure()`.
 - Realtime tests can miss the first message right after a database reset: subscribe first, then send with retries.

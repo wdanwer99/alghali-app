@@ -38,7 +38,11 @@ void main() {
     await app.main();
 
     // Welcome: Arabic, right to left.
-    await tapText(tester, 'متابعة');
+    await waitFor(
+      tester,
+      find.text('تخطي').hitTestable(),
+    ); // the welcome tour, once the splash has gone
+    await tapText(tester, 'تخطي');
 
     // Sign in.
     await tapText(tester, 'حسابي');

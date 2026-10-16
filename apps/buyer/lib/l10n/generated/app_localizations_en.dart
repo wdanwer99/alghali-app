@@ -28,18 +28,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navAccount => 'Account';
 
   @override
-  String get welcomeTitle => 'Car parts and fitting in one place';
-
-  @override
-  String get welcomePointFit => 'Parts that fit your car, from Alghali Street shops';
-
-  @override
-  String get welcomePointCompare => 'Compare prices across shops before you buy';
-
-  @override
-  String get welcomePointInstall => 'Book a technician at a workshop or at your place';
-
-  @override
   String get homeSearchHint => 'Search for a part, e.g. bulbs, brake pads';
 
   @override
@@ -1567,4 +1555,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get addressesEmpty => 'No saved addresses';
+
+  @override
+  String get tourFindTitle => 'Every shop on the street, in your pocket';
+
+  @override
+  String get tourFindBody =>
+      'Find parts that fit your car and compare prices across Alghali Street shops.';
+
+  @override
+  String get tourFitTitle => 'A technician fits it for you';
+
+  @override
+  String get tourFitBody =>
+      'Book the fitting at a workshop or at your place, at a time that suits you.';
+
+  @override
+  String get tourPayTitle => 'Pay your way';
+
+  @override
+  String get tourPayBody =>
+      'By Bankak transfer or in cash, and follow your order step by step until it reaches you.';
 }

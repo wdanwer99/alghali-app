@@ -200,4 +200,39 @@ class NotificationsRepository with CachedReads {
   /// Marks [ids] read, or all of them when null. Returns how many changed.
   Future<int> markRead([List<String>? ids]) =>
       guard(() => _client.rpc<int>('mark_notifications_read', params: {'p_ids': ids}));
+
+  /// New alerts for [app] as they are written, while the app is open (D-142), so screens
+  /// update even when a push is late or never comes. Cancel the subscription to leave
+  /// the channel.
+  Stream<InboxItem> live({required String app}) {
+    final me = _client.auth.currentUser?.id;
+    if (me == null) return const Stream.empty();
+    late final RealtimeChannel channel;
+    late final StreamController<InboxItem> controller;
+    controller = StreamController<InboxItem>(
+      onListen: () {
+        channel = _client
+            .channel('notifications:$me:$app')
+            .onPostgresChanges(
+              event: PostgresChangeEvent.insert,
+              schema: 'public',
+              table: 'notifications',
+              filter: PostgresChangeFilter(
+                type: PostgresChangeFilterType.eq,
+                column: 'user_id',
+                value: me,
+              ),
+              callback: (payload) {
+                // One account can use both apps; each takes its own alerts.
+                if (payload.newRecord['app'] == app) {
+                  controller.add(InboxItem.fromJson(payload.newRecord));
+                }
+              },
+            )
+            .subscribe();
+      },
+      onCancel: () => _client.removeChannel(channel),
+    );
+    return controller.stream;
+  }
 }

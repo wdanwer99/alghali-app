@@ -45,6 +45,7 @@ class _BuyerAppState extends ConsumerState<BuyerApp> {
       ..add(push.alerts.listen(_showAlert));
     final outbox = ref.read(outboxProvider);
     if (outbox != null) _subs.add(outbox.results.listen(_outboxResult));
+    unawaited(ref.read(serverClockOffsetProvider.notifier).sync());
   }
 
   @override
@@ -56,8 +57,10 @@ class _BuyerAppState extends ConsumerState<BuyerApp> {
     super.dispose();
   }
 
-  /// Back in the app: send what waited, and fetch what may have changed meanwhile.
+  /// Back in the app: send what waited, and fetch what may have changed meanwhile
+  /// (the phone's clock too).
   void _resumed() {
+    unawaited(ref.read(serverClockOffsetProvider.notifier).sync());
     unawaited(ref.read(outboxProvider)?.flush());
     unawaited(
       ref.read(liveCatalogueProvider.notifier).refresh(ifOlderThan: const Duration(hours: 1)),
@@ -130,10 +133,14 @@ class _BuyerAppState extends ConsumerState<BuyerApp> {
       // Below the minimum build, only the update screen (D-058).
       builder: (context, child) => CatalogueScope(
         catalogue: catalogue,
-        child: UpdateGate(
-          release: ref.watch(platformSettingsProvider).buyerRelease,
-          appBuild: buyerBuild,
-          child: child!,
+        child: SplashGate(
+          // The session and the saved catalogue are loaded in main(), before the first frame.
+          ready: true,
+          child: UpdateGate(
+            release: ref.watch(platformSettingsProvider).buyerRelease,
+            appBuild: buyerBuild,
+            child: child!,
+          ),
         ),
       ),
     );

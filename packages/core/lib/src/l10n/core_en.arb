@@ -190,5 +190,9 @@
   "updateTitle": "Update the app",
   "updateRequiredBody": "This version is too old to use. Download the new one and install it over this one; your account and data stay as they are.",
   "updateAvailableBody": "A new version of the app is available.",
-  "updateDownload": "Download"
+  "updateDownload": "Download",
+  "tourSkip": "Skip",
+  "tourNext": "Next",
+  "tourStart": "Get started",
+  "tourStep": "Page {current} of {total}"
 }

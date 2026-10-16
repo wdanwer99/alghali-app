@@ -318,6 +318,7 @@ class _SubOrderCard extends ConsumerWidget {
           const SizedBox(height: Space.lg),
           if (current >= 0)
             StatusTimeline(
+              wheels: true,
               steps: [
                 for (final (i, (status, title)) in steps.indexed)
                   TimelineStep(

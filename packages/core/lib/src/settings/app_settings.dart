@@ -3,11 +3,15 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../backend/server_clock.dart';
 import '../i18n/locale_controller.dart';
 
-/// The current time. Overridden in tests and screenshots so sample data and
-/// countdowns are stable.
-final clockProvider = Provider<DateTime Function()>((ref) => DateTime.now);
+/// The current time, by the server's clock (the phone's may be wrong, D-143). Overridden
+/// in tests and screenshots so sample data and countdowns are stable.
+final clockProvider = Provider<DateTime Function()>((ref) {
+  final offset = ref.watch(serverClockOffsetProvider);
+  return offset == Duration.zero ? DateTime.now : () => DateTime.now().add(offset);
+});
 
 /// Light, dark or follow the phone.
 class ThemeModeController extends Notifier<ThemeMode> {

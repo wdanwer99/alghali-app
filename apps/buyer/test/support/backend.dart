@@ -341,6 +341,7 @@ Future<ProviderContainer> pumpApp(
         supabaseClientProvider.overrideWithValue(backend.client),
         backendReadyProvider.overrideWithValue(true),
         realtimeProvider.overrideWithValue(false),
+        splashEnabledProvider.overrideWithValue(false),
         offlineSeedProvider.overrideWithValue(
           OfflineSeed(snapshot: backend.snapshot, settings: fixture('public_settings') as Json),
         ),

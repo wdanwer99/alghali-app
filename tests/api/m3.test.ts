@@ -274,6 +274,48 @@ describe.skipIf(!hasApi)('M3 over HTTP: fittings', () => {
       ['FAILED', 'INVALID_ARGUMENT'],
     ]).toContainEqual([must(d).status, must(d).last_error]);
   });
+
+  it('a job offer alert reaches the open partner app live, and nobody else (D-142)', async () => {
+    const other = await f.user();
+    const got = { tech: [] as string[], other: [] as string[] };
+    const listen = async (who: keyof typeof got, client: typeof other.client) => {
+      await client.realtime.setAuth();
+      await new Promise<void>((resolve, reject) => {
+        client
+          .channel(`alerts-${who}-${tech.user.id}`)
+          .on(
+            'postgres_changes',
+            {
+              event: 'INSERT',
+              schema: 'public',
+              table: 'notifications',
+              filter: `user_id=eq.${tech.user.id}`,
+            },
+            (payload) => got[who].push((payload.new as { code: string }).code),
+          )
+          .subscribe((status, err) => {
+            if (status === 'SUBSCRIBED') resolve();
+            else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT')
+              reject(err ?? new Error(status));
+          });
+      });
+    };
+    await listen('tech', tech.user.client);
+    await listen('other', other.client);
+
+    // The first change after Realtime attaches can be missed; send again until one arrives.
+    for (let attempt = 0; attempt < 3 && got.tech.length === 0; attempt++) {
+      await f.sql`select public.notify_partner(${tech.user.id}, 'NEW_JOB_OFFER', '{"ref": "11112222"}')`;
+      for (let waited = 0; waited < 5000 && got.tech.length === 0; waited += 250) {
+        await new Promise((r) => setTimeout(r, 250));
+      }
+    }
+    await new Promise((r) => setTimeout(r, 1000));
+    await tech.user.client.removeAllChannels();
+    await other.client.removeAllChannels();
+    expect(got.tech[0]).toBe('NEW_JOB_OFFER');
+    expect(got.other).toEqual([]);
+  }, 45_000);
 });
 
 describe.runIf(!hasApi)('M3 over HTTP (skipped)', () => {

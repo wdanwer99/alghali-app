@@ -8,6 +8,7 @@ import '../platform/device.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_tokens.dart';
 import '../theme/app_typography.dart';
+import 'brand.dart';
 
 /// Small rounded label with a tone, e.g. "Paid", "Fits your car".
 /// Always carries text (and usually an icon) so colour is never the only cue.
@@ -947,9 +948,13 @@ class StepProgress extends StatelessWidget {
 
 /// A vertical status timeline (order and booking tracking).
 class StatusTimeline extends StatelessWidget {
-  const StatusTimeline({super.key, required this.steps});
+  const StatusTimeline({super.key, required this.steps, this.wheels = false});
 
   final List<TimelineStep> steps;
+
+  /// Marks each stage with a car wheel instead of a circle: done stages in
+  /// full colour, the current one turning, upcoming ones faded.
+  final bool wheels;
 
   @override
   Widget build(BuildContext context) {
@@ -967,38 +972,45 @@ class StatusTimeline extends StatelessWidget {
                   width: 28,
                   child: Column(
                     children: [
-                      Container(
-                        width: 22,
-                        height: 22,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: switch (steps[i].state) {
-                            TimelineState.done => colors.success,
-                            TimelineState.current => scheme.secondary,
-                            TimelineState.upcoming => scheme.surface,
-                          },
-                          border: Border.all(
-                            color: steps[i].state == TimelineState.upcoming
-                                ? scheme.outline
-                                : Colors.transparent,
-                            width: 2,
-                          ),
-                        ),
-                        child: switch (steps[i].state) {
-                          TimelineState.done => Icon(Icons.check, size: 14, color: scheme.surface),
-                          TimelineState.current => Center(
-                            child: Container(
-                              width: 8,
-                              height: 8,
-                              decoration: BoxDecoration(
-                                color: scheme.onSecondary,
-                                shape: BoxShape.circle,
-                              ),
+                      if (wheels)
+                        _WheelMarker(state: steps[i].state)
+                      else
+                        Container(
+                          width: 22,
+                          height: 22,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: switch (steps[i].state) {
+                              TimelineState.done => colors.success,
+                              TimelineState.current => scheme.secondary,
+                              TimelineState.upcoming => scheme.surface,
+                            },
+                            border: Border.all(
+                              color: steps[i].state == TimelineState.upcoming
+                                  ? scheme.outline
+                                  : Colors.transparent,
+                              width: 2,
                             ),
                           ),
-                          TimelineState.upcoming => null,
-                        },
-                      ),
+                          child: switch (steps[i].state) {
+                            TimelineState.done => Icon(
+                              Icons.check,
+                              size: 14,
+                              color: scheme.surface,
+                            ),
+                            TimelineState.current => Center(
+                              child: Container(
+                                width: 8,
+                                height: 8,
+                                decoration: BoxDecoration(
+                                  color: scheme.onSecondary,
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                            ),
+                            TimelineState.upcoming => null,
+                          },
+                        ),
                       if (i < steps.length - 1)
                         Expanded(
                           child: Container(
@@ -1038,6 +1050,63 @@ class StatusTimeline extends StatelessWidget {
           ),
       ],
     );
+  }
+}
+
+/// One timeline stage drawn as a wheel. The current stage turns in the
+/// reading direction, as if rolling on toward the next stage.
+class _WheelMarker extends StatefulWidget {
+  const _WheelMarker({required this.state});
+
+  final TimelineState state;
+
+  @override
+  State<_WheelMarker> createState() => _WheelMarkerState();
+}
+
+class _WheelMarkerState extends State<_WheelMarker> with SingleTickerProviderStateMixin {
+  late final _spin = AnimationController(vsync: this, duration: const Duration(milliseconds: 2400));
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _sync();
+  }
+
+  @override
+  void didUpdateWidget(_WheelMarker old) {
+    super.didUpdateWidget(old);
+    _sync();
+  }
+
+  void _sync() {
+    final turning =
+        widget.state == TimelineState.current && !MediaQuery.disableAnimationsOf(context);
+    if (turning && !_spin.isAnimating) {
+      _spin.repeat();
+    } else if (!turning) {
+      _spin.stop();
+    }
+  }
+
+  @override
+  void dispose() {
+    _spin.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final rtl = Directionality.of(context) == TextDirection.rtl;
+    const wheel = AlghaliWheel(size: 22);
+    return switch (widget.state) {
+      TimelineState.done => wheel,
+      TimelineState.current => RotationTransition(
+        turns: rtl ? ReverseAnimation(_spin) : _spin,
+        child: wheel,
+      ),
+      TimelineState.upcoming => const Opacity(opacity: 0.35, child: wheel),
+    };
   }
 }
 

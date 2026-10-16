@@ -20,7 +20,8 @@ class WelcomePoint {
 
 /// First launch: brand panel + language choice (Arabic preselected).
 /// Tapping a language previews it at once, so the screen flips direction live.
-class LanguagePickerScreen extends ConsumerWidget {
+/// On continue the wheel rolls off the far edge before [onContinue] runs.
+class LanguagePickerScreen extends ConsumerStatefulWidget {
   const LanguagePickerScreen({
     required this.onContinue,
     required this.title,
@@ -35,7 +36,46 @@ class LanguagePickerScreen extends ConsumerWidget {
   final MarkVariant variant;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<LanguagePickerScreen> createState() => _LanguagePickerScreenState();
+}
+
+class _LanguagePickerScreenState extends ConsumerState<LanguagePickerScreen>
+    with SingleTickerProviderStateMixin {
+  static const _wheelSize = 64.0;
+
+  // Short enough that the next page's transition still feels like one motion.
+  late final _roll = AnimationController(vsync: this, duration: const Duration(milliseconds: 600));
+  var _leaving = false;
+
+  @override
+  void dispose() {
+    _roll.dispose();
+    super.dispose();
+  }
+
+  Future<void> _continue(Locale locale) async {
+    if (_leaving) return;
+    _leaving = true;
+    await Future.wait([
+      ref.read(localeControllerProvider.notifier).select(locale),
+      if (!MediaQuery.disableAnimationsOf(context)) _roll.forward(),
+    ]);
+    if (mounted) widget.onContinue();
+  }
+
+  /// Rolls toward the end side without slipping: the wheel turns one radian
+  /// for every radius it travels, and speeds up as it drives off.
+  Widget _rollingWheel(BuildContext context, Widget? wheel) {
+    final distance = Curves.easeInCubic.transform(_roll.value) * MediaQuery.sizeOf(context).width;
+    final sign = Directionality.of(context) == TextDirection.rtl ? -1.0 : 1.0;
+    return Transform.translate(
+      offset: Offset(sign * distance, 0),
+      child: Transform.rotate(angle: sign * distance / (_wheelSize / 2), child: wheel),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final t = CoreLocalizations.of(context);
     final theme = Theme.of(context);
     final colors = AppColors.of(context);
@@ -67,16 +107,20 @@ class LanguagePickerScreen extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      AlghaliMark(size: 64, variant: variant),
+                      AnimatedBuilder(
+                        animation: _roll,
+                        builder: _rollingWheel,
+                        child: AlghaliWheel(size: _wheelSize, variant: widget.variant),
+                      ),
                       const SizedBox(height: Space.xl),
                       Text(
-                        title,
+                        widget.title,
                         style: theme.textTheme.headlineMedium?.copyWith(
                           color: colors.onBrandSurface,
                         ),
                       ),
                       const SizedBox(height: Space.lg),
-                      for (final p in points)
+                      for (final p in widget.points)
                         Padding(
                           padding: const EdgeInsets.only(bottom: Space.sm),
                           child: Row(
@@ -125,10 +169,7 @@ class LanguagePickerScreen extends ConsumerWidget {
             ),
             BottomActionBar(
               child: FilledButton(
-                onPressed: () async {
-                  await controller.select(current);
-                  onContinue();
-                },
+                onPressed: () => _continue(current),
                 child: Text(t.continueAction),
               ),
             ),

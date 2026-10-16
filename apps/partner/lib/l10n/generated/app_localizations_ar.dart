@@ -13,18 +13,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get appTitle => 'شركاء الغالي';
 
   @override
-  String get welcomeTitle => 'أدر محلك وأعمالك من هاتفك';
-
-  @override
-  String get welcomePointOrders => 'استلم الطلبات وجهّزها بسرعة';
-
-  @override
-  String get welcomePointStock => 'حدّث الأسعار والكميات في ثوانٍ';
-
-  @override
-  String get welcomePointJobs => 'استقبل أعمال التركيب وتابع أرباحك';
-
-  @override
   String get signInTitle => 'تسجيل دخول الشركاء';
 
   @override
@@ -1405,6 +1393,24 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get complaintReply => 'اكتب ردًا';
+
+  @override
+  String get tourOrdersTitle => 'الطلبات وأعمال التركيب تصلك';
+
+  @override
+  String get tourOrdersBody => 'يصلك تنبيه بكل طلب أو عمل جديد، وتردّ على المشترين في المحادثة.';
+
+  @override
+  String get tourStockTitle => 'مخزونك حتى بدون إنترنت';
+
+  @override
+  String get tourStockBody => 'عدّل الأسعار والكميات متى شئت، وتُرسل وحدها عند عودة الاتصال.';
+
+  @override
+  String get tourEarnTitle => 'تابع أرباحك';
+
+  @override
+  String get tourEarnBody => 'اعرف ما كسبته من كل طلب وكل تركيب، وما تبقّى لك عند المنصة.';
 
   @override
   String get shopLocation => 'موقع المحل على الخريطة';

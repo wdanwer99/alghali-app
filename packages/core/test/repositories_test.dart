@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:alghali_core/alghali_core.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
@@ -230,6 +231,37 @@ void main() {
     });
   });
 
+  group('server clock (D-143)', () {
+    // A phone with automatic time off, an hour fast.
+    final phone = DateTime.utc(2026, 10, 15, 19, 37);
+    Future<Duration?> measure(String serverTime) {
+      server.on('/rest/v1/rpc/ping', (_) => json({'ok': true, 'server_time': serverTime}));
+      return measureClockOffset(server.client(), now: () => phone);
+    }
+
+    test("the phone's error is measured with ping()", () async {
+      expect(await measure('2026-10-15T18:37:00+00:00'), const Duration(hours: -1));
+      expect(await measure('2026-10-15T19:39:30+00:00'), const Duration(minutes: 2, seconds: 30));
+    });
+
+    test('under a minute is network delay and counts as none', () async {
+      expect(await measure('2026-10-15T19:37:20+00:00'), Duration.zero);
+    });
+
+    test('a failed call measures nothing', () async {
+      expect(await measureClockOffset(server.client(), now: () => phone), isNull);
+    });
+
+    test("the apps' clock adds the measured offset", () {
+      final container = ProviderContainer(
+        overrides: [serverClockOffsetProvider.overrideWith(_HourFastPhone.new)],
+      );
+      addTearDown(container.dispose);
+      final server = container.read(clockProvider)();
+      expect(DateTime.now().difference(server).inMinutes, 60);
+    });
+  });
+
   test('idempotency keys are fresh v4 UUIDs', () {
     final a = newIdempotencyKey();
     expect(
@@ -238,4 +270,9 @@ void main() {
     );
     expect(newIdempotencyKey(), isNot(a));
   });
+}
+
+class _HourFastPhone extends ServerClockOffset {
+  @override
+  Duration build() => const Duration(hours: -1);
 }

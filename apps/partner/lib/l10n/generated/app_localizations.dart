@@ -99,30 +99,6 @@ abstract class AppLocalizations {
   /// **'شركاء الغالي'**
   String get appTitle;
 
-  /// Headline on the first-launch screen
-  ///
-  /// In ar, this message translates to:
-  /// **'أدر محلك وأعمالك من هاتفك'**
-  String get welcomeTitle;
-
-  /// Benefit line
-  ///
-  /// In ar, this message translates to:
-  /// **'استلم الطلبات وجهّزها بسرعة'**
-  String get welcomePointOrders;
-
-  /// Benefit line
-  ///
-  /// In ar, this message translates to:
-  /// **'حدّث الأسعار والكميات في ثوانٍ'**
-  String get welcomePointStock;
-
-  /// Benefit line
-  ///
-  /// In ar, this message translates to:
-  /// **'استقبل أعمال التركيب وتابع أرباحك'**
-  String get welcomePointJobs;
-
   /// Screen title
   ///
   /// In ar, this message translates to:
@@ -2534,6 +2510,42 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'اكتب ردًا'**
   String get complaintReply;
+
+  /// Welcome tour page 1 title
+  ///
+  /// In ar, this message translates to:
+  /// **'الطلبات وأعمال التركيب تصلك'**
+  String get tourOrdersTitle;
+
+  /// Welcome tour page 1 text
+  ///
+  /// In ar, this message translates to:
+  /// **'يصلك تنبيه بكل طلب أو عمل جديد، وتردّ على المشترين في المحادثة.'**
+  String get tourOrdersBody;
+
+  /// Welcome tour page 2 title
+  ///
+  /// In ar, this message translates to:
+  /// **'مخزونك حتى بدون إنترنت'**
+  String get tourStockTitle;
+
+  /// Welcome tour page 2 text
+  ///
+  /// In ar, this message translates to:
+  /// **'عدّل الأسعار والكميات متى شئت، وتُرسل وحدها عند عودة الاتصال.'**
+  String get tourStockBody;
+
+  /// Welcome tour page 3 title
+  ///
+  /// In ar, this message translates to:
+  /// **'تابع أرباحك'**
+  String get tourEarnTitle;
+
+  /// Welcome tour page 3 text
+  ///
+  /// In ar, this message translates to:
+  /// **'اعرف ما كسبته من كل طلب وكل تركيب، وما تبقّى لك عند المنصة.'**
+  String get tourEarnBody;
 
   /// Form section
   ///

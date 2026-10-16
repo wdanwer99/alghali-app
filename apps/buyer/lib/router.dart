@@ -81,14 +81,35 @@ final routerProvider = Provider<GoRouter>((ref) {
     routes: [
       GoRoute(
         path: Routes.welcome,
-        builder: (context, state) => LanguagePickerScreen(
-          title: context.t.welcomeTitle,
-          points: [
-            WelcomePoint(Icons.directions_car_outlined, context.t.welcomePointFit),
-            WelcomePoint(Icons.storefront_outlined, context.t.welcomePointCompare),
-            WelcomePoint(Icons.handyman_outlined, context.t.welcomePointInstall),
+        builder: (context, state) => WelcomeTour(
+          slides: [
+            TourSlide(
+              icon: Icons.storefront_outlined,
+              chips: const [Icons.search, Icons.directions_car_outlined, Icons.sell_outlined],
+              title: context.t.tourFindTitle,
+              body: context.t.tourFindBody,
+            ),
+            TourSlide(
+              chips: const [
+                Icons.handyman_outlined,
+                Icons.event_available_outlined,
+                Icons.home_outlined,
+              ],
+              title: context.t.tourFitTitle,
+              body: context.t.tourFitBody,
+            ),
+            TourSlide(
+              icon: Icons.payments_outlined,
+              chips: const [
+                Icons.check_rounded,
+                Icons.account_balance_outlined,
+                Icons.local_shipping_outlined,
+              ],
+              title: context.t.tourPayTitle,
+              body: context.t.tourPayBody,
+            ),
           ],
-          onContinue: () => context.go(Routes.home),
+          onDone: () => context.go(Routes.home),
         ),
       ),
       StatefulShellRoute.indexedStack(

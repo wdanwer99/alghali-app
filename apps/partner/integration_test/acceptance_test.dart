@@ -101,8 +101,8 @@ void main() {
         gpsProvider.overrideWithValue(() async => (lat: 15.605, lng: 32.5)),
       ],
     );
-    // Welcome: Arabic, right to left.
-    await tapText(tester, 'متابعة');
+    // The welcome tour, once the splash has gone: Arabic, right to left.
+    await tapOn(tester, find.text('تخطي').hitTestable(), seconds: 40);
   }
 
   testWidgets('acceptance (offer): the technician accepts the fitting', (tester) async {

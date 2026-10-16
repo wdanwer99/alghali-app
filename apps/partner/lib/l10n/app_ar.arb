@@ -4,22 +4,6 @@
   "@appTitle": {
     "description": "Partner app name in the title bar and launcher"
   },
-  "welcomeTitle": "أدر محلك وأعمالك من هاتفك",
-  "@welcomeTitle": {
-    "description": "Headline on the first-launch screen"
-  },
-  "welcomePointOrders": "استلم الطلبات وجهّزها بسرعة",
-  "@welcomePointOrders": {
-    "description": "Benefit line"
-  },
-  "welcomePointStock": "حدّث الأسعار والكميات في ثوانٍ",
-  "@welcomePointStock": {
-    "description": "Benefit line"
-  },
-  "welcomePointJobs": "استقبل أعمال التركيب وتابع أرباحك",
-  "@welcomePointJobs": {
-    "description": "Benefit line"
-  },
   "signInTitle": "تسجيل دخول الشركاء",
   "@signInTitle": {
     "description": "Screen title"
@@ -1885,6 +1869,30 @@
   "complaintReply": "اكتب ردًا",
   "@complaintReply": {
     "description": "Field label"
+  },
+  "tourOrdersTitle": "الطلبات وأعمال التركيب تصلك",
+  "@tourOrdersTitle": {
+    "description": "Welcome tour page 1 title"
+  },
+  "tourOrdersBody": "يصلك تنبيه بكل طلب أو عمل جديد، وتردّ على المشترين في المحادثة.",
+  "@tourOrdersBody": {
+    "description": "Welcome tour page 1 text"
+  },
+  "tourStockTitle": "مخزونك حتى بدون إنترنت",
+  "@tourStockTitle": {
+    "description": "Welcome tour page 2 title"
+  },
+  "tourStockBody": "عدّل الأسعار والكميات متى شئت، وتُرسل وحدها عند عودة الاتصال.",
+  "@tourStockBody": {
+    "description": "Welcome tour page 2 text"
+  },
+  "tourEarnTitle": "تابع أرباحك",
+  "@tourEarnTitle": {
+    "description": "Welcome tour page 3 title"
+  },
+  "tourEarnBody": "اعرف ما كسبته من كل طلب وكل تركيب، وما تبقّى لك عند المنصة.",
+  "@tourEarnBody": {
+    "description": "Welcome tour page 3 text"
   },
   "shopLocation": "موقع المحل على الخريطة",
   "@shopLocation": {

@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:material_ui/material_ui.dart';
 
 import '../l10n/generated/core_localizations.dart';
@@ -87,6 +89,95 @@ class MarkPainter extends CustomPainter {
   @override
   bool shouldRepaint(MarkPainter old) =>
       old.background != background || old.glyph != glyph || old.dot != dot || old.scale != scale;
+}
+
+/// A car wheel for the welcome screen; it rolls away when the user continues.
+/// The buyer wheel has a silver rim and red cap, the partner wheel a red rim
+/// and white cap, echoing the two marks.
+class AlghaliWheel extends StatelessWidget {
+  const AlghaliWheel({super.key, this.size = 64, this.variant = MarkVariant.buyer});
+
+  final double size;
+  final MarkVariant variant;
+
+  @override
+  Widget build(BuildContext context) {
+    final buyer = variant == MarkVariant.buyer;
+    return Semantics(
+      label: CoreLocalizations.of(context).brandName,
+      image: true,
+      child: SizedBox.square(
+        dimension: size,
+        child: CustomPaint(
+          painter: WheelPainter(
+            rim: buyer ? AppPalette.gray300 : AppPalette.red600,
+            cap: buyer ? const Color(0xFFEF4444) : Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Paints a tyre with tread notches and a five-spoke alloy rim. The spokes and
+/// tread make the rotation readable while the wheel rolls.
+class WheelPainter extends CustomPainter {
+  const WheelPainter({required this.rim, required this.cap});
+
+  final Color rim;
+  final Color cap;
+
+  static const _spokes = 5;
+  static const _treads = 20;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final r = size.shortestSide / 2;
+    final c = size.center(Offset.zero);
+    Offset polar(double radius, double angle) =>
+        c + Offset(math.cos(angle), math.sin(angle)) * radius;
+
+    // Tyre, with a lighter sidewall line so it reads on the dark brand panel.
+    canvas.drawCircle(c, r, Paint()..color = AppPalette.ink);
+    final tread = Paint()
+      ..color = AppPalette.gray700
+      ..strokeWidth = r * 0.07
+      ..strokeCap = StrokeCap.round;
+    for (var i = 0; i < _treads; i++) {
+      final a = 2 * math.pi * i / _treads;
+      canvas.drawLine(polar(r * 0.86, a), polar(r * 0.95, a), tread);
+    }
+    canvas.drawCircle(
+      c,
+      r * 0.76,
+      Paint()
+        ..color = AppPalette.gray600
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = r * 0.04,
+    );
+
+    // Rim: a solid disc, dark windows between the spokes, then the hub.
+    canvas.drawCircle(c, r * 0.68, Paint()..color = rim);
+    canvas.drawCircle(c, r * 0.56, Paint()..color = AppPalette.gray900);
+    final spoke = Paint()
+      ..color = rim
+      ..strokeWidth = r * 0.16
+      ..strokeCap = StrokeCap.round;
+    for (var i = 0; i < _spokes; i++) {
+      final a = 2 * math.pi * i / _spokes - math.pi / 2;
+      canvas.drawLine(c, polar(r * 0.6, a), spoke);
+    }
+    canvas.drawCircle(c, r * 0.24, Paint()..color = rim);
+    final nut = Paint()..color = AppPalette.gray700;
+    for (var i = 0; i < _spokes; i++) {
+      final a = 2 * math.pi * (i + 0.5) / _spokes - math.pi / 2;
+      canvas.drawCircle(polar(r * 0.16, a), r * 0.035, nut);
+    }
+    canvas.drawCircle(c, r * 0.09, Paint()..color = cap);
+  }
+
+  @override
+  bool shouldRepaint(WheelPainter old) => old.rim != rim || old.cap != cap;
 }
 
 /// Mark + "شارع الغالي" wordmark, for headers and the welcome screen.

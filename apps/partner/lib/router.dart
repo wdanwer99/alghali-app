@@ -103,15 +103,33 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: Routes.welcome,
-        builder: (context, state) => LanguagePickerScreen(
+        builder: (context, state) => WelcomeTour(
           variant: MarkVariant.partner,
-          title: context.t.welcomeTitle,
-          points: [
-            WelcomePoint(Icons.receipt_long_outlined, context.t.welcomePointOrders),
-            WelcomePoint(Icons.inventory_2_outlined, context.t.welcomePointStock),
-            WelcomePoint(Icons.handyman_outlined, context.t.welcomePointJobs),
+          slides: [
+            TourSlide(
+              icon: Icons.receipt_long_outlined,
+              chips: const [
+                Icons.notifications_active_outlined,
+                Icons.chat_bubble_outline,
+                Icons.handyman_outlined,
+              ],
+              title: context.t.tourOrdersTitle,
+              body: context.t.tourOrdersBody,
+            ),
+            TourSlide(
+              icon: Icons.inventory_2_outlined,
+              chips: const [Icons.cloud_off_outlined, Icons.sync, Icons.sell_outlined],
+              title: context.t.tourStockTitle,
+              body: context.t.tourStockBody,
+            ),
+            TourSlide(
+              icon: Icons.account_balance_wallet_outlined,
+              chips: const [Icons.trending_up, Icons.receipt_long_outlined, Icons.star_outline],
+              title: context.t.tourEarnTitle,
+              body: context.t.tourEarnBody,
+            ),
           ],
-          onContinue: () => context.go(Routes.signIn),
+          onDone: () => context.go(Routes.signIn),
         ),
       ),
       GoRoute(path: Routes.signIn, builder: (_, _) => const SignInScreen()),

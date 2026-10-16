@@ -19,7 +19,8 @@ typedef ForegroundAlert = ({String code, Map<String, String> data});
 
 /// Push (D-109): registers this phone for the partner app once signed in (and again when
 /// the token or the language changes), refreshes what an alert is about when one
-/// arrives, and opens the right screen when one is tapped.
+/// arrives (by push, or over Realtime while the app is open, D-142), and opens the right
+/// screen when one is tapped.
 class PushController extends Notifier<int> {
   final _alerts = StreamController<ForegroundAlert>.broadcast();
   final _taps = StreamController<({String route, PartnerRole role})>.broadcast();
@@ -47,6 +48,17 @@ class PushController extends Notifier<int> {
     });
     ref.listen(partnerSessionProvider.select((s) => s.userId), (prev, next) {
       if (next != null && next != prev) unawaited(_register(askPermission: prev == null));
+    }, fireImmediately: true);
+    StreamSubscription<InboxItem>? live;
+    ref.onDispose(() => unawaited(live?.cancel()));
+    ref.listen(partnerSessionProvider.select((s) => s.userId), (prev, next) {
+      unawaited(live?.cancel());
+      live = next == null || !ref.read(realtimeProvider)
+          ? null
+          : ref
+                .read(notificationsRepositoryProvider)
+                .live(app: 'partner')
+                .listen((n) => _refreshFor(n.code, pushData(n.payload)), onError: (Object _) {});
     }, fireImmediately: true);
     ref.listen(localeControllerProvider.select((s) => s.locale.languageCode), (prev, next) {
       if (prev == null || prev == next || !ref.read(partnerSessionProvider).signedIn) return;

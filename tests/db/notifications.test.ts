@@ -182,6 +182,23 @@ describe.skipIf(!hasDb)('notifications', () => {
       expect(must(r).k).toBe(false);
     });
   });
+
+  it('new alerts go out over Realtime, each to its own user (D-142)', async () => {
+    const live = await sql<{ tablename: string }[]>`
+      select tablename from pg_publication_tables
+      where pubname = 'supabase_realtime' and schemaname = 'public' order by tablename`;
+    expect(live.map((r) => r.tablename)).toEqual(['messages', 'notifications', 'tech_locations']);
+    await withRollback(sql, async (tx) => {
+      const [a, b] = [await createUser(tx), await createUser(tx)];
+      await asSystem(tx);
+      await tx`select public.notify(${a}, 'ORDER_READY', '{}'::jsonb)`;
+      await tx`select public.notify(${b}, 'ORDER_READY', '{}'::jsonb)`;
+      await asUser(tx, b);
+      const seen = await tx<{ user_id: string }[]>`
+        select user_id from public.notifications where code = 'ORDER_READY'`;
+      expect(seen.map((r) => r.user_id)).toEqual([b]);
+    });
+  });
 });
 
 describe.runIf(!hasDb)('notifications (skipped)', () => {

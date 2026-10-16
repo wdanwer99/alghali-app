@@ -46,8 +46,11 @@ void main() {
 
   testWidgets('buyer: home, street, search and a part', (tester) async {
     await app.main();
-    await waitFor(tester, find.text('متابعة'));
-    await tester.tap(find.text('متابعة'));
+    await waitFor(
+      tester,
+      find.text('تخطي').hitTestable(),
+    ); // the welcome tour, once the splash has gone
+    await tester.tap(find.text('تخطي').hitTestable());
     await waitFor(tester, find.text(t(tester).navHome));
     await run(tester, 3000);
 

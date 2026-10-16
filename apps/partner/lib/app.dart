@@ -45,6 +45,7 @@ class _PartnerAppState extends ConsumerState<PartnerApp> {
       ..add(push.alerts.listen(_showAlert));
     final outbox = ref.read(outboxProvider);
     if (outbox != null) _subs.add(outbox.results.listen(_outboxResult));
+    unawaited(ref.read(serverClockOffsetProvider.notifier).sync());
   }
 
   @override
@@ -57,8 +58,9 @@ class _PartnerAppState extends ConsumerState<PartnerApp> {
   }
 
   /// Back in the app: send what waited, and fetch what may have changed meanwhile
-  /// (an admin may have approved the shop or the technician).
+  /// (an admin may have approved the shop or the technician, or the phone's clock moved).
   void _resumed() {
+    unawaited(ref.read(serverClockOffsetProvider.notifier).sync());
     unawaited(ref.read(outboxProvider)?.flush());
     unawaited(
       ref.read(liveCatalogueProvider.notifier).refresh(ifOlderThan: const Duration(hours: 1)),
@@ -159,10 +161,15 @@ class _PartnerAppState extends ConsumerState<PartnerApp> {
       routerConfig: ref.watch(routerProvider),
       debugShowCheckedModeBanner: false,
       // Below the minimum build, only the update screen (D-058).
-      builder: (context, child) => UpdateGate(
-        release: ref.watch(platformSettingsProvider).partnerRelease,
-        appBuild: partnerBuild,
-        child: child!,
+      builder: (context, child) => SplashGate(
+        variant: MarkVariant.partner,
+        // Signed in: wait for the account, so the right home opens behind the street.
+        ready: ref.watch(partnerSessionProvider.select((s) => !s.signedIn || s.loaded)),
+        child: UpdateGate(
+          release: ref.watch(platformSettingsProvider).partnerRelease,
+          appBuild: partnerBuild,
+          child: child!,
+        ),
       ),
     );
   }

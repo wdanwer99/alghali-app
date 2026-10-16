@@ -69,7 +69,11 @@ void main() {
     await app.main();
 
     // Welcome: Arabic, right to left.
-    await tapText(tester, 'متابعة');
+    await tapOn(
+      tester,
+      find.text('تخطي').hitTestable(),
+      seconds: 40,
+    ); // the welcome tour, once the splash has gone
 
     // 1. The shop.
     await signIn(tester, _shopEmail);

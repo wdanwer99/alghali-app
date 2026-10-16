@@ -28,18 +28,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get navAccount => 'حسابي';
 
   @override
-  String get welcomeTitle => 'قطع الغيار والتركيب في مكان واحد';
-
-  @override
-  String get welcomePointFit => 'قطع تناسب سيارتك من محلات شارع الغالي';
-
-  @override
-  String get welcomePointCompare => 'قارن الأسعار بين المحلات قبل الشراء';
-
-  @override
-  String get welcomePointInstall => 'احجز فنيًا يركّبها في الورشة أو عندك';
-
-  @override
   String get homeSearchHint => 'ابحث عن قطعة، مثل: لمبات، فحمات';
 
   @override
@@ -1568,4 +1556,22 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get addressesEmpty => 'لا توجد عناوين محفوظة';
+
+  @override
+  String get tourFindTitle => 'كل محلات الشارع في جيبك';
+
+  @override
+  String get tourFindBody => 'اعثر على قطع تناسب سيارتك وقارن أسعارها بين محلات شارع الغالي.';
+
+  @override
+  String get tourFitTitle => 'فني يركّبها لك';
+
+  @override
+  String get tourFitBody => 'احجز التركيب في الورشة أو عندك، في الوقت الذي يناسبك.';
+
+  @override
+  String get tourPayTitle => 'ادفع كما تحب';
+
+  @override
+  String get tourPayBody => 'بتحويل بنكك أو نقدًا، وتابع طلبك خطوة بخطوة حتى يصلك.';
 }

@@ -65,7 +65,8 @@ CoreLocalizations core(WidgetTester tester) => CoreLocalizations.of(ctx(tester))
 String shown(String ref) => '${ref.substring(0, 4)} ${ref.substring(4)}';
 
 Future<void> signIn(WidgetTester tester) async {
-  await tapText(tester, 'متابعة'); // the welcome screen: Arabic, right to left
+  // The welcome tour, once the splash has gone: Arabic, right to left.
+  await tapOn(tester, find.text('تخطي').hitTestable(), seconds: 40);
   await tapText(tester, 'حسابي');
   await tapText(tester, 'تسجيل الدخول');
   await waitFor(tester, find.byType(TextFormField));
