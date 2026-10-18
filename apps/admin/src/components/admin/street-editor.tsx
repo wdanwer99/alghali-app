@@ -20,7 +20,14 @@ import { saveStreet } from '@/lib/actions/street';
 import type { StreetData } from '@/lib/data/street';
 import { named } from '@/lib/data/util';
 import { digits, fill } from '@/lib/format';
-import { insideSudan, parseCoordinate, parsePoint } from '@/lib/geo';
+import {
+  coordinateText,
+  insideSudan,
+  parseCoordinate,
+  parsePoint,
+  readCoordinate,
+  type Axis,
+} from '@/lib/geo';
 import { useAction } from './use-action';
 import { NumberText } from './number-text';
 import { Panel, riseStyle } from './ui';
@@ -277,15 +284,19 @@ export function StreetEditor({ data, locale, t }: { data: StreetData; locale: Lo
             </legend>
             <div className="grid grid-cols-2 gap-2">
               <CoordInput
+                axis="lat"
                 label={s.lat}
                 value={draft.lat}
                 onChange={(v) => set({ lat: v })}
+                onOther={(v) => set({ lng: v })}
                 onPair={(a, b) => set({ lat: a, lng: b })}
               />
               <CoordInput
+                axis="lng"
                 label={s.lng}
                 value={draft.lng}
                 onChange={(v) => set({ lng: v })}
+                onOther={(v) => set({ lat: v })}
                 onPair={(a, b) => set({ lat: a, lng: b })}
               />
             </div>
@@ -683,23 +694,44 @@ function NumberInput({
 }
 
 /**
- * A coordinate box. Arabic digits, the Arabic decimal mark and a decimal comma all work;
- * pasting a whole point (a pin, a Google Maps link, degrees-minutes-seconds) fills both
- * boxes; leaving the box shows the number as it will be saved.
+ * A latitude or longitude box that takes the text however it arrives (pasted, a phone
+ * keyboard's clipboard bar, typed): Arabic digits, a decimal comma, Google Maps'
+ * 15°34'43.5"N. A whole point fills both boxes; a half marked for the other box (E/W in
+ * the latitude box, N/S in the longitude box) goes there. Leaving the box shows the
+ * number as it will be saved, with at most 6 decimals.
  */
 function CoordInput({
+  axis,
   label,
   value,
   onChange,
+  onOther,
   onPair,
 }: {
+  axis: Axis;
   label: string;
   value: string;
   onChange: (v: string) => void;
+  onOther: (v: string) => void;
   onPair: (lat: string, lng: string) => void;
 }) {
   const id = useId();
   const n = parseCoordinate(value);
+  const take = (text: string) => {
+    const point = parsePoint(text);
+    if (point) {
+      onPair(coordinateText(point.lat), coordinateText(point.lng));
+      return true;
+    }
+    const half = readCoordinate(text);
+    if (half.axis && half.axis !== axis && half.value !== null && !Number.isNaN(half.value)) {
+      onOther(coordinateText(half.value));
+      // It belonged to the other box: don't leave it showing here too.
+      if (text === value) onChange('');
+      return true;
+    }
+    return false;
+  };
   return (
     <div className="flex flex-col gap-1">
       <label htmlFor={id} className="text-xs text-muted-foreground">
@@ -709,17 +741,25 @@ function CoordInput({
         id={id}
         dir="ltr"
         inputMode="decimal"
+        autoComplete="off"
+        spellCheck={false}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => {
+          // Text that arrives in one go (a phone keyboard's clipboard bar, drag and drop) is
+          // sorted at once; typing waits for the box to be left, so "15.5007, 32" isn't split
+          // half-way.
+          const pasted = e.target.value.length - value.length > 1;
+          if (!(pasted && take(e.target.value))) onChange(e.target.value);
+        }}
         onBlur={() => {
-          if (n !== null && !Number.isNaN(n) && String(n) !== value) onChange(String(n));
+          if (take(value)) return;
+          if (n !== null && !Number.isNaN(n) && coordinateText(n) !== value) {
+            onChange(coordinateText(n));
+          }
         }}
         onPaste={(e) => {
-          const point = parsePoint(e.clipboardData.getData('text'));
-          if (point) {
-            e.preventDefault();
-            onPair(String(point.lat), String(point.lng));
-          }
+          // A paste replaces what's in the box, rather than joining on to it.
+          if (take(e.clipboardData.getData('text'))) e.preventDefault();
         }}
         aria-invalid={(n !== null && Number.isNaN(n)) || undefined}
         className={cn(inputClass, 'tabular-nums')}
