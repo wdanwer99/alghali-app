@@ -11,6 +11,7 @@ import type { Dictionary } from '@/i18n/dictionaries';
 import { saveSettings } from '@/lib/actions/admin';
 import { fill } from '@/lib/format';
 import { errorText } from './use-action';
+import { NumberText } from './number-text';
 import { Panel, riseStyle } from './ui';
 
 type Labels = Dictionary['settings'];
@@ -177,19 +178,11 @@ export function SettingsForm({
               changedLabel={d.changed}
             >
               {(id) => (
-                <input
+                <NumberText
                   id={id}
-                  type="number"
-                  inputMode={f.int ? 'numeric' : 'decimal'}
-                  min={f.min}
-                  max={f.max}
-                  step={f.step ?? 1}
-                  value={
-                    typeof values[f.key] === 'number' && !Number.isNaN(values[f.key])
-                      ? (values[f.key] as number)
-                      : ''
-                  }
-                  onChange={(e) => set(f.key, e.target.value === '' ? NaN : Number(e.target.value))}
+                  integer={f.int}
+                  value={typeof values[f.key] === 'number' ? (values[f.key] as number) : NaN}
+                  onChange={(n) => set(f.key, n)}
                   aria-invalid={fieldState(f.key).error || undefined}
                   className={inputClass(fieldState(f.key).error)}
                 />
@@ -383,7 +376,6 @@ function Bands({
 }) {
   const update = (i: number, patch: Partial<Band>) =>
     onChange(bands.map((b, j) => (j === i ? { ...b, ...patch } : b)));
-  const num = (s: string) => (s === '' ? NaN : Number(s));
   return (
     <div
       className={cn(
@@ -405,22 +397,17 @@ function Bands({
             exit={{ opacity: 0, height: 0 }}
             className="grid grid-cols-[1fr_1fr_2.5rem] items-center gap-2"
           >
-            <input
-              type="number"
-              min={0}
-              step={0.5}
+            <NumberText
               aria-label={`${d.bandKm} ${i + 1}`}
-              value={Number.isNaN(b.max_km) ? '' : b.max_km}
-              onChange={(e) => update(i, { max_km: num(e.target.value) })}
+              value={b.max_km}
+              onChange={(n) => update(i, { max_km: n })}
               className={inputClass(error)}
             />
-            <input
-              type="number"
-              min={0}
-              step={500}
+            <NumberText
+              integer
               aria-label={`${d.bandFee} ${i + 1}`}
-              value={Number.isNaN(b.sdg) ? '' : b.sdg}
-              onChange={(e) => update(i, { sdg: num(e.target.value) })}
+              value={b.sdg}
+              onChange={(n) => update(i, { sdg: n })}
               className={inputClass(error)}
             />
             <Button

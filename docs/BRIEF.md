@@ -97,6 +97,7 @@ Where the project stands and the rules every change follows. Read this before wr
 - Changes are Server Actions in `src/lib/actions/*.ts` returning an `ActionResult`, used with `useAction` (optimistic update, toast, undo on refusal). They call the same RPCs the apps use.
 - Text in `src/i18n/dictionaries/{ar,en}.json` (parity test). Status labels and colours come from `src/lib/tones.ts`, keyed by the database enum values.
 - New screens read real data from the start; the old sample-data banner and menu tag are no longer used.
+- Number boxes are `NumberText` (`components/admin/number-text.tsx`), never `<input type="number">`, which silently drops the Arabic digits an Arabic keyboard types. Text read as a number goes through `parseNumber` (`lib/numbers.ts`: Arabic digits, ٫ and ٬, "2,000" in whole-number boxes); GPS points through `lib/geo.ts`.
 
 ## 5. Flutter rules (`packages/core`, `apps/buyer`, `apps/partner`)
 
@@ -167,6 +168,7 @@ Each milestone's exit criteria in PLAN §2 must have a test. Before committing, 
 - Phones' clocks can be hours out (automatic time switched off). Compare server times with `ref.read(clockProvider)()`, which follows the server (D-143), never `DateTime.now()`.
 - The Firebase key is installed base64-encoded (`FCM_SERVICE_ACCOUNT_B64`, D-146); as raw JSON in the secrets file it broke. `notify-dispatch` answers `{fcm, account}`: `account: 'unreadable'` means the key is installed but broken. The M3 dispatcher test fails then, and requires a real Firebase refusal whenever a key is there.
 - Prettier treats `[lang]` in a path as a glob; target those files with `apps/admin/src/app/**/<page>/page.tsx`.
+- Never put a form in a `<Suspense>` fallback that the streamed content replaces: on a cold or slow server the swap wipes what was typed (the sign-in page did this). Stream only the part that needs request data and keep the form outside the boundary.
 - A `.catch()` inside a test transaction leaves Postgres in an aborted state; use `failure()`.
 - Realtime tests can miss the first message right after a database reset: subscribe first, then send with retries.
 - Mock HTTP responses for the Supabase Dart client must set `request: req`.

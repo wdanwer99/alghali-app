@@ -20,7 +20,9 @@ import { saveStreet } from '@/lib/actions/street';
 import type { StreetData } from '@/lib/data/street';
 import { named } from '@/lib/data/util';
 import { digits, fill } from '@/lib/format';
+import { insideSudan, parseCoordinate, parsePoint } from '@/lib/geo';
 import { useAction } from './use-action';
+import { NumberText } from './number-text';
 import { Panel, riseStyle } from './ui';
 
 type Labels = {
@@ -79,7 +81,6 @@ function draftOf(data: StreetData): Draft {
   };
 }
 
-const coordinate = (s: string) => (s.trim() === '' ? null : Number(s));
 /** The starter data's "القطاع 1 / Section 1" names, which the owner still has to replace (D-077). */
 const isPlaceholder = (z: ZoneDraft) =>
   /^القطاع \d+$/.test(z.nameAr.trim()) || /^Section \d+$/i.test(z.nameEn.trim());
@@ -116,8 +117,8 @@ function problems(d: Draft): string | null {
   ];
   if (names.some((n) => !n.trim())) return 'NAME_REQUIRED';
   if (!Number.isInteger(d.lengthM) || d.lengthM < 1) return 'INVALID_VALUE';
-  const lat = coordinate(d.lat);
-  const lng = coordinate(d.lng);
+  const lat = parseCoordinate(d.lat);
+  const lng = parseCoordinate(d.lng);
   if ((lat === null) !== (lng === null)) return 'INVALID_LOCATION';
   if (lat !== null && lng !== null && !(Math.abs(lat) <= 90 && Math.abs(lng) <= 180))
     return 'INVALID_LOCATION';
@@ -153,9 +154,10 @@ export function StreetEditor({ data, locale, t }: { data: StreetData; locale: Lo
   const dirty = removed.length > 0 || JSON.stringify(draft) !== JSON.stringify(initial);
   const problem = problems(draft);
   const { gaps, overlaps } = coverage(draft);
-  const lat = coordinate(draft.lat);
-  const lng = coordinate(draft.lng);
+  const lat = parseCoordinate(draft.lat);
+  const lng = parseCoordinate(draft.lng);
   const hasOrigin = lat !== null && lng !== null && !Number.isNaN(lat) && !Number.isNaN(lng);
+  const swapped = hasOrigin && !insideSudan({ lat, lng });
 
   const addZone = () =>
     setDraft((d) => {
@@ -288,6 +290,12 @@ export function StreetEditor({ data, locale, t }: { data: StreetData; locale: Lo
               />
             </div>
             <p className="text-xs text-muted-foreground">{s.originHint}</p>
+            {swapped && (
+              <p className="flex items-start gap-1.5 text-xs text-warning" role="status">
+                <TriangleAlert className="mt-0.5 size-3.5 shrink-0" aria-hidden />
+                {s.outsideSudan}
+              </p>
+            )}
             {hasOrigin ? (
               <a
                 href={`https://www.google.com/maps?q=${lat},${lng}`}
@@ -662,22 +670,23 @@ function NumberInput({
       <label htmlFor={id} className="text-xs text-muted-foreground">
         {label}
       </label>
-      <input
+      <NumberText
         id={id}
-        type="number"
-        inputMode="numeric"
-        min={min}
-        step={1}
-        value={Number.isNaN(value) ? '' : value}
-        onChange={(e) => onChange(e.target.value === '' ? NaN : Number(e.target.value))}
-        aria-invalid={Number.isNaN(value) || undefined}
+        integer
+        value={value}
+        onChange={onChange}
+        aria-invalid={Number.isNaN(value) || (min !== undefined && value < min) || undefined}
         className={cn(inputClass, 'tabular-nums')}
       />
     </div>
   );
 }
 
-/** A coordinate box; pasting "15.5007, 32.5599" fills both boxes at once. */
+/**
+ * A coordinate box. Arabic digits, the Arabic decimal mark and a decimal comma all work;
+ * pasting a whole point (a pin, a Google Maps link, degrees-minutes-seconds) fills both
+ * boxes; leaving the box shows the number as it will be saved.
+ */
 function CoordInput({
   label,
   value,
@@ -690,7 +699,7 @@ function CoordInput({
   onPair: (lat: string, lng: string) => void;
 }) {
   const id = useId();
-  const n = value.trim() === '' ? null : Number(value);
+  const n = parseCoordinate(value);
   return (
     <div className="flex flex-col gap-1">
       <label htmlFor={id} className="text-xs text-muted-foreground">
@@ -702,13 +711,14 @@ function CoordInput({
         inputMode="decimal"
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        onBlur={() => {
+          if (n !== null && !Number.isNaN(n) && String(n) !== value) onChange(String(n));
+        }}
         onPaste={(e) => {
-          const m = /(-?\d+(?:\.\d+)?)\s*[,،\s]\s*(-?\d+(?:\.\d+)?)/.exec(
-            e.clipboardData.getData('text'),
-          );
-          if (m) {
+          const point = parsePoint(e.clipboardData.getData('text'));
+          if (point) {
             e.preventDefault();
-            onPair(m[1], m[2]);
+            onPair(String(point.lat), String(point.lng));
           }
         }}
         aria-invalid={(n !== null && Number.isNaN(n)) || undefined}

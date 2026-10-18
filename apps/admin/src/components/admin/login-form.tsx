@@ -2,7 +2,7 @@
 
 import { CircleAlert, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { AnimatePresence, motion, useAnimate } from 'motion/react';
-import { useActionState, useEffect, useState } from 'react';
+import { useActionState, useEffect, useState, type ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -10,7 +10,27 @@ import type { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/dictionaries';
 import { signIn, type SignInState } from '@/lib/actions/auth';
 
-/** Email + password sign-in against Supabase Auth; only admins get in. */
+/** A quiet note above the form, e.g. "Please sign in to continue". */
+export function LoginNotice({ text }: { text: string }) {
+  return (
+    <motion.p
+      role="status"
+      initial={{ opacity: 0, height: 0 }}
+      animate={{ opacity: 1, height: 'auto' }}
+      className="overflow-hidden"
+    >
+      <span className="flex items-start gap-2 rounded-lg bg-muted px-3 py-2.5 text-sm text-muted-foreground">
+        <CircleAlert className="mt-0.5 size-4 shrink-0" aria-hidden />
+        {text}
+      </span>
+    </motion.p>
+  );
+}
+
+/**
+ * Email + password sign-in against Supabase Auth; only admins get in. [notice] may stream
+ * in later (it reads the address); the form itself is never replaced, so nothing typed is lost.
+ */
 export function LoginForm({
   locale,
   d,
@@ -18,7 +38,7 @@ export function LoginForm({
 }: {
   locale: Locale;
   d: Dictionary['login'];
-  notice?: string;
+  notice?: ReactNode;
 }) {
   const [state, action, pending] = useActionState<SignInState, FormData>(signIn, {});
   const [showPassword, setShowPassword] = useState(false);
@@ -31,27 +51,22 @@ export function LoginForm({
     }
   }, [state, animate, scope]);
 
-  const message = state.error ? d[state.error] : notice;
+  const message = state.error ? d[state.error] : null;
   return (
     <form ref={scope} action={action} className="flex flex-col gap-4">
       <input type="hidden" name="locale" value={locale} />
+      {!state.error && notice}
       <AnimatePresence initial={false}>
         {message && (
           <motion.p
             key={message}
-            role={state.error ? 'alert' : 'status'}
+            role="alert"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             className="overflow-hidden"
           >
-            <span
-              className={
-                state.error
-                  ? 'flex items-start gap-2 rounded-lg bg-danger-soft px-3 py-2.5 text-sm text-destructive'
-                  : 'flex items-start gap-2 rounded-lg bg-muted px-3 py-2.5 text-sm text-muted-foreground'
-              }
-            >
+            <span className="flex items-start gap-2 rounded-lg bg-danger-soft px-3 py-2.5 text-sm text-destructive">
               <CircleAlert className="mt-0.5 size-4 shrink-0" aria-hidden />
               {message}
             </span>

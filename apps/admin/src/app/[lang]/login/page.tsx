@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
-import { LoginForm } from '@/components/admin/login-form';
+import { LoginForm, LoginNotice } from '@/components/admin/login-form';
 import { Mark, riseStyle } from '@/components/admin/ui';
 import { LanguageSwitch } from '@/components/language-switch';
 import { getDictionary, getLocale } from '@/i18n/dictionaries';
@@ -31,9 +31,16 @@ export default async function LoginPage({ searchParams }: PageProps<'/[lang]/log
         className="rise w-full max-w-sm rounded-2xl bg-card p-6 shadow-sm ring-1 ring-foreground/10"
         style={riseStyle(1)}
       >
-        <Suspense fallback={<LoginForm locale={locale} d={d.login} />}>
-          <LoginWithNotice searchParams={searchParams} locale={locale} d={d.login} />
-        </Suspense>
+        {/* Only the note waits for the address; the form is there from the first paint. */}
+        <LoginForm
+          locale={locale}
+          d={d.login}
+          notice={
+            <Suspense>
+              <SessionEnded searchParams={searchParams} text={d.login.sessionEnded} />
+            </Suspense>
+          }
+        />
       </div>
       <LanguageSwitch current={locale} label={d.nav.switchLanguage} />
     </main>
@@ -46,17 +53,14 @@ async function SendAdminIn({ locale }: { locale: string }) {
   return null;
 }
 
-async function LoginWithNotice({
+/** Shown when an admin page sent the visitor here (`?reason=signin`). */
+async function SessionEnded({
   searchParams,
-  locale,
-  d,
+  text,
 }: {
   searchParams: PageProps<'/[lang]/login'>['searchParams'];
-  locale: Parameters<typeof LoginForm>[0]['locale'];
-  d: Parameters<typeof LoginForm>[0]['d'];
+  text: string;
 }) {
   const { reason } = await searchParams;
-  return (
-    <LoginForm locale={locale} d={d} notice={reason === 'signin' ? d.sessionEnded : undefined} />
-  );
+  return reason === 'signin' ? <LoginNotice text={text} /> : null;
 }
