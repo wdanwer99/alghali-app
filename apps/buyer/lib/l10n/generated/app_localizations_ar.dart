@@ -1648,4 +1648,42 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get bookPlaceTintShopBody => 'يركّبه فني المحل في ورشته. بدون رسوم مشوار.';
+
+  @override
+  String get tintViewOutside => 'من الخارج';
+
+  @override
+  String get tintViewInside => 'من الداخل';
+
+  @override
+  String get tintBefore => 'بدون';
+
+  @override
+  String get tintAfter => 'بالتظليل';
+
+  @override
+  String get tintCompareHint => 'اسحب لتقارن';
+
+  @override
+  String get tintPickToSee => 'اختر درجة لترى الزجاج';
+
+  @override
+  String get tintLightIn => 'الضوء الداخل';
+
+  @override
+  String get tintPrivacy => 'الخصوصية';
+
+  @override
+  String get tintPrivacyLow => 'قليلة';
+
+  @override
+  String get tintPrivacyMedium => 'متوسطة';
+
+  @override
+  String get tintPrivacyHigh => 'عالية';
+
+  @override
+  String tintPreviewLabel(String shade) {
+    return 'معاينة الزجاج: $shade';
+  }
 }

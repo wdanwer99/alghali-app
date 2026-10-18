@@ -2187,5 +2187,58 @@
   "bookPlaceTintShopBody": "يركّبه فني المحل في ورشته. بدون رسوم مشوار.",
   "@bookPlaceTintShopBody": {
     "description": "Booking a tint fitting at the shop"
+  },
+  "tintViewOutside": "من الخارج",
+  "@tintViewOutside": {
+    "description": "Tint preview: how people outside see into the car"
+  },
+  "tintViewInside": "من الداخل",
+  "@tintViewInside": {
+    "description": "Tint preview: how the driver sees out"
+  },
+  "tintBefore": "بدون",
+  "@tintBefore": {
+    "description": "Tint preview: the side of the glass with no tint"
+  },
+  "tintAfter": "بالتظليل",
+  "@tintAfter": {
+    "description": "Tint preview: the side of the glass with the chosen tint"
+  },
+  "tintCompareHint": "اسحب لتقارن",
+  "@tintCompareHint": {
+    "description": "Tint preview: the handle that moves between clear and tinted glass"
+  },
+  "tintPickToSee": "اختر درجة لترى الزجاج",
+  "@tintPickToSee": {
+    "description": "Tint preview: before a darkness is chosen"
+  },
+  "tintLightIn": "الضوء الداخل",
+  "@tintLightIn": {
+    "description": "Tint preview meter: how much light gets through"
+  },
+  "tintPrivacy": "الخصوصية",
+  "@tintPrivacy": {
+    "description": "Tint preview meter: how hard it is to see inside"
+  },
+  "tintPrivacyLow": "قليلة",
+  "@tintPrivacyLow": {
+    "description": "Tint privacy level"
+  },
+  "tintPrivacyMedium": "متوسطة",
+  "@tintPrivacyMedium": {
+    "description": "Tint privacy level"
+  },
+  "tintPrivacyHigh": "عالية",
+  "@tintPrivacyHigh": {
+    "description": "Tint privacy level"
+  },
+  "tintPreviewLabel": "معاينة الزجاج: {shade}",
+  "@tintPreviewLabel": {
+    "description": "Screen reader label of the tint preview",
+    "placeholders": {
+      "shade": {
+        "type": "String"
+      }
+    }
   }
 }

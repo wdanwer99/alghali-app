@@ -474,5 +474,17 @@
   "tintReplaceYes": "Replace",
   "cartTintNeedsFitting": "Window tint needs a fitting booked before you pay.",
   "bookPlaceTintShop": "At {shop}",
-  "bookPlaceTintShopBody": "The shop's own technician fits it there. No travel fee."
+  "bookPlaceTintShopBody": "The shop's own technician fits it there. No travel fee.",
+  "tintViewOutside": "From outside",
+  "tintViewInside": "From inside",
+  "tintBefore": "Clear",
+  "tintAfter": "Tinted",
+  "tintCompareHint": "Drag to compare",
+  "tintPickToSee": "Pick a darkness to see the glass",
+  "tintLightIn": "Light in",
+  "tintPrivacy": "Privacy",
+  "tintPrivacyLow": "Low",
+  "tintPrivacyMedium": "Medium",
+  "tintPrivacyHigh": "High",
+  "tintPreviewLabel": "Glass preview: {shade}"
 }

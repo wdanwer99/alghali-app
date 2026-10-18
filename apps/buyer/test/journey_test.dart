@@ -199,6 +199,9 @@ void main() {
     // 100% only at the second shop; bronze too.
     await tester.tap(find.widgetWithText(ChoiceChip, ltr('100%')));
     await settle(tester);
+    // Below the glass preview: scroll to the colours first.
+    await tester.ensureVisible(find.widgetWithText(ChoiceChip, 'برونزي'));
+    await settle(tester);
     await tester.tap(find.widgetWithText(ChoiceChip, 'برونزي'));
     await settle(tester);
     await tester.tap(find.text('التالي'));

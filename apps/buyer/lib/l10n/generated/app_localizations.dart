@@ -2942,6 +2942,78 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'يركّبه فني المحل في ورشته. بدون رسوم مشوار.'**
   String get bookPlaceTintShopBody;
+
+  /// Tint preview: how people outside see into the car
+  ///
+  /// In ar, this message translates to:
+  /// **'من الخارج'**
+  String get tintViewOutside;
+
+  /// Tint preview: how the driver sees out
+  ///
+  /// In ar, this message translates to:
+  /// **'من الداخل'**
+  String get tintViewInside;
+
+  /// Tint preview: the side of the glass with no tint
+  ///
+  /// In ar, this message translates to:
+  /// **'بدون'**
+  String get tintBefore;
+
+  /// Tint preview: the side of the glass with the chosen tint
+  ///
+  /// In ar, this message translates to:
+  /// **'بالتظليل'**
+  String get tintAfter;
+
+  /// Tint preview: the handle that moves between clear and tinted glass
+  ///
+  /// In ar, this message translates to:
+  /// **'اسحب لتقارن'**
+  String get tintCompareHint;
+
+  /// Tint preview: before a darkness is chosen
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر درجة لترى الزجاج'**
+  String get tintPickToSee;
+
+  /// Tint preview meter: how much light gets through
+  ///
+  /// In ar, this message translates to:
+  /// **'الضوء الداخل'**
+  String get tintLightIn;
+
+  /// Tint preview meter: how hard it is to see inside
+  ///
+  /// In ar, this message translates to:
+  /// **'الخصوصية'**
+  String get tintPrivacy;
+
+  /// Tint privacy level
+  ///
+  /// In ar, this message translates to:
+  /// **'قليلة'**
+  String get tintPrivacyLow;
+
+  /// Tint privacy level
+  ///
+  /// In ar, this message translates to:
+  /// **'متوسطة'**
+  String get tintPrivacyMedium;
+
+  /// Tint privacy level
+  ///
+  /// In ar, this message translates to:
+  /// **'عالية'**
+  String get tintPrivacyHigh;
+
+  /// Screen reader label of the tint preview
+  ///
+  /// In ar, this message translates to:
+  /// **'معاينة الزجاج: {shade}'**
+  String tintPreviewLabel(String shade);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

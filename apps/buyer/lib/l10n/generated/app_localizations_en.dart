@@ -1652,4 +1652,42 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get bookPlaceTintShopBody => 'The shop\'s own technician fits it there. No travel fee.';
+
+  @override
+  String get tintViewOutside => 'From outside';
+
+  @override
+  String get tintViewInside => 'From inside';
+
+  @override
+  String get tintBefore => 'Clear';
+
+  @override
+  String get tintAfter => 'Tinted';
+
+  @override
+  String get tintCompareHint => 'Drag to compare';
+
+  @override
+  String get tintPickToSee => 'Pick a darkness to see the glass';
+
+  @override
+  String get tintLightIn => 'Light in';
+
+  @override
+  String get tintPrivacy => 'Privacy';
+
+  @override
+  String get tintPrivacyLow => 'Low';
+
+  @override
+  String get tintPrivacyMedium => 'Medium';
+
+  @override
+  String get tintPrivacyHigh => 'High';
+
+  @override
+  String tintPreviewLabel(String shade) {
+    return 'Glass preview: $shade';
+  }
 }

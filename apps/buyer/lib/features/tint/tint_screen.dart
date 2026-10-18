@@ -10,6 +10,7 @@ import '../../router.dart';
 import '../../state/cart.dart';
 import '../../state/tint.dart';
 import '../../widgets/buyer_widgets.dart';
+import 'glass_preview.dart';
 
 /// Window tint (D-149): car size → windows (a package or one by one) → darkness and
 /// colour → shop. The tint goes in the cart and the fitting is booked straight after:
@@ -22,16 +23,6 @@ class TintScreen extends ConsumerStatefulWidget {
 }
 
 enum _Step { size, windows, look, shop }
-
-/// What each colour looks like on the glass.
-const _swatch = {
-  TintColour.black: Color(0xFF1C1C1E),
-  TintColour.smoke: Color(0xFF5B6168),
-  TintColour.blue: Color(0xFF2E4C6D),
-  TintColour.green: Color(0xFF2F5A47),
-  TintColour.bronze: Color(0xFF7A5634),
-  TintColour.silver: Color(0xFFAEB5BC),
-};
 
 class _TintScreenState extends ConsumerState<TintScreen> {
   var _step = _Step.size;
@@ -319,7 +310,7 @@ class _TintScreenState extends ConsumerState<TintScreen> {
     return ListView(
       padding: Space.pageInsets,
       children: [
-        _GlassPreview(darkness: _darkness, colour: _colour),
+        TintGlassPreview(darkness: _darkness, colour: _colour),
         const SizedBox(height: Space.xl),
         Text(t.tintDarknessTitle, style: theme.textTheme.titleMedium),
         const SizedBox(height: Space.xs),
@@ -353,7 +344,7 @@ class _TintScreenState extends ConsumerState<TintScreen> {
                   dimension: 18,
                   child: DecoratedBox(
                     decoration: BoxDecoration(
-                      color: _swatch[c],
+                      color: tintSwatch[c],
                       shape: BoxShape.circle,
                       border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
                     ),
@@ -416,52 +407,6 @@ class _TintScreenState extends ConsumerState<TintScreen> {
         const SizedBox(height: Space.sm),
         InfoBanner(tone: Tone.neutral, message: t.tintPriceNote),
       ],
-    );
-  }
-}
-
-/// A side window with the chosen shade over a bright sky, to see how dark it gets.
-class _GlassPreview extends StatelessWidget {
-  const _GlassPreview({required this.darkness, required this.colour});
-
-  final int? darkness;
-  final TintColour? colour;
-
-  @override
-  Widget build(BuildContext context) {
-    final shade = _swatch[colour ?? TintColour.black]!;
-    final alpha = ((darkness ?? 0) / 100 * 0.9).clamp(0.0, 0.9);
-    return ExcludeSemantics(
-      child: ClipRRect(
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(48),
-          topRight: Radius.circular(12),
-          bottomLeft: Radius.circular(12),
-          bottomRight: Radius.circular(12),
-        ),
-        child: SizedBox(
-          height: 120,
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              const DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [Color(0xFF8EC5EC), Color(0xFFF3E3B5)],
-                  ),
-                ),
-              ),
-              const Align(
-                alignment: AlignmentDirectional(0.6, 0.2),
-                child: Icon(Icons.wb_sunny, size: 44, color: Color(0xFFF7B733)),
-              ),
-              ColoredBox(color: shade.withValues(alpha: alpha)),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }
