@@ -704,4 +704,100 @@ class CoreLocalizationsAr extends CoreLocalizations {
   String tourStep(int current, int total) {
     return 'الصفحة $current من $total';
   }
+
+  @override
+  String get jobTint => 'تظليل';
+
+  @override
+  String get tintSizeSmall => 'سيارة صغيرة';
+
+  @override
+  String get tintSizeSaloon => 'صالون';
+
+  @override
+  String get tintSizeSuv => 'دفع رباعي';
+
+  @override
+  String get tintSizePickup => 'بوكس';
+
+  @override
+  String get tintSizeMinibus => 'حافلة صغيرة';
+
+  @override
+  String get tintFull => 'السيارة كاملة';
+
+  @override
+  String get tintSides => 'الجوانب فقط';
+
+  @override
+  String get tintSidesBack => 'الجوانب والخلفي';
+
+  @override
+  String get tintStrip => 'شريط الزجاج الأمامي';
+
+  @override
+  String get tintOneWindow => 'نافذة واحدة';
+
+  @override
+  String get tintWindscreen => 'الزجاج الأمامي';
+
+  @override
+  String get tintBackGlass => 'الزجاج الخلفي';
+
+  @override
+  String get tintFrontLeft => 'الأمامي الأيسر';
+
+  @override
+  String get tintFrontRight => 'الأمامي الأيمن';
+
+  @override
+  String get tintBackLeft => 'الخلفي الأيسر';
+
+  @override
+  String get tintBackRight => 'الخلفي الأيمن';
+
+  @override
+  String get tintSunroof => 'فتحة السقف';
+
+  @override
+  String get tintBlack => 'أسود';
+
+  @override
+  String get tintSmoke => 'رمادي دخاني';
+
+  @override
+  String get tintBlue => 'أزرق';
+
+  @override
+  String get tintGreen => 'أخضر';
+
+  @override
+  String get tintBronze => 'برونزي';
+
+  @override
+  String get tintSilver => 'فضي عاكس';
+
+  @override
+  String tintPercent(int percent) {
+    return '$percent%';
+  }
+
+  @override
+  String tintWindows(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count نافذة',
+      few: '$count نوافذ',
+      two: 'نافذتان',
+      one: 'نافذة واحدة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get errTintNeedsFitting => 'التظليل يحتاج موعد تركيب. احجز فنيًا قبل الدفع.';
+
+  @override
+  String get errTintPriceRequired => 'أدخل سعرًا واحدًا على الأقل لتعرض التظليل.';
 }

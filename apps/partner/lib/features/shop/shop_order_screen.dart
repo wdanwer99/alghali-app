@@ -207,7 +207,10 @@ class _ShopOrderScreenState extends ConsumerState<ShopOrderScreen> {
                 children: [
                   for (final i in sub.items)
                     KeyValueRow(
-                      label: '${i.title.tr(context)} × ${i.qty}\n${core.condition(i.condition)}',
+                      // Window tint's title already says what was chosen (D-149).
+                      label: i.tint != null
+                          ? i.title.tr(context)
+                          : '${i.title.tr(context)} × ${i.qty}\n${core.condition(i.condition)}',
                       value: context.sdg(i.lineSdg),
                     ),
                 ],

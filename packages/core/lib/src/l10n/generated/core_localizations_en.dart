@@ -694,4 +694,99 @@ class CoreLocalizationsEn extends CoreLocalizations {
   String tourStep(int current, int total) {
     return 'Page $current of $total';
   }
+
+  @override
+  String get jobTint => 'Window tint';
+
+  @override
+  String get tintSizeSmall => 'Small car';
+
+  @override
+  String get tintSizeSaloon => 'Saloon';
+
+  @override
+  String get tintSizeSuv => '4x4';
+
+  @override
+  String get tintSizePickup => 'Pickup';
+
+  @override
+  String get tintSizeMinibus => 'Minibus';
+
+  @override
+  String get tintFull => 'Full car';
+
+  @override
+  String get tintSides => 'Sides only';
+
+  @override
+  String get tintSidesBack => 'Sides and back';
+
+  @override
+  String get tintStrip => 'Windscreen strip';
+
+  @override
+  String get tintOneWindow => 'One window';
+
+  @override
+  String get tintWindscreen => 'Windscreen';
+
+  @override
+  String get tintBackGlass => 'Back glass';
+
+  @override
+  String get tintFrontLeft => 'Front left';
+
+  @override
+  String get tintFrontRight => 'Front right';
+
+  @override
+  String get tintBackLeft => 'Back left';
+
+  @override
+  String get tintBackRight => 'Back right';
+
+  @override
+  String get tintSunroof => 'Sunroof';
+
+  @override
+  String get tintBlack => 'Black';
+
+  @override
+  String get tintSmoke => 'Smoke grey';
+
+  @override
+  String get tintBlue => 'Blue';
+
+  @override
+  String get tintGreen => 'Green';
+
+  @override
+  String get tintBronze => 'Bronze';
+
+  @override
+  String get tintSilver => 'Silver mirror';
+
+  @override
+  String tintPercent(int percent) {
+    return '$percent%';
+  }
+
+  @override
+  String tintWindows(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count windows',
+      one: '1 window',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get errTintNeedsFitting =>
+      'Window tint needs a fitting. Book a technician before you pay.';
+
+  @override
+  String get errTintPriceRequired => 'Enter at least one price to offer window tint.';
 }

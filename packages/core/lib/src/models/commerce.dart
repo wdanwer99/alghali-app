@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart' show immutable;
 
 import 'catalogue.dart';
+import 'tint.dart';
 
 /// "PENDING_PAYMENT" ↔ "pendingPayment": database codes and Dart enum names.
 String screamingCase(String camel) =>
@@ -118,6 +119,7 @@ class CartCheck {
     required this.ok,
     this.listingId,
     this.offerId,
+    this.tintShopId,
     this.problem,
     this.priceSdg,
     this.availableQty,
@@ -126,6 +128,7 @@ class CartCheck {
   factory CartCheck.fromJson(Json j) => CartCheck(
     listingId: j['listing_id'] as String?,
     offerId: j['offer_id'] as String?,
+    tintShopId: j['tint_shop_id'] as String?,
     qty: j['qty'] as int,
     seenPriceSdg: j['seen_price_sdg'] as int,
     ok: j['ok'] as bool,
@@ -141,6 +144,9 @@ class CartCheck {
 
   final String? listingId;
   final String? offerId;
+
+  /// The shop of a window-tint line (one per cart, D-149).
+  final String? tintShopId;
   final int qty;
   final int seenPriceSdg;
   final bool ok;
@@ -164,13 +170,18 @@ class OrderItem {
     required this.qty,
     this.warrantyDays = 0,
     this.id,
+    this.tint,
   });
 
   /// A row of `order_items`. [listingId] holds the offer id for an item bought from a
-  /// photo-request offer.
+  /// photo-request offer, and is empty for window tint ([tint]).
   factory OrderItem.fromJson(Json j) => OrderItem(
     id: j['id'] as String?,
-    listingId: (j['listing_id'] ?? j['offer_id']) as String,
+    listingId: (j['listing_id'] ?? j['offer_id'] ?? '') as String,
+    tint: switch (j['tint']) {
+      final Json t => TintChoice.fromJson(t),
+      _ => null,
+    },
     partId: j['part_id'] as String? ?? '',
     title: LocalizedText.fromJson(j, 'title'),
     condition: ListingCondition.fromCode(j['condition'] as String),
@@ -189,6 +200,9 @@ class OrderItem {
 
   /// The `order_items` id, for booking a fitting of a part bought earlier.
   final String? id;
+
+  /// What was chosen, for window tint (D-149).
+  final TintChoice? tint;
 
   int get lineSdg => unitPriceSdg * qty;
 }
@@ -463,6 +477,8 @@ class BookingItem {
     this.offerId,
     this.partId,
     this.categoryId,
+    this.tintShopId,
+    this.tint,
   });
 
   /// An item of `booking_json`. A job type this app version doesn't know reads as SERVICE.
@@ -476,6 +492,11 @@ class BookingItem {
     offerId: j['offer_id'] as String?,
     partId: j['part_id'] as String?,
     categoryId: j['category_id'] as String?,
+    tintShopId: j['tint_shop_id'] as String?,
+    tint: switch (j['tint']) {
+      final Json t => TintChoice.fromJson(t),
+      _ => null,
+    },
   );
 
   final LocalizedText title;
@@ -489,6 +510,10 @@ class BookingItem {
   final String? offerId;
   final String? partId;
   final String? categoryId;
+
+  /// Window tint: the shop that sells it and what was chosen (D-149).
+  final String? tintShopId;
+  final TintChoice? tint;
 }
 
 /// The technician's current offer on a booking (D-024).

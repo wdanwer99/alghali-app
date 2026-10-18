@@ -7,6 +7,7 @@ import '../data/catalogue_data.dart';
 import '../data/catalogue_snapshot.dart';
 import '../data/platform_settings.dart';
 import '../models/catalogue.dart';
+import '../models/tint.dart';
 import 'backend_error.dart';
 import 'read_cache.dart';
 
@@ -129,6 +130,21 @@ class CatalogueRepository with CachedReads {
     () =>
         _client.rpc<Json>('part_detail', params: {'p_part_id': partId, 'p_variant_id': variantId}),
     (raw) => PartDetail.fromJson(raw! as Json),
+  );
+
+  /// The shops that tint this car size and these windows, cheapest first (D-149).
+  /// Works for guests too.
+  Future<TintOffers> tintOffers(TintCarSize size, TintSelection selection) => cachedRead(
+    'tint:${size.code}:${selection.package?.code ?? selection.windowCodes.join(',')}',
+    () => _client.rpc<Json>(
+      'tint_offers',
+      params: {
+        'p_car_size': size.code,
+        'p_package': selection.package?.code,
+        'p_windows': selection.package == null ? selection.windowCodes : null,
+      },
+    ),
+    (raw) => TintOffers.fromJson(raw! as Json),
   );
 
   Future<PlatformSettings> settings() => settingsJson().then(PlatformSettings.fromJson);

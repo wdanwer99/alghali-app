@@ -38,6 +38,7 @@ export 'src/models/catalogue.dart';
 export 'src/models/commerce.dart';
 export 'src/models/installation.dart';
 export 'src/models/partner.dart';
+export 'src/models/tint.dart';
 export 'src/platform/device.dart';
 export 'src/platform/media.dart';
 export 'src/push/push.dart';

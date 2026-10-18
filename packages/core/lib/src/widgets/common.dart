@@ -271,13 +271,19 @@ class KeyValueRow extends StatelessWidget {
         );
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: Space.xs),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(child: Text(label, style: labelStyle)),
-          const SizedBox(width: Space.md),
-          Text(value, style: valueStyle),
-        ],
+      // A long value (a window-tint description) wraps instead of running off the row.
+      child: LayoutBuilder(
+        builder: (context, box) => Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(child: Text(label, style: labelStyle)),
+            const SizedBox(width: Space.md),
+            ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: box.maxWidth * 0.6),
+              child: Text(value, style: valueStyle, textAlign: TextAlign.end),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -769,6 +775,7 @@ IconData categoryIcon(CategoryIcon icon) => switch (icon) {
   CategoryIcon.transmission => Icons.settings_outlined,
   CategoryIcon.body => Icons.directions_car_outlined,
   CategoryIcon.accessories => Icons.event_seat_outlined,
+  CategoryIcon.tint => Icons.tonality,
 };
 
 /// A part's photo ([imageUrl], the shop's thumbnail, D-008), or a tinted square with its

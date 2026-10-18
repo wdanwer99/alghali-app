@@ -20,6 +20,7 @@ import 'features/shop/shop_order_screen.dart';
 import 'features/shop/shop_orders_screen.dart';
 import 'features/shop/shop_profile_screen.dart';
 import 'features/shop/stock_screen.dart';
+import 'features/shop/tint_screen.dart';
 import 'features/tech/earnings_screen.dart';
 import 'features/tech/job_screen.dart';
 import 'features/tech/schedule_screen.dart';
@@ -51,6 +52,7 @@ abstract final class Routes {
   static const shopInsights = '/shop/insights';
   static const shopProfile = '/shop/profile';
   static const shopChats = '/shop/chats';
+  static const shopTint = '/shop/tint';
   static String shopOrder(String id) => '/shop/order/$id';
   static String shopChat(String conversationId) => '/shop/chat/$conversationId';
 
@@ -188,6 +190,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: Routes.shopInsights, builder: (_, _) => const InsightsScreen()),
       GoRoute(path: Routes.shopProfile, builder: (_, _) => const ShopProfileScreen()),
       GoRoute(path: Routes.shopChats, builder: (_, _) => const ShopChatsScreen()),
+      GoRoute(path: Routes.shopTint, builder: (_, _) => const TintSettingsScreen()),
       GoRoute(
         path: '/shop/chat/:id',
         builder: (_, s) => ChatScreen(conversationId: s.pathParameters['id']!),

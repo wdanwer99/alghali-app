@@ -399,6 +399,9 @@ class _BookingFlowScreenState extends ConsumerState<BookingFlowScreen> {
       }
     }
 
+    // Window tint at a bay is fitted at the shop that sells it (D-149).
+    final tintShop = _lines.where((l) => l.tint != null).firstOrNull?.shopId;
+
     return ListView(
       padding: Space.pageInsets,
       children: [
@@ -411,8 +414,10 @@ class _BookingFlowScreenState extends ConsumerState<BookingFlowScreen> {
             _resetFrom(_Step.tech);
           }),
           icon: Icons.store_mall_directory_outlined,
-          title: t.bookPlaceBay,
-          subtitle: t.bookPlaceBayBody,
+          title: tintShop == null
+              ? t.bookPlaceBay
+              : t.bookPlaceTintShop(catalogue.shop(tintShop).name.tr(context)),
+          subtitle: tintShop == null ? t.bookPlaceBayBody : t.bookPlaceTintShopBody,
         ),
         const SizedBox(height: Space.md),
         ChoiceCard(
@@ -644,7 +649,7 @@ class _BookingFlowScreenState extends ConsumerState<BookingFlowScreen> {
     final total = labour + travel + options.bookingFeeSdg;
     final what = switch (widget.orderItemTitle) {
       final title? => title,
-      _ when !_standalone => _lines.map((l) => l.title.tr(context)).join('، '),
+      _ when !_standalone => _lines.map((l) => lineTitle(context, l)).join('، '),
       _ => _description.text.trim().isEmpty ? core.jobType(_job!) : _description.text.trim(),
     };
     final paysHere = _standalone || widget.orderItemId != null;

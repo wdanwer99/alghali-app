@@ -2612,6 +2612,78 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'اعتمد هذا الموقع'**
   String get pickLocationConfirm;
+
+  /// More menu: the shop's window-tint offer
+  ///
+  /// In ar, this message translates to:
+  /// **'تظليل الزجاج'**
+  String get moreTint;
+
+  /// Window tint: switch that shows the shop to buyers choosing tint
+  ///
+  /// In ar, this message translates to:
+  /// **'نقدّم تظليل الزجاج'**
+  String get tintOffer;
+
+  /// Window tint: under the switch
+  ///
+  /// In ar, this message translates to:
+  /// **'يظهر محلك للمشترين عندما يختارون التظليل، بالأسعار التي تكتبها هنا.'**
+  String get tintOfferBody;
+
+  /// Window tint: section title
+  ///
+  /// In ar, this message translates to:
+  /// **'درجات التعتيم التي تقدّمها'**
+  String get tintDarkness;
+
+  /// Window tint: explains the percentages
+  ///
+  /// In ar, this message translates to:
+  /// **'100% هي الأغمق.'**
+  String get tintDarknessNote;
+
+  /// Window tint: section title
+  ///
+  /// In ar, this message translates to:
+  /// **'الألوان التي تقدّمها'**
+  String get tintColours;
+
+  /// Window tint: section title
+  ///
+  /// In ar, this message translates to:
+  /// **'الأسعار حسب حجم السيارة'**
+  String get tintPrices;
+
+  /// Window tint: how the price grid works
+  ///
+  /// In ar, this message translates to:
+  /// **'اترك الخانة فارغة إن كنت لا تقدّمها. سعر النافذة الواحدة يُستخدم حين يختار المشتري النوافذ بنفسه.'**
+  String get tintPricesNote;
+
+  /// Window tint: how many prices a car size has
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =0{لم تُحدَّد أسعار} =1{سعر واحد} =2{سعران} few{{count} أسعار} other{{count} سعرًا}}'**
+  String tintPricesSet(int count);
+
+  /// Window tint: the shop has no technician for fitting at the shop
+  ///
+  /// In ar, this message translates to:
+  /// **'لا يعمل في ورشة محلك فني تظليل مسجّل، فلن يرى المشترون خيار التركيب في المحل. اطلب من أحد العاملين التسجيل كفني يعمل في ورشتك.'**
+  String get tintBayNone;
+
+  /// Window tint: technicians who can fit it at the shop
+  ///
+  /// In ar, this message translates to:
+  /// **'فنيّو التظليل في ورشة محلك: {count}'**
+  String tintBayCount(int count);
+
+  /// Window tint: error before saving
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر درجة تعتيم ولونًا واحدًا على الأقل.'**
+  String get tintNeedsChoice;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

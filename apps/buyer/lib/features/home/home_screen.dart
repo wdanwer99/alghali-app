@@ -460,7 +460,10 @@ class _CategoryGrid extends StatelessWidget {
       width: 84,
       child: InkWell(
         borderRadius: Radii.mdAll,
-        onTap: () => context.push(Routes.searchFor(categoryId: c.id)),
+        // Window tint is chosen, not searched (D-149).
+        onTap: () => context.push(
+          c.icon == CategoryIcon.tint ? Routes.tint : Routes.searchFor(categoryId: c.id),
+        ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: Space.sm),
           child: Column(

@@ -2798,6 +2798,150 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'بتحويل بنكك أو نقدًا، وتابع طلبك خطوة بخطوة حتى يصلك.'**
   String get tourPayBody;
+
+  /// Window tint screen title
+  ///
+  /// In ar, this message translates to:
+  /// **'تظليل الزجاج'**
+  String get tintTitle;
+
+  /// Window tint step: car size
+  ///
+  /// In ar, this message translates to:
+  /// **'السيارة'**
+  String get tintStepSize;
+
+  /// Window tint step: which windows
+  ///
+  /// In ar, this message translates to:
+  /// **'النوافذ'**
+  String get tintStepWindows;
+
+  /// Window tint step: darkness and colour
+  ///
+  /// In ar, this message translates to:
+  /// **'الدرجة واللون'**
+  String get tintStepLook;
+
+  /// Window tint step: which shop
+  ///
+  /// In ar, this message translates to:
+  /// **'المحل'**
+  String get tintStepShop;
+
+  /// Window tint: car size question
+  ///
+  /// In ar, this message translates to:
+  /// **'ما حجم سيارتك؟'**
+  String get tintSizeTitle;
+
+  /// Window tint: windows question
+  ///
+  /// In ar, this message translates to:
+  /// **'أي نوافذ تريد تظليلها؟'**
+  String get tintWindowsTitle;
+
+  /// Window tint: tick windows one by one instead of a package
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر النوافذ بنفسك'**
+  String get tintPickWindows;
+
+  /// Window tint: under the choose-windows option
+  ///
+  /// In ar, this message translates to:
+  /// **'حدّد كل نافذة تريدها.'**
+  String get tintPickWindowsBody;
+
+  /// Window tint: darkness question
+  ///
+  /// In ar, this message translates to:
+  /// **'درجة التعتيم'**
+  String get tintDarknessTitle;
+
+  /// Window tint: explains the percentages
+  ///
+  /// In ar, this message translates to:
+  /// **'كلما زادت النسبة كان الزجاج أغمق. 100% هي الأغمق.'**
+  String get tintDarknessNote;
+
+  /// Window tint: colour question
+  ///
+  /// In ar, this message translates to:
+  /// **'اللون'**
+  String get tintColourTitle;
+
+  /// Window tint: shop list title
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر المحل'**
+  String get tintShopTitle;
+
+  /// Window tint: under the shop list
+  ///
+  /// In ar, this message translates to:
+  /// **'السعر للتظليل فقط. أجرة الفني تُضاف عند حجز التركيب.'**
+  String get tintPriceNote;
+
+  /// Window tint: empty shop list
+  ///
+  /// In ar, this message translates to:
+  /// **'لا يوجد محل يقدّم هذا الآن'**
+  String get tintNoShops;
+
+  /// Window tint: empty shop list advice
+  ///
+  /// In ar, this message translates to:
+  /// **'جرّب نوافذ أخرى أو حجم سيارة آخر.'**
+  String get tintNoShopsBody;
+
+  /// Window tint: the darkness and colour picked are not offered together
+  ///
+  /// In ar, this message translates to:
+  /// **'لا يوجد محل بهذه الدرجة وهذا اللون. غيّر أحدهما.'**
+  String get tintNoMatch;
+
+  /// Window tint: the shop has its own technician
+  ///
+  /// In ar, this message translates to:
+  /// **'يركّب في المحل'**
+  String get tintFitsAtShop;
+
+  /// Window tint: last button
+  ///
+  /// In ar, this message translates to:
+  /// **'أضف للسلة واحجز التركيب'**
+  String get tintBook;
+
+  /// Window tint: one tint per cart
+  ///
+  /// In ar, this message translates to:
+  /// **'في سلتك تظليل آخر. هل تريد استبداله بهذا؟'**
+  String get tintReplace;
+
+  /// Window tint: confirm replacing the tint in the cart
+  ///
+  /// In ar, this message translates to:
+  /// **'استبدال'**
+  String get tintReplaceYes;
+
+  /// Cart: tint line without a fitting
+  ///
+  /// In ar, this message translates to:
+  /// **'التظليل يحتاج موعد تركيب قبل الدفع.'**
+  String get cartTintNeedsFitting;
+
+  /// Booking a tint fitting: at the shop that sells it
+  ///
+  /// In ar, this message translates to:
+  /// **'في {shop}'**
+  String bookPlaceTintShop(String shop);
+
+  /// Booking a tint fitting at the shop
+  ///
+  /// In ar, this message translates to:
+  /// **'يركّبه فني المحل في ورشته. بدون رسوم مشوار.'**
+  String get bookPlaceTintShopBody;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

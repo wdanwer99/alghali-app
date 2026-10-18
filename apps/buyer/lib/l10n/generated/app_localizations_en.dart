@@ -1576,4 +1576,80 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get tourPayBody =>
       'By Bankak transfer or in cash, and follow your order step by step until it reaches you.';
+
+  @override
+  String get tintTitle => 'Window tint';
+
+  @override
+  String get tintStepSize => 'Car';
+
+  @override
+  String get tintStepWindows => 'Windows';
+
+  @override
+  String get tintStepLook => 'Shade';
+
+  @override
+  String get tintStepShop => 'Shop';
+
+  @override
+  String get tintSizeTitle => 'What size is your car?';
+
+  @override
+  String get tintWindowsTitle => 'Which windows do you want tinted?';
+
+  @override
+  String get tintPickWindows => 'Choose the windows yourself';
+
+  @override
+  String get tintPickWindowsBody => 'Tick each window you want.';
+
+  @override
+  String get tintDarknessTitle => 'How dark';
+
+  @override
+  String get tintDarknessNote =>
+      'The higher the number, the darker the glass. 100% is the darkest.';
+
+  @override
+  String get tintColourTitle => 'Colour';
+
+  @override
+  String get tintShopTitle => 'Choose a shop';
+
+  @override
+  String get tintPriceNote =>
+      'The price is for the tint. The technician\'s fee is added when you book the fitting.';
+
+  @override
+  String get tintNoShops => 'No shop offers this right now';
+
+  @override
+  String get tintNoShopsBody => 'Try other windows or another car size.';
+
+  @override
+  String get tintNoMatch => 'No shop has this darkness in this colour. Change one of them.';
+
+  @override
+  String get tintFitsAtShop => 'Fits it at the shop';
+
+  @override
+  String get tintBook => 'Add to cart and book the fitting';
+
+  @override
+  String get tintReplace => 'Your cart already has window tint. Replace it with this one?';
+
+  @override
+  String get tintReplaceYes => 'Replace';
+
+  @override
+  String get cartTintNeedsFitting => 'Window tint needs a fitting booked before you pay.';
+
+  @override
+  String bookPlaceTintShop(String shop) {
+    return 'At $shop';
+  }
+
+  @override
+  String get bookPlaceTintShopBody => 'The shop\'s own technician fits it there. No travel fee.';
 }

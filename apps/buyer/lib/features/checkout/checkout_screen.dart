@@ -281,7 +281,9 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
               children: [
                 for (final l in lines)
                   KeyValueRow(
-                    label: '${l.title.tr(context)} × ${l.qty}',
+                    label: l.tint != null
+                        ? lineTitle(context, l)
+                        : '${l.title.tr(context)} × ${l.qty}',
                     value: context.sdg(l.lineSdg),
                   ),
                 const Divider(height: Space.xl),

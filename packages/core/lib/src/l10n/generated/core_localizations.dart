@@ -1262,6 +1262,174 @@ abstract class CoreLocalizations {
   /// In ar, this message translates to:
   /// **'الصفحة {current} من {total}'**
   String tourStep(int current, int total);
+
+  /// Job type: window tint film
+  ///
+  /// In ar, this message translates to:
+  /// **'تظليل'**
+  String get jobTint;
+
+  /// Window tint car size
+  ///
+  /// In ar, this message translates to:
+  /// **'سيارة صغيرة'**
+  String get tintSizeSmall;
+
+  /// Window tint car size
+  ///
+  /// In ar, this message translates to:
+  /// **'صالون'**
+  String get tintSizeSaloon;
+
+  /// Window tint car size: SUV
+  ///
+  /// In ar, this message translates to:
+  /// **'دفع رباعي'**
+  String get tintSizeSuv;
+
+  /// Window tint car size: pickup truck (Sudanese: بوكس)
+  ///
+  /// In ar, this message translates to:
+  /// **'بوكس'**
+  String get tintSizePickup;
+
+  /// Window tint car size: minibus (Hiace)
+  ///
+  /// In ar, this message translates to:
+  /// **'حافلة صغيرة'**
+  String get tintSizeMinibus;
+
+  /// Window tint package: every window
+  ///
+  /// In ar, this message translates to:
+  /// **'السيارة كاملة'**
+  String get tintFull;
+
+  /// Window tint package: the four side windows
+  ///
+  /// In ar, this message translates to:
+  /// **'الجوانب فقط'**
+  String get tintSides;
+
+  /// Window tint package: side windows and the back glass
+  ///
+  /// In ar, this message translates to:
+  /// **'الجوانب والخلفي'**
+  String get tintSidesBack;
+
+  /// Window tint package: a band across the top of the windscreen
+  ///
+  /// In ar, this message translates to:
+  /// **'شريط الزجاج الأمامي'**
+  String get tintStrip;
+
+  /// Window tint: the price of a single window
+  ///
+  /// In ar, this message translates to:
+  /// **'نافذة واحدة'**
+  String get tintOneWindow;
+
+  /// A window to tint
+  ///
+  /// In ar, this message translates to:
+  /// **'الزجاج الأمامي'**
+  String get tintWindscreen;
+
+  /// A window to tint
+  ///
+  /// In ar, this message translates to:
+  /// **'الزجاج الخلفي'**
+  String get tintBackGlass;
+
+  /// A side window to tint
+  ///
+  /// In ar, this message translates to:
+  /// **'الأمامي الأيسر'**
+  String get tintFrontLeft;
+
+  /// A side window to tint
+  ///
+  /// In ar, this message translates to:
+  /// **'الأمامي الأيمن'**
+  String get tintFrontRight;
+
+  /// A side window to tint
+  ///
+  /// In ar, this message translates to:
+  /// **'الخلفي الأيسر'**
+  String get tintBackLeft;
+
+  /// A side window to tint
+  ///
+  /// In ar, this message translates to:
+  /// **'الخلفي الأيمن'**
+  String get tintBackRight;
+
+  /// A window to tint
+  ///
+  /// In ar, this message translates to:
+  /// **'فتحة السقف'**
+  String get tintSunroof;
+
+  /// Tint colour
+  ///
+  /// In ar, this message translates to:
+  /// **'أسود'**
+  String get tintBlack;
+
+  /// Tint colour
+  ///
+  /// In ar, this message translates to:
+  /// **'رمادي دخاني'**
+  String get tintSmoke;
+
+  /// Tint colour
+  ///
+  /// In ar, this message translates to:
+  /// **'أزرق'**
+  String get tintBlue;
+
+  /// Tint colour
+  ///
+  /// In ar, this message translates to:
+  /// **'أخضر'**
+  String get tintGreen;
+
+  /// Tint colour
+  ///
+  /// In ar, this message translates to:
+  /// **'برونزي'**
+  String get tintBronze;
+
+  /// Tint colour: reflective
+  ///
+  /// In ar, this message translates to:
+  /// **'فضي عاكس'**
+  String get tintSilver;
+
+  /// Tint darkness; 100% is the darkest
+  ///
+  /// In ar, this message translates to:
+  /// **'{percent}%'**
+  String tintPercent(int percent);
+
+  /// Window tint: how many windows were ticked one by one
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{نافذة واحدة} =2{نافذتان} few{{count} نوافذ} other{{count} نافذة}}'**
+  String tintWindows(int count);
+
+  /// Error: window tint in the cart without a fitting
+  ///
+  /// In ar, this message translates to:
+  /// **'التظليل يحتاج موعد تركيب. احجز فنيًا قبل الدفع.'**
+  String get errTintNeedsFitting;
+
+  /// Error: a shop turned tint on without prices
+  ///
+  /// In ar, this message translates to:
+  /// **'أدخل سعرًا واحدًا على الأقل لتعرض التظليل.'**
+  String get errTintPriceRequired;
 }
 
 class _CoreLocalizationsDelegate extends LocalizationsDelegate<CoreLocalizations> {

@@ -1,0 +1,24 @@
+[
+  {
+    "ok": true,
+    "qty": 1,
+    "tint": {
+      "colour": "BLACK",
+      "package": "FULL",
+      "car_size": "SALOON",
+      "darkness": 50
+    },
+    "brand": null,
+    "part_id": null,
+    "problem": null,
+    "shop_id": "67ec11c8-a443-4891-aa1f-6a597be5e114",
+    "title_ar": "تظليل الزجاج: السيارة كاملة، 50%، أسود (صالون)",
+    "title_en": "Window tint: full car, 50%, black (saloon)",
+    "condition": "NEW_AFTERMARKET",
+    "price_sdg": 70000,
+    "tint_shop_id": "67ec11c8-a443-4891-aa1f-6a597be5e114",
+    "available_qty": 1,
+    "warranty_days": 0,
+    "seen_price_sdg": 70000
+  }
+]

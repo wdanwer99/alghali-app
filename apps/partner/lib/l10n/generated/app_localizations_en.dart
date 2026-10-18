@@ -1451,4 +1451,54 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pickLocationConfirm => 'Use this location';
+
+  @override
+  String get moreTint => 'Window tint';
+
+  @override
+  String get tintOffer => 'We offer window tint';
+
+  @override
+  String get tintOfferBody =>
+      'Buyers see your shop when they choose window tint, at the prices you enter here.';
+
+  @override
+  String get tintDarkness => 'Darkness levels you offer';
+
+  @override
+  String get tintDarknessNote => '100% is the darkest.';
+
+  @override
+  String get tintColours => 'Colours you offer';
+
+  @override
+  String get tintPrices => 'Prices by car size';
+
+  @override
+  String get tintPricesNote =>
+      'Leave a box empty if you don\'t offer it. The one-window price is used when the buyer ticks windows one by one.';
+
+  @override
+  String tintPricesSet(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count prices',
+      one: '1 price',
+      zero: 'No prices yet',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tintBayNone =>
+      'No technician who does tint works at your shop\'s bay yet, so buyers won\'t see fitting at the shop. Ask one of your staff to sign up as a technician at your bay.';
+
+  @override
+  String tintBayCount(int count) {
+    return 'Technicians who tint at your bay: $count';
+  }
+
+  @override
+  String get tintNeedsChoice => 'Choose at least one darkness level and one colour.';
 }

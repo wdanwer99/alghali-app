@@ -1,0 +1,116 @@
+{
+  "prices": [
+    {
+      "item": "FULL",
+      "car_size": "PICKUP",
+      "price_sdg": 90000
+    },
+    {
+      "item": "SIDES",
+      "car_size": "PICKUP",
+      "price_sdg": 55000
+    },
+    {
+      "item": "SIDES_BACK",
+      "car_size": "PICKUP",
+      "price_sdg": 74000
+    },
+    {
+      "item": "WINDOW",
+      "car_size": "PICKUP",
+      "price_sdg": 12000
+    },
+    {
+      "item": "WINDSCREEN_STRIP",
+      "car_size": "PICKUP",
+      "price_sdg": 8000
+    },
+    {
+      "item": "FULL",
+      "car_size": "SALOON",
+      "price_sdg": 70000
+    },
+    {
+      "item": "SIDES",
+      "car_size": "SALOON",
+      "price_sdg": 45000
+    },
+    {
+      "item": "SIDES_BACK",
+      "car_size": "SALOON",
+      "price_sdg": 58000
+    },
+    {
+      "item": "WINDOW",
+      "car_size": "SALOON",
+      "price_sdg": 10000
+    },
+    {
+      "item": "WINDSCREEN_STRIP",
+      "car_size": "SALOON",
+      "price_sdg": 8000
+    },
+    {
+      "item": "FULL",
+      "car_size": "SMALL",
+      "price_sdg": 60000
+    },
+    {
+      "item": "SIDES",
+      "car_size": "SMALL",
+      "price_sdg": 40000
+    },
+    {
+      "item": "SIDES_BACK",
+      "car_size": "SMALL",
+      "price_sdg": 50000
+    },
+    {
+      "item": "WINDOW",
+      "car_size": "SMALL",
+      "price_sdg": 9000
+    },
+    {
+      "item": "WINDSCREEN_STRIP",
+      "car_size": "SMALL",
+      "price_sdg": 8000
+    },
+    {
+      "item": "FULL",
+      "car_size": "SUV",
+      "price_sdg": 80000
+    },
+    {
+      "item": "SIDES",
+      "car_size": "SUV",
+      "price_sdg": 50000
+    },
+    {
+      "item": "SIDES_BACK",
+      "car_size": "SUV",
+      "price_sdg": 66000
+    },
+    {
+      "item": "WINDOW",
+      "car_size": "SUV",
+      "price_sdg": 11000
+    },
+    {
+      "item": "WINDSCREEN_STRIP",
+      "car_size": "SUV",
+      "price_sdg": 8000
+    }
+  ],
+  "colours": [
+    "BLACK",
+    "BRONZE",
+    "SMOKE"
+  ],
+  "darkness": [
+    30,
+    50,
+    100
+  ],
+  "is_active": true,
+  "bay_technicians": 1
+}

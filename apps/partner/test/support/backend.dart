@@ -67,6 +67,7 @@ class FakeBackend {
   late List<Json> past;
   late Json technician;
   late Json shop;
+  Json tint = fixture('shop_tint_settings') as Json;
   final staff = fixtureList('shop_staff');
   final messages = <Json>[];
   final rules = <Json>[];
@@ -296,6 +297,19 @@ class FakeBackend {
 
     // The shop.
     s.on('/rest/v1/rpc/shop_detail', (_) => jsonResponse(shop));
+    // Window tint (D-149): captured on alghali-test; saving echoes what was sent.
+    s.on('/rest/v1/rpc/shop_tint_settings', (_) => jsonResponse(tint));
+    s.on('/rest/v1/rpc/shop_set_tint', (r) {
+      final b = _body(r);
+      tint = {
+        ...tint,
+        'is_active': b['p_is_active'],
+        'darkness': b['p_darkness'],
+        'colours': b['p_colours'],
+        'prices': b['p_prices'],
+      };
+      return jsonResponse(tint);
+    });
     s.on('/rest/v1/rpc/shop_set_closed', (r) {
       shop = {
         ...shop,

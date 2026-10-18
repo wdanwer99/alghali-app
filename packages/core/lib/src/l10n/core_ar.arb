@@ -862,5 +862,127 @@
         "type": "int"
       }
     }
+  },
+  "jobTint": "تظليل",
+  "@jobTint": {
+    "description": "Job type: window tint film"
+  },
+  "tintSizeSmall": "سيارة صغيرة",
+  "@tintSizeSmall": {
+    "description": "Window tint car size"
+  },
+  "tintSizeSaloon": "صالون",
+  "@tintSizeSaloon": {
+    "description": "Window tint car size"
+  },
+  "tintSizeSuv": "دفع رباعي",
+  "@tintSizeSuv": {
+    "description": "Window tint car size: SUV"
+  },
+  "tintSizePickup": "بوكس",
+  "@tintSizePickup": {
+    "description": "Window tint car size: pickup truck (Sudanese: بوكس)"
+  },
+  "tintSizeMinibus": "حافلة صغيرة",
+  "@tintSizeMinibus": {
+    "description": "Window tint car size: minibus (Hiace)"
+  },
+  "tintFull": "السيارة كاملة",
+  "@tintFull": {
+    "description": "Window tint package: every window"
+  },
+  "tintSides": "الجوانب فقط",
+  "@tintSides": {
+    "description": "Window tint package: the four side windows"
+  },
+  "tintSidesBack": "الجوانب والخلفي",
+  "@tintSidesBack": {
+    "description": "Window tint package: side windows and the back glass"
+  },
+  "tintStrip": "شريط الزجاج الأمامي",
+  "@tintStrip": {
+    "description": "Window tint package: a band across the top of the windscreen"
+  },
+  "tintOneWindow": "نافذة واحدة",
+  "@tintOneWindow": {
+    "description": "Window tint: the price of a single window"
+  },
+  "tintWindscreen": "الزجاج الأمامي",
+  "@tintWindscreen": {
+    "description": "A window to tint"
+  },
+  "tintBackGlass": "الزجاج الخلفي",
+  "@tintBackGlass": {
+    "description": "A window to tint"
+  },
+  "tintFrontLeft": "الأمامي الأيسر",
+  "@tintFrontLeft": {
+    "description": "A side window to tint"
+  },
+  "tintFrontRight": "الأمامي الأيمن",
+  "@tintFrontRight": {
+    "description": "A side window to tint"
+  },
+  "tintBackLeft": "الخلفي الأيسر",
+  "@tintBackLeft": {
+    "description": "A side window to tint"
+  },
+  "tintBackRight": "الخلفي الأيمن",
+  "@tintBackRight": {
+    "description": "A side window to tint"
+  },
+  "tintSunroof": "فتحة السقف",
+  "@tintSunroof": {
+    "description": "A window to tint"
+  },
+  "tintBlack": "أسود",
+  "@tintBlack": {
+    "description": "Tint colour"
+  },
+  "tintSmoke": "رمادي دخاني",
+  "@tintSmoke": {
+    "description": "Tint colour"
+  },
+  "tintBlue": "أزرق",
+  "@tintBlue": {
+    "description": "Tint colour"
+  },
+  "tintGreen": "أخضر",
+  "@tintGreen": {
+    "description": "Tint colour"
+  },
+  "tintBronze": "برونزي",
+  "@tintBronze": {
+    "description": "Tint colour"
+  },
+  "tintSilver": "فضي عاكس",
+  "@tintSilver": {
+    "description": "Tint colour: reflective"
+  },
+  "tintPercent": "{percent}%",
+  "@tintPercent": {
+    "description": "Tint darkness; 100% is the darkest",
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "tintWindows": "{count, plural, =1{نافذة واحدة} =2{نافذتان} few{{count} نوافذ} other{{count} نافذة}}",
+  "@tintWindows": {
+    "description": "Window tint: how many windows were ticked one by one",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "errTintNeedsFitting": "التظليل يحتاج موعد تركيب. احجز فنيًا قبل الدفع.",
+  "@errTintNeedsFitting": {
+    "description": "Error: window tint in the cart without a fitting"
+  },
+  "errTintPriceRequired": "أدخل سعرًا واحدًا على الأقل لتعرض التظليل.",
+  "@errTintPriceRequired": {
+    "description": "Error: a shop turned tint on without prices"
   }
 }

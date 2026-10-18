@@ -470,4 +470,36 @@ void main() {
     expect(removed, containsPair('lat', null));
     expect(removed, containsPair('lng', null));
   });
+
+  testWidgets('the shop sets its window-tint offer, prices typed on an Arabic keyboard (D-149)', (
+    tester,
+  ) async {
+    final backend = FakeBackend();
+    final c = await pumpApp(tester, backend);
+    c.read(routerProvider).go(Routes.shopMore);
+    await settle(tester);
+    await tap(tester, text('moreTint'));
+    expect(find.text(text('tintBayCount').replaceFirst('{count}', '1')), findsOneWidget);
+
+    await tester.tap(find.widgetWithText(FilterChip, ltr('70%')));
+    await settle(tester);
+    await tap(tester, CoreLocalizations.of(tester.element(find.byType(Scaffold).last)).tintBlue);
+    final core = CoreLocalizations.of(tester.element(find.byType(Scaffold).last));
+    await tap(tester, core.tintSizeMinibus);
+    final minibusFull = find.byKey(const ValueKey('tint-MINIBUS-FULL'));
+    await tester.scrollUntilVisible(minibusFull, 200, scrollable: find.byType(Scrollable).first);
+    await tester.enterText(minibusFull, '٨٠٠٠٠');
+    await settle(tester);
+    expect(find.descendant(of: minibusFull, matching: find.text('80000')), findsOneWidget);
+    await tap(tester, core.actionSave);
+
+    final call = backend.calls('shop_set_tint').single;
+    expect(call['p_is_active'], isTrue);
+    expect(call['p_darkness'], [30, 50, 70, 100]);
+    expect(call['p_colours'], containsAll(['BLACK', 'BLUE', 'SMOKE', 'BRONZE']));
+    final prices = (call['p_prices'] as List).cast<Json>();
+    expect(prices, contains(equals({'car_size': 'MINIBUS', 'item': 'FULL', 'price_sdg': 80000})));
+    expect(prices, contains(equals({'car_size': 'SALOON', 'item': 'FULL', 'price_sdg': 70000})));
+    expect(find.text(text('saved')), findsOneWidget);
+  });
 }

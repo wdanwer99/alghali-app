@@ -31,6 +31,7 @@ Where the project stands and the rules every change follows. Read this before wr
 | M5 Partner app on the real backend: shops and technicians, joining, offline stock | Done 2026-10-15 | `a0142bd` |
 | M6 Admin console: reports, balance corrections, alert wording, complaints for partners, browser tests | Done 2026-10-15 | `c8fd649` |
 | M7 Hardening: the acceptance journey end to end, security review, release signing, download page, backups, deployment guide | Done 2026-10-15 | see `git log` |
+| Window tint: a configured category, priced by each shop, always fitted (D-149) | Done 2026-10-18 | see `git log` |
 | Launch: the live project | Waiting on the owner (DEPLOY §1–2) | — |
 
 **Working state of each part:**
@@ -111,6 +112,7 @@ Where the project stands and the rules every change follows. Read this before wr
 - **Writes** that can wait go through the app's outbox (`queue(ref, BuyerOps.x, payload)` or `ref.read(queueProvider)`): add an op and its handler in `state/outbox.dart`, pick an id on the phone for inserts and treat `BackendException.duplicate` as done. Anything that must be checked now calls the repository directly and shows `context.core.error(e)`.
 - Every backend error code a user can meet needs a line in `ErrorLabels.errorCode` (core `labels.dart`) and its Arabic and English text.
 - The apps' catalogue is `catalogueProvider` overridden with `liveCatalogueProvider` (`liveDataOverrides`); lookups never throw, so check `hasShop` / `hasVariant` where an empty placeholder would look wrong.
+- **A cart line is a listing, an offer or window tint** (D-149: a shop plus a `TintChoice`, one per cart, always fitted). Match the server's checks with `CartLine.isChecked`, and show lines with `lineTitle` (tint adds what was chosen). The tint category is `catalogue.tintCategory` (icon `tint`); its tile opens `/tint`, not a search.
 - **Partner app:** the open home is `partnerSessionProvider` (`role`, `shopId`); shop state reads `currentShopIdProvider`. Its outbox ops are `PartnerOps` (stock edits through `shop_bulk_update` with the version raised by one per change, quick listings with their photo kept by `PhotoStore`). Device plugins that tests can't run are behind providers: `photoPickerProvider`, `sheetPickerProvider`, `photoStoreProvider`, `locationSharingEnabledProvider`, and map tiles behind `mapTilesEnabledProvider` (D-145).
 - `onlineProvider`, `CachedList`, `AsyncBody`, `OfflineBanner`, `showError` and `thumbUrl` are in the core package, shared by both apps.
 - **Splash and welcome** (D-144): `SplashGate` (in each app's `MaterialApp.builder`) and `WelcomeTour` (the `/welcome` route) are in the core. Widget tests turn the splash off (`splashEnabledProvider`); device tests wait for the tour's Skip to be tappable (`find.text('تخطي').hitTestable()`). If the mark changes, re-export the icons (`export_icons_test.dart`) and run `flutter_native_splash:create`: the splash's first frame must match the launch screen.
@@ -172,6 +174,8 @@ Each milestone's exit criteria in PLAN §2 must have a test. Before committing, 
 - A `.catch()` inside a test transaction leaves Postgres in an aborted state; use `failure()`.
 - Realtime tests can miss the first message right after a database reset: subscribe first, then send with retries.
 - Mock HTTP responses for the Supabase Dart client must set `request: req`.
+- The buyer's dev fixtures predate window tint: `FakeBackend.snapshot` adds the tint category and job type from `tint_catalogue.json`, and its `tint_offers` answer (captured on alghali-test) is mapped onto the street's first shops. Recapturing the dev fixtures makes that unnecessary.
+- `KeyValueRow` values wrap at 60 % of the row; long ones (a tint description) used to overflow.
 - `const []` defaults in Dart need explicit type arguments (`const <String>[]`).
 - In Next 16, `usePathname()` in a client component outside `<Suspense>` breaks prerendering of a dynamic route; use `instant = false` there.
 - A provider that watches another can't be invalidated from that other one (Riverpod's circular dependency): let it recompute by watching.

@@ -54,8 +54,9 @@ describe.skipIf(!hasDb)('catalogue', () => {
              (select count(*) from public.zones) as zones`;
     expect(Number(row?.makes)).toBeGreaterThanOrEqual(10);
     expect(Number(row?.variants)).toBeGreaterThanOrEqual(100);
-    expect(Number(row?.categories)).toBe(12);
-    expect(Number(row?.job_types)).toBe(9);
+    // 12 part categories and 9 job types, plus window tint (D-149).
+    expect(Number(row?.categories)).toBe(13);
+    expect(Number(row?.job_types)).toBe(10);
     expect(Number(row?.zones)).toBe(4);
   });
 

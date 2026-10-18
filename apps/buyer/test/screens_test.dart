@@ -54,6 +54,7 @@ void main() {
     ),
     'book a fitting': (route: Routes.bookExternal, ar: 'حجز التركيب', en: 'Book fitting'),
     'new request': (route: Routes.newRequest, ar: 'اطلب بالصورة', en: 'Request by photo'),
+    'window tint': (route: Routes.tint, ar: 'ما حجم سيارتك؟', en: 'What size is your car?'),
     'notifications': (route: Routes.notifications, ar: 'الإشعارات', en: 'Notifications'),
     'chat': (route: Routes.chat(shop), ar: 'اكتب رسالة', en: 'Write a message'),
     'chats': (route: Routes.chats, ar: 'المحادثات', en: 'Messages'),

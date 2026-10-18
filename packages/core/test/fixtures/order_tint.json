@@ -1,0 +1,230 @@
+{
+  "id": "d5bd0923-af0d-4429-ab0c-aa2ddea49053",
+  "ref": "62787981",
+  "pay_by": null,
+  "booking": {
+    "id": "745b88cc-82c5-494e-a0be-a77e7b0bf05f",
+    "bay": {
+      "lat": null,
+      "lng": null,
+      "name_ar": "محل التظليل",
+      "name_en": "",
+      "plot_no": null,
+      "shop_id": "67ec11c8-a443-4891-aa1f-6a597be5e114",
+      "zone_id": "f2be7879-8416-46f8-bdfa-dd8176bc0ab5"
+    },
+    "lat": null,
+    "lng": null,
+    "ref": "91788588",
+    "buyer": null,
+    "items": [
+      {
+        "id": "a29d9b76-807c-4d94-a4a7-66b5cf23b7fc",
+        "tint": {
+          "colour": "BLACK",
+          "package": "FULL",
+          "car_size": "SALOON",
+          "darkness": 50
+        },
+        "minutes": 120,
+        "part_id": null,
+        "offer_id": null,
+        "title_ar": "تظليل الزجاج: السيارة كاملة، 50%، أسود (صالون)",
+        "title_en": "Window tint: full car, 50%, black (saloon)",
+        "listing_id": null,
+        "category_id": "b30e954e-68c1-4300-a06d-2c1667bf7866",
+        "description": null,
+        "job_type_id": "41dff8fc-3764-4bcd-b211-508920c6bf55",
+        "tint_shop_id": "67ec11c8-a443-4891-aa1f-6a597be5e114",
+        "job_type_code": "TINT",
+        "order_item_id": "4905819c-9e00-496a-8e26-cd0c76af74ed"
+      }
+    ],
+    "offer": {
+      "id": "3eda5afb-0111-47a4-9878-d5f7e638ada6",
+      "status": "OFFERED",
+      "expires_at": "2026-10-18T01:47:02.65951+00:00"
+    },
+    "parts": [
+      {
+        "phone": "+249912345678",
+        "status": "CONFIRMED",
+        "name_ar": "محل التظليل",
+        "name_en": "",
+        "plot_no": null,
+        "shop_id": "67ec11c8-a443-4891-aa1f-6a597be5e114",
+        "items_sdg": 70000,
+        "sub_order_id": "6803609f-7430-4b00-a2e6-79db4d198620"
+      }
+    ],
+    "place": "BAY",
+    "end_at": "2026-10-19T10:00:00+00:00",
+    "events": [
+      {
+        "at": "2026-10-18T01:27:02.65951+00:00",
+        "to": "HELD",
+        "from": null,
+        "actor": "BUYER",
+        "reason": null
+      },
+      {
+        "at": "2026-10-18T01:27:02.65951+00:00",
+        "to": "PENDING_TECH_ACCEPT",
+        "from": "HELD",
+        "actor": "BUYER",
+        "reason": null
+      }
+    ],
+    "photos": [],
+    "status": "PENDING_TECH_ACCEPT",
+    "make_id": null,
+    "block_to": "2026-10-19T10:00:00+00:00",
+    "buyer_id": "8e6bd0b2-939c-4732-bc76-9b2339c9bdaf",
+    "job_code": "7063",
+    "order_id": "d5bd0923-af0d-4429-ab0c-aa2ddea49053",
+    "payments": [
+      {
+        "id": "595c50b3-8d94-41b5-b6bf-c82f89ae706a",
+        "method": "CASH",
+        "status": "DUE",
+        "purpose": "ORDER",
+        "amount_sdg": 80000
+      }
+    ],
+    "start_at": "2026-10-19T08:00:00+00:00",
+    "order_ref": "62787981",
+    "address_id": null,
+    "block_from": "2026-10-19T08:00:00+00:00",
+    "created_at": "2026-10-18T01:27:02.65951+00:00",
+    "labour_sdg": 8000,
+    "technician": {
+      "id": "85d95b4d-218f-4209-9dce-604ee3d4ed89",
+      "name": "الفني عمر",
+      "phone": null,
+      "verified": false,
+      "avatar_key": null,
+      "rating_avg": 4.5,
+      "rating_count": 0
+    },
+    "variant_id": null,
+    "accepted_at": null,
+    "bay_shop_id": "67ec11c8-a443-4891-aa1f-6a597be5e114",
+    "deposit_sdg": 0,
+    "en_route_at": null,
+    "cancelled_at": null,
+    "completed_at": null,
+    "duration_min": 120,
+    "cancel_reason": null,
+    "checked_in_at": null,
+    "location_note": null,
+    "technician_id": "85d95b4d-218f-4209-9dce-604ee3d4ed89",
+    "payment_method": "CASH",
+    "travel_fee_sdg": 0,
+    "assignment_mode": "CHOSEN",
+    "booking_fee_sdg": 2000,
+    "hold_expires_at": null,
+    "job_code_locked": false,
+    "reminded_day_at": null,
+    "address_snapshot": null,
+    "reminded_hour_at": null,
+    "status_changed_at": "2026-10-18T01:27:02.65951+00:00"
+  },
+  "refunds": [],
+  "buyer_id": "8e6bd0b2-939c-4732-bc76-9b2339c9bdaf",
+  "payments": [
+    {
+      "id": "595c50b3-8d94-41b5-b6bf-c82f89ae706a",
+      "method": "CASH",
+      "status": "DUE",
+      "purpose": "ORDER",
+      "order_id": "d5bd0923-af0d-4429-ab0c-aa2ddea49053",
+      "amount_sdg": 80000,
+      "booking_id": "745b88cc-82c5-494e-a0be-a77e7b0bf05f",
+      "created_at": "2026-10-18T01:27:02.65951+00:00",
+      "ref_in_note": null,
+      "reviewed_at": null,
+      "reviewed_by": null,
+      "collected_at": null,
+      "collected_by": null,
+      "sub_order_id": null,
+      "submitted_at": null,
+      "bankak_txn_no": null,
+      "reject_reason": null
+    }
+  ],
+  "items_sdg": 70000,
+  "total_sdg": 80000,
+  "address_id": null,
+  "created_at": "2026-10-18T01:27:02.65951+00:00",
+  "labour_sdg": 8000,
+  "sub_orders": [
+    {
+      "id": "6803609f-7430-4b00-a2e6-79db4d198620",
+      "shop": {
+        "id": "67ec11c8-a443-4891-aa1f-6a597be5e114",
+        "phone": "+249912345678",
+        "pos_m": 100,
+        "name_ar": "محل التظليل",
+        "name_en": "",
+        "plot_no": null,
+        "zone_id": "f2be7879-8416-46f8-bdfa-dd8176bc0ab5",
+        "whatsapp": null
+      },
+      "items": [
+        {
+          "id": "4905819c-9e00-496a-8e26-cd0c76af74ed",
+          "qty": 1,
+          "tint": {
+            "colour": "BLACK",
+            "package": "FULL",
+            "car_size": "SALOON",
+            "darkness": 50
+          },
+          "brand": null,
+          "part_id": null,
+          "line_sdg": 70000,
+          "offer_id": null,
+          "title_ar": "تظليل الزجاج: السيارة كاملة، 50%، أسود (صالون)",
+          "title_en": "Window tint: full car, 50%, black (saloon)",
+          "condition": "NEW_AFTERMARKET",
+          "listing_id": null,
+          "sub_order_id": "6803609f-7430-4b00-a2e6-79db4d198620",
+          "warranty_days": 0,
+          "unit_price_sdg": 70000
+        }
+      ],
+      "events": [
+        {
+          "at": "2026-10-18T01:27:02.65951+00:00",
+          "to": "CONFIRMED",
+          "from": null,
+          "actor": "BUYER"
+        }
+      ],
+      "return": null,
+      "status": "CONFIRMED",
+      "shop_id": "67ec11c8-a443-4891-aa1f-6a597be5e114",
+      "order_id": "d5bd0923-af0d-4429-ab0c-aa2ddea49053",
+      "ready_at": null,
+      "items_sdg": 70000,
+      "created_at": "2026-10-18T01:27:02.65951+00:00",
+      "fulfilment": "TO_TECHNICIAN",
+      "shop_ack_at": null,
+      "ack_alert_at": null,
+      "cancelled_at": null,
+      "completed_at": null,
+      "delivered_at": null,
+      "cancel_reason": null,
+      "commission_bp": 500,
+      "commission_sdg": 3500,
+      "handed_over_at": null,
+      "delivery_fee_sdg": 0,
+      "status_changed_at": "2026-10-18T01:27:02.65951+00:00"
+    }
+  ],
+  "travel_sdg": 0,
+  "delivery_sdg": 0,
+  "payment_method": "CASH",
+  "booking_fee_sdg": 2000,
+  "address_snapshot": null
+}

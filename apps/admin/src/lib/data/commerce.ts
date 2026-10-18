@@ -280,6 +280,8 @@ export type OrderDetail = {
       unitPriceSdg: number;
       qty: number;
       warrantyDays: number;
+      /** Window tint (D-149): its title says everything; it has no part condition. */
+      tint: boolean;
     }[];
     events: OrderEvent[];
     return: { reason: string; status: string; note: string | null; createdAt: string } | null;
@@ -295,7 +297,7 @@ export async function loadOrder(supabase: Supabase, id: string): Promise<OrderDe
        refunds(id, sub_order_id, amount_sdg, status, bankak_txn_no),
        sub_orders(id, status, fulfilment, items_sdg, delivery_fee_sdg, commission_sdg, shop_ack_at, cancel_reason,
          shop:shops(id, name_ar, name_en, phone),
-         order_items(id, title_ar, title_en, condition, brand, unit_price_sdg, qty, warranty_days),
+         order_items(id, title_ar, title_en, condition, brand, unit_price_sdg, qty, warranty_days, tint),
          suborder_events(id, from_status, to_status, actor_kind, actor_id, reason, at),
          returns(reason, status, decision_note, created_at))`,
     )
@@ -359,6 +361,7 @@ export async function loadOrder(supabase: Supabase, id: string): Promise<OrderDe
         unitPriceSdg: Number(i.unit_price_sdg),
         qty: i.qty,
         warrantyDays: i.warranty_days,
+        tint: i.tint !== null,
       })),
       events: [...s.suborder_events]
         .sort((a, b) => a.at.localeCompare(b.at) || a.id - b.id)

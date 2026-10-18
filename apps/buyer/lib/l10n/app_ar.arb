@@ -2086,5 +2086,106 @@
   "tourPayBody": "بتحويل بنكك أو نقدًا، وتابع طلبك خطوة بخطوة حتى يصلك.",
   "@tourPayBody": {
     "description": "Welcome tour page 3 text"
+  },
+  "tintTitle": "تظليل الزجاج",
+  "@tintTitle": {
+    "description": "Window tint screen title"
+  },
+  "tintStepSize": "السيارة",
+  "@tintStepSize": {
+    "description": "Window tint step: car size"
+  },
+  "tintStepWindows": "النوافذ",
+  "@tintStepWindows": {
+    "description": "Window tint step: which windows"
+  },
+  "tintStepLook": "الدرجة واللون",
+  "@tintStepLook": {
+    "description": "Window tint step: darkness and colour"
+  },
+  "tintStepShop": "المحل",
+  "@tintStepShop": {
+    "description": "Window tint step: which shop"
+  },
+  "tintSizeTitle": "ما حجم سيارتك؟",
+  "@tintSizeTitle": {
+    "description": "Window tint: car size question"
+  },
+  "tintWindowsTitle": "أي نوافذ تريد تظليلها؟",
+  "@tintWindowsTitle": {
+    "description": "Window tint: windows question"
+  },
+  "tintPickWindows": "اختر النوافذ بنفسك",
+  "@tintPickWindows": {
+    "description": "Window tint: tick windows one by one instead of a package"
+  },
+  "tintPickWindowsBody": "حدّد كل نافذة تريدها.",
+  "@tintPickWindowsBody": {
+    "description": "Window tint: under the choose-windows option"
+  },
+  "tintDarknessTitle": "درجة التعتيم",
+  "@tintDarknessTitle": {
+    "description": "Window tint: darkness question"
+  },
+  "tintDarknessNote": "كلما زادت النسبة كان الزجاج أغمق. 100% هي الأغمق.",
+  "@tintDarknessNote": {
+    "description": "Window tint: explains the percentages"
+  },
+  "tintColourTitle": "اللون",
+  "@tintColourTitle": {
+    "description": "Window tint: colour question"
+  },
+  "tintShopTitle": "اختر المحل",
+  "@tintShopTitle": {
+    "description": "Window tint: shop list title"
+  },
+  "tintPriceNote": "السعر للتظليل فقط. أجرة الفني تُضاف عند حجز التركيب.",
+  "@tintPriceNote": {
+    "description": "Window tint: under the shop list"
+  },
+  "tintNoShops": "لا يوجد محل يقدّم هذا الآن",
+  "@tintNoShops": {
+    "description": "Window tint: empty shop list"
+  },
+  "tintNoShopsBody": "جرّب نوافذ أخرى أو حجم سيارة آخر.",
+  "@tintNoShopsBody": {
+    "description": "Window tint: empty shop list advice"
+  },
+  "tintNoMatch": "لا يوجد محل بهذه الدرجة وهذا اللون. غيّر أحدهما.",
+  "@tintNoMatch": {
+    "description": "Window tint: the darkness and colour picked are not offered together"
+  },
+  "tintFitsAtShop": "يركّب في المحل",
+  "@tintFitsAtShop": {
+    "description": "Window tint: the shop has its own technician"
+  },
+  "tintBook": "أضف للسلة واحجز التركيب",
+  "@tintBook": {
+    "description": "Window tint: last button"
+  },
+  "tintReplace": "في سلتك تظليل آخر. هل تريد استبداله بهذا؟",
+  "@tintReplace": {
+    "description": "Window tint: one tint per cart"
+  },
+  "tintReplaceYes": "استبدال",
+  "@tintReplaceYes": {
+    "description": "Window tint: confirm replacing the tint in the cart"
+  },
+  "cartTintNeedsFitting": "التظليل يحتاج موعد تركيب قبل الدفع.",
+  "@cartTintNeedsFitting": {
+    "description": "Cart: tint line without a fitting"
+  },
+  "bookPlaceTintShop": "في {shop}",
+  "@bookPlaceTintShop": {
+    "description": "Booking a tint fitting: at the shop that sells it",
+    "placeholders": {
+      "shop": {
+        "type": "String"
+      }
+    }
+  },
+  "bookPlaceTintShopBody": "يركّبه فني المحل في ورشته. بدون رسوم مشوار.",
+  "@bookPlaceTintShopBody": {
+    "description": "Booking a tint fitting at the shop"
   }
 }

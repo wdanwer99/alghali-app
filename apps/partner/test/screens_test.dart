@@ -71,6 +71,12 @@ void main() {
       role: PartnerRole.shop,
     ),
     'chats': (route: Routes.shopChats, key: 'chatsTitle', who: Who.shop, role: PartnerRole.shop),
+    'window tint': (
+      route: Routes.shopTint,
+      key: 'tintPrices',
+      who: Who.shop,
+      role: PartnerRole.shop,
+    ),
     'chat': (
       route: Routes.shopChat(chat['id'] as String),
       key: 'chatHint',

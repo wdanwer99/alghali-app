@@ -73,6 +73,8 @@ Users live in Supabase's `auth.users`; everything else in `public` refers to the
 
 **Inventory** — [`listings`](#listings), [`listing_images`](#listing_images), [`listing_price_history`](#listing_price_history), [`import_jobs`](#import_jobs)
 
+**Window tint** — [`shop_tint`](#shop_tint), [`shop_tint_prices`](#shop_tint_prices)
+
 **Photo requests** — [`part_requests`](#part_requests), [`part_offers`](#part_offers)
 
 **Cart and orders** — [`cart_items`](#cart_items), [`orders`](#orders), [`sub_orders`](#sub_orders), [`order_items`](#order_items), [`suborder_transitions`](#suborder_transitions), [`suborder_events`](#suborder_events), [`returns`](#returns)
@@ -356,7 +358,7 @@ The category tree (`parent_id`). A category can carry the job type and standard 
 | `slug` | text |  |  | URL-safe name. check: `matches '^[a-z0-9]+(-[a-z0-9]+)*$'` |
 | `name_ar` | text |  |  | Arabic. check: `not blank` |
 | `name_en` | text |  |  | English. check: `not blank` |
-| `icon` | text |  | `'accessories'` | Icon name the apps draw. check: `lighting, brakes, oil, battery, electrical, ac, suspension, tyres, engine, transmission, body, accessories` |
+| `icon` | text |  | `'accessories'` | Icon name the apps draw. check: `lighting, brakes, oil, battery, electrical, ac, suspension, tyres, engine, transmission, body, accessories, tint`. `tint` marks window tint (slug `window-tint`, job type `TINT`, D-149): the buyer app opens the tint screen instead of a search |
 | `job_type_id` | uuid | yes |  | Job type for fitting parts of this category. → `job_types.id` |
 | `std_job_minutes` | integer | yes |  | Standard fitting time. check: `5–600` |
 | `sort` | integer |  | `0` | Display order |
@@ -777,6 +779,40 @@ The report of each Excel / CSV stock import (`inventory-import` Edge Function �
 
 - Index `import_jobs_shop_idx` on (shop_id, created_at DESC)
 
+### Window tint
+
+Window tint (D-149) is chosen, not listed: the buyer picks a car size (`SMALL`, `SALOON`, `SUV`, `PICKUP`, `MINIBUS`), a package (`FULL`, `SIDES`, `SIDES_BACK`, `WINDSCREEN_STRIP`) or single windows (`WINDSCREEN`, `BACK_GLASS`, `FRONT_LEFT`, `FRONT_RIGHT`, `BACK_LEFT`, `BACK_RIGHT`, `SUNROOF`), one darkness (1–100 %, 100 the darkest) and one colour (`BLACK`, `SMOKE`, `BLUE`, `GREEN`, `BRONZE`, `SILVER`). That choice is kept as jsonb `{car_size, package | windows, darkness, colour}` in its canonical form (`tint_choice()`: windows sorted, windows that make up a package become it) on `cart_items.tint`, `order_items.tint` and `booking_items.tint`. The price is the shop's package price, or its window price times the windows (`tint_price()`), checked like a listing's at every cart check. One tint line per cart, and checkout takes it only with a fitting (`TINT_NEEDS_FITTING`); fitted at a bay, it is the selling shop's bay (`tech_suits(…, p_bay_shop_id)`, `booking_bay_lock()`).
+
+#### `shop_tint`
+
+Whether the shop tints, and the darkness levels and colours it offers.
+
+**Access:** Through `shop_tint_settings` / `shop_set_tint` (members) and `tint_offers` (anyone) only; no direct reads.
+
+| Column | Type | Null | Default | Notes |
+|---|---|---|---|---|
+| `shop_id` 🔑 | uuid |  |  | → `shops.id` (cascade) |
+| `is_active` | boolean |  | `true` | Shown to buyers |
+| `darkness` | integer[] |  |  | Percent. check: `≤ 20 levels, each 1–100` |
+| `colours` | text[] |  |  | check: `⊆ BLACK, SMOKE, BLUE, GREEN, BRONZE, SILVER` |
+| `updated_at` | timestamptz |  | `now()` | Set by trigger on update |
+
+- Check: offering (`is_active`) needs at least one level and one colour
+- Trigger `shop_tint_updated_at`: before update → `tg_set_updated_at()`
+
+#### `shop_tint_prices`
+
+The shop's price grid: per car size, a price for each package and for one window (`WINDOW`). No row: not offered.
+
+**Access:** As `shop_tint`.
+
+| Column | Type | Null | Default | Notes |
+|---|---|---|---|---|
+| `shop_id` 🔑 | uuid |  |  | → `shop_tint.shop_id` (cascade) |
+| `car_size` 🔑 | text |  |  | check: `SMALL, SALOON, SUV, PICKUP, MINIBUS` |
+| `item` 🔑 | text |  |  | check: `FULL, SIDES, SIDES_BACK, WINDSCREEN_STRIP, WINDOW` |
+| `price_sdg` | bigint |  |  | check: `1–1,000,000,000` |
+
 ### Photo requests
 
 A buyer who can't find a part sends a photo and a note; matching shops answer with offers the buyer can put in the cart.
@@ -860,7 +896,7 @@ erDiagram
 
 #### `cart_items`
 
-The buyer's cart, synced from the phone. Exactly one of `listing_id` / `offer_id`; `seen_price_sdg` is the price the buyer saw, re-checked at checkout (`CART_CHANGED`). At most 50 lines; an offer line has quantity 1 and must answer the buyer's own request.
+The buyer's cart, synced from the phone. Exactly one of `listing_id` / `offer_id` / `tint_shop_id`; `seen_price_sdg` is the price the buyer saw, re-checked at checkout (`CART_CHANGED`). At most 50 lines; an offer line has quantity 1 and must answer the buyer's own request; a tint line has quantity 1, one per cart, its choice stored canonical by the trigger (D-149).
 
 **Access:** Self reads and writes directly.
 
@@ -870,14 +906,17 @@ The buyer's cart, synced from the phone. Exactly one of `listing_id` / `offer_id
 | `user_id` | uuid |  | `auth.uid()` | → `auth.users.id` (cascade) |
 | `listing_id` | uuid | yes |  | → `listings.id` (cascade) |
 | `offer_id` | uuid | yes |  | → `part_offers.id` (cascade) |
+| `tint_shop_id` | uuid | yes |  | Window tint from this shop. → `shops.id` (cascade) |
+| `tint` | jsonb | yes |  | The tint choice ([Window tint](#window-tint)) |
 | `qty` | integer |  | `1` | check: `1–99` |
 | `seen_price_sdg` | bigint |  |  | Price the buyer saw; re-checked at checkout. check: `> 0` |
 | `created_at` | timestamptz |  | `now()` |  |
 | `updated_at` | timestamptz |  | `now()` | Set by trigger on update |
 
-- Check: `num_nonnulls(listing_id, offer_id) = 1`
+- Check: `num_nonnulls(listing_id, offer_id, tint_shop_id) = 1` and `tint` set exactly when `tint_shop_id` is
 - Unique index `cart_items_listing` on (user_id, listing_id) where `listing_id IS NOT NULL`
 - Unique index `cart_items_offer` on (user_id, offer_id) where `offer_id IS NOT NULL`
+- Unique index `cart_items_tint` on (user_id) where `tint_shop_id IS NOT NULL` (one tint line per cart)
 - Trigger `cart_items_before`: before insert or update → `tg_cart_items_before()`
 - Trigger `cart_items_updated_at`: before update → `tg_set_updated_at()`
 
@@ -953,8 +992,9 @@ The lines of a sub-order, copied from the listing or offer at checkout: title, c
 |---|---|---|---|---|
 | `id` 🔑 | uuid |  | `gen_random_uuid()` |  |
 | `sub_order_id` | uuid |  |  | → `sub_orders.id` (cascade) |
-| `listing_id` | uuid | yes |  | Exactly one of listing / offer. → `listings.id` |
+| `listing_id` | uuid | yes |  | Exactly one of listing / offer / tint. → `listings.id` |
 | `offer_id` | uuid | yes |  | → `part_offers.id` |
+| `tint` | jsonb | yes |  | Window tint as bought ([Window tint](#window-tint)); the shop is the sub-order's. Condition `NEW_AFTERMARKET`, no part |
 | `part_id` | uuid | yes |  | → `parts.id` |
 | `title_ar` | text |  |  | Copied at checkout |
 | `title_en` | text |  |  | English |
@@ -966,7 +1006,7 @@ The lines of a sub-order, copied from the listing or offer at checkout: title, c
 | `line_sdg` | bigint |  |  | `unit_price_sdg × qty` (checked) |
 
 - Check: `line_sdg = (unit_price_sdg * qty)`
-- Check: `num_nonnulls(listing_id, offer_id) = 1`
+- Check: `num_nonnulls(listing_id, offer_id, tint) = 1`
 - Index `order_items_sub_order_idx` on (sub_order_id)
 - Trigger `order_items_append_only`: before delete or update → `tg_append_only()`
 
@@ -1665,7 +1705,7 @@ The history of a booking. Written only by `transition_booking()`.
 
 #### `booking_items`
 
-What is being fitted, each with its job type and minutes. Exactly one source: a cart line (listing or offer, linked to its order item at checkout), an item of an earlier order, or a part bought elsewhere (a catalogue part or just a category, with the buyer's description).
+What is being fitted, each with its job type and minutes. Exactly one source: a cart line (listing, offer or window tint, linked to its order item at checkout), an item of an earlier order, or a part bought elsewhere (a catalogue part or just a category, with the buyer's description). Tint carries its shop and choice either way (D-149); fitted at a bay, that shop's bay is the only one allowed (`booking_bay_lock()`).
 
 **Access:** Whoever can see the booking.
 
@@ -1679,6 +1719,8 @@ What is being fitted, each with its job type and minutes. Exactly one source: a 
 | `part_id` | uuid | yes |  | → `parts.id` |
 | `category_id` | uuid | yes |  | For a part bought elsewhere, when no catalogue part is known. → `part_categories.id` |
 | `job_type_id` | uuid |  |  | → `job_types.id` |
+| `tint_shop_id` | uuid | yes |  | Window tint: the shop selling it. → `shops.id` |
+| `tint` | jsonb | yes |  | Window tint: the choice ([Window tint](#window-tint)) |
 | `minutes` | integer |  |  | Fitting time of this item. check: `5–600` |
 | `title_ar` | text |  |  | Arabic |
 | `title_en` | text |  |  | English |
@@ -2144,17 +2186,18 @@ Tables in the `supabase_realtime` publication: `messages`, `notifications`, `tec
 
 ## Functions
 
-244 functions in `public`. Every one sets `search_path = ''` and names everything with its schema. The RPCs the apps call are `security definer`, check the caller first, and are granted to `anon` or `authenticated` explicitly; internal helpers are granted to no one and run inside them. The callable ones are documented in [API.md](API.md#rpc).
+257 functions in `public`. Every one sets `search_path = ''` and names everything with its schema. The RPCs the apps call are `security definer`, check the caller first, and are granted to `anon` or `authenticated` explicitly; internal helpers are granted to no one and run inside them. The callable ones are documented in [API.md](API.md#rpc).
 
 **Internal helpers** (not callable by the apps):
 
 | Group | Functions | |
 |---|---|---|
 | Caller checks | `require_admin`, `require_buyer_booking`, `require_own_sub_order`, `require_parts_collected`, `require_shop`, `require_shop_writable`, `require_sub_order_shop`, `require_tech_booking`, `require_technician`, `require_user` | Raise `NOT_AUTHENTICATED`, `FORBIDDEN` or `*_NOT_FOUND`; otherwise return the caller's id or the row they may act on. |
-| JSON shapes | `booking_json`, `dispute_json`, `listing_json`, `order_json`, `shop_json`, `shop_sub_order_json`, `technician_json` | The objects RPCs return. |
+| JSON shapes | `booking_json`, `dispute_json`, `listing_json`, `order_json`, `shop_json`, `shop_sub_order_json`, `shop_tint_json`, `technician_json` | The objects RPCs return. |
 | Status machines | `booking_is_active`, `booking_transition_allowed`, `payment_transition_allowed`, `suborder_transition_allowed`, `tg_booking_status_guard`, `tg_payment_status_guard`, `tg_suborder_status_guard`, `transition_booking`, `transition_payment`, `transition_suborder` | The only way a status changes. |
 | Ledger and money | `account_balance`, `booking_paid_upfront`, `collect_cash`, `commission_of`, `delivery_fee`, `ledger_account`, `post_booking_journal`, `post_journal`, `post_sale`, `refund_sub_order`, `reverse_sale`, `sale_posted`, `settle_booking`, `shop_account`, `shop_balance`, `tech_account`, `tech_balance`, `tg_append_only`, `tg_ledger_balanced`, `travel_fee` |  |
 | Stock | `cart_check`, `release_reservation`, `restock`, `take_stock` | Reserve, sell and return stock for a sub-order. |
+| Window tint | `booking_bay_lock`, `booking_item_is_line`, `tint_base_price`, `tint_bay_technicians`, `tint_choice`, `tint_minutes`, `tint_price`, `tint_title`, `tint_windows_of` | The canonical choice, its price at a shop, its title and fitting time, and the bay a tint fitting must use (D-149). |
 | Bookings engine | `booking_block`, `booking_earliest`, `booking_parts_follow`, `booking_quote`, `booking_sub_orders`, `check_technician_places`, `labour_in_bounds`, `next_technician`, `offer_booking`, `reassign_booking`, `resolve_booking_items`, `set_technician_job_types`, `set_technician_makes`, `tech_free`, `tech_labour`, `tech_suits` | Quotes, suitability, free time, offers and reassignment. The slot engine itself is the `booking-slots` Edge Function. |
 | Alerts | `kick_notify_dispatch`, `notify`, `notify_admins`, `notify_claim`, `notify_partner`, `notify_report`, `notify_shop`, `tg_notifications_app`, `tg_notifications_deliver` | Write alert rows; claim and report deliveries for the dispatcher. |
 | Search | `ar_stem`, `refresh_part_search_doc`, `search_expand`, `search_query`, `tg_categories_search_doc`, `tg_listings_search_doc`, `tg_parts_search_doc`, `tg_synonym_terms` | Arabic normalising (twin of the Dart normaliser), query expansion, search documents. |
@@ -2163,9 +2206,9 @@ Tables in the `supabase_realtime` publication: `messages`, `notifications`, `tec
 | Triggers | `tg_addresses_before`, `tg_audit_row`, `tg_audit_template`, `tg_availability_limits`, `tg_cart_items_before`, `tg_garage_after_delete`, `tg_garage_before`, `tg_listings_before_update`, `tg_messages_after_insert`, `tg_messages_before_insert`, `tg_payment_booking`, `tg_reviews_rollup`, `tg_set_updated_at` | Row triggers listed with their tables above. |
 | Other | `dispute_parties`, `dispute_party_app`, `request_matches_shop`, `set_part_fitment_by_models`, `set_shop_specialities`, `shop_write_part` | Shared pieces of RPCs (specialities, shop parts, request matching, dispute parties, …) |
 
-**Callable by anyone** (`anon` and `authenticated`): `ar_normalize`, `booking_context`, `cart_validate`, `catalogue_snapshot`, `has_role`, `is_admin`, `is_shop_member`, `part_detail`, `ping`, `public_settings`, `reviews_for`, `search_parts`, `search_terms`, `technician_profile`, `valid_opening_hours`. Some are helpers RLS policies call (`is_admin`, `has_role`, `is_shop_member`, `valid_opening_hours`).
+**Callable by anyone** (`anon` and `authenticated`): `ar_normalize`, `booking_context`, `cart_validate`, `catalogue_snapshot`, `has_role`, `is_admin`, `is_shop_member`, `part_detail`, `ping`, `public_settings`, `reviews_for`, `search_parts`, `search_terms`, `technician_profile`, `tint_offers`, `valid_opening_hours`. Some are helpers RLS policies call (`is_admin`, `has_role`, `is_shop_member`, `valid_opening_hours`).
 
-**Callable by signed-in users** (`authenticated`): `admin_approve_payouts`, `admin_cancel_booking`, `admin_cancel_payout`, `admin_cancel_suborder`, `admin_complete_booking`, `admin_complete_suborder`, `admin_confirm_payment`, `admin_decide_return`, `admin_generate_payouts`, `admin_grant_role`, `admin_hide_review`, `admin_ledger_adjustment`, `admin_mark_payout_paid`, `admin_mark_refund_paid`, `admin_merge_parts`, `admin_partner_balances`, `admin_payment_queue`, `admin_reassign_booking`, `admin_reject_payment`, `admin_report`, `admin_revoke_role`, `admin_search_users`, `admin_set_shop_status`, `admin_set_technician_status`, `admin_settings`, `admin_update_dispute`, `admin_update_setting`, `admin_verify_shop`, `admin_verify_technician`, `apply_as_shop`, `apply_as_technician`, `booking_detail`, `buyer_cancel_booking`, `buyer_reschedule`, `can_see_booking`, `can_see_dispute`, `can_see_sub_order`, `cancel_order`, `checkout`, `close_part_request`, `confirm_received`, `create_booking_hold`, `create_part_request`, `create_review`, `dispute_reply`, `is_conversation_participant`, `mark_conversation_read`, `mark_notifications_read`, `me`, `my_bookings`, `my_disputes`, `my_technician_id`, `open_dispute`, `register_device`, `release_booking_hold`, `request_return`, `set_refund_account`, `shop_ack_suborder`, `shop_add_staff`, `shop_archive_listing`, `shop_bulk_update`, `shop_conversations`, `shop_detail`, `shop_hand_over`, `shop_import_rows`, `shop_insights`, `shop_listings`, `shop_make_offer`, `shop_mark_delivered`, `shop_mark_ready`, `shop_open_requests`, `shop_orders`, `shop_reject_suborder`, `shop_remove_staff`, `shop_set_closed`, `shop_set_listing_images`, `shop_staff`, `shop_start_conversation`, `shop_statement`, `shop_update_profile`, `shop_upsert_listing`, `shop_withdraw_offer`, `start_conversation`, `submit_bankak_receipt`, `suggest_parts`, `tech_add_photo`, `tech_bookings`, `tech_cancel`, `tech_check_in`, `tech_complete`, `tech_en_route`, `tech_part_not_fit`, `tech_quick_block`, `tech_respond_offer`, `tech_set_job_types`, `tech_set_makes`, `tech_statement`, `tech_update_location`, `tech_update_profile`, `try_uuid`, `unregister_device`, `update_profile`.
+**Callable by signed-in users** (`authenticated`): `admin_approve_payouts`, `admin_cancel_booking`, `admin_cancel_payout`, `admin_cancel_suborder`, `admin_complete_booking`, `admin_complete_suborder`, `admin_confirm_payment`, `admin_decide_return`, `admin_generate_payouts`, `admin_grant_role`, `admin_hide_review`, `admin_ledger_adjustment`, `admin_mark_payout_paid`, `admin_mark_refund_paid`, `admin_merge_parts`, `admin_partner_balances`, `admin_payment_queue`, `admin_reassign_booking`, `admin_reject_payment`, `admin_report`, `admin_revoke_role`, `admin_search_users`, `admin_set_shop_status`, `admin_set_technician_status`, `admin_settings`, `admin_update_dispute`, `admin_update_setting`, `admin_verify_shop`, `admin_verify_technician`, `apply_as_shop`, `apply_as_technician`, `booking_detail`, `buyer_cancel_booking`, `buyer_reschedule`, `can_see_booking`, `can_see_dispute`, `can_see_sub_order`, `cancel_order`, `checkout`, `close_part_request`, `confirm_received`, `create_booking_hold`, `create_part_request`, `create_review`, `dispute_reply`, `is_conversation_participant`, `mark_conversation_read`, `mark_notifications_read`, `me`, `my_bookings`, `my_disputes`, `my_technician_id`, `open_dispute`, `register_device`, `release_booking_hold`, `request_return`, `set_refund_account`, `shop_ack_suborder`, `shop_add_staff`, `shop_archive_listing`, `shop_bulk_update`, `shop_conversations`, `shop_detail`, `shop_hand_over`, `shop_import_rows`, `shop_insights`, `shop_listings`, `shop_make_offer`, `shop_mark_delivered`, `shop_mark_ready`, `shop_open_requests`, `shop_orders`, `shop_reject_suborder`, `shop_remove_staff`, `shop_set_closed`, `shop_set_listing_images`, `shop_set_tint`, `shop_staff`, `shop_start_conversation`, `shop_statement`, `shop_tint_settings`, `shop_update_profile`, `shop_upsert_listing`, `shop_withdraw_offer`, `start_conversation`, `submit_bankak_receipt`, `suggest_parts`, `tech_add_photo`, `tech_bookings`, `tech_cancel`, `tech_check_in`, `tech_complete`, `tech_en_route`, `tech_part_not_fit`, `tech_quick_block`, `tech_respond_offer`, `tech_set_job_types`, `tech_set_makes`, `tech_statement`, `tech_update_location`, `tech_update_profile`, `try_uuid`, `unregister_device`, `update_profile`.
 
 ## Extensions
 

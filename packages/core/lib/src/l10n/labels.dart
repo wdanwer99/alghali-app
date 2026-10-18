@@ -1,6 +1,7 @@
 import '../backend/backend_error.dart';
 import '../models/catalogue.dart';
 import '../models/commerce.dart';
+import '../models/tint.dart';
 import 'generated/core_localizations.dart';
 
 /// Localised names for domain enums, so every screen words statuses the same way.
@@ -88,7 +89,57 @@ extension CoreLabels on CoreLocalizations {
     JobType.suspension => jobSuspension,
     JobType.tyres => jobTyres,
     JobType.mechanical => jobMechanical,
+    JobType.tint => jobTint,
   };
+
+  String tintSize(TintCarSize s) => switch (s) {
+    TintCarSize.small => tintSizeSmall,
+    TintCarSize.saloon => tintSizeSaloon,
+    TintCarSize.suv => tintSizeSuv,
+    TintCarSize.pickup => tintSizePickup,
+    TintCarSize.minibus => tintSizeMinibus,
+  };
+
+  String tintItem(TintItem i) => switch (i) {
+    TintItem.full => tintFull,
+    TintItem.sides => tintSides,
+    TintItem.sidesBack => tintSidesBack,
+    TintItem.windscreenStrip => tintStrip,
+    TintItem.window => tintOneWindow,
+  };
+
+  String tintWindow(TintWindow w) => switch (w) {
+    TintWindow.windscreen => tintWindscreen,
+    TintWindow.backGlass => tintBackGlass,
+    TintWindow.frontLeft => tintFrontLeft,
+    TintWindow.frontRight => tintFrontRight,
+    TintWindow.backLeft => tintBackLeft,
+    TintWindow.backRight => tintBackRight,
+    TintWindow.sunroof => tintSunroof,
+  };
+
+  String tintColour(TintColour c) => switch (c) {
+    TintColour.black => tintBlack,
+    TintColour.smoke => tintSmoke,
+    TintColour.blue => tintBlue,
+    TintColour.green => tintGreen,
+    TintColour.bronze => tintBronze,
+    TintColour.silver => tintSilver,
+  };
+
+  /// "السيارة كاملة" or "3 نوافذ".
+  String tintSelection(TintSelection s) => switch (s.package) {
+    final p? => tintItem(p),
+    null => tintWindows(s.windows.length),
+  };
+
+  /// "Full car · 50% · Black · Saloon".
+  String tintSummary(TintChoice c) => [
+    tintSelection(c.selection),
+    tintPercent(c.darkness),
+    tintColour(c.colour),
+    tintSize(c.carSize),
+  ].join(' · ');
 
   String workMode(WorkMode m) => switch (m) {
     WorkMode.bay => modeBay,
@@ -191,6 +242,10 @@ extension ErrorLabels on CoreLocalizations {
     'REASON_REQUIRED' => errReasonRequired,
     'HEADER_NOT_FOUND' || 'UNREADABLE_FILE' || 'EMPTY_FILE' || 'FILE_NOT_FOUND' => errBadSheet,
     'TOO_MANY_ROWS' => errTooManyRows,
+    // Window tint (D-149).
+    'TINT_NEEDS_FITTING' => errTintNeedsFitting,
+    'TINT_PRICE_REQUIRED' => errTintPriceRequired,
+    'INVALID_TINT' => errCheckValue,
     _ => errGeneric,
   };
 }

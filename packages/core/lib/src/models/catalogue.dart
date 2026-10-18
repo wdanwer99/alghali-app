@@ -122,7 +122,8 @@ enum JobType {
   ac('AC'),
   suspension('SUSPENSION'),
   tyres('TYRES'),
-  mechanical('MECHANICAL');
+  mechanical('MECHANICAL'),
+  tint('TINT');
 
   const JobType(this.code);
 
@@ -147,7 +148,8 @@ enum CategoryIcon {
   engine,
   transmission,
   body,
-  accessories;
+  accessories,
+  tint;
 
   static CategoryIcon fromName(String? name) => values.asNameMap()[name] ?? accessories;
 }

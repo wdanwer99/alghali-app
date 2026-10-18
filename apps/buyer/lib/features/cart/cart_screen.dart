@@ -141,10 +141,11 @@ class _LineTile extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(line.title.tr(context), style: theme.textTheme.titleSmall),
-                    Text(
-                      '${core.condition(line.condition)} · ${core.warranty(line.warrantyDays)}',
-                      style: theme.textTheme.bodySmall,
-                    ),
+                    Text(switch (line.tint) {
+                      final tint? => core.tintSummary(tint),
+                      null =>
+                        '${core.condition(line.condition)} · ${core.warranty(line.warrantyDays)}',
+                    }, style: theme.textTheme.bodySmall),
                     const SizedBox(height: Space.xs),
                     Text(
                       context.sdg(line.lineSdg),
@@ -161,7 +162,7 @@ class _LineTile extends ConsumerWidget {
           const SizedBox(height: Space.sm),
           Row(
             children: [
-              if (line.offerId == null)
+              if (line.offerId == null && line.tint == null)
                 QuantityStepper(value: line.qty, onChanged: (q) => notifier.setQty(line.id, q)),
               const Spacer(),
               IconButton(
@@ -179,7 +180,11 @@ class _LineTile extends ConsumerWidget {
                 Expanded(child: Text(t.cartInFitting, style: theme.textTheme.bodySmall)),
               ],
             )
-          else if (fittable)
+          else if (fittable) ...[
+            if (line.tint != null) ...[
+              InfoBanner(tone: Tone.warning, message: t.cartTintNeedsFitting),
+              const SizedBox(height: Space.sm),
+            ],
             Align(
               alignment: AlignmentDirectional.centerStart,
               child: OutlinedButton.icon(
@@ -189,6 +194,7 @@ class _LineTile extends ConsumerWidget {
                 label: Text(cart.fitting == null ? t.cartAddFitting : t.cartAddToFitting),
               ),
             ),
+          ],
         ],
       ),
     );
@@ -307,6 +313,8 @@ class _CheckoutBar extends ConsumerWidget {
     final totals = ref.watch(cartTotalsProvider);
     final signedIn = ref.watch(sessionProvider.select((s) => s.signedIn));
     final now = ref.watch(clockProvider)();
+    // Window tint is always fitted (D-149): no checkout until its fitting is booked.
+    final tintUnfitted = cart.lines.any((l) => l.tint != null && !cart.fitted(l.id));
 
     Widget bar(bool expired) => BottomActionBar(
       top: Row(
@@ -320,7 +328,7 @@ class _CheckoutBar extends ConsumerWidget {
         ],
       ),
       child: FilledButton(
-        onPressed: expired
+        onPressed: expired || tintUnfitted
             ? null
             : () => context.push(signedIn ? Routes.checkout : Routes.signInThen(Routes.checkout)),
         child: Text(signedIn ? t.cartCheckout : t.checkoutSignIn),

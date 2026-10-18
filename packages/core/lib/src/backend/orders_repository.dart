@@ -6,6 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../models/catalogue.dart';
 import '../models/commerce.dart';
+import '../models/tint.dart';
 import 'backend_error.dart';
 import 'read_cache.dart';
 import 'uploads.dart';
@@ -15,19 +16,36 @@ import 'uploads.dart';
 @immutable
 class CheckoutLine {
   const CheckoutLine.listing(String this.listingId, {required this.qty, required this.seenPriceSdg})
-    : offerId = null;
+    : offerId = null,
+      tintShopId = null,
+      tint = null;
   const CheckoutLine.offer(String this.offerId, {required this.seenPriceSdg})
     : listingId = null,
+      tintShopId = null,
+      tint = null,
       qty = 1;
+
+  /// Window tint from [tintShopId], always one (D-149).
+  const CheckoutLine.tint(
+    String this.tintShopId,
+    TintChoice this.tint, {
+    required this.seenPriceSdg,
+  }) : listingId = null,
+       offerId = null,
+       qty = 1;
 
   final String? listingId;
   final String? offerId;
+  final String? tintShopId;
+  final TintChoice? tint;
   final int qty;
   final int seenPriceSdg;
 
   Json toJson() => {
     if (listingId != null) 'listing_id': listingId,
     if (offerId != null) 'offer_id': offerId,
+    if (tintShopId != null) 'tint_shop_id': tintShopId,
+    if (tint != null) 'tint': tint!.toJson(),
     'qty': qty,
     'seen_price_sdg': seenPriceSdg,
   };
@@ -195,7 +213,7 @@ class OrdersRepository with CachedReads {
     final rows = await _client
         .from('cart_items')
         .select(
-          'listing_id, offer_id, qty, seen_price_sdg, '
+          'listing_id, offer_id, tint_shop_id, tint, qty, seen_price_sdg, '
           'listing:listings(id, shop_id, condition, warranty_days, listing_images(base_key), '
           'part:parts(id, category_id, name_ar, name_en, installable)), '
           'offer:part_offers(id, shop_id, title_ar, title_en, condition, warranty_days, image_key, '

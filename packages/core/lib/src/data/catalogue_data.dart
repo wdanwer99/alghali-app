@@ -214,6 +214,11 @@ class CatalogueData {
       _variants[id] ?? VehicleVariant(id: id, modelId: '', yearFrom: 0, yearTo: 0, engine: _blank);
   PartCategory category(String id) =>
       _categories[id] ?? PartCategory(id: id, name: _blank, icon: CategoryIcon.accessories);
+
+  /// The window-tint category (D-149): chosen, not searched; null on older catalogues.
+  late final PartCategory? tintCategory = categories
+      .where((c) => c.icon == CategoryIcon.tint)
+      .firstOrNull;
   Part part(String id) => _parts[id]!;
   Zone zone(String id) => _zones[id] ?? Zone(id: id, seq: 0, name: _blank, fromM: 0, toM: 0);
   Shop shop(String id) =>

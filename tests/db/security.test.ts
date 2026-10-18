@@ -34,6 +34,7 @@ const ANON_FUNCTIONS = [
   'booking_context', // what the booking-slots Edge Function reads (no contact details)
   'reviews_for',
   'technician_profile',
+  'tint_offers', // which shops tint at what price (D-149)
   'cart_validate',
   'catalogue_snapshot',
   'has_role',
@@ -156,6 +157,9 @@ const AUTHENTICATED_FUNCTIONS = [
   // M6 admin tools
   'admin_ledger_adjustment',
   'admin_report',
+  // Window tint (D-149)
+  'shop_set_tint',
+  'shop_tint_settings',
 ].sort();
 
 /**
@@ -177,6 +181,7 @@ const NO_CALLER_CHECK = [
   'booking_context', // no contact details (D-104)
   'reviews_for', // visible reviews only
   'technician_profile',
+  'tint_offers', // shops that tint, their prices and options
 ].sort();
 
 /**

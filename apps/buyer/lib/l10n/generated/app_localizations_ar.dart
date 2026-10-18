@@ -1574,4 +1574,78 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get tourPayBody => 'بتحويل بنكك أو نقدًا، وتابع طلبك خطوة بخطوة حتى يصلك.';
+
+  @override
+  String get tintTitle => 'تظليل الزجاج';
+
+  @override
+  String get tintStepSize => 'السيارة';
+
+  @override
+  String get tintStepWindows => 'النوافذ';
+
+  @override
+  String get tintStepLook => 'الدرجة واللون';
+
+  @override
+  String get tintStepShop => 'المحل';
+
+  @override
+  String get tintSizeTitle => 'ما حجم سيارتك؟';
+
+  @override
+  String get tintWindowsTitle => 'أي نوافذ تريد تظليلها؟';
+
+  @override
+  String get tintPickWindows => 'اختر النوافذ بنفسك';
+
+  @override
+  String get tintPickWindowsBody => 'حدّد كل نافذة تريدها.';
+
+  @override
+  String get tintDarknessTitle => 'درجة التعتيم';
+
+  @override
+  String get tintDarknessNote => 'كلما زادت النسبة كان الزجاج أغمق. 100% هي الأغمق.';
+
+  @override
+  String get tintColourTitle => 'اللون';
+
+  @override
+  String get tintShopTitle => 'اختر المحل';
+
+  @override
+  String get tintPriceNote => 'السعر للتظليل فقط. أجرة الفني تُضاف عند حجز التركيب.';
+
+  @override
+  String get tintNoShops => 'لا يوجد محل يقدّم هذا الآن';
+
+  @override
+  String get tintNoShopsBody => 'جرّب نوافذ أخرى أو حجم سيارة آخر.';
+
+  @override
+  String get tintNoMatch => 'لا يوجد محل بهذه الدرجة وهذا اللون. غيّر أحدهما.';
+
+  @override
+  String get tintFitsAtShop => 'يركّب في المحل';
+
+  @override
+  String get tintBook => 'أضف للسلة واحجز التركيب';
+
+  @override
+  String get tintReplace => 'في سلتك تظليل آخر. هل تريد استبداله بهذا؟';
+
+  @override
+  String get tintReplaceYes => 'استبدال';
+
+  @override
+  String get cartTintNeedsFitting => 'التظليل يحتاج موعد تركيب قبل الدفع.';
+
+  @override
+  String bookPlaceTintShop(String shop) {
+    return 'في $shop';
+  }
+
+  @override
+  String get bookPlaceTintShopBody => 'يركّبه فني المحل في ورشته. بدون رسوم مشوار.';
 }

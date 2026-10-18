@@ -67,11 +67,15 @@ class FakeBackend {
   /// Shops given a map pin; the fixtures have none.
   final pins = <String, ({double lat, double lng})>{};
 
-  /// The catalogue snapshot with [pins] on their shops.
+  /// The catalogue snapshot with [pins] on their shops, and window tint (D-149: its
+  /// category and job type as alghali-test has them; the dev capture predates them).
   Json get snapshot {
     final s = fixture('catalogue_snapshot') as Json;
+    final tint = fixture('tint_catalogue') as Json;
     return {
       ...s,
+      'job_types': [...(s['job_types'] as List), tint['job_type']],
+      'categories': [...(s['categories'] as List), tint['category']],
       'shops': [
         for (final shop in (s['shops'] as List).cast<Json>())
           if (pins[shop['id']] case (:final lat, :final lng))
@@ -124,7 +128,11 @@ class FakeBackend {
       case 'DELETE':
         rows.removeWhere(
           (x) => r.url.queryParameters.entries.every(
-            (q) => !q.value.startsWith('eq.') || '${x[q.key]}' == q.value.substring(3),
+            (q) => switch (q.value) {
+              final v when v.startsWith('eq.') => '${x[q.key]}' == v.substring(3),
+              'not.is.null' => x[q.key] != null,
+              _ => true,
+            },
           ),
         );
         return http.Response('', 204);
@@ -180,6 +188,18 @@ class FakeBackend {
       return jsonResponse(fixture('search_bulbs'));
     });
     s.on('/rest/v1/rpc/part_detail', (_) => jsonResponse(fixture('part_detail')));
+    // Captured on alghali-test: its shops stand in for the first shops of the street.
+    s.on('/rest/v1/rpc/tint_offers', (_) {
+      final offers = fixture('tint_offers') as Json;
+      final street = (snapshot['shops'] as List).cast<Json>();
+      return jsonResponse({
+        ...offers,
+        'shops': [
+          for (final (i, shop) in (offers['shops'] as List).cast<Json>().indexed)
+            {...shop, 'shop_id': street[i]['id']},
+        ],
+      });
+    });
     s.on('/rest/v1/rpc/reviews_for', (_) => jsonResponse(fixture('reviews_shop')));
     s.on('/rest/v1/rpc/me', (_) => jsonResponse(fixture('me')));
     s.on('/rest/v1/rpc/update_profile', (r) {

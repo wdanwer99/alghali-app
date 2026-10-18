@@ -116,6 +116,7 @@ class ShopMoreScreen extends ConsumerWidget {
                   () => context.push(Routes.shopMoney),
                 ),
               row(Icons.insights_outlined, t.moreInsights, () => context.push(Routes.shopInsights)),
+              row(Icons.tonality, t.moreTint, () => context.push(Routes.shopTint)),
               if (owner) ...[
                 row(Icons.groups_outlined, t.moreStaff, () => context.push(Routes.shopStaff)),
                 row(

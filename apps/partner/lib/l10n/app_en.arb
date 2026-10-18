@@ -419,5 +419,17 @@
   "pickLocationTitle": "Shop location",
   "pickLocationHint": "Move the map until the pin sits on your shop's door.",
   "pickLocationHere": "My location",
-  "pickLocationConfirm": "Use this location"
+  "pickLocationConfirm": "Use this location",
+  "moreTint": "Window tint",
+  "tintOffer": "We offer window tint",
+  "tintOfferBody": "Buyers see your shop when they choose window tint, at the prices you enter here.",
+  "tintDarkness": "Darkness levels you offer",
+  "tintDarknessNote": "100% is the darkest.",
+  "tintColours": "Colours you offer",
+  "tintPrices": "Prices by car size",
+  "tintPricesNote": "Leave a box empty if you don't offer it. The one-window price is used when the buyer ticks windows one by one.",
+  "tintPricesSet": "{count, plural, =0{No prices yet} =1{1 price} other{{count} prices}}",
+  "tintBayNone": "No technician who does tint works at your shop's bay yet, so buyers won't see fitting at the shop. Ask one of your staff to sign up as a technician at your bay.",
+  "tintBayCount": "Technicians who tint at your bay: {count}",
+  "tintNeedsChoice": "Choose at least one darkness level and one colour."
 }

@@ -45,6 +45,40 @@ class MyShopController extends AsyncNotifier<Shop?> with CachedList<Shop?> {
 
 final myShopProvider = AsyncNotifierProvider<MyShopController, Shop?>(MyShopController.new);
 
+/// The shop's window-tint offer (D-149). Saving needs a connection.
+class ShopTintController extends AsyncNotifier<ShopTintSettings?>
+    with CachedList<ShopTintSettings?> {
+  @override
+  Future<ShopTintSettings?> build() async {
+    if (ref.watch(currentShopIdProvider) == null) return null;
+    return load();
+  }
+
+  @override
+  Future<ShopTintSettings?> fetch() async {
+    final shopId = ref.read(currentShopIdProvider);
+    return shopId == null ? null : ref.read(shopRepositoryProvider).tintSettings(shopId);
+  }
+
+  Future<void> save({
+    required bool active,
+    required Set<int> darkness,
+    required Set<TintColour> colours,
+    required Map<(TintCarSize, TintItem), int> prices,
+  }) async {
+    final shopId = ref.read(currentShopIdProvider);
+    if (shopId == null) return;
+    final saved = await ref
+        .read(shopRepositoryProvider)
+        .setTint(shopId, active: active, darkness: darkness, colours: colours, prices: prices);
+    if (ref.mounted) state = AsyncData(saved);
+  }
+}
+
+final shopTintProvider = AsyncNotifierProvider<ShopTintController, ShopTintSettings?>(
+  ShopTintController.new,
+);
+
 /// Whether the shop shows as open to buyers right now: inside its hours and not closed
 /// for the day. A shop with no hours set counts as open.
 bool shopOpenNow(Shop shop, DateTime now) {

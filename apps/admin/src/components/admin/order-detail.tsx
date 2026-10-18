@@ -114,10 +114,13 @@ export function OrderDetail({ order, locale, t }: { order: Order; locale: Locale
                       <tr key={i.id}>
                         <Td className="whitespace-normal">
                           <div className="font-medium">{named(i.title, locale)}</div>
-                          <div className="text-xs text-muted-foreground">
-                            {d.conditions[i.condition as keyof typeof d.conditions] ?? i.condition}
-                            {i.brand && ` · ${i.brand}`}
-                          </div>
+                          {!i.tint && (
+                            <div className="text-xs text-muted-foreground">
+                              {d.conditions[i.condition as keyof typeof d.conditions] ??
+                                i.condition}
+                              {i.brand && ` · ${i.brand}`}
+                            </div>
+                          )}
                         </Td>
                         <Td className="text-end">
                           <Num>{i.qty}</Num>

@@ -6,6 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/catalogue.dart';
 import '../models/commerce.dart';
 import '../models/partner.dart';
+import '../models/tint.dart';
 import '../platform/media.dart';
 import 'backend_error.dart';
 import 'read_cache.dart';
@@ -69,6 +70,35 @@ class ShopRepository with CachedReads {
     () => _client.rpc<Json>('shop_detail', params: {'p_shop_id': shopId}),
     (raw) => Shop.fromJson(raw! as Json),
   );
+
+  /// The shop's window-tint offer (D-149).
+  Future<ShopTintSettings> tintSettings(String shopId) => cachedRead(
+    '@tint:$shopId',
+    () => _client.rpc<Json>('shop_tint_settings', params: {'p_shop_id': shopId}),
+    (raw) => ShopTintSettings.fromJson(raw! as Json),
+  );
+
+  /// Replaces the shop's tint offer. Offering it needs at least one price
+  /// (TINT_PRICE_REQUIRED).
+  Future<ShopTintSettings> setTint(
+    String shopId, {
+    required bool active,
+    required Set<int> darkness,
+    required Set<TintColour> colours,
+    required Map<(TintCarSize, TintItem), int> prices,
+  }) => guard(() async {
+    final row = await _client.rpc<Json>(
+      'shop_set_tint',
+      params: {
+        'p_shop_id': shopId,
+        'p_is_active': active,
+        'p_darkness': darkness.toList()..sort(),
+        'p_colours': [for (final c in colours) c.code],
+        'p_prices': ShopTintSettings.pricesJson(prices),
+      },
+    );
+    return ShopTintSettings.fromJson(row);
+  });
 
   /// "Closed today" until [until]; null opens the shop again (D-119).
   Future<Shop> setClosed(String shopId, DateTime? until) => guard(() async {

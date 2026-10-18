@@ -8,10 +8,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// at once — checkout, holding a fitting time, receipts with a photo, photo requests,
 /// voice notes — needs a connection and says so.
 abstract final class BuyerOps {
-  /// `{listing_id | offer_id, qty, seen_price_sdg}`: the server copy of a cart line.
+  /// `{listing_id | offer_id | tint_shop_id + tint, qty, seen_price_sdg}`: the server copy
+  /// of a cart line.
   static const cartPut = 'cart.put';
 
-  /// `{listing_id | offer_id}`.
+  /// `{listing_id | offer_id | tint_shop_id}`.
   static const cartRemove = 'cart.remove';
 
   /// `{id, variant_id, is_default}`: the app picks the id, so a replay can't add twice.
@@ -38,6 +39,10 @@ Map<String, OutboxHandler> buyerOutboxHandlers(Ref ref) {
 
   Future<void> dropCartLine(Json p) => run(() {
     final q = client.from('cart_items').delete();
+    if (p['tint_shop_id'] != null) {
+      // One tint line per cart (D-149): a new one replaces whichever shop it was from.
+      return q.not('tint_shop_id', 'is', null);
+    }
     return p['listing_id'] != null
         ? q.eq('listing_id', p['listing_id'] as String)
         : q.eq('offer_id', p['offer_id'] as String);
@@ -51,6 +56,7 @@ Map<String, OutboxHandler> buyerOutboxHandlers(Ref ref) {
         () => client.from('cart_items').insert({
           'listing_id': p['listing_id'],
           'offer_id': p['offer_id'],
+          if (p['tint_shop_id'] != null) ...{'tint_shop_id': p['tint_shop_id'], 'tint': p['tint']},
           'qty': p['qty'],
           'seen_price_sdg': p['seen_price_sdg'],
         }),

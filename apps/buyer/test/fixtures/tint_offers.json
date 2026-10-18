@@ -1,0 +1,37 @@
+{
+  "shops": [
+    {
+      "at_shop": false,
+      "colours": [
+        "BLACK",
+        "BLUE"
+      ],
+      "shop_id": "a7883fd1-744b-4cc9-8eee-e913ea9065e3",
+      "darkness": [
+        20,
+        50,
+        70
+      ],
+      "price_sdg": 65000
+    },
+    {
+      "at_shop": true,
+      "colours": [
+        "BLACK",
+        "BRONZE",
+        "SMOKE"
+      ],
+      "shop_id": "67ec11c8-a443-4891-aa1f-6a597be5e114",
+      "darkness": [
+        30,
+        50,
+        100
+      ],
+      "price_sdg": 70000
+    }
+  ],
+  "choice": {
+    "package": "FULL",
+    "car_size": "SALOON"
+  }
+}

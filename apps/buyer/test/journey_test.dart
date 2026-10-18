@@ -168,6 +168,118 @@ void main() {
     expect(find.textContaining('7249'), findsOneWidget);
   });
 
+  testWidgets('window tint: chosen, put in the cart, fitted at the shop, then paid (D-149)', (
+    tester,
+  ) async {
+    final backend = FakeBackend();
+    final c = await pumpApp(tester, backend);
+    final tintShop = (backend.snapshot['shops'] as List).cast<Json>()[1];
+
+    // From the home screen's categories (the tile is at the end of the row).
+    final tile = find.text('تظليل الزجاج');
+    unawaited(Scrollable.ensureVisible(tester.element(tile), alignment: 0.5));
+    await settle(tester);
+    unawaited(Scrollable.ensureVisible(tester.element(tile), alignment: 0.5));
+    await settle(tester);
+    await tester.tap(tile);
+    await settle(tester);
+    await tester.tap(find.text('صالون'));
+    await settle(tester);
+    await tester.tap(find.text('التالي'));
+    await settle(tester);
+    await tester.tap(find.text('السيارة كاملة'));
+    await settle(tester);
+    expect(jsonBody(backend.server.to('/rest/v1/rpc/tint_offers').last), {
+      'p_car_size': 'SALOON',
+      'p_package': 'FULL',
+      'p_windows': null,
+    });
+    await tester.tap(find.text('التالي'));
+    await settle(tester);
+    // 100% only at the second shop; bronze too.
+    await tester.tap(find.widgetWithText(ChoiceChip, ltr('100%')));
+    await settle(tester);
+    await tester.tap(find.widgetWithText(ChoiceChip, 'برونزي'));
+    await settle(tester);
+    await tester.tap(find.text('التالي'));
+    await settle(tester);
+    expect(find.text(tintShop['name_ar'] as String), findsOneWidget);
+    expect(find.textContaining('يركّب في المحل'), findsOneWidget);
+    await tester.tap(find.text(tintShop['name_ar'] as String));
+    await settle(tester);
+    await tester.tap(find.text('أضف للسلة واحجز التركيب'));
+    await settle(tester);
+
+    final line = c.read(cartProvider).lines.single;
+    expect(line.tint?.toJson(), {
+      'car_size': 'SALOON',
+      'package': 'FULL',
+      'darkness': 100,
+      'colour': 'BRONZE',
+    });
+    expect(line.unitPriceSdg, 70000);
+    expect(backend.cartItems.single['tint_shop_id'], tintShop['id']);
+
+    // Straight into booking its fitting, at the shop that sells it.
+    await tester.tap(find.text('في ${tintShop['name_ar']}'));
+    await settle(tester);
+    await tester.tap(find.text('التالي'));
+    await settle(tester);
+    final slots = jsonBody(backend.server.to('/functions/v1/booking-slots').first);
+    expect(slots['items'], [
+      {'tint_shop_id': tintShop['id'], 'tint': line.tint!.toJson()},
+    ]);
+    await tester.tap(find.text('أول فني متاح'));
+    await settle(tester);
+    await tester.tap(find.text('التالي'));
+    await settle(tester);
+    await tester.tap(find.byType(ChoiceChip).first);
+    await settle(tester);
+    await tester.tap(find.text('التالي'));
+    await settle(tester);
+    await tester.tap(find.text('احجز هذا الموعد'));
+    await settle(tester);
+    expect(c.read(cartProvider).fitted(line.id), isTrue);
+
+    unawaited(c.read(routerProvider).push(Routes.checkout));
+    await settle(tester);
+    await tester.tap(find.text('تأكيد الطلب'));
+    await settle(tester);
+    final checkout = jsonBody(backend.server.to('/rest/v1/rpc/checkout').single);
+    expect(checkout['p_items'], [
+      {
+        'tint_shop_id': tintShop['id'],
+        'tint': line.tint!.toJson(),
+        'qty': 1,
+        'seen_price_sdg': 70000,
+      },
+    ]);
+  });
+
+  testWidgets('tint without a fitting cannot go to checkout', (tester) async {
+    final c = await pumpApp(tester, FakeBackend(), locale: 'en');
+    final category = c.read(catalogueProvider).tintCategory!;
+    c
+        .read(cartProvider.notifier)
+        .addTint(
+          shopId: 'shop-1',
+          category: category,
+          choice: const TintChoice(
+            carSize: TintCarSize.suv,
+            selection: TintSelection.package(TintItem.sides),
+            darkness: 50,
+            colour: TintColour.black,
+          ),
+          priceSdg: 40000,
+        );
+    c.read(routerProvider).go(Routes.cart);
+    await settle(tester);
+    expect(find.text('Window tint needs a fitting booked before you pay.'), findsOneWidget);
+    expect(find.textContaining('Sides only · 50% · Black · 4x4'), findsOneWidget);
+    final checkout = tester.widget<FilledButton>(find.widgetWithText(FilledButton, 'Checkout'));
+    expect(checkout.onPressed, isNull);
+  });
+
   testWidgets('directions open Google Maps only for shops that set their pin', (tester) async {
     final pickup = (fixture('orders') as List).cast<Json>().firstWhere((o) {
       final subs = (o['sub_orders'] as List).cast<Json>();

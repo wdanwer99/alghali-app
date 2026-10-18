@@ -3,6 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../app.dart';
+import '../state/cart.dart';
+
+/// A cart line's name; window tint adds what was chosen ("Window tint · Full car · 50% …").
+String lineTitle(BuildContext context, CartLine l) => switch (l.tint) {
+  final t? => '${l.title.tr(context)} · ${context.core.tintSummary(t)}',
+  null => l.title.tr(context),
+};
 
 /// "Toyota Hilux" for a variant.
 String carName(BuildContext context, CatalogueData c, String variantId) =>

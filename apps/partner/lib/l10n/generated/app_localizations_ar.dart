@@ -1445,4 +1445,55 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pickLocationConfirm => 'اعتمد هذا الموقع';
+
+  @override
+  String get moreTint => 'تظليل الزجاج';
+
+  @override
+  String get tintOffer => 'نقدّم تظليل الزجاج';
+
+  @override
+  String get tintOfferBody => 'يظهر محلك للمشترين عندما يختارون التظليل، بالأسعار التي تكتبها هنا.';
+
+  @override
+  String get tintDarkness => 'درجات التعتيم التي تقدّمها';
+
+  @override
+  String get tintDarknessNote => '100% هي الأغمق.';
+
+  @override
+  String get tintColours => 'الألوان التي تقدّمها';
+
+  @override
+  String get tintPrices => 'الأسعار حسب حجم السيارة';
+
+  @override
+  String get tintPricesNote =>
+      'اترك الخانة فارغة إن كنت لا تقدّمها. سعر النافذة الواحدة يُستخدم حين يختار المشتري النوافذ بنفسه.';
+
+  @override
+  String tintPricesSet(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count سعرًا',
+      few: '$count أسعار',
+      two: 'سعران',
+      one: 'سعر واحد',
+      zero: 'لم تُحدَّد أسعار',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tintBayNone =>
+      'لا يعمل في ورشة محلك فني تظليل مسجّل، فلن يرى المشترون خيار التركيب في المحل. اطلب من أحد العاملين التسجيل كفني يعمل في ورشتك.';
+
+  @override
+  String tintBayCount(int count) {
+    return 'فنيّو التظليل في ورشة محلك: $count';
+  }
+
+  @override
+  String get tintNeedsChoice => 'اختر درجة تعتيم ولونًا واحدًا على الأقل.';
 }

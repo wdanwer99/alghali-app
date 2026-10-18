@@ -26,6 +26,7 @@ import 'features/search/search_screen.dart';
 import 'features/shell/app_shell.dart';
 import 'features/shops/shop_screen.dart';
 import 'features/shops/street_screen.dart';
+import 'features/tint/tint_screen.dart';
 
 abstract final class Routes {
   static const welcome = '/welcome';
@@ -46,6 +47,7 @@ abstract final class Routes {
   static const complaints = '/complaints';
   static const chats = '/chats';
   static const addresses = '/addresses';
+  static const tint = '/tint';
 
   static String part(String id) => '/part/$id';
   static String shop(String id) => '/shop/$id';
@@ -180,6 +182,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         ),
       ),
       GoRoute(path: Routes.checkout, builder: (_, _) => const CheckoutScreen()),
+      GoRoute(path: Routes.tint, builder: (_, _) => const TintScreen()),
       GoRoute(
         path: '/pay/:kind/:id',
         builder: (_, state) => BankakScreen(

@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart' show immutable;
 import 'catalogue.dart';
 import 'commerce.dart';
 import 'partner.dart';
+import 'tint.dart';
 
 WorkMode workModeOf(String code) => switch (code) {
   'BAY' => WorkMode.bay,
@@ -24,13 +25,17 @@ class FittingItem {
       orderItemId = null,
       partId = null,
       categoryId = null,
-      description = null;
+      description = null,
+      tintShopId = null,
+      tint = null;
   const FittingItem.offer(String this.offerId)
     : listingId = null,
       orderItemId = null,
       partId = null,
       categoryId = null,
-      description = null;
+      description = null,
+      tintShopId = null,
+      tint = null;
 
   /// A part from one of the buyer's earlier orders.
   const FittingItem.orderItem(String this.orderItemId)
@@ -38,21 +43,36 @@ class FittingItem {
       offerId = null,
       partId = null,
       categoryId = null,
-      description = null;
+      description = null,
+      tintShopId = null,
+      tint = null;
 
   /// A catalogue part bought elsewhere.
   const FittingItem.part(String this.partId, {this.description})
     : listingId = null,
       offerId = null,
       orderItemId = null,
-      categoryId = null;
+      categoryId = null,
+      tintShopId = null,
+      tint = null;
 
   /// Something bought elsewhere, described by the buyer.
   const FittingItem.category(String this.categoryId, String this.description)
     : listingId = null,
       offerId = null,
       orderItemId = null,
-      partId = null;
+      partId = null,
+      tintShopId = null,
+      tint = null;
+
+  /// Window tint in the cart: the shop selling it and what was chosen (D-149).
+  const FittingItem.tint(String this.tintShopId, TintChoice this.tint)
+    : listingId = null,
+      offerId = null,
+      orderItemId = null,
+      partId = null,
+      categoryId = null,
+      description = null;
 
   final String? listingId;
   final String? offerId;
@@ -60,12 +80,15 @@ class FittingItem {
   final String? partId;
   final String? categoryId;
   final String? description;
+  final String? tintShopId;
+  final TintChoice? tint;
 
   /// The same item again (to pick a new time for a booking).
   static FittingItem? fromBooking(BookingItem i) {
     if (i.orderItemId != null) return FittingItem.orderItem(i.orderItemId!);
     if (i.listingId != null) return FittingItem.listing(i.listingId!);
     if (i.offerId != null) return FittingItem.offer(i.offerId!);
+    if (i.tintShopId != null && i.tint != null) return FittingItem.tint(i.tintShopId!, i.tint!);
     if (i.partId != null) return FittingItem.part(i.partId!, description: i.description);
     if (i.categoryId != null) return FittingItem.category(i.categoryId!, i.description ?? '');
     return null;
@@ -78,6 +101,8 @@ class FittingItem {
     if (partId != null) 'part_id': partId,
     if (categoryId != null) 'category_id': categoryId,
     if (description != null) 'description': description,
+    if (tintShopId != null) 'tint_shop_id': tintShopId,
+    if (tint != null) 'tint': tint!.toJson(),
   };
 }
 

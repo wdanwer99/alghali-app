@@ -233,6 +233,8 @@ export type Database = {
           offer_id: string | null
           order_item_id: string | null
           part_id: string | null
+          tint: Json | null
+          tint_shop_id: string | null
           title_ar: string
           title_en: string
         }
@@ -247,6 +249,8 @@ export type Database = {
           offer_id?: string | null
           order_item_id?: string | null
           part_id?: string | null
+          tint?: Json | null
+          tint_shop_id?: string | null
           title_ar: string
           title_en: string
         }
@@ -261,6 +265,8 @@ export type Database = {
           offer_id?: string | null
           order_item_id?: string | null
           part_id?: string | null
+          tint?: Json | null
+          tint_shop_id?: string | null
           title_ar?: string
           title_en?: string
         }
@@ -312,6 +318,13 @@ export type Database = {
             columns: ["part_id"]
             isOneToOne: false
             referencedRelation: "parts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "booking_items_tint_shop_id_fkey"
+            columns: ["tint_shop_id"]
+            isOneToOne: false
+            referencedRelation: "shops"
             referencedColumns: ["id"]
           },
         ]
@@ -598,6 +611,8 @@ export type Database = {
           offer_id: string | null
           qty: number
           seen_price_sdg: number
+          tint: Json | null
+          tint_shop_id: string | null
           updated_at: string
           user_id: string
         }
@@ -608,6 +623,8 @@ export type Database = {
           offer_id?: string | null
           qty?: number
           seen_price_sdg: number
+          tint?: Json | null
+          tint_shop_id?: string | null
           updated_at?: string
           user_id?: string
         }
@@ -618,6 +635,8 @@ export type Database = {
           offer_id?: string | null
           qty?: number
           seen_price_sdg?: number
+          tint?: Json | null
+          tint_shop_id?: string | null
           updated_at?: string
           user_id?: string
         }
@@ -634,6 +653,13 @@ export type Database = {
             columns: ["offer_id"]
             isOneToOne: false
             referencedRelation: "part_offers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cart_items_tint_shop_id_fkey"
+            columns: ["tint_shop_id"]
+            isOneToOne: false
+            referencedRelation: "shops"
             referencedColumns: ["id"]
           },
         ]
@@ -1455,6 +1481,7 @@ export type Database = {
           part_id: string | null
           qty: number
           sub_order_id: string
+          tint: Json | null
           title_ar: string
           title_en: string
           unit_price_sdg: number
@@ -1470,6 +1497,7 @@ export type Database = {
           part_id?: string | null
           qty: number
           sub_order_id: string
+          tint?: Json | null
           title_ar: string
           title_en: string
           unit_price_sdg: number
@@ -1485,6 +1513,7 @@ export type Database = {
           part_id?: string | null
           qty?: number
           sub_order_id?: string
+          tint?: Json | null
           title_ar?: string
           title_en?: string
           unit_price_sdg?: number
@@ -2586,6 +2615,67 @@ export type Database = {
           },
         ]
       }
+      shop_tint: {
+        Row: {
+          colours: string[]
+          darkness: number[]
+          is_active: boolean
+          shop_id: string
+          updated_at: string
+        }
+        Insert: {
+          colours: string[]
+          darkness: number[]
+          is_active?: boolean
+          shop_id: string
+          updated_at?: string
+        }
+        Update: {
+          colours?: string[]
+          darkness?: number[]
+          is_active?: boolean
+          shop_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shop_tint_shop_id_fkey"
+            columns: ["shop_id"]
+            isOneToOne: true
+            referencedRelation: "shops"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      shop_tint_prices: {
+        Row: {
+          car_size: string
+          item: string
+          price_sdg: number
+          shop_id: string
+        }
+        Insert: {
+          car_size: string
+          item: string
+          price_sdg: number
+          shop_id: string
+        }
+        Update: {
+          car_size?: string
+          item?: string
+          price_sdg?: number
+          shop_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shop_tint_prices_shop_id_fkey"
+            columns: ["shop_id"]
+            isOneToOne: false
+            referencedRelation: "shop_tint"
+            referencedColumns: ["shop_id"]
+          },
+        ]
+      }
       shops: {
         Row: {
           about_ar: string | null
@@ -3487,6 +3577,7 @@ export type Database = {
         Returns: undefined
       }
       auto_complete_suborders: { Args: never; Returns: number }
+      booking_bay_lock: { Args: { p_booking_id: string }; Returns: string }
       booking_block: {
         Args: {
           p_end: string
@@ -3511,6 +3602,13 @@ export type Database = {
       booking_earliest: { Args: never; Returns: string }
       booking_is_active: {
         Args: { p_status: Database["public"]["Enums"]["booking_status"] }
+        Returns: boolean
+      }
+      booking_item_is_line: {
+        Args: {
+          p_item: Database["public"]["Tables"]["booking_items"]["Row"]
+          p_line: Json
+        }
         Returns: boolean
       }
       booking_json: { Args: { p_booking_id: string }; Returns: Json }
@@ -4137,6 +4235,16 @@ export type Database = {
         Args: { p_base_keys: string[]; p_listing_id: string; p_shop_id: string }
         Returns: Json
       }
+      shop_set_tint: {
+        Args: {
+          p_colours: string[]
+          p_darkness: number[]
+          p_is_active: boolean
+          p_prices: Json
+          p_shop_id: string
+        }
+        Returns: Json
+      }
       shop_staff: {
         Args: { p_shop_id: string }
         Returns: {
@@ -4156,6 +4264,8 @@ export type Database = {
         Returns: Json
       }
       shop_sub_order_json: { Args: { p_sub_order_id: string }; Returns: Json }
+      shop_tint_json: { Args: { p_shop_id: string }; Returns: Json }
+      shop_tint_settings: { Args: { p_shop_id: string }; Returns: Json }
       shop_update_profile: {
         Args: { p_patch: Json; p_shop_id: string }
         Returns: Json
@@ -4282,6 +4392,7 @@ export type Database = {
       }
       tech_suits: {
         Args: {
+          p_bay_shop_id?: string
           p_job_type_ids: string[]
           p_make_id: string
           p_place: Database["public"]["Enums"]["booking_place"]
@@ -4297,6 +4408,23 @@ export type Database = {
       tech_update_profile: { Args: { p_patch: Json }; Returns: Json }
       technician_json: { Args: { p_technician_id: string }; Returns: Json }
       technician_profile: { Args: { p_technician_id: string }; Returns: Json }
+      tint_base_price: {
+        Args: { p_choice: Json; p_shop_id: string }
+        Returns: number
+      }
+      tint_bay_technicians: { Args: { p_shop_id: string }; Returns: number }
+      tint_choice: { Args: { p: Json }; Returns: Json }
+      tint_minutes: { Args: { p_choice: Json }; Returns: number }
+      tint_offers: {
+        Args: { p_car_size: string; p_package?: string; p_windows?: string[] }
+        Returns: Json
+      }
+      tint_price: {
+        Args: { p_choice: Json; p_shop_id: string }
+        Returns: number
+      }
+      tint_title: { Args: { p_choice: Json; p_lang: string }; Returns: string }
+      tint_windows_of: { Args: { p_package: string }; Returns: string[] }
       transition_booking: {
         Args: {
           p_actor: string

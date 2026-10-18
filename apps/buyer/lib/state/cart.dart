@@ -32,7 +32,8 @@ class FittingDraft {
   DateTime heldUntil(DateTime now) => booking.holdExpiresAt ?? now;
 }
 
-/// A cart line: a shop listing or a photo-request offer.
+/// A cart line: a shop listing, a photo-request offer, or window tint ([tint], from
+/// [shopId]; one per cart and always fitted, D-149).
 @immutable
 class CartLine {
   const CartLine({
@@ -49,6 +50,7 @@ class CartLine {
     this.warrantyDays = 0,
     this.installable = true,
     this.imageKey,
+    this.tint,
   });
 
   factory CartLine.fromJson(Json j) => CartLine(
@@ -65,6 +67,10 @@ class CartLine {
     warrantyDays: j['warranty_days'] as int? ?? 0,
     installable: j['installable'] as bool? ?? true,
     imageKey: j['image_key'] as String?,
+    tint: switch (j['tint']) {
+      final Json t => TintChoice.fromJson(t),
+      _ => null,
+    },
   );
 
   final String id;
@@ -83,19 +89,37 @@ class CartLine {
   final bool installable;
   final String? imageKey;
 
+  /// What was chosen, for window tint.
+  final TintChoice? tint;
+
   int get lineSdg => unitPriceSdg * qty;
 
-  CheckoutLine get checkoutLine => listingId != null
-      ? CheckoutLine.listing(listingId!, qty: qty, seenPriceSdg: unitPriceSdg)
-      : CheckoutLine.offer(offerId!, seenPriceSdg: unitPriceSdg);
+  /// The shop of a tint line, as `cart_items.tint_shop_id` and checkout name it.
+  String? get tintShopId => tint == null ? null : shopId;
 
-  FittingItem get fittingItem =>
-      listingId != null ? FittingItem.listing(listingId!) : FittingItem.offer(offerId!);
+  /// Whether [c] is the server's check of this line (`cart_validate`, checkout).
+  bool isChecked(CartCheck c) =>
+      c.listingId == listingId && c.offerId == offerId && c.tintShopId == tintShopId;
+
+  CheckoutLine get checkoutLine => switch ((listingId, offerId, tint)) {
+    (final l?, _, _) => CheckoutLine.listing(l, qty: qty, seenPriceSdg: unitPriceSdg),
+    (_, final o?, _) => CheckoutLine.offer(o, seenPriceSdg: unitPriceSdg),
+    (_, _, final t?) => CheckoutLine.tint(shopId, t, seenPriceSdg: unitPriceSdg),
+    _ => throw StateError('cart line $id has nothing to buy'),
+  };
+
+  FittingItem get fittingItem => switch ((listingId, offerId, tint)) {
+    (final l?, _, _) => FittingItem.listing(l),
+    (_, final o?, _) => FittingItem.offer(o),
+    (_, _, final t?) => FittingItem.tint(shopId, t),
+    _ => throw StateError('cart line $id has nothing to fit'),
+  };
 
   /// What the server copy of the line (`cart_items`) holds.
   Json get serverJson => {
     'listing_id': listingId,
     'offer_id': offerId,
+    if (tint != null) ...{'tint_shop_id': shopId, 'tint': tint!.toJson()},
     'qty': qty,
     'seen_price_sdg': unitPriceSdg,
   };
@@ -115,6 +139,7 @@ class CartLine {
     'warranty_days': warrantyDays,
     'installable': installable,
     'image_key': imageKey,
+    if (tint != null) 'tint': tint!.toJson(),
   };
 
   CartLine copyWith({int? qty, int? unitPriceSdg}) => CartLine(
@@ -131,6 +156,7 @@ class CartLine {
     warrantyDays: warrantyDays,
     installable: installable,
     imageKey: imageKey,
+    tint: tint,
   );
 }
 
@@ -212,6 +238,30 @@ class CartController extends Notifier<CartState> {
     );
   }
 
+  /// Puts window tint from [shopId] in the cart, replacing any tint already there (one
+  /// car per order, D-149). Returns the line, to book its fitting next.
+  CartLine addTint({
+    required String shopId,
+    required PartCategory category,
+    required TintChoice choice,
+    required int priceSdg,
+  }) {
+    final old = state.lines.where((l) => l.tint != null).firstOrNull;
+    if (old != null) remove(old.id);
+    final line = CartLine(
+      id: newId(),
+      shopId: shopId,
+      categoryId: category.id,
+      title: category.name,
+      condition: ListingCondition.newAftermarket,
+      unitPriceSdg: priceSdg,
+      qty: 1,
+      tint: choice,
+    );
+    _add(line);
+    return line;
+  }
+
   void _add(CartLine line) {
     _set(CartState(lines: [...state.lines, line], fitting: state.fitting));
     _mirror(line);
@@ -239,7 +289,11 @@ class CartController extends Notifier<CartState> {
     );
     if (_signedIn) {
       unawaited(
-        queue(ref, BuyerOps.cartRemove, {'listing_id': line.listingId, 'offer_id': line.offerId}),
+        queue(ref, BuyerOps.cartRemove, {
+          'listing_id': line.listingId,
+          'offer_id': line.offerId,
+          'tint_shop_id': line.tintShopId,
+        }),
       );
     }
     return dropsFitting;
@@ -266,9 +320,7 @@ class CartController extends Notifier<CartState> {
   void applyChecks(List<CartCheck> checks) {
     final lines = <CartLine>[];
     for (final l in state.lines) {
-      final c = checks
-          .where((c) => c.listingId == l.listingId && c.offerId == l.offerId)
-          .firstOrNull;
+      final c = checks.where(l.isChecked).firstOrNull;
       if (c == null || c.ok) {
         lines.add(l);
       } else if (c.problem == CartProblem.priceChanged && c.priceSdg != null) {
@@ -320,10 +372,31 @@ class CartController extends Notifier<CartState> {
       for (final r in rows) {
         final listing = r['listing'] as Json?;
         final offer = r['offer'] as Json?;
-        if (lines.any((l) => l.listingId == r['listing_id'] && l.offerId == r['offer_id'])) {
+        final tint = r['tint'] as Json?;
+        if (lines.any(
+          (l) =>
+              l.listingId == r['listing_id'] &&
+              l.offerId == r['offer_id'] &&
+              l.tintShopId == r['tint_shop_id'],
+        )) {
           continue;
         }
-        if (listing != null) {
+        final tintCategory = ref.read(catalogueProvider).tintCategory;
+        if (tint != null) {
+          if (tintCategory == null || lines.any((l) => l.tint != null)) continue;
+          lines.add(
+            CartLine(
+              id: newId(),
+              shopId: r['tint_shop_id'] as String,
+              categoryId: tintCategory.id,
+              title: tintCategory.name,
+              condition: ListingCondition.newAftermarket,
+              unitPriceSdg: r['seen_price_sdg'] as int,
+              qty: 1,
+              tint: TintChoice.fromJson(tint),
+            ),
+          );
+        } else if (listing != null) {
           final part = listing['part'] as Json? ?? const {};
           lines.add(
             CartLine(
@@ -361,9 +434,11 @@ class CartController extends Notifier<CartState> {
           );
         }
       }
-      final onAccount = {for (final r in rows) '${r['listing_id']}|${r['offer_id']}'};
+      final onAccount = {
+        for (final r in rows) '${r['listing_id']}|${r['offer_id']}|${r['tint_shop_id']}',
+      };
       for (final l in state.lines) {
-        if (!onAccount.contains('${l.listingId}|${l.offerId}')) _mirror(l);
+        if (!onAccount.contains('${l.listingId}|${l.offerId}|${l.tintShopId}')) _mirror(l);
       }
       _set(CartState(lines: lines, fitting: state.fitting));
     } on BackendException {
