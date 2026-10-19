@@ -64,7 +64,7 @@ A paused free project can be restored from the dashboard later.
 
 1. Sign up at <https://app.netlify.com> with the GitHub account that owns the repository.
 2. Add new site → Import an existing project → GitHub → `alghali-app`.
-3. Settings: **Base directory** `apps/admin`, **Build command** `pnpm build`, **Publish directory** `apps/admin/.next`. Netlify runs Next.js through its own adapter, which supports what the console uses (Server Actions, Cache Components, the sign-in proxy).
+3. Settings: **Package directory** `apps/admin` (Netlify detects the pnpm workspace and builds from the repository root). The build command (`pnpm --filter @alghali/admin build`) and publish directory (`apps/admin/.next`) come from `apps/admin/netlify.toml`, with paths from the repository root; a publish directory of plain `.next` fails with "Your publish directory was not found at: /opt/build/repo/.next". Netlify runs Next.js through its own adapter, which supports what the console uses (Server Actions, Cache Components, the sign-in proxy).
 4. Environment variables (Site configuration → Environment variables):
    - `NEXT_PUBLIC_SUPABASE_URL` = the live project URL
    - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` = the live publishable key

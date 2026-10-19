@@ -1,9 +1,10 @@
 # Netlify builds the admin console and the app download page from here (docs/DEPLOY.md §3,
-# D-137). Set the site's base directory to apps/admin; Netlify's Next.js adapter does the rest.
+# D-137). Netlify sees the pnpm workspace and builds from the repository root with this
+# folder as the package directory, so the paths below are from the repository root.
 # The Supabase URL and publishable key are site environment variables, never the secret key.
 [build]
-  command = "pnpm build"
-  publish = ".next"
+  command = "pnpm --filter @alghali/admin build"
+  publish = "apps/admin/.next"
 
 [build.environment]
   NODE_VERSION = "22"
